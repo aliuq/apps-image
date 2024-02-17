@@ -1,4 +1,4 @@
-name: Build and Distribute Docker Image
+name: Release Docker Image
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
       - 'Dockerfile'
       - 'app/**'
       - 'base/**'
-      - 'test/**'
 
 jobs:
   build:
@@ -27,7 +26,7 @@ jobs:
         id: changed
         shell: bash
         run: |
-          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base|test)/' | sort | uniq)
+          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
           if [ -z "$changed_names" ]; then
             echo "No changes in app or base directory"
             exit 0
@@ -102,12 +101,16 @@ jobs:
             fi
 
             dockerHubName="${{ secrets.DOCKERHUB_USERNAME }}/$imageName:$tag"
+            echo "> docker tag $imageName:$tag $dockerHubName"
             docker tag $imageName:$tag $dockerHubName
+            echo "> docker push $dockerHubName"
             docker push $dockerHubName
 
             if [ $customTag == false ]; then
               dockerHubLatestName="${{ secrets.DOCKERHUB_USERNAME }}/$imageName:latest"
+              echo "> docker tag $imageName:$tag $dockerHubLatestName"
               docker tag $imageName:$tag $dockerHubLatestName
+              echo "> docker push $dockerHubLatestName"
               docker push $dockerHubLatestName
             fi
           done
@@ -136,12 +139,16 @@ jobs:
             fi
 
             dockerHubName="ghcr.io/${{ github.actor }}/$imageName:$tag"
+            echo "> docker tag $imageName:$tag $dockerHubName"
             docker tag $imageName:$tag $dockerHubName
+            echo "> docker push $dockerHubName"
             docker push $dockerHubName
 
             if [ $customTag == false ]; then
               dockerHubLatestName="ghcr.io/${{ github.actor }}/$imageName:latest"
+              echo "> docker tag $imageName:$tag $dockerHubLatestName"
               docker tag $imageName:$tag $dockerHubLatestName
+              echo "> docker push $dockerHubLatestName"
               docker push $dockerHubLatestName
             fi
           done
