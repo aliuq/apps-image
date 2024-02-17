@@ -70,13 +70,13 @@ jobs:
             echo "执行命令 ($builderName):"
 
             echo "> docker buildx create --name $builderName --driver docker-container"
-            # docker buildx create --name $builderName --driver docker-container
+            docker buildx create --name $builderName --driver docker-container
 
             echo "> docker buildx use $builderName"
-            # docker buildx use $builderName
+            docker buildx use $builderName
             
             echo "> docker buildx build --no-cache -t $imageName:$tag --load --label \"category=$category\" -f $name ./$category/$imageName/"
-            # docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/
+            docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/
           done
 
       - name: Login to Docker Hub
