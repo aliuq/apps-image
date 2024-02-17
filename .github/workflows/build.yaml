@@ -61,18 +61,29 @@ jobs:
             echo "Dockerfile 文件名: $dockerfileName"
             echo "是否自定义标签: $customTag"
             echo "执行命令 ($builderName):"
-            echo "  docker buildx create --name $builderName --driver docker-container"
-            echo "  docker buildx use $builderName"
-            echo "  docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName --push ./$category/$imageName/"
 
+            echo "docker buildx create --name $builderName --driver docker-container"
             docker buildx create --name $builderName --driver docker-container
+
+            echo "docker buildx use $builderName"
             docker buildx use $builderName
             if [ $category == "base" ]; then
+              echo """
+                docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
+                  --label "maintainer=AliuQ<aliuq@bilishare.com>" \
+                  --label "category=$category" \
+                ./$category/$imageName/
+              """
               docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
                 --label "maintainer=AliuQ<aliuq@bilishare.com>" \
                 --label "category=$category" \
                ./$category/$imageName/
             else
+              echo """
+                docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
+                --label "category=$category" \
+               ./$category/$imageName/
+              """
               docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
                 --label "category=$category" \
                ./$category/$imageName/
