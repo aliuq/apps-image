@@ -33,5 +33,3 @@ RUN apk cache clean && \
     rm -rf /var/log/*
 
 CMD [ "/bin/zsh" ]
-
-#2
