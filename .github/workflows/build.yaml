@@ -9,7 +9,6 @@ on:
       - 'app/**'
       - 'base/**'
       - 'test/**'
-  workflow_dispatch:
 
 jobs:
   build:
