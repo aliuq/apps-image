@@ -31,7 +31,7 @@ jobs:
             exit 0
           fi
 
-          changed_names=$($diff | grep -E '^(app|base|test)/' | sort | uniq)
+          changed_names=$(echo "$diff" | grep -E '^(app|base|test)/' | sort | uniq)
           if [ -z "$changed_names" ]; then
             echo "No changes in app or base directory"
             exit 0
