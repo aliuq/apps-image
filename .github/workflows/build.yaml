@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 如果提交日志中包含 [skip ci] 则不执行
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     permissions:
       contents: read
       packages: write
@@ -34,6 +36,7 @@ jobs:
           echo "names=$(echo $changed_names)" >> $GITHUB_OUTPUT
 
       - name: Build Docker image
+        if: contains(github.event.head_commit.message, '[skip docker]') == false || contains(github.event.head_commit.message, '[skip github]') == false
         run: |
           if [ -z "${{ steps.changed.outputs.names }}" ]; then
             echo "No changes in app or base directory"
@@ -80,11 +83,13 @@ jobs:
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
+        if: contains(github.event.head_commit.message, '[skip docker]') == false
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push to Docker Hub
+        if: contains(github.event.head_commit.message, '[skip docker]') == false
         run: |
           for name in ${{ steps.changed.outputs.names }}; do
             IFS='/' read -ra ADDR <<< "$name"
@@ -117,12 +122,14 @@ jobs:
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
+        if: contains(github.event.head_commit.message, '[skip github]') == false
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to GitHub Container Registry
+        if: contains(github.event.head_commit.message, '[skip github]') == false
         run: |
           for name in ${{ steps.changed.outputs.names }}; do
             IFS='/' read -ra ADDR <<< "$name"
