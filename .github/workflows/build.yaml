@@ -25,13 +25,7 @@ jobs:
         id: get_changed_names
         shell: bash
         run: |
-          diff=$(git diff --name-only HEAD^)
-          if [ -z "$diff" ]; then
-            echo "No changes in app or base directory"
-            exit 0
-          fi
-
-          changed_names=$(echo "$diff" | grep -E '^(app|base|test)/' | sort | uniq)
+          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base|test)/' | sort | uniq)
           if [ -z "$changed_names" ]; then
             echo "No changes in app or base directory"
             exit 0
