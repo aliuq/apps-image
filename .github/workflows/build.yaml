@@ -8,6 +8,7 @@ on:
       - 'Dockerfile'
       - 'app/**'
       - 'base/**'
+      - 'test/**'
 
 jobs:
   build:
@@ -19,6 +20,16 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: Get changed names and outout
+        id: get_changed_names
+        run: |
+          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
+          if [ -z "$changed_names" ]; then
+            echo "No changes in app or base directory"
+            exit 0
+          fi
+          echo $changed_names
+
       - name: Build Docker image
         run: |
           # 格式：
@@ -28,6 +39,27 @@ jobs:
           # changed_charts=$(git diff --name-only HEAD^ | grep -E 'charts/[^/]+/Chart.yaml' | sed -E 's|/Chart.yaml||' | sort | uniq)
 
           changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
+          if [ -z "$changed_names" ]; then
+            echo "No changes in app or base directory"
+            exit 0
+          fi
+
+          # 如果没有 steps.get_changed_names.outputs，返回
+          if [ -z "${{ steps.get_changed_names.outputs }}" ]; then
+            echo "No changes in app or base directory"
+            exit 0
+          fi
+
+          for name in ${{ steps.get_changed_names.outputs }}; do
+            echo "Building Docker image for $name"
+            docker build -t ghcr.io/aliuq/$name:latest $name
+          done
+
+          for name in $changed_names; do
+            echo "Building Docker image for $name"
+            docker build -t ghcr.io/aliuq/$name:latest $name
+          done
+
           echo $changed_names
 
           names=$(git diff --name-only HEAD^ | awk -F/ '{print $1}' | sort -u)
