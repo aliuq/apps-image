@@ -9,6 +9,7 @@ on:
       - 'app/**'
       - 'base/**'
       - 'test/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -32,38 +33,44 @@ jobs:
 
       - name: Build Docker image
         run: |
-          # 格式：
-          # 1. ghcr.io/aliuq/app-xxx:latest
-          # 2. hub.docker.com/linkaliu/app-xxx:latest
-          #
-          # changed_charts=$(git diff --name-only HEAD^ | grep -E 'charts/[^/]+/Chart.yaml' | sed -E 's|/Chart.yaml||' | sort | uniq)
-
-          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
-          if [ -z "$changed_names" ]; then
-            echo "No changes in app or base directory"
-            exit 0
-          fi
-
-          # 如果没有 steps.get_changed_names.outputs，返回
           if [ -z "${{ steps.get_changed_names.outputs }}" ]; then
             echo "No changes in app or base directory"
             exit 0
           fi
 
           for name in ${{ steps.get_changed_names.outputs }}; do
-            echo "Building Docker image for $name"
-            docker build -t ghcr.io/aliuq/$name:latest $name
+            IFS='/' read -ra ADDR <<< "$name"
+            category=${ADDR[0]}
+            imageName=${ADDR[1]}
+            dockerfileName=${ADDR[2]}
+
+            if [[ $dockerfileName != "Dockerfile" && $dockerfileName != "Dockerfile."* ]]; then
+              echo "No Dockerfile found in $name"
+              continue
+            fi
+
+            tag=$(git log -1 --pretty=format:%h -- $name)
+            customTag=false
+            if [[ $dockerfileName == "Dockerfile."* ]]; then
+              customTag=true
+              tag=${dockerfileName:11}
+            fi
+
+            builderName="builder-$imageName-$tag"
+
+            echo ""
+            echo "文件路径: $name"
+            echo "镜像分类: $category"
+            echo "镜像名称: $imageName"
+            echo "镜像标签: $tag"
+            echo "Dockerfile 文件名: $dockerfileName"
+            echo "是否自定义标签: $customTag"
+            echo "执行命令（$builderName）:"
+            echo "  docker buildx create --name $builderName --driver docker-container"
+            echo "  docker buildx use $builderName"
+            echo "  docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName --push ./$category/$imageName/"
           done
 
-          for name in $changed_names; do
-            echo "Building Docker image for $name"
-            docker build -t ghcr.io/aliuq/$name:latest $name
-          done
-
-          echo $changed_names
-
-          names=$(git diff --name-only HEAD^ | awk -F/ '{print $1}' | sort -u)
-          echo $names
 
       # - name: Build Docker image
       #   run: docker build -t myapp:latest .
