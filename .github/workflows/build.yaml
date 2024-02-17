@@ -29,7 +29,7 @@ jobs:
             echo "No changes in app or base directory"
             exit 0
           fi
-          echo $changed_names
+          echo $changed_names >> $GITHUB_OUTPUT
 
       - name: Build Docker image
         run: |
