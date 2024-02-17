@@ -13,6 +13,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout
@@ -118,7 +121,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to Docker Hub
+      - name: Push to GitHub Container Registry
         run: |
           for name in ${{ steps.changed.outputs.names }}; do
             IFS='/' read -ra ADDR <<< "$name"
