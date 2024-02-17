@@ -19,7 +19,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
 
-          $names = $(git diff --name-only HEAD^ HEAD | awk -F/ '{print $1}' | sort -u)
+          names=$(git diff --name-only HEAD^ HEAD | awk -F/ '{print $1}' | sort -u)
 
           echo $names
 
