@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'Dockerfile'
+      - 'app/**'
+      - 'base/**'
 
 jobs:
   build:
@@ -17,10 +21,16 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd $GITHUB_WORKSPACE
+          # 格式：
+          # 1. ghcr.io/aliuq/app-xxx:latest
+          # 2. hub.docker.com/linkaliu/app-xxx:latest
+          #
+          # changed_charts=$(git diff --name-only HEAD^ | grep -E 'charts/[^/]+/Chart.yaml' | sed -E 's|/Chart.yaml||' | sort | uniq)
 
-          names=$(git diff --name-only HEAD^ HEAD | awk -F/ '{print $1}' | sort -u)
+          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
+          echo $changed_names
 
+          names=$(git diff --name-only HEAD^ | awk -F/ '{print $1}' | sort -u)
           echo $names
 
       # - name: Build Docker image
