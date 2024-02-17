@@ -5,7 +5,7 @@ FROM alpine:3.19.1
 # RUN echo https://dl-cdn.alpinelinux.org/alpine/v3.19/main >>/etc/apk/repositories
 # 
 
-LABEL version="0.0.1-alpine.3"
+LABEL version="0.0.1-alpine.2"
 LABEL maintainer="AliuQ<aliuq@bilishare.com>"
 
 RUN apk update && apk --no-cache add util-linux shadow bash git curl zsh starship
