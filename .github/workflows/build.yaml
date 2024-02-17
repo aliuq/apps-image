@@ -71,7 +71,7 @@ jobs:
               docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
                 --label "maintainer=AliuQ<aliuq@bilishare.com>" \
                 --label "category=$category" \
-               ./$category/
+               ./$category/$imageName/
             else
               docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
                 --label "category=$category" \
