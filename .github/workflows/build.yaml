@@ -29,16 +29,16 @@ jobs:
             echo "No changes in app or base directory"
             exit 0
           fi
-          echo $changed_names
+          echo "changed_names=$changed_names" >> $GITHUB_OUTPUT
 
       - name: Build Docker image
         run: |
-          if [ -z "${{ steps.get_changed_names.outputs }}" ]; then
+          if [ -z "${{ steps.get_changed_names.outputs.changed_names }}" ]; then
             echo "No changes in app or base directory"
             exit 0
           fi
 
-          for name in ${{ steps.get_changed_names.outputs }}; do
+          for name in ${{ steps.get_changed_names.outputs.changed_names }}; do
             IFS='/' read -ra ADDR <<< "$name"
             category=${ADDR[0]}
             imageName=${ADDR[1]}
