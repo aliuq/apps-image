@@ -70,25 +70,11 @@ jobs:
             echo "docker buildx use $builderName"
             docker buildx use $builderName
             if [ $category == "base" ]; then
-              echo """
-                docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
-                  --label "maintainer=AliuQ<aliuq@bilishare.com>" \
-                  --label "category=$category" \
-                ./$category/$imageName/
-              """
-              docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
-                --label "maintainer=AliuQ<aliuq@bilishare.com>" \
-                --label "category=$category" \
-               ./$category/$imageName/
+              echo "docker buildx build --no-cache -t $imageName:$tag --load --label "maintainer=AliuQ<aliuq@bilishare.com>" --label "category=$category" -f $name ./$category/$imageName/"
+              docker buildx build --no-cache -t $imageName:$tag --load --label "maintainer=AliuQ<aliuq@bilishare.com>" --label "category=$category" -f $name ./$category/$imageName/
             else
-              echo """
-                docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
-                --label "category=$category" \
-               ./$category/$imageName/
-              """
-              docker buildx build --no-cache -t $imageName:$tag -f $dockerfileName \
-                --label "category=$category" \
-               ./$category/$imageName/
+              echo "docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/"
+              docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/
             fi
           done
 
