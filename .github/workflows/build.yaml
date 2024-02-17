@@ -35,6 +35,8 @@ jobs:
             exit 0
           fi
 
+          ls -l
+
           for name in ${{ steps.get_changed_names.outputs.changed_names }}; do
             IFS='/' read -ra ADDR <<< "$name"
             category=${ADDR[0]}
