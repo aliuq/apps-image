@@ -26,6 +26,10 @@ jobs:
         shell: bash
         run: |
           changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base|test)/' | sort | uniq)
+          if [ -z "$changed_names" ]; then
+            echo "No changes in app or base directory"
+            exit 0
+          fi
           echo "changed_names=$(echo $changed_names)" >> $GITHUB_OUTPUT
 
       - name: Build Docker image
