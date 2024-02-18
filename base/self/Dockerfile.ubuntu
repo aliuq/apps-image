@@ -1,0 +1,50 @@
+FROM ubuntu:22.04
+
+LABEL version="0.0.1"
+LABEL maintainer="AliuQ <aliuq@bilishare.com>"
+
+# 修改 archive.ubuntu.com 为阿里云镜像
+RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
+    sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
+    apt clean && \
+    apt update
+
+RUN apt install --no-install-recommends -y curl wget zip unzip vim make gcc libncurses5-dev libncursesw5-dev
+RUN apt install -y software-properties-common
+
+# Git
+RUN add-apt-repository -y ppa:git-core/ppa && \
+    apt update && \
+    apt install --no-install-recommends -y git
+
+# Zsh
+RUN curl -fsSL https://raw.githubusercontent.com/aliuq/shs/main/zsh/ubuntu.sh | bash -s 5.9
+
+# NVM
+ENV NVM_VERSION 0.39.7
+RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+
+# Oh-my-zsh
+RUN chsh -s /bin/zsh && \
+    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash && \
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
+    sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc && \
+    echo "export USER=\$(whoami)" >> ~/.zshrc && \
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+
+# Starship
+RUN curl -sS https://starship.rs/install.sh | sh -s -- -y && \
+    echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc && \
+    curl -fs -S --create-dirs -o ~/.config/starship.toml https://raw.githubusercontent.com/aliuq/config/master/starship.toml
+
+# Remove
+RUN apt remove -y ca-certificates gcc-11-base gcc-11 gcc make openssl libncurses5-dev libncursesw5-dev
+
+# Clean
+RUN apt clean -y && apt autoclean -y && apt autoremove -y && \
+    rm -rf /var/lib/apt/lists && \
+    rm -rf /tmp && \
+    rm -rf /var/log
+
+ENTRYPOINT [ "/bin/zsh" ]
