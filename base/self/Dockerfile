@@ -6,16 +6,21 @@ FROM alpine:3.19.1
 # 
 
 LABEL version="0.0.2"
-LABEL maintainer="AliuQ<aliuq@bilishare.com>"
+LABEL maintainer="AliuQ <aliuq@bilishare.com>"
 
-RUN apk update && apk --no-cache add util-linux shadow bash git curl zsh starship
+RUN apk update && apk --no-cache add \
+    bash git curl zsh starship shadow \
+    ca-certificates openssl python3 make gcc g++ libgcc linux-headers grep \
+    ncurses coreutils util-linux binutils findutils
+
+SHELL ["bash", "-c"]
 
 ENV NVM_VERSION 0.39.7
 
 # install nvm
-RUN chsh -s /bin/bash && \
-    touch ~/.bashrc && \
-    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+RUN touch ~/.bashrc && \
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash && \
+    chmod +x $HOME/.nvm/nvm.sh
 
 # install oh-my-zsh
 RUN chsh -s /bin/zsh && \
