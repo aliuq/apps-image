@@ -4,7 +4,7 @@ RUN git clone -b multx-01 https://github.com/aahnik/tgcf.git .
 
 FROM python:3.10-slim-bullseye
 
-LABEL version="0.0.3"
+LABEL version="0.0.4"
 LABEL repository="https://github.com/aahnik/tgcf"
 
 ENV VENV_PATH="/venv"
@@ -24,7 +24,7 @@ COPY --from=base /app .
 RUN poetry build && \
   /venv/bin/pip install --upgrade pip wheel setuptools && \
   /venv/bin/pip install dist/*.whl && \
-  /venv/bin/pip install streamlit==1.27.2
+  /venv/bin/pip install streamlit==1.15.2
 
 EXPOSE 8501
 
