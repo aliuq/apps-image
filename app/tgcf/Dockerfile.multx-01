@@ -4,7 +4,7 @@ RUN git clone -b multx-01 https://github.com/aahnik/tgcf.git .
 
 FROM python:3.10-slim-bullseye
 
-LABEL version="0.0.2"
+LABEL version="0.0.3"
 LABEL repository="https://github.com/aahnik/tgcf"
 
 ENV VENV_PATH="/venv"
