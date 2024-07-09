@@ -4,7 +4,7 @@ RUN git clone -b multx-01 https://github.com/aahnik/tgcf.git .
 
 FROM python:3.10-slim-bullseye
 
-LABEL version="0.0.1"
+LABEL version="0.0.2"
 LABEL repository="https://github.com/aahnik/tgcf"
 
 ENV VENV_PATH="/venv"
@@ -19,6 +19,7 @@ RUN apt-get update && \
   rm -rf /var/lib/apt/lists/*
 
 RUN pip install --upgrade poetry
+RUN pip install streamlit==1.27.2
 RUN python -m venv /venv
 COPY --from=base /app .
 RUN poetry build && \
