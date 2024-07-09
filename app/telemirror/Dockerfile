@@ -21,7 +21,7 @@ USER apprunner
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
-COPY --chown=apprunner: . /app
+COPY --from=base --chown=apprunner: /app /app
 
 ENV PYTHONPATH="${PYTHONPATH}:/app/dependencies"
 
