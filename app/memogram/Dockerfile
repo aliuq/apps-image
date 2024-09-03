@@ -14,11 +14,12 @@ RUN chmod +x memogram
 # Run stage
 FROM alpine:latest
 
-LABEL version="0.0.7"
+LABEL version="0.1.6"
 LABEL repository="https://github.com/usememos/telegram-integration"
 
 WORKDIR /app
 ENV SERVER_ADDR=
 ENV BOT_TOKEN=
+ENV INSTANCE_URL=
 COPY --from=builder /app/memogram .
 CMD ["./memogram"]
