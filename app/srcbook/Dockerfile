@@ -9,15 +9,22 @@ RUN yarn add srcbook && \
   yarn install --prod && \
   find ./node_modules -type f \( -name "*.d.ts" -o -name "*.log" -o -name "*.bak" -o -name "DS_Store" -o -name "LICENSE" -o -name "*.d.mts" -o -name "*.txt" \) -delete
 
+RUN echo "#!/usr/bin/env node" > /srcbook && \
+  echo "import program from '/app/src/cli.mjs';" >> /srcbook && \
+  echo "program();" >> /srcbook
+
 FROM node:22.7.0-alpine3.20 AS runner
 
-LABEL version="0.0.1"
+LABEL version="0.0.1-alpha.18"
 LABEL repository="https://github.com/srcbookdev/srcbook"
 
 WORKDIR /app
 COPY --from=builder /app .
+COPY --from=builder /srcbook /usr/local/bin/srcbook
 
-CMD [ "node", "bin/cli.mjs", "start" ]
+RUN chmod +x /usr/local/bin/srcbook
+
+CMD [ "srcbook", "start" ]
 
 EXPOSE 2150
 VOLUME /root/.srcbook
