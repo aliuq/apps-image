@@ -2,15 +2,14 @@ FROM node:22.7.0-alpine3.20 AS builder
 WORKDIR /app
 
 RUN yarn add srcbook && \
-  mv node_modules/srcbook . && \
-  rm node_modules yarn.lock package.json -rf && \
-  mv srcbook/* . && \
-  rm node_modules -rf && \
-  yarn install --prod && \
-  find ./node_modules -type f \( -name "*.d.ts" -o -name "*.log" -o -name "*.bak" -o -name "DS_Store" -o -name "LICENSE" -o -name "*.d.mts" -o -name "*.txt" \) -delete
+  rm -rf package* yarn* && \
+  cp -R ./node_modules/srcbook/dist . && \
+  cp -R ./node_modules/srcbook/package.json . && \
+  rm -rf ./node_modules && \
+  yarn install --prod
 
 RUN echo "#!/usr/bin/env node" > /srcbook && \
-  echo "import program from '/app/src/cli.mjs';" >> /srcbook && \
+  echo "import program from '/app/dist/src/cli.mjs';" >> /srcbook && \
   echo "program();" >> /srcbook
 
 FROM node:22.7.0-alpine3.20 AS runner
