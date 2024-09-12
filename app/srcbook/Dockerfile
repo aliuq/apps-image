@@ -4,6 +4,7 @@ WORKDIR /app
 RUN yarn add srcbook && \
   rm -rf package* yarn* && \
   cp -R ./node_modules/srcbook/dist . && \
+  cp -R ./node_modules/srcbook/public . && \
   cp -R ./node_modules/srcbook/package.json . && \
   rm -rf ./node_modules && \
   yarn install --prod
