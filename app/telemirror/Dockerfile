@@ -12,7 +12,7 @@ RUN pip install --target=/app/dependencies -r requirements.txt
 
 FROM build as release
 
-LABEL version="0.0.1"
+LABEL version="0.0.2"
 LABEL repository="https://github.com/khoben/telemirror"
 
 RUN useradd -m apprunner
