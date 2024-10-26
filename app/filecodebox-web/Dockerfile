@@ -15,3 +15,4 @@ ENV BASE_API=
 
 COPY --from=builder /app/dist /app
 COPY ./docker-entrypoint.sh /docker-entrypoint.d/0-replace-base-api.sh
+RUN chmod +x /docker-entrypoint.d/0-replace-base-api.sh
