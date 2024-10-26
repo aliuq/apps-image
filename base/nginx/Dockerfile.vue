@@ -6,6 +6,7 @@ LABEL description="Nginx with custom configuration, based on alpine. The root pa
 
 WORKDIR /app
 COPY ./conf/default.vue.conf /etc/nginx/conf.d/default.conf
+
 CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 80
