@@ -15,7 +15,7 @@ RUN echo "#!/usr/bin/env node" > /srcbook && \
 
 FROM node:22.7.0-alpine3.20 AS runner
 
-LABEL version="0.0.13"
+LABEL version="0.0.14"
 LABEL repository="https://github.com/srcbookdev/srcbook"
 
 WORKDIR /app
