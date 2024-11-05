@@ -14,7 +14,7 @@ RUN chmod +x memogram
 # Run stage
 FROM alpine:latest
 
-LABEL version="0.1.6-1"
+LABEL version="0.1.6-2"
 LABEL repository="https://github.com/usememos/telegram-integration"
 
 WORKDIR /app
