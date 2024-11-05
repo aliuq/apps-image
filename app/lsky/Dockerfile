@@ -5,8 +5,8 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 
 ARG LSKY_VERSION=2.1
 ARG REPO_URL=https://github.com/lsky-org/lsky-pro/releases/download/${LSKY_VERSION}/lsky-pro-${LSKY_VERSION}.zip
-RUN install-php-extensions @composer bcmath pdo_mysql && \
-    curl -fsSL ${REPO_URL} -o lsky-pro.zip && \
+RUN install-php-extensions @composer bcmath pdo_mysql
+RUN curl -fsSL ${REPO_URL} -o lsky-pro.zip && \
     unzip lsky-pro.zip && \
     rm lsky-pro.zip && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-suggest && \
