@@ -19,6 +19,8 @@ LABEL repository="https://github.com/lsky-org/lsky-pro"
 ENV UPLOAD_MAX_FILESIZE=10M
 ENV POST_MAX_SIZE=10M
 
+WORKDIR /app
+
 COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/local/bin/install-php-extensions /usr/local/bin/install-php-extensions
@@ -30,9 +32,7 @@ RUN install-php-extensions imagick pdo_pgsql pdo_sqlsrv redis && \
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-WORKDIR /app
-
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
-VOLUME /app
 EXPOSE 80
+VOLUME /app
