@@ -12,6 +12,11 @@ if [ ! -z "$POST_MAX_SIZE" ]; then
     echo "$ME: Set post_max_size to $POST_MAX_SIZE"
 fi
 
+if [ ! -d "/app" ] || [ -z "$(ls -A /app)" ]; then
+    tar -xzf /tmp/app.tar.gz -C /app
+    echo "$ME: Extracted /tmp/app.tar.gz to /app"
+fi
+
 if [ ! -d "/app/vendor" ]; then
     composer install
     echo "\n$ME: Installed composer dependencies"

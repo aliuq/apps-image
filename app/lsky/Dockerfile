@@ -9,7 +9,8 @@ RUN install-php-extensions @composer bcmath pdo_mysql && \
     curl -fsSL ${REPO_URL} -o lsky-pro.zip && \
     unzip lsky-pro.zip && \
     rm lsky-pro.zip && \
-    composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-suggest
+    composer install --no-dev --optimize-autoloader --no-interaction --no-progress --no-suggest && \
+    tar -czf /tmp/app.tar.gz .
 
 FROM php:8.0.2-alpine3.13
 
@@ -24,7 +25,7 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/local/bin/install-php-extensions /usr/local/bin/install-php-extensions
-COPY --from=builder /app /app
+COPY --from=builder /tmp/app.tar.gz /tmp/app.tar.gz
 
 RUN install-php-extensions imagick pdo_pgsql pdo_sqlsrv redis && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
