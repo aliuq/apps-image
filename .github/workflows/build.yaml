@@ -5,9 +5,10 @@ on:
     branches:
       - master
     paths:
-      - 'Dockerfile'
-      - 'app/**'
-      - 'base/**'
+      - "app/**/Dockerfile"
+      - "app/**/Dockerfile.*"
+      - "base/**/Dockerfile"
+      - "base/**/Dockerfile.*"
 
 jobs:
   build:
@@ -76,7 +77,7 @@ jobs:
 
             echo "> docker buildx use $builderName"
             docker buildx use $builderName
-            
+
             echo "> docker buildx build --no-cache -t $imageName:$tag --load --label \"category=$category\" -f $name ./$category/$imageName/"
             docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/
           done
