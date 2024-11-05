@@ -1,11 +1,11 @@
 # Lsky 兰空图床
 
-文档: <https://docs.lsky.pro/>
-仓库: <https://github.com/lsky-org/lsky-pro>
++ 文档: <https://docs.lsky.pro/>
++ 仓库: <https://github.com/lsky-org/lsky-pro>
 
 ## 使用
 
-```bash
+```shell
 docker run --rm --name lsky -p 8089:80 aliuq/lsky:latest
 
 # 挂载目录
@@ -14,8 +14,8 @@ docker run --rm --name lsky -v ./data:/app -p 8089:80 aliuq/lsky:latest
 
 环境变量
 
-- `UPLOAD_MAX_FILESIZE`: 文件上传限制, 默认 `10M`
-- `POST_MAX_SIZE`: POST 数据最大限制, 默认 `10M`
++ `UPLOAD_MAX_FILESIZE`: 文件上传限制, 默认 `10M`
++ `POST_MAX_SIZE`: POST 数据最大限制, 默认 `10M`
 
 ### docker-compose
 
