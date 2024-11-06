@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 ME=$(basename "$0")
 
 if [ ! -z "$UPLOAD_MAX_FILESIZE" ]; then
@@ -14,12 +16,14 @@ fi
 
 if [ ! -d "/app" ] || [ -z "$(ls -A /app)" ]; then
     tar -xzf /tmp/app.tar.gz -C /app
+    chmod -R 777 /app
     echo "$ME: Extracted /tmp/app.tar.gz to /app"
 fi
 
-if [ ! -d "/app/vendor" ]; then
-    composer install
-    echo "\n$ME: Installed composer dependencies"
+if [ ! -d "/etc/nginx" ] || [ -z "$(ls -A /etc/nginx)" ]; then
+    tar -xzf /tmp/nginx.tar.gz -C /
+    chmod -R 777 /etc/nginx
+    echo "$ME: Extracted /tmp/nginx.tar.gz to /etc/nginx"
 fi
 
-php artisan serve --host=0.0.0.0 --port=80
+php-fpm -D
