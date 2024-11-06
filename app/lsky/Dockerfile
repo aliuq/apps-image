@@ -43,5 +43,5 @@ ENTRYPOINT [ "/docker-entrypoint.sh" ]
 CMD [ "nginx", "-g", "daemon off;"]
 
 EXPOSE 80
-VOLUME /app
 VOLUME /etc/nginx
+VOLUME /app
