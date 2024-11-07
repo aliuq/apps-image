@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-LABEL version="0.0.1"
+LABEL version="0.0.2"
 LABEL maintainer="AliuQ <aliuq@bilishare.com>"
 LABEL description="Nginx with custom configuration, based on alpine. The root path is /app."
 
