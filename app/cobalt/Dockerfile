@@ -7,7 +7,7 @@ RUN npm install -g pnpm
 RUN sed -i 's|const apiURL = "\(.*\)";|const apiURL = "\\$BASE_API";|g' web/src/lib/env.ts
 RUN pnpm install && pnpm -C web build
 
-FROM aliuq/nginx
+FROM aliuq/nginx:svelte
 
 LABEL version="10.3"
 LABEL repository="https://github.com/imputnet/cobalt"
