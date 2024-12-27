@@ -2,7 +2,8 @@
   "name": "weektodo",
   "type": "sha",
   "version": "0.0.0",
-  "sha": "",
+  "sha": "d384fc72d04e9c8a8431d456a3218c08d0c77e29",
   "repo": "https://github.com/manuelernestog/weektodo",
-  "file": "package.json"
+  "file": "package.json",
+  "dir": "apps/weektodo"
 }
