@@ -1,0 +1,8 @@
+{
+  "name": "cobalt-web",
+  "type": "package-json",
+  "version": "0.0.0",
+  "gitTime": "",
+  "repo": "https://github.com/imputnet/cobalt",
+  "file": "web/package.json"
+}
