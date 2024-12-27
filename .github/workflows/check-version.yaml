@@ -12,3 +12,5 @@ jobs:
 
       - name: Check version
         uses: ./check-version-action
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
