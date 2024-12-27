@@ -2,9 +2,10 @@
   "name": "tgcf",
   "type": "sha",
   "version": "0.0.0",
-  "sha": "",
+  "sha": "08b811f2126f1dbc42a09e11879cb23ee12cb77e",
   "repo": "https://github.com/aahnik/tgcf",
   "file": "package.json",
   "branch": "multx-01",
-  "tags": "multx-01"
+  "tags": "multx-01",
+  "dir": "apps/tgcf"
 }
