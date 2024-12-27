@@ -1,8 +1,9 @@
 {
   "name": "weektodo",
   "type": "package-json",
-  "version": "0.0.0",
+  "version": "2.2.0",
   "gitTime": "",
   "repo": "https://github.com/manuelernestog/weektodo",
-  "file": "package.json"
+  "file": "package.json",
+  "dir": "apps/weektodo"
 }
