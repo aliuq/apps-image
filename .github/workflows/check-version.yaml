@@ -9,13 +9,12 @@ on:
         default: false
         type: boolean
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   check-version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,5 +22,5 @@ jobs:
       - name: Check version
         uses: ./check-version-action
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
+          myToken: ${{ secrets.PAT }}
           debug: ${{ inputs.debug }}
