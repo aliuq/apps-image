@@ -1,0 +1,14 @@
+name: "Check Version"
+author: "AliuQ"
+description: "Check version"
+# inputs:
+
+# outputs:
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
+
+branding:
+  icon: "message-square"
+  color: "blue"
