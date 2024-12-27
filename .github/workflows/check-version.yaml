@@ -6,7 +6,8 @@ on:
       debug:
         description: 'Debug mode'
         required: false
-        default: 'false'
+        default: false
+        type: boolean
 
 jobs:
   check-version:
