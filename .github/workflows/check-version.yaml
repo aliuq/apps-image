@@ -2,6 +2,11 @@ name: Check version on test mode
 
 on:
   workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Debug mode'
+        required: false
+        default: 'false'
 
 jobs:
   check-version:
@@ -14,3 +19,4 @@ jobs:
         uses: ./check-version-action
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
+          debug: ${{ inputs.debug }}
