@@ -1,11 +1,11 @@
 {
   "name": "tgcf",
   "repo": "https://github.com/aahnik/tgcf",
-  "context": "",
+  "context": "apps/tgcf",
   "file": "",
   "tags": "demo",
   "check": "sha",
   "checkFile": "package.json",
   "version": "",
-  "sha": ""
+  "sha": "f0d5859acfda4aa234d3c5316f14eb3b38e5f7ce"
 }
