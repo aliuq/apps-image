@@ -1,10 +1,11 @@
 {
   "name": "tgcf",
-  "type": "sha",
-  "version": "0.0.0",
-  "sha": "",
   "repo": "https://github.com/aahnik/tgcf",
-  "file": "package.json",
-  "branch": "multx-01",
-  "tags": "multx-01"
+  "context": "",
+  "file": "",
+  "tags": "demo",
+  "check": "sha",
+  "checkFile": "package.json",
+  "version": "",
+  "sha": ""
 }
