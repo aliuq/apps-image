@@ -63,7 +63,12 @@ jobs:
 
           echo "image_tag: $image_tag"
 
-          pwd
+          ls .
+
+          echo "---------------"
+
+          ls "$(pwd)/$context"
+
 
           echo "context=$(pwd)/$context" >> $GITHUB_OUTPUT
           echo "app=$app" >> $GITHUB_OUTPUT
@@ -72,30 +77,30 @@ jobs:
           echo -e "$image_tag" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-  call-workflow-build:
-    needs: prepare
-    if: needs.prepare.outputs.context
-    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
-    permissions:
-      contents: read
-      packages: write
-    with:
-      images: |
-        aliuq/${{ needs.prepare.outputs.app }}
-        ghcr.io/aliuq/${{ needs.prepare.outputs.app }}
-      # tags: |
-      #   type=raw,value=latest
-      #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
-      tags: |
-        ${{ needs.prepare.outputs.tags }}
-      context: ${{ needs.prepare.outputs.context }}
-      push: false
-      platforms: linux/amd64
+  # call-workflow-build:
+  #   needs: prepare
+  #   if: needs.prepare.outputs.context
+  #   uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   with:
+  #     images: |
+  #       aliuq/${{ needs.prepare.outputs.app }}
+  #       ghcr.io/aliuq/${{ needs.prepare.outputs.app }}
+  #     # tags: |
+  #     #   type=raw,value=latest
+  #     #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+  #     tags: |
+  #       ${{ needs.prepare.outputs.tags }}
+  #     context: ${{ needs.prepare.outputs.context }}
+  #     push: false
+  #     platforms: linux/amd64
 
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      CHAT_ID: ${{ secrets.CHAT_ID }}
-      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  #   secrets:
+  #     TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+  #     CHAT_ID: ${{ secrets.CHAT_ID }}
+  #     REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+  #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  #     DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
