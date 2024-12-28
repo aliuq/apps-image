@@ -56,9 +56,9 @@ jobs:
 
           # 如果存在 branch 则使用 branch 作为 tag
           if [[ $branch != "null" ]]; then
-            image_tag="$image_tag\n  type=raw,value=$branch"
+            image_tag="$image_tag\ntype=raw,value=$branch"
           else
-            image_tag="$image_tag\n  type=raw,value=latest"
+            image_tag="$image_tag\ntype=raw,value=latest"
           fi
 
           echo "image_tag: $image_tag"
@@ -82,9 +82,12 @@ jobs:
       # tags: |
       #   type=raw,value=latest
       #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
-      tags: ${{ needs.prepare.outputs.tags }}
+      tags: |
+        ${{ needs.prepare.outputs.tags }}
       context: ${{ needs.prepare.outputs.context }}
       push: false
+      platforms: linux/amd64
+
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
