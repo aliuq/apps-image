@@ -15,6 +15,7 @@ jobs:
       context: ${{ steps.app.outputs.context }}
       app: ${{ steps.app.outputs.app }}
       tags: ${{ steps.app.outputs.tags }}
+      labels: ${{ steps.app.outputs.labels }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,36 +40,65 @@ jobs:
           app=$(jq -r '.name' $meta_path)
           tags=$(jq -r '.tags' $meta_path)
           branch=$(jq -r '.branch' $meta_path)
+          repo=$(jq -r '.repo' $meta_path)
+          sha=$(jq -r '.sha' $meta_path)
 
           echo "app: $app"
           echo "tags: $tags"
 
           image_tag=""
+
+          # YYYY-MM-DDTHH:mm:ss.SSS[Z]
+          create_time=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
+          echo "org.opencontainers.image.created=$create_time" > labels.txt
+          echo "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" >> labels.txt
+          echo "org.opencontainers.image.title=$app" >> labels.txt
+          echo "org.opencontainers.image.url=$repo" >> labels.txt
+          echo "org.opencontainers.image.revision=$sha" >> labels.txt
+
           if [[ $version =~ ^[0-9a-f]{7,40}$ ]]; then
             echo "Version is sha"
             image_tag="type=raw,value=$version"
+            echo "org.opencontainers.image.version=$version" >> labels.txt
           else
             echo "Version is semver"
             semver=${version#v}
             [[ $version == v* ]] && semver=${version#v}
             image_tag="type=raw,value=$semver"
+            echo "org.opencontainers.image.version=$semver" >> labels.txt
           fi
 
           # 如果存在 branch 则使用 branch 作为 tag
           if [[ $branch != "null" ]]; then
             image_tag="$image_tag\ntype=raw,value=$branch"
+            echo "org.opencontainers.image.branch=$branch" >> labels.txt
           else
             image_tag="$image_tag\ntype=raw,value=latest"
           fi
 
           echo "image_tag: $image_tag"
 
-          echo "context=$(pwd)/$context" >> $GITHUB_OUTPUT
+          echo "context=$context" >> $GITHUB_OUTPUT
           echo "app=$app" >> $GITHUB_OUTPUT
 
           echo "tags<<EOF" >> $GITHUB_OUTPUT
           echo -e "$image_tag" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+
+          # org.opencontainers.image.created=2024-12-28T14:08:25.965Z
+          # org.opencontainers.image.description=Apps image
+          # org.opencontainers.image.licenses=MIT
+          # org.opencontainers.image.revision=205deeddb810ab2d08ab2081b3caf4362e03fb62
+          # org.opencontainers.image.source=https://github.com/***/apps-image
+          # org.opencontainers.image.title=apps-image
+          # org.opencontainers.image.url=https://github.com/***/apps-image
+          # org.opencontainers.image.version=f0d5859
+
+          echo "labels<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$(cat labels.txt)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+
 
   call-workflow-build:
     needs: prepare
@@ -84,12 +114,11 @@ jobs:
       # tags: |
       #   type=raw,value=latest
       #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
-      tags: |
-        ${{ needs.prepare.outputs.tags }}
-      # context: ${{ needs.prepare.outputs.context }}
+      tags: ${{ needs.prepare.outputs.tags }}
       file: "${{ needs.prepare.outputs.context }}/Dockerfile"
       push: false
       platforms: linux/amd64
+      meta_labels: ${{ needs.prepare.outputs.labels }}
 
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
