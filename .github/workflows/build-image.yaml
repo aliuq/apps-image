@@ -67,7 +67,7 @@ jobs:
 
           echo "context=$context" >> $GITHUB_OUTPUT
           echo "app=$app" >> $GITHUB_OUTPUT
-          echo -e "tags=$image_tag" >> $GITHUB_OUTPUT
+          echo "tags=$image_tag" >> $GITHUB_OUTPUT
 
 
   call-workflow-build:
