@@ -86,7 +86,8 @@ jobs:
       #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
       tags: |
         ${{ needs.prepare.outputs.tags }}
-      context: ${{ needs.prepare.outputs.context }}
+      # context: ${{ needs.prepare.outputs.context }}
+      file: "${{ needs.prepare.outputs.context }}/Dockerfile"
       push: false
       platforms: linux/amd64
 
