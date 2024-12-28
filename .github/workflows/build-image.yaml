@@ -12,15 +12,15 @@ jobs:
     permissions:
       pull-requests: read
     outputs:
-      APP: ${{ steps.app.outputs.app }}
-      VERSION: ${{ steps.app.outputs.version }}
-      DIR: ${{ steps.app.outputs.dir }}
-      TAG: ${{ steps.app.outputs.tag }}
+      context: ${{ steps.app.outputs.context }}
+      app: ${{ steps.app.outputs.app }}
+      tags: ${{ steps.app.outputs.tags }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Resolve
+        id: app
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
@@ -70,7 +70,7 @@ jobs:
 
   call-workflow-build:
     needs: prepare
-    if: needs.prepare.outputs.context != ''
+    if: needs.prepare.outputs.context
     uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
     permissions:
       contents: read
