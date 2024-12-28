@@ -1,0 +1,94 @@
+name: Release Docker Image
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      APP: ${{ steps.app.outputs.app }}
+      VERSION: ${{ steps.app.outputs.version }}
+      DIR: ${{ steps.app.outputs.dir }}
+      TAG: ${{ steps.app.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          # chore(apps/tgcf): update sha to f0d5859
+          # pick "apps/tgcf" from pr title
+          #
+          context=$(echo $TITLE | grep -oP '(?<=\().*?(?=\))')
+          version=$(echo $TITLE | grep -oP '(?<=to ).*')
+          meta_path="$context/meta.json"
+
+          echo "context: $context"
+          echo "version: $version"
+          echo "meta_path: $meta_path"
+          echo
+
+          app=$(jq -r '.name' $meta_path)
+          tags=$(jq -r '.tags' $meta_path)
+          branch=$(jq -r '.branch' $meta_path)
+
+          echo "app: $app"
+          echo "tags: $tags"
+
+          image_tag=""
+          if [[ $version =~ ^[0-9a-f]{7,40}$ ]]; then
+            echo "Version is sha"
+            image_tag="type=raw,value=$version"
+          else
+            echo "Version is semver"
+            semver=${version#v}
+            [[ $version == v* ]] && semver=${version#v}
+            image_tag="type=raw,value=$semver"
+          fi
+
+          # 如果存在 branch 则使用 branch 作为 tag
+          if [[ $branch != "null" ]]; then
+            image_tag="$image_tag\ntype=raw,value=$branch"
+          else
+            image_tag="$image_tag\ntype=raw,value=latest"
+          fi
+
+          echo "image_tag: $image_tag"
+
+          echo "context=$context" >> $GITHUB_OUTPUT
+          echo "app=$app" >> $GITHUB_OUTPUT
+          echo "tags=$image_tag" >> $GITHUB_OUTPUT
+
+
+  call-workflow-build:
+    needs: prepare
+    if: needs.prepare.outputs.context
+    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+    permissions:
+      contents: read
+      packages: write
+    with:
+      images: |
+        aliuq/${{ needs.prepare.outputs.app }}
+        ghcr.io/aliuq/${{ needs.prepare.outputs.app }}
+      # tags: |
+      #   type=raw,value=latest
+      #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+      tags: ${{ needs.prepare.outputs.tags }}
+      context: ${{ needs.prepare.outputs.context }}
+      push: false
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
