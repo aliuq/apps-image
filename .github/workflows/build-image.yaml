@@ -70,7 +70,7 @@ jobs:
 
   call-workflow-build:
     needs: prepare
-    if: needs.prepare.outputs.context
+    if: needs.prepare.outputs.context != ''
     uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
     permissions:
       contents: read
