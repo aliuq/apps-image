@@ -56,12 +56,14 @@ jobs:
 
           # 如果存在 branch 则使用 branch 作为 tag
           if [[ $branch != "null" ]]; then
-            image_tag="$image_tag\ntype=raw,value=$branch"
+            image_tag="$image_tag\r\ntype=raw,value=$branch"
           else
-            image_tag="$image_tag\ntype=raw,value=latest"
+            image_tag="$image_tag\r\ntype=raw,value=latest"
           fi
 
           echo "image_tag: $image_tag"
+
+          pwd
 
           echo "context=$context" >> $GITHUB_OUTPUT
           echo "app=$app" >> $GITHUB_OUTPUT
