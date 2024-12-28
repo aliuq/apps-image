@@ -87,7 +87,7 @@ jobs:
       #   type=raw,value=latest
       #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
       tags: |
-        ${{ join(needs.prepare.outputs.tags, '\n') }}
+        ${{ needs.prepare.outputs.tags }}
       context: ${{ needs.prepare.outputs.context }}
       push: false
       platforms: linux/amd64
