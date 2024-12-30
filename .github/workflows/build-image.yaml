@@ -2,6 +2,12 @@ name: Release Docker Image
 
 on:
   workflow_dispatch:
+    inputs:
+      context:
+        description: 'Context directory, e.g. apps/tgcf'
+        required: true
+        default: ''
+        type: string
   pull_request:
     branches:
       - master
@@ -31,7 +37,20 @@ jobs:
           # chore(apps/tgcf): update sha to f0d5859
           # pick "apps/tgcf" from pr title
           #
-          context=$(echo $TITLE | grep -oP '(?<=\().*?(?=\))')
+          # If trigger by workflow_dispatch, then use ${{ inputs.context }}
+          # If trigger by pull_request, then use ${{ github.event.pull_request.title }}
+          #
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "Trigger by workflow_dispatch"
+            context=${{ inputs.context }}
+          elif [[ ${{ github.event_name }} == 'pull_request' ]]; then
+            echo "Trigger by pull_request"
+            context=$(echo $TITLE | grep -oP '(?<=\().*?(?=\))')
+          else
+            echo "Unknown event: ${{ github.event_name }}"
+            exit 1
+          fi
+
           metadata="$context/meta.json"
           dockerfile="$context/Dockerfile"
           echo "metadata: $metadata"
@@ -159,3 +178,4 @@ jobs:
       REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
