@@ -4,8 +4,8 @@
   "context": "apps/memogram",
   "check": "tag",
   "checkFile": "Dockerfile",
-  "version": "0.0.0",
-  "sha": "",
+  "version": "0.1.7",
+  "sha": "d0ec82e5045bce9c3aa391fed4a0dc86c43169c4",
   "push": true,
-  "tags": ""
+  "tags": "d0ec82e"
 }
