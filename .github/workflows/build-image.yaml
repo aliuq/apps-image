@@ -15,7 +15,8 @@ on:
 jobs:
   resolve-docker-variables:
     runs-on: ubuntu-latest
-    if: startsWith(github.event.pull_request.title, 'chore(') && contains(github.event.pull_request.title, ' update version to ')
+    if: |
+      github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'chore(') && contains(github.event.pull_request.title, ' update version to '))
     permissions:
       pull-requests: read
     outputs:
