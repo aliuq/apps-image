@@ -64,8 +64,8 @@ jobs:
 
           # Handle normal variables
           #
-          push=${push:-false}
-          platforms=${platforms:-linux/amd64}
+          if [[ $push == "null" ]]; then push=false; fi
+          if [[ $platforms == "null" ]]; then platforms="linux/amd64"; fi
 
           echo "::group::Normal Variables"
           echo "dockerfile: $dockerfile"
@@ -107,7 +107,7 @@ jobs:
           else
             echo "type=raw,value=latest" >> tags.txt
           fi
-          echo "::group::Tags
+          echo "::group::Tags"
           echo -e "$(cat tags.txt)"
           echo "::endgroup::"
           echo "tags<<EOF" >> $GITHUB_OUTPUT0
