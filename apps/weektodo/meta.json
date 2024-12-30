@@ -1,0 +1,10 @@
+{
+  "name": "weektodo",
+  "repo": "https://github.com/manuelernestog/weektodo",
+  "context": "apps/weektodo",
+  "check": "version",
+  "checkFile": "package.json",
+  "version": "",
+  "sha": "",
+  "push": false
+}
