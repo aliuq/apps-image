@@ -85,7 +85,13 @@ jobs:
           # Handle normal variables
           #
           if [[ $push == "null" ]]; then push=false; fi
-          if [[ $platforms == "null" ]]; then platforms="linux/amd64,linux/arm64"; fi
+          if [[ $platforms == "null" ]]; then
+            if [[ $push == "null" ]]; then
+              platforms="linux/amd64"
+            else
+              platforms="linux/amd64,linux/arm64"
+            fi
+          fi
 
           echo "::group::Normal Variables"
           echo "dockerfile: $dockerfile"
