@@ -4,8 +4,8 @@
   "context": "apps/yulegeyu",
   "check": "sha",
   "checkFile": "",
-  "version": "",
-  "sha": "",
+  "version": "4b9de83",
+  "sha": "4b9de839b62360b05835e5754ec7b7d3e55b2abf",
   "push": true,
   "tags": ""
 }
