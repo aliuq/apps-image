@@ -12,7 +12,9 @@
     "isready",
     "lsky",
     "PGDATA",
+    "PYTHONUNBUFFERED",
     "srcbook",
+    "telemirror",
     "tgcf",
     "weektodo",
     "yulegeyu"

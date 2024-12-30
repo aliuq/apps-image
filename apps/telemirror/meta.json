@@ -1,0 +1,11 @@
+{
+  "name": "telemirror",
+  "repo": "https://github.com/khoben/telemirror",
+  "context": "apps/telemirror",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
