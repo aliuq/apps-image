@@ -4,8 +4,8 @@
   "context": "apps/telemirror",
   "check": "sha",
   "checkFile": "",
-  "version": "",
-  "sha": "",
+  "version": "c21a5c9",
+  "sha": "c21a5c962645f2cd04cc1e988d22b0d21b9594ae",
   "push": true,
   "tags": ""
 }
