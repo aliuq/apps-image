@@ -4,8 +4,8 @@
   "context": "apps/icones",
   "check": "sha",
   "checkFile": "",
-  "version": "0.0.0",
-  "sha": "",
+  "version": "fd2cb0e",
+  "sha": "fd2cb0e4396e6f73c3c7e0c533d7f990f696862f",
   "push": false,
   "tags": ""
 }
