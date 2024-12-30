@@ -1,0 +1,11 @@
+{
+  "name": "yulegeyu",
+  "repo": "https://github.com/liyupi/yulegeyu",
+  "context": "apps/yulegeyu",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
