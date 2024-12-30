@@ -1,0 +1,11 @@
+{
+  "name": "inpaint-web",
+  "repo": "https://github.com/lxfater/inpaint-web",
+  "context": "apps/inpaint-web",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
