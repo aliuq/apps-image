@@ -16,7 +16,9 @@
     "PYTHONUNBUFFERED",
     "srcbook",
     "telemirror",
+    "tesseract",
     "tgcf",
+    "VENV",
     "weektodo",
     "yulegeyu"
   ]

@@ -1,30 +1,29 @@
-FROM alpine/git as base
+FROM alpine/git AS source
 WORKDIR /app
 RUN git clone https://github.com/aahnik/tgcf.git .
 
+FROM python:3.10-slim-bullseye AS builder
+WORKDIR /app
+COPY --from=source /app .
+RUN pip install --no-cache-dir poetry && \
+    python -m venv /venv && \
+    poetry build && \
+    /venv/bin/pip install --no-cache-dir dist/*.whl
+
 FROM python:3.10-slim-bullseye
-
-LABEL version="0.0.1"
-LABEL repository="https://github.com/aahnik/tgcf"
-
+WORKDIR /app
 ENV VENV_PATH="/venv"
 ENV PATH="$VENV_PATH/bin:$PATH"
 
-WORKDIR /app
 RUN apt-get update && \
-  apt-get install -y --no-install-recommends apt-utils && \
-  apt-get upgrade -y && \
-  apt-get install ffmpeg tesseract-ocr -y && \
-  apt-get autoclean && \
-  rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends \
+        ffmpeg \
+        tesseract-ocr && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade poetry
-RUN python -m venv /venv
-COPY --from=base /app .
-RUN poetry build && \
-  /venv/bin/pip install --upgrade pip wheel setuptools &&\
-  /venv/bin/pip install dist/*.whl
+COPY --from=builder /venv /venv
+
+CMD ["tgcf-web"]
 
 EXPOSE 8501
-
-CMD tgcf-web

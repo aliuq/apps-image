@@ -2,10 +2,10 @@
   "name": "tgcf",
   "repo": "https://github.com/aahnik/tgcf",
   "context": "apps/tgcf",
-  "file": "",
-  "tags": "demo",
   "check": "sha",
-  "checkFile": "package.json",
-  "version": "f0d5859",
-  "sha": "f0d5859acfda4aa234d3c5316f14eb3b38e5f7ce"
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
 }
