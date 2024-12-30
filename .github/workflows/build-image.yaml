@@ -139,7 +139,7 @@ jobs:
 
   call-workflow-build:
     needs: resolve-docker-variables
-    if: needs.resolve-docker-variables.outputs.context
+    if: needs.resolve-docker-variables.outputs.dockerfile
     uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
     permissions:
       contents: read
