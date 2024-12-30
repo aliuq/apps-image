@@ -1,0 +1,11 @@
+{
+  "name": "icones",
+  "repo": "https://github.com/antfu-collective/icones",
+  "context": "apps/icones",
+  "check": "sha",
+  "checkFile": "",
+  "version": "0.0.0",
+  "sha": "",
+  "push": false,
+  "tags": ""
+}
