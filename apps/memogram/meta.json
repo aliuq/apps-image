@@ -1,0 +1,11 @@
+{
+  "name": "memogram",
+  "repo": "https://github.com/usememos/telegram-integration",
+  "context": "apps/memogram",
+  "check": "tag",
+  "checkFile": "Dockerfile",
+  "version": "0.0.0",
+  "sha": "",
+  "push": false,
+  "tags": ""
+}
