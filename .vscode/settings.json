@@ -1,10 +1,18 @@
 {
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
   "cSpell.words": [
     "buildx",
+    "icones",
     "isready",
     "lsky",
     "PGDATA",
     "srcbook",
-    "tgcf"
+    "tgcf",
+    "weektodo"
   ]
 }
