@@ -110,7 +110,7 @@ jobs:
           echo "::group::Tags"
           echo -e "$(cat tags.txt)"
           echo "::endgroup::"
-          echo "tags<<EOF" >> $GITHUB_OUTPUT0
+          echo "tags<<EOF" >> $GITHUB_OUTPUT
           echo -e "$(cat tags.txt)" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
