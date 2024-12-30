@@ -1,0 +1,20 @@
+services:
+  cobalt-api:
+    image: ghcr.io/imputnet/cobalt:10
+    restart: always
+    container_name: cobalt-api
+    ports:
+      - 9000:9000
+    environment:
+      - API_URL=http://localhost:9000
+
+  cobalt-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: cobalt-web
+    ports:
+      - 8080:80
+    environment:
+      - BASE_API=http://localhost:9000

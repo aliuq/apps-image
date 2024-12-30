@@ -1,0 +1,11 @@
+{
+  "name": "cobalt",
+  "repo": "https://github.com/imputnet/cobalt",
+  "context": "apps/cobalt",
+  "check": "version",
+  "checkFile": "web/package.json",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
