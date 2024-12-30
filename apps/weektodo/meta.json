@@ -4,8 +4,7 @@
   "context": "apps/weektodo",
   "check": "version",
   "checkFile": "package.json",
-  "version": "2.2.0",
-  "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
-  "push": false,
-  "tags": "0296d29"
+  "version": "",
+  "sha": "",
+  "push": true
 }
