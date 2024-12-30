@@ -4,8 +4,8 @@
   "context": "apps/cobalt",
   "check": "version",
   "checkFile": "web/package.json",
-  "version": "",
-  "sha": "",
+  "version": "10.5",
+  "sha": "41430ff0da5a69d2aa9e7a671317b9721f522938",
   "push": true,
-  "tags": ""
+  "tags": "41430ff"
 }
