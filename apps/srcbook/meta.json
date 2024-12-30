@@ -4,8 +4,8 @@
   "context": "apps/srcbook",
   "check": "version",
   "checkFile": "srcbook/package.json",
-  "version": "0.0.0",
-  "sha": "",
+  "version": "0.0.16",
+  "sha": "d1658fb30e07474d8a048750eac88b414f6fd188",
   "push": true,
-  "tags": ""
+  "tags": "d1658fb"
 }
