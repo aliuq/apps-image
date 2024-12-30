@@ -8,6 +8,10 @@ on:
         required: false
         default: false
         type: boolean
+      app:
+        description: 'App name'
+        required: true
+        type: string
 
 jobs:
   check-version:
@@ -23,3 +27,4 @@ jobs:
         with:
           myToken: ${{ secrets.PAT }}
           debug: ${{ inputs.debug }}
+          app: ${{ inputs.app }}
