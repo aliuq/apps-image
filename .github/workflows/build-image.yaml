@@ -139,39 +139,23 @@ jobs:
 
   call-workflow-build:
     needs: resolve-docker-variables
-    if: needs.resolve-docker-variables.outputs.dockerfile
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print
-        run: |
-          echo "dockerfile: ${{ needs.resolve-docker-variables.outputs.dockerfile }}"
-          echo "platforms: ${{ needs.resolve-docker-variables.outputs.platforms }}"
-          echo "push: ${{ needs.resolve-docker-variables.outputs.push }}"
-          echo "images: ${{ needs.resolve-docker-variables.outputs.images }}"
-          echo "tags: ${{ needs.resolve-docker-variables.outputs.tags }}"
-          echo "labels: ${{ needs.resolve-docker-variables.outputs.labels }}"
+    if: needs.resolve-docker-variables.outputs.context
+    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+    permissions:
+      contents: read
+      packages: write
+    with:
+      images: ${{ needs.resolve-docker-variables.outputs.images }}
+      tags: ${{ needs.resolve-docker-variables.outputs.tags }}
+      file: ${{ needs.resolve-docker-variables.outputs.dockerfile }}
+      push: ${{ fromJSON(needs.resolve-docker-variables.outputs.push) }}
+      platforms: ${{ needs.resolve-docker-variables.outputs.platforms }}
+      meta_labels: ${{ needs.resolve-docker-variables.outputs.labels }}
 
-  # call-workflow-build:
-  #   needs: resolve-docker-variables
-  #   if: needs.resolve-docker-variables.outputs.context
-  #   uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
-  #   permissions:
-  #     contents: read
-  #     packages: write
-  #   with:
-  #     images: |
-  #       aliuq/${{ needs.resolve-docker-variables.outputs.app }}
-  #       ghcr.io/aliuq/${{ needs.resolve-docker-variables.outputs.app }}
-  #     tags: ${{ needs.resolve-docker-variables.outputs.tags }}
-  #     file: "${{ needs.resolve-docker-variables.outputs.context }}/Dockerfile"
-  #     push: false
-  #     platforms: linux/amd64
-  #     meta_labels: ${{ needs.resolve-docker-variables.outputs.labels }}
-
-  #   secrets:
-  #     TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-  #     CHAT_ID: ${{ secrets.CHAT_ID }}
-  #     REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
-  #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  #     DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+      CHAT_ID: ${{ secrets.CHAT_ID }}
+      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
