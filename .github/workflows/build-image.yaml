@@ -20,6 +20,7 @@ jobs:
     permissions:
       pull-requests: read
     outputs:
+      context: ${{ steps.app.outputs.context }}
       dockerfile: ${{ steps.app.outputs.dockerfile }}
       platforms: ${{ steps.app.outputs.platforms }}
       push: ${{ steps.app.outputs.push }}
@@ -94,10 +95,12 @@ jobs:
           fi
 
           echo "::group::Normal Variables"
+          echo "context: $context"
           echo "dockerfile: $dockerfile"
           echo "platforms: $platforms"
           echo "push: $push"
           echo "::endgroup::"
+          echo "context=$context" >> $GITHUB_OUTPUT
           echo "dockerfile=$dockerfile" >> $GITHUB_OUTPUT
           echo "platforms=$platforms" >> $GITHUB_OUTPUT
           echo "push=$push" >> $GITHUB_OUTPUT
@@ -171,6 +174,7 @@ jobs:
       contents: read
       packages: write
     with:
+      context: ${{ needs.resolve-docker-variables.outputs.context }}
       images: ${{ needs.resolve-docker-variables.outputs.images }}
       tags: ${{ needs.resolve-docker-variables.outputs.tags }}
       file: ${{ needs.resolve-docker-variables.outputs.dockerfile }}
