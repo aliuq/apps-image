@@ -1,5 +1,4 @@
 name: Release Docker Image
-run-name: Release Docker Image ${{ github.event.inputs.context }}
 
 on:
   workflow_dispatch:
