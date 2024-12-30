@@ -1,0 +1,11 @@
+{
+  "name": "srcbook",
+  "repo": "https://github.com/srcbookdev/srcbook",
+  "context": "apps/srcbook",
+  "check": "version",
+  "checkFile": "srcbook/package.json",
+  "version": "0.0.0",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
