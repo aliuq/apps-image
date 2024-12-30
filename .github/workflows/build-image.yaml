@@ -7,13 +7,16 @@ on:
       - master
 
 jobs:
-  prepare:
+  resolve-docker-variables:
     runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.title, 'chore(') && contains(github.event.pull_request.title, ' update version to ')
     permissions:
       pull-requests: read
     outputs:
-      context: ${{ steps.app.outputs.context }}
-      app: ${{ steps.app.outputs.app }}
+      dockerfile: ${{ steps.app.outputs.dockerfile }}
+      platforms: ${{ steps.app.outputs.platforms }}
+      push: ${{ steps.app.outputs.push }}
+      images: ${{ steps.app.outputs.images }}
       tags: ${{ steps.app.outputs.tags }}
       labels: ${{ steps.app.outputs.labels }}
     steps:
@@ -29,24 +32,68 @@ jobs:
           # pick "apps/tgcf" from pr title
           #
           context=$(echo $TITLE | grep -oP '(?<=\().*?(?=\))')
-          version=$(echo $TITLE | grep -oP '(?<=to ).*')
-          meta_path="$context/meta.json"
+          metadata="$context/meta.json"
+          dockerfile="$context/Dockerfile"
+          echo "metadata: $metadata"
 
-          echo "context: $context"
-          echo "version: $version"
-          echo "meta_path: $meta_path"
-          echo
+          # if not exist $context, then exit as Success
+          if [[ ! -d $context ]]; then
+            echo "context not found, exit as Success"
+            exit 0
+          fi
+          # if not exist $metadata, then exit as Success
+          if [[ ! -f $metadata ]]; then
+            echo "metadata not found, exit as Success"
+            exit 0
+          fi
+          # if not exist $dockerfile, then exit as Success
+          if [[ ! -f $dockerfile ]]; then
+            echo "Dockerfile not found, exit as Success"
+            exit 0
+          fi
 
-          app=$(jq -r '.name' $meta_path)
-          tags=$(jq -r '.tags' $meta_path)
-          branch=$(jq -r '.branch' $meta_path)
-          repo=$(jq -r '.repo' $meta_path)
-          sha=$(jq -r '.sha' $meta_path)
+          app=$(jq -r '.name' $metadata)
+          tags=$(jq -r '.tags' $metadata)
+          branch=$(jq -r '.branch' $metadata)
+          version=$(jq -r '.version' $metadata)
+          repo=$(jq -r '.repo' $metadata)
+          sha=$(jq -r '.sha' $metadata)
+          images=$(jq -r '.images' $metadata)
+          push=$(jq -r '.push' $metadata)
+          platforms=$(jq -r '.platforms' $metadata)
 
-          echo "app: $app"
-          echo "tags: $tags"
+          # Handle normal variables
+          #
+          push=${push:-false}
+          platforms=${platforms:-linux/amd64}
 
-          echo "" > tags.txt
+          echo "::group::Normal Variables"
+          echo "dockerfile: $dockerfile"
+          echo "platforms: $platforms"
+          echo "push: $push"
+          echo "::endgroup::"
+          echo "dockerfile=$dockerfile" >> $GITHUB_OUTPUT
+          echo "platforms=$platforms" >> $GITHUB_OUTPUT
+          echo "push=$push" >> $GITHUB_OUTPUT
+
+          # Handle images
+          #
+          # if not exist $images, then set default value
+          if [[ $images == "null" ]]; then
+            images="aliuq/$app\nghcr.io/aliuq/$app"
+          else
+            images=$(echo "$images" | jq -r '.[]')
+          fi
+          echo "::group::Images"
+          echo -e "$images"
+          echo "::endgroup::"
+          echo "images<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$images" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          # Handle tags
+          #
+          echo "type=raw,value=$version" > tags.txt
           # 如果 $tags 不为空，则将 $tags 写入 tags.txt，$tags 格式为 `foo,bar,baz`
           if [[ $tags != "null" ]]; then
             IFS=',' read -r -a tags_array <<< "$tags"
@@ -54,7 +101,21 @@ jobs:
               echo "type=raw,value=$tag" >> tags.txt
             done
           fi
+          # 如果存在 branch 则使用 branch 作为 tag
+          if [[ $branch != "null" ]]; then
+            echo "type=raw,value=$branch" >> tags.txt
+          else
+            echo "type=raw,value=latest" >> tags.txt
+          fi
+          echo "::group::Tags
+          echo -e "$(cat tags.txt)"
+          echo "::endgroup::"
+          echo "tags<<EOF" >> $GITHUB_OUTPUT0
+          echo -e "$(cat tags.txt)" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
+          # Handle labels
+          #
           # YYYY-MM-DDTHH:mm:ss.SSS[Z]
           create_time=$(date -u +"%Y-%m-%dT%H:%M:%S.%3NZ")
           echo "org.opencontainers.image.created=$create_time" > labels.txt
@@ -64,67 +125,53 @@ jobs:
           echo "org.opencontainers.image.revision=$sha" >> labels.txt
           echo "org.opencontainers.image.description=$app image" >> labels.txt
           echo "org.opencontainers.image.licenses=Unknow" >> labels.txt
-
-          # 如果存在 repo 不为空，则作为 upstream
-          if [[ $repo != "null" ]]; then
-            echo "org.opencontainers.image.upstream=$repo" >> labels.txt
-          fi
-
-          if [[ $version =~ ^[0-9a-f]{7,40}$ ]]; then
-            echo "Version is sha"
-            echo "type=raw,value=$version" >> tags.txt
-            echo "org.opencontainers.image.version=$version" >> labels.txt
-          else
-            echo "Version is semver"
-            semver=${version#v}
-            [[ $version == v* ]] && semver=${version#v}
-            echo "type=raw,value=$semver" >> tags.txt
-            echo "org.opencontainers.image.version=$semver" >> labels.txt
-          fi
-
-          # 如果存在 branch 则使用 branch 作为 tag
+          echo "org.opencontainers.image.upstream=$repo" >> labels.txt
+          echo "org.opencontainers.image.version=$version" >> labels.txt
           if [[ $branch != "null" ]]; then
-            echo "type=raw,value=$branch" >> tags.txt
             echo "org.opencontainers.image.branch=$branch" >> labels.txt
-          else
-            echo "type=raw,value=latest" >> tags.txt
           fi
-
-          echo "context=$context" >> $GITHUB_OUTPUT
-          echo "app=$app" >> $GITHUB_OUTPUT
-
-          echo "tags<<EOF" >> $GITHUB_OUTPUT
-          echo -e "$(cat tags.txt)" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
+          echo "::group::Labels"
+          echo -e "$(cat labels.txt)"
+          echo "::endgroup::"
           echo "labels<<EOF" >> $GITHUB_OUTPUT
           echo -e "$(cat labels.txt)" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
   call-workflow-build:
-    needs: prepare
-    if: needs.prepare.outputs.context
-    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
-    permissions:
-      contents: read
-      packages: write
-    with:
-      images: |
-        aliuq/${{ needs.prepare.outputs.app }}
-        ghcr.io/aliuq/${{ needs.prepare.outputs.app }}
-      # tags: |
-      #   type=raw,value=latest
-      #   type=sha,enable=true,priority=100,prefix=,suffix=,format=short
-      tags: ${{ needs.prepare.outputs.tags }}
-      file: "${{ needs.prepare.outputs.context }}/Dockerfile"
-      push: false
-      platforms: linux/amd64
-      meta_labels: ${{ needs.prepare.outputs.labels }}
+    needs: resolve-docker-variables
+    if: needs.resolve-docker-variables.outputs.dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print
+        run: |
+          echo "dockerfile: ${{ needs.resolve-docker-variables.outputs.dockerfile }}"
+          echo "platforms: ${{ needs.resolve-docker-variables.outputs.platforms }}"
+          echo "push: ${{ needs.resolve-docker-variables.outputs.push }}"
+          echo "images: ${{ needs.resolve-docker-variables.outputs.images }}"
+          echo "tags: ${{ needs.resolve-docker-variables.outputs.tags }}"
+          echo "labels: ${{ needs.resolve-docker-variables.outputs.labels }}"
 
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      CHAT_ID: ${{ secrets.CHAT_ID }}
-      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  # call-workflow-build:
+  #   needs: resolve-docker-variables
+  #   if: needs.resolve-docker-variables.outputs.context
+  #   uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   with:
+  #     images: |
+  #       aliuq/${{ needs.resolve-docker-variables.outputs.app }}
+  #       ghcr.io/aliuq/${{ needs.resolve-docker-variables.outputs.app }}
+  #     tags: ${{ needs.resolve-docker-variables.outputs.tags }}
+  #     file: "${{ needs.resolve-docker-variables.outputs.context }}/Dockerfile"
+  #     push: false
+  #     platforms: linux/amd64
+  #     meta_labels: ${{ needs.resolve-docker-variables.outputs.labels }}
+
+  #   secrets:
+  #     TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+  #     CHAT_ID: ${{ secrets.CHAT_ID }}
+  #     REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+  #     DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  #     DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
