@@ -4,8 +4,8 @@
   "context": "apps/filecodebox",
   "check": "sha",
   "checkFile": "",
-  "version": "",
-  "sha": "",
+  "version": "3592db0",
+  "sha": "3592db09abffb152380276a154de8322cf372109",
   "push": true,
   "tags": ""
 }
