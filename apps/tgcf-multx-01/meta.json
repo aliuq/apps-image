@@ -1,11 +1,11 @@
 {
   "name": "tgcf",
   "repo": "https://github.com/aahnik/tgcf",
-  "context": "apps/tgcf",
+  "context": "apps/tgcf-multx-01",
   "check": "sha",
   "checkFile": "",
-  "version": "",
-  "sha": "",
+  "version": "08b811f-multx-01",
+  "sha": "08b811f2126f1dbc42a09e11879cb23ee12cb77e",
   "push": true,
   "tags": "",
   "branch": "multx-01"
