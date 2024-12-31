@@ -1,0 +1,11 @@
+{
+  "name": "filecodebox",
+  "repo": "https://github.com/vastsa/FileCodeBox",
+  "context": "apps/filecodebox",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
