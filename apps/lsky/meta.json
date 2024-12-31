@@ -1,0 +1,11 @@
+{
+  "name": "lsky",
+  "repo": "https://github.com/lsky-org/lsky-pro",
+  "context": "apps/lsky",
+  "check": "tag",
+  "checkFile": "Dockerfile",
+  "version": "0.0.0",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
