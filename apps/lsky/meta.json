@@ -4,8 +4,8 @@
   "context": "apps/lsky",
   "check": "tag",
   "checkFile": "Dockerfile",
-  "version": "0.0.0",
-  "sha": "",
+  "version": "2.1",
+  "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
   "push": true,
-  "tags": ""
+  "tags": "923f567"
 }

@@ -3,7 +3,7 @@ FROM php:8.0.2-alpine3.13 AS builder
 WORKDIR /app
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-ARG LSKY_VERSION=0.0.0
+ARG LSKY_VERSION=2.1
 ARG REPO_URL=https://github.com/lsky-org/lsky-pro/releases/download/${LSKY_VERSION}/lsky-pro-${LSKY_VERSION}.zip
 RUN curl -fsSL ${REPO_URL} -o lsky-pro.zip && \
     unzip lsky-pro.zip && \
