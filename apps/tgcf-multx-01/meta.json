@@ -6,7 +6,7 @@
   "checkFile": "",
   "version": "",
   "sha": "",
-  "push": false,
+  "push": true,
   "tags": "",
   "branch": "multx-01"
 }
