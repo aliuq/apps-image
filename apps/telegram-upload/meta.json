@@ -1,0 +1,11 @@
+{
+  "name": "telegram-upload",
+  "repo": "https://github.com/Nekmo/telegram-upload",
+  "context": "apps/telegram-upload",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": true,
+  "tags": ""
+}
