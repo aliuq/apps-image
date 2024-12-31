@@ -1,0 +1,13 @@
+{
+  "name": "lsky",
+  "repo": "https://github.com/lsky-org/lsky-pro",
+  "context": "apps/lsky",
+  "check": "sha",
+  "checkFile": "",
+  "version": "",
+  "sha": "",
+  "push": false,
+  "tags": "dev",
+  "disableLatest": true,
+  "shaSuffix": "dev"
+}

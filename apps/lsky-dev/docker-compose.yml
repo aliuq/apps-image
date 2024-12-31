@@ -1,0 +1,22 @@
+services:
+  lsky:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8089:80
+    environment:
+      - UPLOAD_MAX_FILESIZE=20M
+      - POST_MAX_SIZE=15M
+    depends_on:
+      - lsky-db
+  lsky-db:
+    image: postgres:15-alpine
+    container_name: lsky-db
+    restart: always
+    environment:
+      POSTGRES_USER: lsky
+      POSTGRES_PASSWORD: lsky
+      POSTGRES_DB: lsky
+      PGDATA: /pg-data
