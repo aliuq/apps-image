@@ -4,8 +4,8 @@
   "context": "apps/telegram-upload",
   "check": "sha",
   "checkFile": "",
-  "version": "",
-  "sha": "",
+  "version": "c700f86",
+  "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
   "push": true,
   "tags": ""
 }
