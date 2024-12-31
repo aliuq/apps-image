@@ -82,6 +82,7 @@ jobs:
           images=$(jq -r '.images' $metadata)
           push=$(jq -r '.push' $metadata)
           platforms=$(jq -r '.platforms' $metadata)
+          disable_latest=$(jq -r '.disableLatest' $metadata)
 
           # Handle normal variables
           #
@@ -134,7 +135,12 @@ jobs:
           if [[ $branch != "null" ]]; then
             echo "type=raw,value=$branch" >> tags.txt
           else
-            echo "type=raw,value=latest" >> tags.txt
+            # 如果 $disable_latest 为 true, 不添加 latest，否则添加 latest
+            if [[ $disable_latest == "true" ]]; then
+              # do nothing
+            else
+              echo "type=raw,value=latest" >> tags.txt
+            fi
           fi
           echo "::group::Tags"
           echo -e "$(cat tags.txt)"
