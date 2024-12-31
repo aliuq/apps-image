@@ -134,13 +134,8 @@ jobs:
           # 如果存在 branch 则使用 branch 作为 tag
           if [[ $branch != "null" ]]; then
             echo "type=raw,value=$branch" >> tags.txt
-          else
-            # 如果 $disable_latest 为 true, 不添加 latest，否则添加 latest
-            if [[ $disable_latest == "true" ]]; then
-              # do nothing
-            else
-              echo "type=raw,value=latest" >> tags.txt
-            fi
+          elif [[ $disable_latest != "true" ]]; then
+            echo "type=raw,value=latest" >> tags.txt
           fi
           echo "::group::Tags"
           echo -e "$(cat tags.txt)"
