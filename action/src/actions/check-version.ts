@@ -98,7 +98,7 @@ export async function getApps(): Promise<Meta[]> {
       }
 
       !docker.context && (docker.context = context)
-      !docker.dockerfile && (docker.dockerfile = dockerfile)
+      !docker.dockerfile && (docker.dockerfile = 'Dockerfile')
       !docker.push && (docker.push = false)
 
       return meta

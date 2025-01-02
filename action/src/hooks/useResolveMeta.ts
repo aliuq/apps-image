@@ -7,7 +7,7 @@ export default async function useResolveMeta(meta: Meta): Promise<UseResolveMeta
   const metaName = meta.name
   const docker = meta.dockerMeta
   const context = docker.context
-  const dockerfile = docker.dockerfile || path.join(context, 'Dockerfile')
+  const dockerfile = path.join(context, docker.dockerfile || 'Dockerfile')
 
   const data: UseResolveMetaReturn = {
     images: !docker?.images?.length

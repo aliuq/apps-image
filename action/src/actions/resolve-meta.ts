@@ -43,7 +43,7 @@ export default async function resolveMeta(): Promise<void> {
         fsa.writeFileSync(metafile, content)
         meta = await fsa.readJSON(metafile)
         const docker = meta.dockerMeta
-        const dockerfile = docker.dockerfile || path.join(context, 'Dockerfile')
+        const dockerfile = path.join(context, docker.dockerfile || 'Dockerfile')
 
         const dockerfileContent = ghContext.payload.pull_request?.changes?.[0]?.files?.[dockerfile]?.content
         dockerfileContent && fsa.writeFileSync(dockerfile, dockerfileContent)
@@ -61,7 +61,7 @@ export default async function resolveMeta(): Promise<void> {
     else {
       meta = await fsa.readJSON(metafile)
       const docker = meta.dockerMeta
-      const dockerfile = docker.dockerfile || path.join(context, 'Dockerfile')
+      const dockerfile = path.join(context, docker.dockerfile || 'Dockerfile')
       if (!fsa.existsSync(dockerfile)) {
         core.info(`Dockerfile not found: ${dockerfile}`)
         core.setOutput('status', 'failure')
