@@ -24,7 +24,6 @@
       "title": "兰空图床",
       "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
       "licenses": "GPL-3.0"
-    },
-    "demo": true
+    }
   }
 }
