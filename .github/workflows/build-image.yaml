@@ -205,5 +205,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PULL_REQUEST: ${{ github.event.pull_request.number }}
           MERGE_DELETE_BRANCH: true
-
-
