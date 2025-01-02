@@ -14,8 +14,16 @@ export default async function checkVersion(): Promise<void> {
     const token = core.getInput('token', { required: true })
     const app = core.getInput('app', { required: false })
     const context = core.getInput('context', { required: false })
+    const createPrInput = core.getInput('create_pr', { required: false })
+
+    const enableCreatePr = createPrInput === 'true' || createPrInput === ''
 
     const allApps = await getApps()
+    if (!allApps.length) {
+      core.setOutput('status', 'success')
+      return
+    }
+
     let apps = allApps
     if (app) {
       core.info(`Checking for spectical app: ${app}`)
@@ -56,7 +64,7 @@ export default async function checkVersion(): Promise<void> {
         continue
       }
 
-      const result = !isAct && (await createPR?.(prData!))
+      const result = !isAct && enableCreatePr && (await createPR?.(prData!))
       result && core.info(`PR created: ${result.data.html_url}`)
     }
 
