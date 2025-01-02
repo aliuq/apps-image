@@ -1,8 +1,8 @@
 {
   "name": "telegram-upload",
-  "version": "c700f86",
+  "version": "",
   "repo": "https://github.com/Nekmo/telegram-upload",
-  "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
+  "sha": "",
   "checkVer": {
     "type": "sha"
   },
@@ -15,7 +15,7 @@
     "context": "apps/telegram-upload",
     "dockerfile": "Dockerfile",
     "platforms": [],
-    "push": false,
+    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=c700f86"
