@@ -41,7 +41,7 @@ jobs:
   call-workflow-build:
     needs: resolve-docker-metadata
     if: needs.resolve-docker-metadata.outputs.dockerfile
-    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+    uses: aliuq/workflows/.github/workflows/build-image-notify-1.yml@master
     permissions:
       contents: read
       packages: write
