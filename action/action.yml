@@ -1,0 +1,14 @@
+name: Action
+author: AliuQ
+description: Action for aliuq/apps-image repository
+# inputs:
+
+# outputs:
+
+runs:
+  using: node20
+  main: dist/index.js
+
+branding:
+  icon: message-square
+  color: blue

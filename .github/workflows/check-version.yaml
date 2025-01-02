@@ -1,15 +1,14 @@
-name: Check version on test mode
+name: Check version
 
 on:
   workflow_dispatch:
     inputs:
-      debug:
-        description: 'Debug mode'
-        required: false
-        default: false
-        type: boolean
       app:
-        description: 'App name'
+        description: App name, e.g. tgcf
+        required: false
+        type: string
+      context:
+        description: 'Context directory, e.g. apps/tgcf'
         required: false
         type: string
 
@@ -23,8 +22,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check version
-        uses: ./check-version-action
+        uses: ./action
         with:
-          myToken: ${{ secrets.PAT }}
-          debug: ${{ inputs.debug }}
+          action: check-version
+          token: ${{ secrets.PAT }}
           app: ${{ inputs.app }}
+          context: ${{ inputs.context }}

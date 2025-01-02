@@ -1,0 +1,26 @@
+{
+  "name": "action",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.3",
+  "description": "A tool to check application updates",
+  "scripts": {
+    "dev": "unbuild --watch",
+    "build": "unbuild"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/exec": "^1.1.1",
+    "@actions/github": "^6.0.0",
+    "@actions/glob": "^0.5.0",
+    "@octokit/core": "^6.1.2",
+    "@types/fs-extra": "^11.0.4",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "octokit-plugin-create-pull-request": "^6.0.0",
+    "oxlint": "^0.15.4",
+    "typescript": "^5.7.2",
+    "unbuild": "^3.0.1"
+  }
+}

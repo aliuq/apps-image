@@ -1,3 +1,5 @@
 .history
 *.log
 test.sh
+node_modules
+.env

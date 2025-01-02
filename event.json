@@ -1,0 +1,31 @@
+{
+  "inputs": {
+    "context": "apps/weektodo"
+  },
+  "pull_request": {
+    "owner": "aliuq",
+    "repo": "apps-image",
+    "title": "chore(apps/weektodo): update version to 2.2.0",
+    "head": "weektodo-2.2.0",
+    "base": "master",
+    "body": "Auto-generated PR to update weektodo version to 2.2.0",
+    "labels": [
+      "automerge"
+    ],
+    "changes": [
+      {
+        "files": {
+          "apps/weektodo/meta.json": {
+            "content": "{\n  \"name\": \"weektodo\",\n  \"repo\": \"https://github.com/manuelernestog/weektodo\",\n  \"version\": \"2.2.0\",\n  \"sha\": \"afeb6523c5afc1820038f610f332168dbf81c499\",\n  \"checkVer\": {\n    \"type\": \"tag\",\n    \"file\": \"package.json\"\n  },\n  \"dockerMeta\": {\n    \"images\": [\n      \"aliuq/weektodo\",\n      \"ghcr.io/aliuq/weektodo\"\n    ],\n    \"tags\": [\n      \"type=raw,value=latest\",\n      \"type=raw,value=2.2.0\",\n      \"type=raw,value=afeb652\"\n    ],\n    \"labels\": {\n      \"title\": \"WeekToDo FOSS Minimalist Weekly Planner\",\n      \"description\": \"WeekToDo is a Free and Open Source Minimalist Weekly Planner and To Do list App focused on privacy. Available for Windows, Mac, Linux or online.\",\n      \"licenses\": \"GPL-3.0 license\"\n    },\n    \"context\": \"apps/weektodo\",\n    \"dockerfile\": \"apps/weektodo/Dockerfile\",\n    \"push\": false,\n    \"platforms\": []\n  }\n}",
+            "encoding": "utf-8"
+          },
+          "apps/weektodo/Dockerfile": {
+            "content": "FROM node:16.20.2-alpine3.18 AS builder\nWORKDIR /app\nRUN apk add git && git clone https://github.com/manuelernestog/weektodo.git .\nRUN yarn install --frozen-lockfile\nRUN yarn run build\n\nFROM nginx:1.21.3-alpine\n\nWORKDIR /usr/share/nginx/html\nCOPY --from=builder /app/dist /usr/share/nginx/html\n\nEXPOSE 80\n",
+            "encoding": "utf-8"
+          }
+        },
+        "commit": "chore(weektodo): update version to 2.2.0"
+      }
+    ]
+  }
+}

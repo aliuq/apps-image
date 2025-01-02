@@ -1,0 +1,14 @@
+{
+  "name": "apps-image",
+  "version": "1.0.0",
+  "packageManager": "pnpm@9.12.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.12.1",
+    "eslint": "^9.17.0"
+  }
+}
