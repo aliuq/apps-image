@@ -1,7 +1,22 @@
 name: Action
 author: AliuQ
 description: Action for aliuq/apps-image repository
-# inputs:
+inputs:
+  action:
+    description: 'Action to perform, e.g. check-version, resolve-meta'
+    required: true
+  token:
+    description: Personal Access Token (PAT) for the repository
+    required: true
+  app:
+    description: 'App name, e.g. tgcf'
+    required: false
+  context:
+    description: 'Context directory, e.g. apps/tgcf'
+    required: false
+  create_pr:
+    description: Create a PR if the version is outdated
+    required: false
 
 # outputs:
 
