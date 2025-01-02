@@ -15,7 +15,7 @@
     "context": "",
     "dockerfile": "",
     "platforms": [],
-    "push": false,
+    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=$version",
