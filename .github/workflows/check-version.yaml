@@ -11,6 +11,11 @@ on:
         description: 'Context directory, e.g. apps/tgcf'
         required: false
         type: string
+      create_pr:
+        description: Create a PR if the version is outdated
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   check-version:
@@ -28,3 +33,4 @@ jobs:
           token: ${{ secrets.PAT }}
           app: ${{ inputs.app }}
           context: ${{ inputs.context }}
+          create_pr: ${{ inputs.create_pr }}
