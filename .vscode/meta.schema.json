@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "repo", "version", "sha", "checkVer", "dockerMeta"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "App 名称，建议使用唯一标识"
+    },
+    "repo": {
+      "type": "string",
+      "description": "App 仓库地址"
+    },
+    "version": {
+      "type": "string",
+      "description": "App 版本"
+    },
+    "sha": {
+      "type": "string",
+      "description": "App 代码的 SHA 值"
+    },
+    "skip": {
+      "type": "boolean",
+      "description": "是否阻止检查更新"
+    },
+    "checkVer": {
+      "type": "object",
+      "required": ["type"],
+      "description": "检查更新的方式",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["version", "sha", "tag"],
+          "description": "检查更新的方式"
+        },
+        "file": {
+          "type": "string",
+          "description": "type 为 version 时，检查更新的文件路径"
+        }
+      }
+    },
+    "dockerMeta": {
+      "type": "object",
+      "description": "Docker 镜像的元数据",
+      "required": ["images", "tags", "labels", "context", "dockerfile", "push", "platforms"],
+      "properties": {
+        "images": {
+          "type": "array",
+          "description": "Docker 镜像名称",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tags": {
+          "type": "array",
+          "description": "Docker 镜像标签，[格式参考](https://github.com/docker/metadata-action)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "labels": {
+          "type": "object",
+          "description": "Docker 镜像标签",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "context": {
+          "type": "string",
+          "description": "Docker 构建上下文"
+        },
+        "dockerfile": {
+          "type": "string",
+          "description": "Dockerfile 路径"
+        },
+        "push": {
+          "type": "boolean",
+          "description": "是否推送 Docker 镜像"
+        },
+        "platforms": {
+          "type": "array",
+          "description": "Docker 构建平台，e.g. ['linux/amd64', 'linux/arm64']",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

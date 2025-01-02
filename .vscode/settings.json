@@ -61,5 +61,11 @@
     "VENV",
     "weektodo",
     "yulegeyu"
+  ],
+  "json.schemas": [
+    {
+      "fileMatch": ["apps/*/meta.json"],
+      "url": "./.vscode/meta.schema.json"
+    }
   ]
 }
