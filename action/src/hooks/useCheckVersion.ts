@@ -54,9 +54,10 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
       meta.sha = tagSha
       meta.version = ver
 
-      dockerfile = await fsa.readFile(app.dockerMeta.dockerfile, 'utf-8')
+      const dockerfilePath = path.join(app.dockerMeta.context, app.dockerMeta.dockerfile)
+      dockerfile = await fsa.readFile(dockerfilePath, 'utf-8')
       const needReplaceVer = isStartV ? `v${app.version}` : app.version!
-      logger(`Replacing ${needReplaceVer} with ${tag} in ${app.dockerMeta.dockerfile}`)
+      logger(`Replacing ${needReplaceVer} with ${tag} in ${dockerfilePath}`)
       dockerfile = dockerfile.replace(needReplaceVer, tag)
     }
   }
