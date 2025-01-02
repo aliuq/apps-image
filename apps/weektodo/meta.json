@@ -13,7 +13,7 @@
       "ghcr.io/aliuq/weektodo"
     ],
     "context": "apps/weektodo",
-    "dockerfile": "apps/weektodo/Dockerfile",
+    "dockerfile": "Dockerfile",
     "platforms": [],
     "push": true,
     "tags": [
