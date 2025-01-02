@@ -21,12 +21,9 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          echo "Debug: Current commit SHA - ${{ github.sha }}"
-          echo "Debug: Changed files:"
           git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
           README_PATH=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'README.md' | head -n1)
-          echo "Debug: Found README path - $README_PATH"
 
           if [ -z "$README_PATH" ]; then
             echo "No README.md files changed"
@@ -41,10 +38,10 @@ jobs:
           echo "README_PATH: $README_PATH"
           echo "REPO: aliuq/$REPO"
 
-      # - name: Sync README
-      #   uses: peter-evans/dockerhub-description@v4
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      #     repository: ${{ steps.prep.outputs.repo }}
-      #     readme-filepath: ${{ steps.prep.outputs.readme_path }}
+      - name: Sync README
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ steps.prep.outputs.repo }}
+          readme-filepath: ${{ steps.prep.outputs.readme_path }}
