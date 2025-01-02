@@ -21,7 +21,7 @@ jobs:
       pull-requests: read
     outputs:
       context: ${{ steps.meta.outputs.context }}
-      dockerfile: ${{ steps.meta.outputs.dockerfile }}
+      dockerfile: ${{ steps.meta.outputs.file }}
       platforms: ${{ steps.meta.outputs.platforms }}
       push: ${{ steps.meta.outputs.push }}
       images: ${{ steps.meta.outputs.images }}
