@@ -1,11 +1,30 @@
 {
   "name": "telegram-upload",
+  "version": "",
   "repo": "https://github.com/Nekmo/telegram-upload",
-  "context": "apps/telegram-upload",
-  "check": "sha",
-  "checkFile": "",
-  "version": "c700f86",
-  "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
-  "push": true,
-  "tags": ""
+  "sha": "",
+  "checkVer": {
+    "type": "sha"
+  },
+  "tags": "",
+  "dockerMeta": {
+    "images": [
+      "aliuq/telegram-upload",
+      "ghcr.io/aliuq/telegram-upload"
+    ],
+    "context": "apps/telegram-upload",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=$version",
+      "type=raw,value=$sha"
+    ],
+    "labels": {
+      "title": "Telegram Upload",
+      "description": "Upload and download files from Telegram up to 4 GiB using your account",
+      "licenses": "MIT"
+    }
+  }
 }

@@ -1,6 +1,13 @@
 # telegram-upload
 
-上游仓库: <https://github.com/Nekmo/telegram-upload.git>
++ [Dockerfile](./Dockerfile)
++ 上游仓库: <https://github.com/Nekmo/telegram-upload.git>
+
+## 使用
+
+```bash
+docker run -it --rm --name telegram-upload aliuq/telegram-upload upload --help
+```
 
 ## 构建镜像
 
