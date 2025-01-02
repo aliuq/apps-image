@@ -12,6 +12,8 @@ export default antfu(
   {
     files: ['apps/*/meta.json'],
     rules: {
+      'jsonc/array-element-newline': ['error', 'consistent'],
+      'jsonc/array-bracket-newline': ['error', { multiline: true, minItems: 1 }],
       'jsonc/sort-keys': [
         'error',
         {

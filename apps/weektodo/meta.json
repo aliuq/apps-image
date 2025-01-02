@@ -8,7 +8,10 @@
     "file": "package.json"
   },
   "dockerMeta": {
-    "images": ["aliuq/weektodo", "ghcr.io/aliuq/weektodo"],
+    "images": [
+      "aliuq/weektodo",
+      "ghcr.io/aliuq/weektodo"
+    ],
     "context": "",
     "dockerfile": "",
     "platforms": [],
