@@ -1,8 +1,8 @@
 {
   "name": "weektodo",
-  "version": "0.0.0",
+  "version": "2.2.0",
   "repo": "https://github.com/manuelernestog/weektodo",
-  "sha": "",
+  "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
   "checkVer": {
     "type": "version",
     "file": "package.json"
@@ -12,14 +12,14 @@
       "aliuq/weektodo",
       "ghcr.io/aliuq/weektodo"
     ],
-    "context": "",
-    "dockerfile": "",
+    "context": "apps/weektodo",
+    "dockerfile": "apps/weektodo/Dockerfile",
     "platforms": [],
     "push": false,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=2.2.0",
+      "type=raw,value=0296d29"
     ],
     "labels": {
       "title": "WeekToDo | FOSS Minimalist Weekly Planner",
