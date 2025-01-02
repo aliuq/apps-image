@@ -3,7 +3,7 @@
 + [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/telegram-upload)
 + 上游仓库: <https://github.com/Nekmo/telegram-upload.git>
 
-## 使用 1
+## 使用
 
 ```bash
 docker run -it --rm --name telegram-upload aliuq/telegram-upload upload --help
