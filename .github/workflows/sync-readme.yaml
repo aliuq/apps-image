@@ -1,0 +1,41 @@
+name: Update README
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - apps/*/README.md
+
+jobs:
+  sync-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare
+        id: prep
+        run: |
+          README_PATH=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep 'README.md' | head -n1)
+          if [ -z "$README_PATH" ]; then
+            echo "No README.md files changed"
+            exit 1
+          fi
+          # 从路径中提取仓库名称 (apps/reponame/README.md -> reponame)
+          REPO=$(echo $README_PATH | cut -d'/' -f2)
+          echo "readme_path=$README_PATH" >> $GITHUB_OUTPUT
+          echo "repo=aliuq/$REPO" >> $GITHUB_OUTPUT
+
+          echo "--- $README_PATH"
+          echo "--- aliuq/$REPO"
+
+      # - name: Sync README
+      #   uses: peter-evans/dockerhub-description@v4
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #     repository: ${{ steps.prep.outputs.repo }}
+      #     readme-filepath: ${{ steps.prep.outputs.readme_path }}
