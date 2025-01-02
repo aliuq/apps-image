@@ -1,6 +1,13 @@
 # weektodo
 
-上游仓库: <https://github.com/manuelernestog/weektodo.git>
++ [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/weektodo)
++ 上游仓库: <https://github.com/manuelernestog/weektodo.git>
+
+## 使用 1
+
+```bash
+docker run -it --rm --name weektodo -p 8081:80 aliuq/weektodo
+```
 
 ## 构建镜像
 
