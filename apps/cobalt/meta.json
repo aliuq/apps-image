@@ -1,11 +1,30 @@
 {
   "name": "cobalt",
+  "version": "0.0.0",
   "repo": "https://github.com/imputnet/cobalt",
-  "context": "apps/cobalt",
-  "check": "version",
-  "checkFile": "web/package.json",
-  "version": "10.5",
-  "sha": "41430ff0da5a69d2aa9e7a671317b9721f522938",
-  "push": true,
-  "tags": "41430ff"
+  "sha": "",
+  "checkVer": {
+    "type": "version",
+    "file": "web/package.json"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/cobalt",
+      "ghcr.io/aliuq/cobalt"
+    ],
+    "context": "apps/cobalt",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=$version",
+      "type=raw,value=$sha"
+    ],
+    "labels": {
+      "title": "Cobalt",
+      "description": "best way to save what you love",
+      "licenses": "AGPL-3.0"
+    }
+  }
 }

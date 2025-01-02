@@ -2,6 +2,7 @@
 
 cobalt 的 web 端容器
 
++ [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/cobalt)
 + 上游仓库: <https://github.com/imputnet/cobalt>
 
 ## 构建镜像
