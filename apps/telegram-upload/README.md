@@ -1,6 +1,6 @@
 # telegram-upload
 
-+ [Dockerfile](./Dockerfile)
++ [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/telegram-upload)
 + 上游仓库: <https://github.com/Nekmo/telegram-upload.git>
 
 ## 使用
