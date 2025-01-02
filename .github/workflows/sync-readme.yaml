@@ -15,22 +15,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 获取完整历史记录
 
       - name: Prepare
         id: prep
         run: |
-          README_PATH=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | grep 'README.md' | head -n1)
+          echo "Debug: Current commit SHA - ${{ github.sha }}"
+          echo "Debug: Changed files:"
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
+          README_PATH=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'README.md' | head -n1)
+          echo "Debug: Found README path - $README_PATH"
+
           if [ -z "$README_PATH" ]; then
             echo "No README.md files changed"
             exit 1
           fi
-          # 从路径中提取仓库名称 (apps/reponame/README.md -> reponame)
+
           REPO=$(echo $README_PATH | cut -d'/' -f2)
           echo "readme_path=$README_PATH" >> $GITHUB_OUTPUT
           echo "repo=aliuq/$REPO" >> $GITHUB_OUTPUT
 
-          echo "--- $README_PATH"
-          echo "--- aliuq/$REPO"
+          echo "Final values:"
+          echo "README_PATH: $README_PATH"
+          echo "REPO: aliuq/$REPO"
 
       # - name: Sync README
       #   uses: peter-evans/dockerhub-description@v4
