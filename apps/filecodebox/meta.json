@@ -1,11 +1,29 @@
 {
   "name": "filecodebox",
+  "version": "0.0.0",
   "repo": "https://github.com/vastsa/FileCodeBox",
-  "context": "apps/filecodebox",
-  "check": "sha",
-  "checkFile": "",
-  "version": "3592db0",
-  "sha": "3592db09abffb152380276a154de8322cf372109",
-  "push": true,
-  "tags": ""
+  "sha": "",
+  "checkVer": {
+    "type": "sha"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/filecodebox",
+      "ghcr.io/aliuq/filecodebox"
+    ],
+    "context": "apps/filecodebox",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=$version",
+      "type=raw,value=$sha"
+    ],
+    "labels": {
+      "title": "FileCodeBox",
+      "description": "文件快递柜-匿名口令分享文本，文件，像拿快递一样取文件",
+      "licenses": "LGPL-3.0"
+    }
+  }
 }
