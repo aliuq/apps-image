@@ -1,5 +1,5 @@
-name: Check version
-run-name: ${{ inputs.app !== '' && format("Check {0} Version", inputs.app) || 'Check All Apps Version' }}
+name: Check Version
+run-name: ${{ inputs.app != '' && format('Check Version - {0}', inputs.app) || 'Check All Apps Version' }}
 
 on:
   workflow_dispatch:
