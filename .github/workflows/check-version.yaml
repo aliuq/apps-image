@@ -17,6 +17,11 @@ on:
         required: false
         type: boolean
         default: false
+  push:
+    branches:
+      - master
+    paths:
+      - apps/*/meta.json
 
 jobs:
   check-version:

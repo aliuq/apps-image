@@ -1,11 +1,29 @@
 {
   "name": "lsky",
+  "version": "0.0.0",
   "repo": "https://github.com/lsky-org/lsky-pro",
-  "context": "apps/lsky",
-  "check": "tag",
-  "checkFile": "Dockerfile",
-  "version": "2.1",
-  "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
-  "push": true,
-  "tags": "923f567"
+  "sha": "",
+  "checkVer": {
+    "type": "tag"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/lsky",
+      "ghcr.io/aliuq/lsky"
+    ],
+    "context": "apps/lsky",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=$version",
+      "type=raw,value=$sha"
+    ],
+    "labels": {
+      "title": "兰空图床",
+      "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
+      "licenses": "GPL-3.0"
+    }
+  }
 }
