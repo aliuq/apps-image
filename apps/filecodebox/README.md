@@ -5,9 +5,9 @@
 
 > 官方 beta 镜像已经包含有最新主题，请使用官方镜像
 
-镜像地址: <https://hub.docker.com/r/lanol/filecodebox>
-最新版本: `lanol/filecodebox:beta`
-默认密码: `FileCodeBox2023`
++ 镜像地址: <https://hub.docker.com/r/lanol/filecodebox>
++ 最新版本: `lanol/filecodebox:beta`
++ 默认密码: `FileCodeBox2023`
 
 ## 构建镜像
 
