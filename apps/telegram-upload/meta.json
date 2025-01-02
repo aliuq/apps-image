@@ -18,7 +18,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=c700f86"
+      "type=raw,value=$version"
     ],
     "labels": {
       "title": "Telegram Upload",
