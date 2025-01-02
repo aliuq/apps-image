@@ -1,6 +1,7 @@
-# yulegeyu
+# inpaint-web
 
-上游仓库: <https://github.com/lxfater/inpaint-web.git>
++ [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/inpaint-web)
++ 上游仓库: <https://github.com/lxfater/inpaint-web.git>
 
 ## 构建镜像
 
