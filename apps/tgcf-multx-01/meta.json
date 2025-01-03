@@ -1,8 +1,8 @@
 {
   "name": "tgcf-multx-01",
-  "version": "0.0.0",
+  "version": "08b811f",
   "repo": "https://github.com/aahnik/tgcf",
-  "sha": "",
+  "sha": "08b811f2126f1dbc42a09e11879cb23ee12cb77e",
   "branch": "multx-01",
   "checkVer": {
     "type": "sha"
@@ -18,7 +18,7 @@
     "push": true,
     "tags": [
       "type=raw,value=multx-01",
-      "type=raw,value=$version-multx-01"
+      "type=raw,value=08b811f-multx-01"
     ],
     "labels": {
       "title": "tgcf",
@@ -26,5 +26,4 @@
       "licenses": "MIT"
     }
   }
-
 }
