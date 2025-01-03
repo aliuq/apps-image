@@ -1,8 +1,8 @@
 {
   "name": "tgcf",
-  "version": "0.0.0",
+  "version": "f0d5859",
   "repo": "https://github.com/aahnik/tgcf",
-  "sha": "",
+  "sha": "f0d5859acfda4aa234d3c5316f14eb3b38e5f7ce",
   "checkVer": {
     "type": "sha"
   },
@@ -17,8 +17,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=f0d5859"
     ],
     "labels": {
       "title": "tgcf",
