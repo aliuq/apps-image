@@ -1,8 +1,8 @@
 {
   "name": "lsky",
-  "version": "0.0.0",
+  "version": "2.1",
   "repo": "https://github.com/lsky-org/lsky-pro",
-  "sha": "",
+  "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
   "checkVer": {
     "type": "tag"
   },
@@ -17,8 +17,8 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=2.1",
+      "type=raw,value=923f567"
     ],
     "labels": {
       "title": "兰空图床",
