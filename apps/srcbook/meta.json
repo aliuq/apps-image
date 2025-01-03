@@ -1,8 +1,8 @@
 {
   "name": "srcbook",
-  "version": "0.0.0",
+  "version": "0.0.16",
   "repo": "https://github.com/srcbookdev/srcbook",
-  "sha": "",
+  "sha": "d1658fb30e07474d8a048750eac88b414f6fd188",
   "checkVer": {
     "type": "version",
     "file": "srcbook/package.json"
@@ -18,8 +18,8 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=0.0.16",
+      "type=raw,value=d1658fb"
     ],
     "labels": {
       "title": "SrcBook",
