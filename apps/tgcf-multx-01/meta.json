@@ -1,12 +1,30 @@
 {
-  "name": "tgcf",
+  "name": "tgcf-multx-01",
+  "version": "0.0.0",
   "repo": "https://github.com/aahnik/tgcf",
-  "context": "apps/tgcf-multx-01",
-  "check": "sha",
-  "checkFile": "",
-  "version": "08b811f-multx-01",
-  "sha": "08b811f2126f1dbc42a09e11879cb23ee12cb77e",
-  "push": true,
-  "tags": "",
-  "branch": "multx-01"
+  "sha": "",
+  "branch": "multx-01",
+  "checkVer": {
+    "type": "sha"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/tgcf",
+      "ghcr.io/aliuq/tgcf"
+    ],
+    "context": "apps/tgcf-multx-01",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=multx-01",
+      "type=raw,value=$version-multx-01"
+    ],
+    "labels": {
+      "title": "tgcf",
+      "description": "The ultimate tool to automate custom telegram message forwarding. Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ... Call it whatever you like! tgcf can fulfill your custom needs.",
+      "licenses": "MIT"
+    }
+  }
+
 }
