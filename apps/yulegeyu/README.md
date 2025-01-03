@@ -1,6 +1,13 @@
 # yulegeyu
 
-上游仓库: <https://github.com/liyupi/yulegeyu.git>
++ [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/yulegeyu)
++ 上游仓库: <https://github.com/liyupi/yulegeyu.git>
+
+## 使用
+
+```bash
+docker run -it --rm --name yulegeyu -p 8081:80 aliuq/yulegeyu
+```
 
 ## 构建镜像
 
