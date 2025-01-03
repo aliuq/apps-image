@@ -12,41 +12,14 @@ import useCheckVersion from '../hooks/useCheckVersion'
 export default async function checkVersion(): Promise<void> {
   try {
     const token = core.getInput('token', { required: true })
-    const app = core.getInput('app', { required: false })
-    const context = core.getInput('context', { required: false })
     const createPrInput = core.getInput('create_pr', { required: false })
 
     const enableCreatePr = createPrInput === 'true' || createPrInput === ''
 
-    const allApps = await getApps()
-    if (!allApps.length) {
+    const apps = await getApps()
+    if (!apps.length) {
       core.setOutput('status', 'success')
       return
-    }
-
-    let apps = allApps
-    if (app) {
-      core.info(`Checking for spectical app: ${app}`)
-      if (context) {
-        const found = allApps.find(a => a.name === app && a.dockerMeta?.context === context)
-        if (found) {
-          apps = [found]
-          core.info(`Checking for spectical context: ${context}`)
-        }
-        else {
-          core.setFailed(`No app found for ${app} with context ${context}`)
-        }
-      }
-      else {
-        const found = allApps.find(a => a.name === app)
-        if (found) {
-          apps = [found]
-          core.info(`Checking for spectical context: ${found.dockerMeta.context}`)
-        }
-        else {
-          core.setFailed(`No app found for ${app}`)
-        }
-      }
     }
 
     // On ACT, set to {}
@@ -87,25 +60,51 @@ export async function getApps(): Promise<Meta[]> {
   const metaFiles = await fg.glob('apps/*/meta.json', { cwd: process.cwd() })
   core.group(`All Meta Files(${metaFiles.length})`, async () => core.info(JSON.stringify(metaFiles, null, 2)))
 
-  const results = metaFiles
-    .map((metaFile) => {
-      const context = path.dirname(metaFile)
-      const meta: Meta = fsa.readJsonSync(metaFile)
-      const docker = meta.dockerMeta
-      const dockerfile = path.join(context, docker?.dockerfile || 'Dockerfile')
-      if (!docker || !fsa.existsSync(dockerfile) || meta.skip) {
-        return null
-      }
+  const results = metaFiles.map((metaFile) => {
+    const context = path.dirname(metaFile)
+    const meta: Meta = fsa.readJsonSync(metaFile)
+    const docker = meta.dockerMeta
+    const dockerfile = path.join(context, docker?.dockerfile || 'Dockerfile')
+    if (!docker || !fsa.existsSync(dockerfile) || meta.skip) {
+      return null
+    }
 
-      !docker.context && (docker.context = context)
-      !docker.dockerfile && (docker.dockerfile = 'Dockerfile')
-      !docker.push && (docker.push = false)
+    !docker.context && (docker.context = context)
+    !docker.dockerfile && (docker.dockerfile = 'Dockerfile')
+    !docker.push && (docker.push = false)
 
-      return meta
-    })
-    .filter(Boolean)
+    return meta
+  }).filter(Boolean)
 
-  core.group(`All Meta(${results.length})`, async () => core.info(JSON.stringify(results, null, 2)))
+  const ghContext = gh.context
+  const event = ghContext.eventName
+  let apps = results
+  let app = ''
+  if (event === 'workflow_dispatch') {
+    app = core.getInput('app', { required: false })
+    core.debug(`app: ${app}, event: ${event}`)
+  }
+  else if (event === 'push') {
+    // 从最新的 commit message 中提取 app 名称
+    const commit = ghContext.payload?.head_commit?.message
+    core.debug(`commit: ${commit}`)
+    app = commit?.match(/chore\(([^)]+)\): force build/)?.[1]
+    core.debug(`app: ${app}, event: ${event}`)
+  }
 
-  return results as Meta[]
+  if (app) {
+    core.info(`Checking for spectical app: ${app}`)
+    const found = results.find(a => a?.name === app)
+    if (found) {
+      apps = [found]
+      core.info(`Checking for spectical context: ${found.dockerMeta.context}`)
+    }
+    else {
+      core.setFailed(`No app found for ${app}`)
+    }
+  }
+
+  core.group(`All Meta(${apps.length})`, async () => core.info(JSON.stringify(apps, null, 2)))
+
+  return apps as Meta[]
 }

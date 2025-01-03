@@ -12,7 +12,12 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
   const cloneDir = `/tmp/${app.name}`
   const ghContext = gh.context
 
-  await execCommand(`git clone ${app.repo} ${cloneDir}`)
+  if (app?.branch) {
+    await execCommand(`git clone -b ${app.branch} ${app.repo} ${cloneDir}`)
+  }
+  else {
+    await execCommand(`git clone ${app.repo} ${cloneDir}`)
+  }
 
   const meta = Object.assign({}, app)
   let dockerfile = ''

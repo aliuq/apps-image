@@ -4,6 +4,7 @@ export interface Meta {
   version: string
   sha: string
   skip?: boolean
+  branch?: string
   checkVer: {
     type: 'version' | 'sha' | 'tag'
     file?: string
