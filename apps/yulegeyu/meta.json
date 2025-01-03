@@ -1,8 +1,8 @@
 {
   "name": "yulegeyu",
-  "version": "0.0.0",
+  "version": "4b9de83",
   "repo": "https://github.com/liyupi/yulegeyu",
-  "sha": "",
+  "sha": "4b9de839b62360b05835e5754ec7b7d3e55b2abf",
   "checkVer": {
     "type": "sha"
   },
@@ -17,8 +17,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=4b9de83"
     ],
     "labels": {
       "title": "鱼了个鱼",
