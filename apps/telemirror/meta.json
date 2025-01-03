@@ -1,8 +1,8 @@
 {
   "name": "telemirror",
-  "version": "0.0.0",
+  "version": "73638b1",
   "repo": "https://github.com/khoben/telemirror",
-  "sha": "",
+  "sha": "73638b1a49800bfbb566a31ec869ea0b32a89def",
   "push": true,
   "tags": "",
   "checkVer": {
@@ -19,8 +19,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=$version",
-      "type=raw,value=$sha"
+      "type=raw,value=73638b1"
     ],
     "labels": {
       "title": "Telemirror",
