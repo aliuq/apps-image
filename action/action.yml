@@ -11,9 +11,6 @@ inputs:
   app:
     description: 'App name, e.g. tgcf'
     required: false
-  context:
-    description: 'Context directory, e.g. apps/tgcf'
-    required: false
   create_pr:
     description: Create a PR if the version is outdated
     required: false
