@@ -5,6 +5,7 @@ import path from 'node:path'
 import * as core from '@actions/core'
 import * as gh from '@actions/github'
 import fsa from 'fs-extra'
+import { cyan } from 'kolorist'
 import { createLogger, execCommand } from '../utils'
 
 export default async function useCheckVersion(app: Meta): Promise<UseCheckVersionReturn> {

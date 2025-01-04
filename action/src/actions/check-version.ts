@@ -5,9 +5,11 @@ import * as core from '@actions/core'
 import * as gh from '@actions/github'
 import fg from 'fast-glob'
 import fsa from 'fs-extra'
+import { cyan, red, yellow } from 'kolorist'
 import { createPullRequest } from 'octokit-plugin-create-pull-request'
 import { isAct } from '../config'
 import useCheckVersion from '../hooks/useCheckVersion'
+import { createLogger } from '../utils'
 
 export default async function checkVersion(): Promise<void> {
   try {
@@ -18,6 +20,7 @@ export default async function checkVersion(): Promise<void> {
 
     const apps = await getApps()
     if (!apps.length) {
+      core.warning('No apps found')
       core.setOutput('status', 'success')
       return
     }
@@ -26,20 +29,26 @@ export default async function checkVersion(): Promise<void> {
     const octokit = isAct ? {} : gh.getOctokit(token, {}, createPullRequest as any)
     // @ts-expect-error createPullRequest exists
     const createPR = octokit?.createPullRequest as ReturnType<typeof createPullRequest>['createPullRequest']
-    const createLogger = (prefix: string) => (msg: string) => core.info(`[${prefix}]: ${msg}`)
 
+    const results: any[] = []
+    core.info('Checking for updates...')
     for await (const app of apps) {
       const logger = createLogger(app.name)
       const { hasUpdate, prData } = await useCheckVersion(app)
 
       if (!hasUpdate) {
-        logger(`No updates found`)
+        logger(yellow('No updates found'))
         continue
       }
+      else {
+        results.push(prData)
+      }
 
-      const result = !isAct && enableCreatePr && (await createPR?.(prData!))
-      result && core.info(`PR created: ${result.data.html_url}`)
+      // const result = !isAct && enableCreatePr && (await createPR?.(prData!))
+      // result && core.info(`PR created: ${result.data.html_url}`)
     }
+
+    await core.group('Results', async () => core.info(JSON.stringify(results, null, 2)))
 
     core.setOutput('status', 'success')
   }
@@ -58,7 +67,6 @@ export default async function checkVersion(): Promise<void> {
  */
 export async function getApps(): Promise<Meta[]> {
   const metaFiles = await fg.glob('apps/*/meta.json', { cwd: process.cwd() })
-  core.group(`All Meta Files(${metaFiles.length})`, async () => core.info(JSON.stringify(metaFiles, null, 2)))
 
   const results = metaFiles.map((metaFile) => {
     const context = path.dirname(metaFile)
@@ -78,33 +86,36 @@ export async function getApps(): Promise<Meta[]> {
 
   const ghContext = gh.context
   const event = ghContext.eventName
+  core.info(`Event: ${cyan(event)}`)
   let apps = results
   let app = ''
   if (event === 'workflow_dispatch') {
     app = core.getInput('app', { required: false })
-    core.debug(`app: ${app}, event: ${event}`)
   }
   else if (event === 'push') {
     // 从最新的 commit message 中提取 app 名称
     const commit = ghContext.payload?.head_commit?.message
-    core.debug(`commit: ${commit}`)
+    core.info(`Commit: ${commit}`)
     app = commit?.match(/chore\(([^)]+)\): force build/)?.[1]
-    core.debug(`app: ${app}, event: ${event}`)
   }
 
   if (app) {
-    core.info(`Checking for spectical app: ${app}`)
+    core.info(`Checking for spectical app: ${cyan(app)}`)
     const found = results.find(a => a?.name === app)
     if (found) {
       apps = [found]
-      core.info(`Checking for spectical context: ${found.dockerMeta.context}`)
+      core.info(`Checking for spectical context: ${cyan(found.dockerMeta.context)}`)
     }
     else {
-      core.setFailed(`No app found for ${app}`)
+      core.setFailed(`No app found for ${red(app)}`)
     }
   }
+  else {
+    core.info(`Checking for all apps`)
+  }
 
-  core.group(`All Meta(${apps.length})`, async () => core.info(JSON.stringify(apps, null, 2)))
+  await core.group(`Meta Files(${metaFiles.length})`, async () => core.info(JSON.stringify(metaFiles, null, 2)))
+  await core.group(`Meta(${apps.length}) Resolved`, async () => core.info(JSON.stringify(apps, null, 2)))
 
   return apps as Meta[]
 }

@@ -17,6 +17,9 @@ inputs:
   create_pr:
     description: Create a PR if the version is outdated
     required: false
+  debug:
+    description: Debug mode
+    required: false
 
 # outputs:
 

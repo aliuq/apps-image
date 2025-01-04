@@ -1,11 +1,17 @@
 import type Buffer from 'node:buffer'
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import { isDebug } from './config'
+
+// let _isDebug = undefined
 
 /**
  * Execute a command and return the output
  */
 export async function execCommand(command: string, args?: string[], options?: exec.ExecOptions): Promise<string> {
+  // if (_isDebug === undefined) {
+  //   _isDebug = core.isDebug()
+  // }
   let result = ''
   await exec.exec(command, args, {
     listeners: {
@@ -13,6 +19,7 @@ export async function execCommand(command: string, args?: string[], options?: ex
         result += data.toString()
       },
     },
+    silent: !isDebug,
     ...options,
   })
   return result?.trim?.()
@@ -24,5 +31,5 @@ export async function execCommand(command: string, args?: string[], options?: ex
  * @returns
  */
 export function createLogger(ns: string) {
-  return (msg: string) => core.info(`[${ns}]: ${msg}`)
+  return (msg: string) => core.info(`#${ns}: ${msg}`)
 }

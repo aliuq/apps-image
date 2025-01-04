@@ -1,5 +1,6 @@
 import process from 'node:process'
 import * as core from '@actions/core'
+import { green } from 'kolorist'
 import checkVersion from './actions/check-version'
 import resolveMeta from './actions/resolve-meta'
 
@@ -10,7 +11,7 @@ async function run(): Promise<void> {
     // 工作流类型
     const action = core.getInput('action', { required: true })
 
-    core.info(`Running in ${isAct ? 'ACT' : 'GitHub'} environment`)
+    core.info(`Running in ${green(isAct ? 'ACT' : 'GitHub')} environment`)
 
     if (action === 'check-version') {
       await checkVersion()
