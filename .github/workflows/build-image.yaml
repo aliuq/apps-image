@@ -27,6 +27,7 @@ jobs:
       images: ${{ steps.meta.outputs.images }}
       tags: ${{ steps.meta.outputs.tags }}
       labels: ${{ steps.meta.outputs.labels }}
+      annotations: ${{ steps.meta.outputs.annotations }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,6 +54,7 @@ jobs:
       push: ${{ fromJSON(needs.resolve-docker-metadata.outputs.push) }}
       platforms: ${{ needs.resolve-docker-metadata.outputs.platforms }}
       meta_labels: ${{ needs.resolve-docker-metadata.outputs.labels }}
+      annotations: ${{ needs.resolve-docker-metadata.outputs.annotations }}
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
       BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
