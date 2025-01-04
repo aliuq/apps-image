@@ -13,6 +13,11 @@ on:
         required: false
         type: boolean
         default: false
+      debug:
+        description: Debug mode
+        required: false
+        type: boolean
+        default: false
   push:
     branches:
       - master
@@ -38,3 +43,4 @@ jobs:
           token: ${{ secrets.PAT }}
           app: ${{ inputs.app }}
           create_pr: ${{ inputs.create_pr }}
+          debug: ${{ inputs.debug }}
