@@ -14,7 +14,7 @@
     "context": "apps/tgcf",
     "dockerfile": "Dockerfile",
     "platforms": [],
-    "push": false,
+    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=f0d5859"
