@@ -57,7 +57,7 @@ jobs:
       platforms: ${{ needs.resolve-docker-metadata.outputs.platforms }}
       meta_labels: ${{ needs.resolve-docker-metadata.outputs.labels }}
       annotations: ${{ needs.resolve-docker-metadata.outputs.annotations }}
-      notify: ${{ needs.resolve-docker-metadata.outputs.notify }}
+      # notify: ${{ needs.resolve-docker-metadata.outputs.notify }}
       readme_path: ${{ needs.resolve-docker-metadata.outputs.readme_path }}
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
