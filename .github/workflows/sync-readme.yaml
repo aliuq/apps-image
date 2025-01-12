@@ -58,7 +58,7 @@ jobs:
             const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
             const data = { repo }
             if (docker.readme_path !== false) {
-              data.readme_path = path.join(gcwd, appDir, docker.dockerfile || 'Dockerfile')
+              data.readme_path = path.join(appDir, docker.dockerfile || 'Dockerfile')
             }
 
             if (skip) {
