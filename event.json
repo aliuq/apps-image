@@ -1,6 +1,6 @@
 {
   "inputs": {
-    "context": "apps/weektodo"
+    "app": "srcbook"
   },
   "pull_request": {
     "owner": "aliuq",
@@ -26,6 +26,13 @@
         },
         "commit": "chore(weektodo): update version to 2.2.0"
       }
+    ]
+  },
+  "head_commit": {
+    "message": "chore(weektodo): force build",
+    "files": [
+      "apps/weektodo/meta.json",
+      "apps/weektodo/Dockerfile"
     ]
   }
 }
