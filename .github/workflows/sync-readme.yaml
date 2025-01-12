@@ -29,33 +29,34 @@ jobs:
 
             // 获取最近一次提交的文件
             const changedFiles = await execCommand('git', ['diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'])
+            console.log('changedFiles:', changedFiles)
 
-            // 过滤出 README.md 文件
-            const files = changedFiles.split('\n')
-              .filter(file => file.match(/^apps\/.*\/README\.md$/))
+            # // 过滤出 README.md 文件
+            # const files = changedFiles.split('\n')
+            #   .filter(file => file.match(/^apps\/.*\/README\.md$/))
 
-            await core.group('Changed files', async () => core.info(files.join('\n')))
+            # await core.group('Changed files', async () => core.info(files.join('\n')))
 
-            if (!files.length) {
-              core.info('No README.md files changed')
-              core.setOutput('status', 'success')
-              process.exit(0)
-            }
+            # if (!files.length) {
+            #   core.info('No README.md files changed')
+            #   core.setOutput('status', 'success')
+            #   process.exit(0)
+            # }
 
-            const readmePath = files[files.length - 1]
-            const appDir = path.dirname(readmePath)
-            const metaFile = path.join(appDir, 'meta.json')
-            const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
+            # const readmePath = files[files.length - 1]
+            # const appDir = path.dirname(readmePath)
+            # const metaFile = path.join(appDir, 'meta.json')
+            # const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
 
-            const images = meta.dockerMeta.images
-            const matchDockerhub = images.find(i => i.match(/^aliuq\//))
-            const matchGhcr = images.find(i => i.match(/^ghcr.io\//))
+            # const images = meta.dockerMeta.images
+            # const matchDockerhub = images.find(i => i.match(/^aliuq\//))
+            # const matchGhcr = images.find(i => i.match(/^ghcr.io\//))
 
-            const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
-            const app = matchDockerhub ? matchDockerhub.split('/')[1] : matchGhcr ? matchGhcr.split('/')[2] : ''
+            # const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
+            # const app = matchDockerhub ? matchDockerhub.split('/')[1] : matchGhcr ? matchGhcr.split('/')[2] : ''
 
-            console.log('repo:', repo)
-            console.log('app:', app)
+            # console.log('repo:', repo)
+            # console.log('app:', app)
 
       # - name: Sync README
       #   uses: peter-evans/dockerhub-description@v4
