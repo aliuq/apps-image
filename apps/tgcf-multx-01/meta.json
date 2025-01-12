@@ -15,7 +15,7 @@
     "context": "apps/tgcf-multx-01",
     "dockerfile": "Dockerfile",
     "platforms": [],
-    "push": true,
+    "push": false,
     "tags": [
       "type=raw,value=multx-01",
       "type=raw,value=08b811f-multx-01"
