@@ -18,6 +18,7 @@ inputs:
   debug:
     description: Debug mode
     required: false
+    default: 'false'
   context:
     description: 'Context directory, only works on resolve-meta, e.g. apps/tgcf'
     required: false

@@ -1,12 +1,12 @@
 import type { createPullRequest } from 'octokit-plugin-create-pull-request'
-// 检查版本更新
-import type { Meta } from '../types'
+import type { Meta } from '../types.js'
 import path from 'node:path'
 import * as core from '@actions/core'
 import * as gh from '@actions/github'
 import fsa from 'fs-extra'
-import { cyan } from 'kolorist'
-import { createLogger, execCommand } from '../utils'
+import { cyan, green } from 'kolorist'
+import { isDebug } from '../config.js'
+import { createLogger, execCommand } from '../utils.js'
 
 export default async function useCheckVersion(app: Meta): Promise<UseCheckVersionReturn> {
   const logger = createLogger(app.name)
@@ -31,7 +31,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
       const ver = pkgVersion?.replace(/^v/, '')
 
       if (ver !== app.version) {
-        logger(`Found new version from ${app.version} => ${ver}`)
+        logger(`Found new version from ${green(app.version)} => ${green(ver)}`)
         meta.sha = pkgSha
         meta.version = ver
       }
@@ -44,7 +44,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     const sha = await execCommand(`git -C ${cloneDir} log -1 --format=%H`)
 
     if (sha !== app.sha) {
-      logger(`Found new commit from ${app.sha} => ${sha}`)
+      logger(`Found new commit from ${green(app.sha)} => ${green(sha)}`)
       meta.sha = sha
       meta.version = sha.slice(0, 7)
     }
@@ -92,7 +92,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
   // Remove duplicates
   docker.tags = Array.from(new Set(docker.tags))
 
-  core.group(`[${app.name}] Metadata`, async () => core.info(JSON.stringify(meta, null, 2)))
+  isDebug && await core.group(`[${app.name}] Metadata`, async () => core.info(JSON.stringify(meta, null, 2)))
 
   const metaPath = path.join(docker.context, 'meta.json')
   const params: Parameters<ReturnType<typeof createPullRequest>['createPullRequest']>[0] = {
@@ -123,7 +123,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     }
   }
 
-  core.group(`[${app.name}] PR Data`, async () => core.info(JSON.stringify(params, null, 2)))
+  isDebug && await core.group(`[${app.name}] PR Data`, async () => core.info(JSON.stringify(params, null, 2)))
 
   return {
     hasUpdate: meta.version !== app.version,

@@ -1,7 +1,8 @@
 import type Buffer from 'node:buffer'
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import { isDebug } from './config'
+import { cyan } from 'kolorist'
+import { isDebug } from './config.js'
 
 // let _isDebug = undefined
 
@@ -31,5 +32,12 @@ export async function execCommand(command: string, args?: string[], options?: ex
  * @returns
  */
 export function createLogger(ns: string) {
-  return (msg: string) => core.info(`#${ns}: ${msg}`)
+  return (msg: string) => core.info(`${cyan(`#${ns}`)}: ${msg}`)
+}
+
+/**
+ * Log debug message
+ */
+export function logDebug(msg: string): void {
+  isDebug && core.info(msg)
 }
