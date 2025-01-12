@@ -29,6 +29,7 @@ jobs:
             import fs from 'node:fs'
 
             const context = gh.context
+            console.log(context.payload.commits)
             // 获取所有修改的文件，添加默认空数组
             const changedFiles = context.payload.commits
               .flatMap(commit => [
@@ -41,7 +42,8 @@ jobs:
 
             if (!changedFiles?.length) {
               core.info('No README.md files changed')
-              process.exit(1)
+              core.setOutput('status', 'success')
+              return
             }
 
             const readmePath = changedFiles[changedFiles.length - 1]
