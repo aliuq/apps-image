@@ -1,4 +1,4 @@
-import type { Meta } from '../types'
+import type { Meta } from '../types.js'
 import path from 'node:path'
 import process from 'node:process'
 import * as core from '@actions/core'

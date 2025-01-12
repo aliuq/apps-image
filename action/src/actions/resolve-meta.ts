@@ -1,11 +1,11 @@
-import type { Meta } from '../types'
+import type { Meta } from '../types.js'
 import path from 'node:path'
 import * as core from '@actions/core'
 import * as gh from '@actions/github'
 import fsa from 'fs-extra'
-import { isAct } from '../config'
-import useCheckVersion from '../hooks/useCheckVersion'
-import useResolveMeta from '../hooks/useResolveMeta'
+import { isAct } from '../config.js'
+import useCheckVersion from '../hooks/useCheckVersion.js'
+import useResolveMeta from '../hooks/useResolveMeta.js'
 
 export default async function resolveMeta(): Promise<void> {
   try {
