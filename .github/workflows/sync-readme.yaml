@@ -37,7 +37,7 @@ jobs:
             ]).filter(file => file.match(/^apps\/.*\/README\.md$/))
 
             # TODO
-            await core.group('Changed files', async () => core.info(changedFiles.join('\n')))
+            await core.group('Changed files', async () => core.info(changedFiles?.join('\n')))
 
             if (!changedFiles?.length) {
               core.info('No README.md files changed')
