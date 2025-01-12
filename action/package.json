@@ -1,13 +1,13 @@
 {
   "name": "action",
-  "type": "commonjs",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@9.12.3",
   "description": "A tool to check application updates",
   "scripts": {
-    "dev": "unbuild --watch",
-    "build": "unbuild"
+    "dev": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --sourcemap=linked --watch",
+    "build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --sourcemap=linked"
   },
   "devDependencies": {
     "@actions/core": "^1.11.1",
@@ -20,8 +20,6 @@
     "fs-extra": "^11.2.0",
     "kolorist": "^1.8.0",
     "octokit-plugin-create-pull-request": "^6.0.0",
-    "oxlint": "^0.15.4",
-    "typescript": "^5.7.2",
-    "unbuild": "^3.0.1"
+    "typescript": "^5.7.2"
   }
 }

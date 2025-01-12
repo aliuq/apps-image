@@ -4,6 +4,7 @@
   "packageManager": "pnpm@9.12.3",
   "description": "",
   "main": "index.js",
+  "workspaces": ["action"],
   "scripts": {
     "lint": "eslint ."
   },
