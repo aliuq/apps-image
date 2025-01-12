@@ -20,7 +20,7 @@ jobs:
 
       - name: Prepare
         id: prepare
-        uses: aliuq/script-action@v1.0.5-beta.4
+        uses: aliuq/script-action@v1.0.5-beta.5
         with:
           auto_install: true
           script: |
