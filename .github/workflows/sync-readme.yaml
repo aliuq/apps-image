@@ -42,7 +42,7 @@ jobs:
 
             const readmePath = files[files.length - 1]
             const appDir = path.dirname(readmePath)
-            const metaFile = path.join(appDir, 'meta.json')
+            const metaFile = path.join(process.env.GITHUB_WORKSPACE, appDir, 'meta.json')
             const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
 
             const images = meta.dockerMeta.images
