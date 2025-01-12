@@ -58,7 +58,7 @@ jobs:
             const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
             const data = { repo }
             if (docker.readme_path !== false) {
-              data.readme_path = path.join(appDir, docker.dockerfile || 'Dockerfile')
+              data.readme_path = path.join(appDir, docker.readme_path || 'README.md')
             }
 
             if (skip) {
@@ -66,6 +66,7 @@ jobs:
               core.setOutput('status', 'success')
               process.exit(0)
             } else {
+              await core.group('JSON Output', async () => core.info(JSON.stringify(data, null, 2)))
               outputJson(data)
             }
 
