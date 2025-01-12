@@ -2,6 +2,7 @@ import type { Meta } from '../types'
 import path from 'node:path'
 import process from 'node:process'
 import * as core from '@actions/core'
+import fsa from 'fs-extra'
 
 export default async function useResolveMeta(meta: Meta): Promise<UseResolveMetaReturn> {
   const metaName = meta.name
@@ -20,6 +21,7 @@ export default async function useResolveMeta(meta: Meta): Promise<UseResolveMeta
     tags: docker.tags.join('\n'),
     labels: '',
     annotations: '',
+    readme_path: '',
   }
 
   if (!docker.push) {
@@ -27,11 +29,19 @@ export default async function useResolveMeta(meta: Meta): Promise<UseResolveMeta
     data.platforms = 'linux/amd64'
   }
 
+  if (docker.readme_path !== false) {
+    const readmePath = path.join(context, docker.readme_path || 'README.md')
+    if (fsa.existsSync(readmePath)) {
+      data.readme_path = readmePath
+    }
+  }
+
   // Labels
   const labelPrefix = 'org.opencontainers.image'
   const annotationsPrefix = 'org.opencontainers.image'
   const defaultLabels = {
-    url: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/${context}`,
+    // https://github.com/aliuq/apps-image/tree/master/apps/cobalt
+    url: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/tree/master/${context}`,
     revision: meta.sha,
     upstream: meta.repo,
     version: meta.version,
@@ -62,4 +72,5 @@ interface UseResolveMetaReturn {
   tags: string
   labels: string
   annotations: string
+  readme_path: string
 }

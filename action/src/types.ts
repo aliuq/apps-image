@@ -17,5 +17,6 @@ export interface Meta {
     dockerfile: string
     push: boolean
     platforms: string[]
+    readme_path?: string | false
   }
 }
