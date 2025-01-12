@@ -24,9 +24,6 @@ jobs:
         with:
           auto_install: true
           script: |
-            import path from 'node:path'
-            import fs from 'node:fs'
-
             // 获取最近一次提交的文件
             const changedFiles = await execCommand('git diff-tree --no-commit-id --name-only -r HEAD')
             console.log('changedFiles:', changedFiles)
