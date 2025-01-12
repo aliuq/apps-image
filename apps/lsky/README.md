@@ -1,6 +1,6 @@
 # Lsky 兰空图床
 
-test4
+test5
 
 + 文档: <https://docs.lsky.pro/>
 + 仓库: <https://github.com/lsky-org/lsky-pro>
