@@ -28,7 +28,7 @@ jobs:
             import fs from 'node:fs'
 
             // 获取最近一次提交的文件
-            const changedFiles = await execCommand('git', ['diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'])
+            const changedFiles = await execCommand('git diff-tree --no-commit-id --name-only -r HEAD')
             console.log('changedFiles:', changedFiles)
 
       # - name: Sync README
