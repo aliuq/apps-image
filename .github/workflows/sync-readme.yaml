@@ -29,9 +29,12 @@ jobs:
             import fs from 'node:fs'
 
             const context = gh.context
-            // 获取所有修改的文件
+            // 获取所有修改的文件，添加默认空数组
             const changedFiles = context.payload.commits
-              .flatMap(commit => [...commit.added, ...commit.modified])
+              .flatMap(commit => [
+                ...(commit.added || []),
+                ...(commit.modified || [])
+              ])
               .filter(file => file.match(/^apps\/.*\/README\.md$/))
 
             await core.group('Changed files', async () => core.info(changedFiles.join('\n')))
