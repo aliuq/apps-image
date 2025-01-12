@@ -31,14 +31,12 @@ jobs:
             const context = gh.context
             console.log(context.payload.commits)
             // 获取所有修改的文件，添加默认空数组
-            const changedFiles = context.payload.commits
-              .flatMap(commit => [
-                ...(commit.added || []),
-                ...(commit.modified || [])
-              ])
-              .filter(file => file.match(/^apps\/.*\/README\.md$/))
+            const changedFiles = context.payload.commits.flatMap(commit => [
+              ...(commit.added || []),
+              ...(commit.modified || [])
+            ]).filter(file => file.match(/^apps\/.*\/README\.md$/))
 
-            # Todo
+            # TODO
             await core.group('Changed files', async () => core.info(changedFiles.join('\n')))
 
             if (!changedFiles?.length) {
