@@ -83,6 +83,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "readme_path": {
+          "type": ["string", "boolean"],
+          "description": "README 文件路径, 基于 context 的相对路径, 为 false 时不处理 README"
         }
       }
     }
