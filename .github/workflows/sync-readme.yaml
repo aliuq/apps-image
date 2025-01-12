@@ -24,34 +24,8 @@ jobs:
         with:
           auto_install: true
           script: |
-            async function execCommand1(command: string, args?: string[], options?: exec.ExecOptions): Promise<string> {
-              let result = ''
-              let error = ''
-              try {
-                await exec.exec(command, args, {
-                  listeners: {
-                    stdout: (data: Buffer) => {
-                      result += data.toString()
-                    },
-                    stderr: (data) => {
-                      error += data.toString()
-                    },
-                  },
-                  silent: true,
-                  ...options,
-                })
-                return result?.trim?.()
-              }
-              catch (e: any) {
-                if (error)
-                  core.warning(error)
-                core.warning(e.message)
-                return ''
-              }
-            }
-
             // 获取最近一次提交的文件
-            const changedFiles = await execCommand1('git diff-tree --no-commit-id --name-only -r HEAD')
+            const changedFiles = await execCommand('git diff-tree --no-commit-id --name-only -r HEAD')
             console.log('changedFiles:', changedFiles)
 
       # - name: Sync README
