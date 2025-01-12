@@ -67,17 +67,17 @@ jobs:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  # merge-pull-request:
-  #   runs-on: ubuntu-latest
-  #   needs: call-workflow-build
-  #   if: github.event_name != 'workflow_dispatch' && needs.resolve-docker-metadata.outputs.push == 'true'
-  #   permissions:
-  #     contents: write
-  #     pull-requests: write
-  #   steps:
-  #     - name: Merge PR
-  #       uses: pascalgn/automerge-action@v0.16.4
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         PULL_REQUEST: ${{ github.event.pull_request.number }}
-  #         MERGE_DELETE_BRANCH: true
+  merge-pull-request:
+    runs-on: ubuntu-latest
+    needs: [resolve-docker-metadata, call-workflow-build]
+    if: github.event_name != 'workflow_dispatch' && needs.resolve-docker-metadata.outputs.push == 'true' && success()
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Merge PR
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          MERGE_DELETE_BRANCH: true
