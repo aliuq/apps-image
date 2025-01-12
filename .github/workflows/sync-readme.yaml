@@ -20,12 +20,10 @@ jobs:
 
       - name: Prepare
         id: prepare
-        uses: aliuq/script-action@v1.0.5-beta.2
+        uses: aliuq/script-action@v1.0.5-beta.3
         with:
           auto_install: true
           script: |
-            console.log('xx', process.cwd())
-            console.log('env', process.env)
             // 获取最近一次提交的文件
             const changedFiles = await execCommand('git diff-tree --no-commit-id --name-only -r HEAD')
             console.log('changedFiles:', changedFiles)
