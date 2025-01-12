@@ -10,20 +10,29 @@ import { isDebug } from './config.js'
  * Execute a command and return the output
  */
 export async function execCommand(command: string, args?: string[], options?: exec.ExecOptions): Promise<string> {
-  // if (_isDebug === undefined) {
-  //   _isDebug = core.isDebug()
-  // }
   let result = ''
-  await exec.exec(command, args, {
-    listeners: {
-      stdout: (data: Buffer) => {
-        result += data.toString()
+  let error = ''
+  try {
+    await exec.exec(command, args, {
+      listeners: {
+        stdout: (data: Buffer) => {
+          result += data.toString()
+        },
+        stderr: (data) => {
+          error += data.toString()
+        },
       },
-    },
-    silent: !isDebug,
-    ...options,
-  })
-  return result?.trim?.()
+      silent: !isDebug,
+      ...options,
+    })
+    return result?.trim?.()
+  }
+  catch (e: any) {
+    if (error)
+      core.warning(error)
+    core.warning(e.message)
+    return ''
+  }
 }
 
 /**
