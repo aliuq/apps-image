@@ -24,7 +24,7 @@ jobs:
         with:
           auto_install: true
           script: |
-            import gh from '@actions/github'
+            import * as gh from '@actions/github'
             import path from 'node:path'
             import fs from 'node:fs'
 
@@ -38,6 +38,7 @@ jobs:
               ])
               .filter(file => file.match(/^apps\/.*\/README\.md$/))
 
+            # Todo
             await core.group('Changed files', async () => core.info(changedFiles.join('\n')))
 
             if (!changedFiles?.length) {
