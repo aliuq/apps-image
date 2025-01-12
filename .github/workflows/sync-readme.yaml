@@ -42,7 +42,7 @@ jobs:
             if (!changedFiles?.length) {
               core.info('No README.md files changed')
               core.setOutput('status', 'success')
-              return
+              process.exit(0)
             }
 
             const readmePath = changedFiles[changedFiles.length - 1]
