@@ -24,28 +24,25 @@ jobs:
         with:
           auto_install: true
           script: |
-            import * as gh from '@actions/github'
             import path from 'node:path'
             import fs from 'node:fs'
 
-            const context = gh.context
-            console.log(context.payload.commits)
-            // 获取所有修改的文件，添加默认空数组
-            const changedFiles = context.payload.commits.flatMap(commit => [
-              ...(commit.added || []),
-              ...(commit.modified || [])
-            ]).filter(file => file.match(/^apps\/.*\/README\.md$/))
+            // 获取最近一次提交的文件
+            const changedFiles = await execCommand('git', ['diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'])
 
-            # TODO
-            await core.group('Changed files', async () => core.info(changedFiles?.join('\n')))
+            // 过滤出 README.md 文件
+            const files = changedFiles.split('\n')
+              .filter(file => file.match(/^apps\/.*\/README\.md$/))
 
-            if (!changedFiles?.length) {
+            await core.group('Changed files', async () => core.info(files.join('\n')))
+
+            if (!files.length) {
               core.info('No README.md files changed')
               core.setOutput('status', 'success')
               process.exit(0)
             }
 
-            const readmePath = changedFiles[changedFiles.length - 1]
+            const readmePath = files[files.length - 1]
             const appDir = path.dirname(readmePath)
             const metaFile = path.join(appDir, 'meta.json')
             const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
