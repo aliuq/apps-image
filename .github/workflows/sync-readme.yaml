@@ -37,7 +37,7 @@ jobs:
                       error += data.toString()
                     },
                   },
-                  silent: !isDebug,
+                  silent: true,
                   ...options,
                 })
                 return result?.trim?.()
