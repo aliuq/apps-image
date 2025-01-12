@@ -19,29 +19,47 @@ jobs:
           fetch-depth: 0 # 获取完整历史记录
 
       - name: Prepare
-        id: prep
-        run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
-
-          README_PATH=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'README.md' | head -n1)
-
-          if [ -z "$README_PATH" ]; then
-            echo "No README.md files changed"
-            exit 1
-          fi
-
-          REPO=$(echo $README_PATH | cut -d'/' -f2)
-          echo "readme_path=$README_PATH" >> $GITHUB_OUTPUT
-          echo "repo=aliuq/$REPO" >> $GITHUB_OUTPUT
-
-          echo "Final values:"
-          echo "README_PATH: $README_PATH"
-          echo "REPO: aliuq/$REPO"
-
-      - name: Sync README
-        uses: peter-evans/dockerhub-description@v4
+        id: prepare
+        uses: aliuq/script-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ steps.prep.outputs.repo }}
-          readme-filepath: ${{ steps.prep.outputs.readme_path }}
+          auto_install: true
+          script: |
+            import gh from '@actions/github'
+            import path from 'node:path'
+            import fs from 'node:fs'
+
+            const context = gh.context
+            // 获取所有修改的文件
+            const changedFiles = context.payload.commits
+              .flatMap(commit => [...commit.added, ...commit.modified])
+              .filter(file => file.match(/^apps\/.*\/README\.md$/))
+
+            await core.group('Changed files', async () => core.info(changedFiles.join('\n')))
+
+            if (!changedFiles?.length) {
+              core.info('No README.md files changed')
+              process.exit(1)
+            }
+
+            const readmePath = changedFiles[changedFiles.length - 1]
+            const appDir = path.dirname(readmePath)
+            const metaFile = path.join(appDir, 'meta.json')
+            const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
+
+            const images = meta.dockerMeta.images
+            const matchDockerhub = images.find(i => i.match(/^aliuq\//))
+            const matchGhcr = images.find(i => i.match(/^ghcr.io\//))
+
+            const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
+            const app = matchDockerhub ? matchDockerhub.split('/')[1] : matchGhcr ? matchGhcr.split('/')[2] : ''
+
+            console.log('repo:', repo)
+            console.log('app:', app)
+
+      # - name: Sync README
+      #   uses: peter-evans/dockerhub-description@v4
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #     repository: ${{ steps.prep.outputs.repo }}
+      #     readme-filepath: ${{ steps.prep.outputs.readme_path }}
