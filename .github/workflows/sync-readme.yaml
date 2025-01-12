@@ -27,12 +27,15 @@ jobs:
             import fs from 'node:fs'
             import path from 'node:path'
 
+            const gcwd = process.env.GITHUB_WORKSPACE
+
             // 获取最近一次提交的文件
-            const changedFiles = await execCommand(`git -C ${process.env.GITHUB_WORKSPACE} diff-tree --no-commit-id --name-only -r HEAD`)
+            const changedFiles = await execCommand(`git -C ${gcwd} diff-tree --no-commit-id --name-only -r HEAD`)
+            await core.group('Changed files', async () => core.info(changedFiles))
 
             // 过滤出 README.md 文件
             const files = changedFiles.split('\n').filter(file => file.match(/^apps\/.*\/README\.md$/))
-            await core.group('Changed files', async () => core.info(files.join('\n')))
+            await core.group('README.md files', async () => core.info(files.join('\n')))
 
             if (!files.length) {
               core.info('No README.md files changed')
@@ -42,23 +45,35 @@ jobs:
 
             const readmePath = files[files.length - 1]
             const appDir = path.dirname(readmePath)
-            const metaFile = path.join(process.env.GITHUB_WORKSPACE, appDir, 'meta.json')
+            const metaFile = path.join(gcwd, appDir, 'meta.json')
             const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
 
-            const images = meta.dockerMeta.images
+            const docker = meta.dockerMeta
+            const skip = meta.skip || false
+
+            const images = docker.images
             const matchDockerhub = images.find(i => i.match(/^aliuq\//))
             const matchGhcr = images.find(i => i.match(/^ghcr.io\//))
 
             const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
-            const app = matchDockerhub ? matchDockerhub.split('/')[1] : matchGhcr ? matchGhcr.split('/')[2] : ''
+            const data = { repo }
+            if (docker.readme_path !== false) {
+              data.readme_path = path.join(gcwd, appDir, docker.dockerfile || 'Dockerfile')
+            }
 
-            console.log('repo:', repo)
-            console.log('app:', app)
+            if (skip) {
+              core.info('Skip sync README')
+              core.setOutput('status', 'success')
+              process.exit(0)
+            } else {
+              outputJson(data)
+            }
 
-      # - name: Sync README
-      #   uses: peter-evans/dockerhub-description@v4
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
-      #     repository: ${{ steps.prep.outputs.repo }}
-      #     readme-filepath: ${{ steps.prep.outputs.readme_path }}
+      - name: Sync README
+        uses: peter-evans/dockerhub-description@v4
+        if: steps.prepare.outputs.repo != '' && steps.prepare.outputs.readme_path != ''
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ steps.prepare.outputs.repo }}
+          readme-filepath: ${{ steps.prepare.outputs.readme_path }}
