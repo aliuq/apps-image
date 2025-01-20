@@ -47,7 +47,8 @@ export default async function checkVersion(): Promise<void> {
 
     core.info(`\nTotal ${green(results.length)} apps updates found`)
 
-    const enableCreatePr = core.getInput('create_pr', { required: false }) === 'true'
+    const inputsCreatePr = core.getInput('create_pr', { required: false })
+    const enableCreatePr = ['', 'true'].includes(inputsCreatePr)
     if (!enableCreatePr) {
       core.warning(yellow('Skipping PR creation'))
       core.setOutput('status', 'success')
