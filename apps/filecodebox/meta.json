@@ -1,8 +1,8 @@
 {
   "name": "filecodebox",
-  "version": "3592db0",
+  "version": "0c393a9",
   "repo": "https://github.com/vastsa/FileCodeBox",
-  "sha": "3592db09abffb152380276a154de8322cf372109",
+  "sha": "0c393a98909afbe0536028946e1dc9aaf9c81ef1",
   "checkVer": {
     "type": "sha"
   },
@@ -17,7 +17,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=3592db0"
+      "type=raw,value=0c393a9"
     ],
     "labels": {
       "title": "FileCodeBox",
