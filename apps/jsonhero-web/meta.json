@@ -1,0 +1,28 @@
+{
+  "name": "jsonhero-web",
+  "version": "0.0.0",
+  "repo": "https://github.com/triggerdotdev/jsonhero-web",
+  "sha": "",
+  "checkVer": {
+    "type": "sha"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/jsonhero-web",
+      "ghcr.io/aliuq/jsonhero-web"
+    ],
+    "context": "apps/jsonhero-web",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": false,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=0.0.0"
+    ],
+    "labels": {
+      "title": "Jsonhero Web",
+      "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
+      "licenses": "Apache-2.0"
+    }
+  }
+}
