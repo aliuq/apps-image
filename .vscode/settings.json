@@ -68,5 +68,8 @@
       "fileMatch": ["apps/*/meta.json"],
       "url": "./.vscode/meta.schema.json"
     }
-  ]
+  ],
+  "markdownlint.config": {
+    "first-line-h1": false
+  }
 }
