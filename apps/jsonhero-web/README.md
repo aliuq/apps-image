@@ -1,5 +1,3 @@
-# JSON Hero
-
 JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.
 
 JSON Hero 是一款开源、美观的 Web JSON 浏览器，可让您快速浏览、搜索和导航 JSON 文件。 🚀。由 Trigger.dev 团队使用 💜 构建。
@@ -11,6 +9,8 @@ JSON Hero 是一款开源、美观的 Web JSON 浏览器，可让您快速浏览
 
 ```bash
 docker run -it --rm --name jsonhero -p 8787:8787 -e SESSION_SECRET=your-secret aliuq/jsonhero-web
+
+docker rm -f jsonhero
 ```
 
 ## Build Image
