@@ -1,8 +1,8 @@
 {
   "name": "jsonhero-web",
-  "version": "0.0.0",
+  "version": "d33e7cc",
   "repo": "https://github.com/triggerdotdev/jsonhero-web",
-  "sha": "",
+  "sha": "d33e7ccab9f07557fb1462d95419f90b41f0b2d0",
   "checkVer": {
     "type": "sha"
   },
@@ -17,7 +17,7 @@
     "push": false,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=0.0.0"
+      "type=raw,value=d33e7cc"
     ],
     "labels": {
       "title": "Jsonhero Web",
