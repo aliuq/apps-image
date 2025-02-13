@@ -55,6 +55,7 @@
     "oxlintrc",
     "PGDATA",
     "PYTHONUNBUFFERED",
+    "qrcode",
     "srcbook",
     "telemirror",
     "tesseract",
