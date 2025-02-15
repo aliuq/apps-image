@@ -1,8 +1,8 @@
 {
   "name": "lsky-dev",
-  "version": "effe173",
+  "version": "011b291",
   "repo": "https://github.com/lsky-org/lsky-pro",
-  "sha": "effe173d9c8c2e322505681a43efe0ea8cef4155",
+  "sha": "011b291e05770cb1c40670a5338c7d4b782f7dfa",
   "checkVer": {
     "type": "sha"
   },
@@ -17,7 +17,7 @@
     "push": true,
     "tags": [
       "type=raw,value=dev",
-      "type=raw,value=effe173-dev"
+      "type=raw,value=011b291-dev"
     ],
     "labels": {
       "title": "兰空图床开发版",
