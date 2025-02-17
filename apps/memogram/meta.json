@@ -1,8 +1,8 @@
 {
   "name": "memogram",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "repo": "https://github.com/usememos/telegram-integration",
-  "sha": "e66929c889f1985bc4d36a14e5104baa72fdbb92",
+  "sha": "3a600a458461527fd096acaeb776f8940be56e33",
   "checkVer": {
     "type": "tag"
   },
@@ -17,8 +17,8 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=0.2.2",
-      "type=raw,value=e66929c"
+      "type=raw,value=0.2.4",
+      "type=raw,value=3a600a4"
     ],
     "labels": {
       "title": "Memogram",
