@@ -1,8 +1,8 @@
 {
   "name": "icones",
-  "version": "af087a4",
+  "version": "44513fe",
   "repo": "https://github.com/antfu-collective/icones",
-  "sha": "af087a471f1db258305a28df429f4cb70db40712",
+  "sha": "44513fe9230c6633b37735c0955a0b20c278008b",
   "checkVer": {
     "type": "sha"
   },
@@ -17,7 +17,7 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=af087a4"
+      "type=raw,value=44513fe"
     ],
     "labels": {
       "title": "Icones",
