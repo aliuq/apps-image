@@ -1,6 +1,6 @@
 services:
   cobalt-api:
-    image: ghcr.io/imputnet/cobalt:10
+    image: ghcr.io/imputnet/cobalt:11.0.1
     restart: always
     container_name: cobalt-api
     ports:

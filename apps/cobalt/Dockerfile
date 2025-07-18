@@ -5,11 +5,9 @@ RUN git clone https://github.com/imputnet/cobalt.git .
 FROM node:23-alpine AS builder
 WORKDIR /app
 COPY --from=base /app .
-RUN npm install -g pnpm
-# web/src/lib/env.ts
-# const defaultApiURL = "https://api.cobalt.tools"; => const defaultApiURL = "$BASE_API";
-RUN sed -i 's|const defaultApiURL = "\(.*\)";|const defaultApiURL = "\\$BASE_API";|g' web/src/lib/env.ts
-RUN pnpm install && pnpm -C web build
+RUN corepack enable && corepack prepare --activate
+RUN pnpm install --frozen-lockfile
+RUN WEB_DEFAULT_API=\$BASE_API pnpm -C web build
 
 FROM aliuq/nginx:svelte
 
