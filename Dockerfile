@@ -1,22 +1,18 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone --branch v0.1.7 https://github.com/usememos/telegram-integration.git .
+RUN git clone https://github.com/imputnet/cobalt.git . && git checkout 71bb2de
 
-# Build stage
-FROM cgr.dev/chainguard/go:latest AS builder
+FROM node:23-alpine AS builder
 WORKDIR /app
-COPY --from=base /app/go.mod ./
-COPY --from=base /app/go.sum ./
-RUN go mod download
 COPY --from=base /app .
-RUN CGO_ENABLED=0 go build -o memogram ./bin/memogram
-RUN chmod +x memogram
+RUN corepack enable && corepack prepare --activate
+RUN pnpm install --frozen-lockfile
+RUN WEB_DEFAULT_API=\$BASE_API pnpm -C web build
 
-# Run stage
-FROM cgr.dev/chainguard/static:latest-glibc
-WORKDIR /app
-ENV SERVER_ADDR=dns:localhost:5230
-ENV BOT_TOKEN=your_telegram_bot_token
-COPY --from=base /app/.env.example .env
-COPY --from=builder /app/memogram .
-CMD ["./memogram"]
+FROM aliuq/nginx:svelte
+
+ENV BASE_API="https://api.cobalt.tools"
+
+COPY --from=builder /app/web/build /app
+COPY ./docker-entrypoint.sh /docker-entrypoint.d/00-replace-envs.sh
+RUN chmod +x /docker-entrypoint.d/00-replace-envs.sh
