@@ -4,8 +4,7 @@
   "repo": "https://github.com/usememos/telegram-integration",
   "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
   "checkVer": {
-    "type": "tag",
-    "targetVersion": "v0.3.0"
+    "type": "tag"
   },
   "dockerMeta": {
     "images": [
