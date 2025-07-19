@@ -11,6 +11,9 @@
 - **Docker 镜像**: [aliuq/srcbook](https://hub.docker.com/r/aliuq/srcbook)
 - **Dockerfile**: [查看构建文件](https://github.com/aliuq/apps-image/tree/master/apps/srcbook)
 
+> [!WARNING]
+> 截止 2025-07-20，暂时无法直接在 https 协议下使用，由于项目 websocket 连接使用的是 `ws://`，会出现错误，请使用 http 协议访问
+
 ## 快速开始
 
 ### 使用 Docker 运行
