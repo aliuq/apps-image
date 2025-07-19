@@ -243,7 +243,7 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
   body += `| **Revision** | [\`${app.sha.slice(0, 7)}\`](${repoUrl}/commit/${app.sha}) → [\`${meta.sha.slice(0, 7)}\`](${repoUrl}/commit/${meta.sha}) |\n`
 
   if (commitInfo && commitInfo.commitMessage) {
-    body += `| **Latest Commit** | ${commitInfo.commitMessage} |\n`
+    body += `| **Latest Commit** | ${escapeHtml(commitInfo.commitMessage)} |\n`
     body += `| **Author** | ${commitInfo.commitAuthor} |\n`
     body += `| **Date** | ${formatDate(commitInfo.commitDate)} |\n`
 
@@ -262,8 +262,8 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
     // 限制显示的提交数量
     commitInfo.recentCommits.forEach((commit: string) => {
       const [sha, ...messageParts] = commit.split(' ')
-      const message = messageParts.join(' ')
-      body += `- [\`${sha}\`](${repoUrl}/commit/${sha}) ${message}\n`
+      const message = messageParts.join(' ').trim()
+      body += `- [\`${sha}\`](${repoUrl}/commit/${sha}) ${escapeHtml(message)}\n`
     })
 
     // 修复比较链接：从 app.sha 到 meta.sha
@@ -294,6 +294,19 @@ function formatDate(input: string | Date = new Date()): string {
     minute: '2-digit',
     second: '2-digit',
   }).replace(/\//g, '-')
+}
+
+// 添加 HTML 转义函数
+function escapeHtml(text: string): string {
+  const htmlEscapes: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&#39;',
+  }
+
+  return text.replace(/[&<>"']/g, match => htmlEscapes[match])
 }
 
 interface UseCheckVersionReturn {
