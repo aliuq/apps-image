@@ -88,4 +88,4 @@ docker buildx build --progress=plain -f ./Dockerfile -t telegram-upload:debug --
 
 ---
 
-> 📝 该文档由 AI 辅助生成并整理，如有问题请随时反馈。
+> 📝 该文档由 AI 辅助生成并整理，如有问题请随时反馈
