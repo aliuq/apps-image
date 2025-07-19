@@ -40,7 +40,6 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
         logger(`Found new version from ${green(app.version)} => ${green(ver)}`)
         meta.sha = pkgSha
         meta.version = ver
-        dockerfileContent = replaceVersion(dockerfileContent, app.version, meta.version)
       }
       else if (pkgSha !== app.sha) {
         core.warning(`[${app.name}] Same version but Sha value mismatch, please check the file ${checkVer.file}`)
@@ -54,23 +53,17 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
       logger(`Found new commit from ${green(app.sha)} => ${green(sha)}`)
       meta.sha = sha
       meta.version = sha.slice(0, 7)
-      dockerfileContent = replaceVersion(dockerfileContent, app.version, meta.version)
     }
   }
   else if (checkVer.type === 'tag') {
     const tag = await execCommand(`git -C ${cloneDir} describe --tags --abbrev=0`)
     const tagSha = await execCommand(`git -C ${cloneDir} rev-list -n 1 ${tag}`)
-    const isStartV = tag.startsWith('v')
     const ver = tag.replace(/^v/, '')
 
     if (ver !== app.version) {
       logger(`Found new tag from ${app.version} => ${ver}`)
       meta.sha = tagSha
       meta.version = ver
-
-      const needReplaceVer = isStartV ? `v${app.version}` : app.version!
-      logger(`Replacing ${needReplaceVer} with ${tag} in ${dockerfilePath}`)
-      dockerfileContent = replaceVersion(dockerfileContent, needReplaceVer, tag)
     }
   }
 
@@ -133,9 +126,10 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     params.head = `mock/${params.head}`
   }
 
-  if (dockerfileContent.includes(appShortSha)) {
-    dockerfileContent = replaceVersion(dockerfileContent, appShortSha, metaShortSha)
-  }
+  // 更新 Dockerfile 中的版本信息
+  dockerfileContent = replaceVersion(dockerfileContent, app.version, meta.version)
+  // 更新 Dockerfile 中的 sha 信息
+  dockerfileContent = replaceVersion(dockerfileContent, appShortSha, metaShortSha)
 
   if (staticDockerfileContent !== dockerfileContent) {
     // @ts-expect-error - Should be an array
