@@ -5,7 +5,8 @@
   "sha": "6fbc585155c5a7a732052ab6622b07b3389743df",
   "checkVer": {
     "type": "version",
-    "file": "web/package.json"
+    "file": "web/package.json",
+    "targetVersion": "71bb2de81a977f3ffabe02d55934ab476ffda425"
   },
   "dockerMeta": {
     "images": [
