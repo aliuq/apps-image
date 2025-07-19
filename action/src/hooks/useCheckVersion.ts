@@ -236,7 +236,7 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
 
   // 基本信息
   body += `### 📋 Basic Information\n\n`
-  body += `| Field | Value |\n`
+  body += `| Key   | Value |\n`
   body += `|-------|-------|\n`
   body += `| **Repository** | [${repoName}](${repoUrl}) |\n`
   body += `| **Version** | \`${app.version}\` → \`${meta.version}\` |\n`
@@ -245,7 +245,7 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
   if (commitInfo && commitInfo.commitMessage) {
     body += `| **Latest Commit** | ${commitInfo.commitMessage} |\n`
     body += `| **Author** | ${commitInfo.commitAuthor} |\n`
-    body += `| **Date** | ${new Date(commitInfo.commitDate).toLocaleString()} |\n`
+    body += `| **Date** | ${formatDate(commitInfo.commitDate)} |\n`
 
     // 只有在有实际变更时才显示变更统计
     if (commitInfo.changedFiles > 0) {
@@ -260,16 +260,11 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
     body += `### 📝 Recent Commits\n\n`
 
     // 限制显示的提交数量
-    const commitsToShow = Math.min(commitInfo.recentCommits.length, 5)
-    commitInfo.recentCommits.slice(0, commitsToShow).forEach((commit: string) => {
+    commitInfo.recentCommits.forEach((commit: string) => {
       const [sha, ...messageParts] = commit.split(' ')
       const message = messageParts.join(' ')
       body += `- [\`${sha}\`](${repoUrl}/commit/${sha}) ${message}\n`
     })
-
-    if (commitInfo.recentCommits.length > commitsToShow) {
-      body += `- ... and ${commitInfo.recentCommits.length - commitsToShow} more commits\n`
-    }
 
     // 修复比较链接：从 app.sha 到 meta.sha
     const compareUrl = `${repoUrl}/compare/${app.sha.slice(0, 7)}...${meta.sha.slice(0, 7)}`
@@ -285,6 +280,20 @@ function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
 
 function replaceVersion(content: string, oldVersion: string, newVersion: string): string {
   return content.replace(new RegExp(oldVersion, 'g'), newVersion)
+}
+
+function formatDate(input: string | Date = new Date()): string {
+  const date = typeof input === 'string' ? new Date(input) : input
+  return date.toLocaleString('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    hour12: false, // 使用 24 小时制
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).replace(/\//g, '-')
 }
 
 interface UseCheckVersionReturn {
