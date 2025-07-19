@@ -17,7 +17,7 @@
 
 ```bash
 docker run -d --name icones -p 8080:80 aliuq/icones:latest
-# **测试**
+# 测试
 docker run --rm --name icones -p 8080:80 aliuq/icones:latest
 ```
 
