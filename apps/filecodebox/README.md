@@ -1,5 +1,7 @@
 # filecodebox
 
+**弃用**: 不再更新，请使用官方镜像 [`lanol/filecodebox:beta`](https://hub.docker.com/r/lanol/filecodebox/tags)
+
 + [Dockerfile](https://github.com/aliuq/apps-image/tree/master/apps/filecodebox)
 + 上游仓库: <https://github.com/vastsa/FileCodeBox.git>
 
