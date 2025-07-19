@@ -128,6 +128,12 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     ],
   }
 
+  const createPrMock = core.getInput('mock', { required: false }) === 'true'
+  if (createPrMock) {
+    params.title = params.title.replace('chore', 'mock')
+    params.head = `mock/${params.head}`
+  }
+
   if (dockerfileContent.includes(appShortSha)) {
     dockerfileContent = replaceVersion(dockerfileContent, appShortSha, metaShortSha)
   }

@@ -71,9 +71,6 @@ export default async function checkVersion(): Promise<void> {
     const createPR = octokit?.createPullRequest as ReturnType<typeof createPullRequest>['createPullRequest']
 
     for await (const prData of results) {
-      if (createPrMock) {
-        prData.title = prData.title.replace('chore', 'mock')
-      }
       const result = await createPR?.(prData!)
       result && core.info(`PR created: ${result.data.html_url}`)
     }
