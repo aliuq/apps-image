@@ -111,6 +111,7 @@ export async function getApps(): Promise<Meta[]> {
   }).filter(Boolean)
 
   const ghContext = gh.context
+  const ghMessage = ghContext.payload?.head_commit?.message || ''
   const event = ghContext.eventName
   logDebug(`Event: ${cyan(event)}`)
   let apps = results
@@ -118,11 +119,29 @@ export async function getApps(): Promise<Meta[]> {
   if (event === 'workflow_dispatch') {
     app = core.getInput('app', { required: false })
   }
-  else if (event === 'push') {
-    // 从最新的 commit message 中提取 app 名称
-    const commit = ghContext.payload?.head_commit?.message
-    logDebug(`Commit: ${commit}`)
-    app = commit?.match(/chore\(([^)]+)\): force build/)?.[1]
+  else if (event === 'push' && ghMessage.includes('force build')) {
+    // 优先从修改的文件中提取 app 名称
+    const changedFiles = ghContext.payload?.commits?.[0]?.modified || []
+    logDebug(`Changed files: ${JSON.stringify(changedFiles)}`)
+
+    // 查找修改的 meta.json 文件
+    const modifiedMetaFile = changedFiles.find((file: string) => file.match(/^apps\/[^/]+\/meta\.json$/))
+
+    if (modifiedMetaFile) {
+      // 从文件路径提取 app 名称: apps/app-name/meta.json -> app-name
+      const appFromPath = modifiedMetaFile.split('/')[1]
+      logDebug(`App extracted from modified meta.json: ${cyan(appFromPath)}`)
+      app = appFromPath
+    }
+    else {
+      // 回退到从 commit message 中提取
+      const commit = ghContext.payload?.head_commit?.message
+      logDebug(`Commit: ${commit}`)
+      app = commit?.match(/\w+\(([^)]+)\):/)?.[1]
+      if (app) {
+        logDebug(`App extracted from commit message: ${cyan(app)}`)
+      }
+    }
   }
 
   if (app) {
