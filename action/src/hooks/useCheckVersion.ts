@@ -113,7 +113,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     head: `${meta.name}-${metaVer}`,
     base: 'master',
     // body: `Auto-generated PR to update ${meta.name} version to ${metaVer}`,
-    body: buildPRBody(meta, metaVer, commitInfo),
+    body: buildPRBody(app, meta, metaVer, commitInfo),
     labels: ['automerge'],
     changes: [
       {
@@ -228,8 +228,9 @@ async function getUpstreamCommitInfo(cloneDir: string, app: Meta, meta: Meta) {
 
 // 构建 PR body 的函数
 // eslint-disable-next-line ts/explicit-function-return-type
-function buildPRBody(meta: Meta, metaVer: string, commitInfo: any) {
+function buildPRBody(app: Meta, meta: Meta, metaVer: string, commitInfo: any) {
   const repoName = meta.repo.split('/').pop()?.replace('.git', '') || 'repository'
+  const repoUrl = meta.repo.replace('.git', '')
 
   let body = `## 🚀 Auto-generated PR to update ${meta.name} version to \`${metaVer}\`\n\n`
 
@@ -237,34 +238,41 @@ function buildPRBody(meta: Meta, metaVer: string, commitInfo: any) {
   body += `### 📋 Basic Information\n\n`
   body += `| Field | Value |\n`
   body += `|-------|-------|\n`
-  body += `| **Repository** | [${repoName}](${meta.repo}) |\n`
-  body += `| **Version** | \`${meta.version}\` |\n`
-  body += `| **Revision** | [\`${meta.sha.slice(0, 7)}\`](${meta.repo.replace('.git', '')}/commit/${meta.sha}) |\n`
+  body += `| **Repository** | [${repoName}](${repoUrl}) |\n`
+  body += `| **Version** | \`${app.version}\` → \`${meta.version}\` |\n`
+  body += `| **Revision** | [\`${app.sha.slice(0, 7)}\`](${repoUrl}/commit/${app.sha}) → [\`${meta.sha.slice(0, 7)}\`](${repoUrl}/commit/${meta.sha}) |\n`
 
-  if (commitInfo) {
+  if (commitInfo && commitInfo.commitMessage) {
     body += `| **Latest Commit** | ${commitInfo.commitMessage} |\n`
     body += `| **Author** | ${commitInfo.commitAuthor} |\n`
     body += `| **Date** | ${new Date(commitInfo.commitDate).toLocaleString()} |\n`
-    body += `| **Changes** | ${commitInfo.changedFiles} files, +${commitInfo.additions}/-${commitInfo.deletions} |\n`
+
+    // 只有在有实际变更时才显示变更统计
+    if (commitInfo.changedFiles > 0) {
+      body += `| **Changes** | ${commitInfo.changedFiles} files, +${commitInfo.additions}/-${commitInfo.deletions} |\n`
+    }
   }
 
   body += `\n`
 
-  // 最近提交
+  // 最近提交 - 只有在有提交时才显示
   if (commitInfo?.recentCommits?.length > 0) {
     body += `### 📝 Recent Commits\n\n`
 
-    commitInfo.recentCommits.slice(0, 5).forEach((commit: string) => {
+    // 限制显示的提交数量
+    const commitsToShow = Math.min(commitInfo.recentCommits.length, 5)
+    commitInfo.recentCommits.slice(0, commitsToShow).forEach((commit: string) => {
       const [sha, ...messageParts] = commit.split(' ')
       const message = messageParts.join(' ')
-      body += `- [\`${sha}\`](${meta.repo.replace('.git', '')}/commit/${sha}) ${message}\n`
+      body += `- [\`${sha}\`](${repoUrl}/commit/${sha}) ${message}\n`
     })
 
-    if (commitInfo.recentCommits.length > 5) {
-      body += `- ... and ${commitInfo.recentCommits.length - 5} more commits\n`
+    if (commitInfo.recentCommits.length > commitsToShow) {
+      body += `- ... and ${commitInfo.recentCommits.length - commitsToShow} more commits\n`
     }
 
-    const compareUrl = `${meta.repo.replace('.git', '')}/compare/${commitInfo.recentCommits[commitInfo.recentCommits.length - 1]?.split(' ')?.[0]}...${commitInfo.recentCommits[0]?.split(' ')?.[0]}`
+    // 修复比较链接：从 app.sha 到 meta.sha
+    const compareUrl = `${repoUrl}/compare/${app.sha.slice(0, 7)}...${meta.sha.slice(0, 7)}`
     body += `\n[🔗 View full comparison](${compareUrl})\n\n`
   }
 
