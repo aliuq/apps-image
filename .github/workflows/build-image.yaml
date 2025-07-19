@@ -13,6 +13,11 @@ on:
         required: false
         default: false
         type: boolean
+      push:
+        description: Push the image to the registry
+        required: false
+        default: false
+        type: boolean
   pull_request:
     branches:
       - master
@@ -45,6 +50,7 @@ jobs:
         with:
           action: resolve-meta
           debug: ${{ inputs.debug }}
+          push: ${{ inputs.push }}
           context: ${{ inputs.context }}
 
   call-workflow-build:

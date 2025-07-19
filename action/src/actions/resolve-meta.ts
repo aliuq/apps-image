@@ -15,6 +15,7 @@ export default async function resolveMeta(): Promise<void> {
     const isPr = event === 'pull_request'
 
     let context = ''
+    let pushImage
     if (event === 'pull_request') {
       // chore(apps/weektodo): update version to 2.2.0
       const title = ghContext.payload.pull_request?.title || ''
@@ -27,6 +28,7 @@ export default async function resolveMeta(): Promise<void> {
     }
     else if (event === 'workflow_dispatch') {
       context = core.getInput('context', { required: true })
+      pushImage = core.getInput('push', { required: false }) === 'true'
     }
 
     const metafile = path.join(context, 'meta.json')
@@ -67,6 +69,10 @@ export default async function resolveMeta(): Promise<void> {
         core.setOutput('status', 'failure')
         return
       }
+    }
+
+    if (pushImage !== undefined) {
+      meta.dockerMeta.push = pushImage
     }
 
     core.group(`${meta.name} Metadata`, async () => core.info(JSON.stringify(meta, null, 2)))
