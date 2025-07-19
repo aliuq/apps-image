@@ -22,6 +22,9 @@ inputs:
   context:
     description: 'Context directory, only works on resolve-meta, e.g. apps/tgcf'
     required: false
+  mock:
+    description: Mock data for testing, should create a pull request
+    required: false
 
 # outputs:
 
