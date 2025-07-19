@@ -112,7 +112,6 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
     title: `chore(${docker.context}): update version to ${metaVer}`,
     head: `${meta.name}-${metaVer}`,
     base: 'master',
-    // body: `Auto-generated PR to update ${meta.name} version to ${metaVer}`,
     body: buildPRBody(app, meta, metaVer, commitInfo),
     labels: ['automerge'],
     changes: [
@@ -140,7 +139,7 @@ export default async function useCheckVersion(app: Meta): Promise<UseCheckVersio
 
   if (staticDockerfileContent !== dockerfileContent) {
     // @ts-expect-error - Should be an array
-    params.changes[0].files[docker.dockerfile] = {
+    params.changes[0].files[dockerfilePath] = {
       content: dockerfileContent,
       encoding: 'utf-8',
     }
