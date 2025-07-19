@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone --branch v0.2.6 https://github.com/usememos/telegram-integration.git .
+RUN git clone --branch v0.3.0 https://github.com/usememos/telegram-integration.git .
 
 # Build stage
 FROM cgr.dev/chainguard/go:latest AS builder
