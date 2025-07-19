@@ -48,8 +48,10 @@ export default async function checkVersion(): Promise<void> {
     core.info(`\nTotal ${green(results.length)} apps updates found`)
 
     const inputsCreatePr = core.getInput('create_pr', { required: false })
+    const createPrMock = core.getInput('mock', { required: false }) === 'true'
+
     const enableCreatePr = ['', 'true'].includes(inputsCreatePr)
-    if (!enableCreatePr) {
+    if (!enableCreatePr && !createPrMock) {
       core.warning(yellow('Skipping PR creation'))
       core.setOutput('status', 'success')
       return
@@ -69,6 +71,9 @@ export default async function checkVersion(): Promise<void> {
     const createPR = octokit?.createPullRequest as ReturnType<typeof createPullRequest>['createPullRequest']
 
     for await (const prData of results) {
+      if (createPrMock) {
+        prData.title = prData.title.replace('chore', 'mock')
+      }
       const result = await createPR?.(prData!)
       result && core.info(`PR created: ${result.data.html_url}`)
     }

@@ -36,6 +36,10 @@
         "file": {
           "type": "string",
           "description": "type 为 version 时，检查更新的文件路径"
+        },
+        "targetVersion": {
+          "type": "string",
+          "description": "指定版本号，仅用于 PR 遇到错误，修复错误时使用"
         }
       }
     },

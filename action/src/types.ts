@@ -8,6 +8,7 @@ export interface Meta {
   checkVer: {
     type: 'version' | 'sha' | 'tag'
     file?: string
+    targetVersion?: string
   }
   dockerMeta: {
     images: string[]

@@ -8,6 +8,11 @@ on:
         required: true
         default: ''
         type: string
+      debug:
+        description: Debug mode
+        required: false
+        default: false
+        type: boolean
   pull_request:
     branches:
       - master
@@ -39,6 +44,7 @@ jobs:
         uses: ./action
         with:
           action: resolve-meta
+          debug: ${{ inputs.debug }}
           context: ${{ inputs.context }}
 
   call-workflow-build:

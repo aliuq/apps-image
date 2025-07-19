@@ -37,13 +37,14 @@ export default async function resolveMeta(): Promise<void> {
     }
 
     let meta: Meta = {} as Meta
+    const docker = meta?.dockerMeta
+    const dockerfile = path.join(context, docker?.dockerfile || 'Dockerfile')
+
     if (isAct) {
       if (isPr) {
         const content = ghContext.payload.pull_request?.changes?.[0]?.files?.[metafile]?.content
         fsa.writeFileSync(metafile, content)
         meta = await fsa.readJSON(metafile)
-        const docker = meta.dockerMeta
-        const dockerfile = path.join(context, docker.dockerfile || 'Dockerfile')
 
         const dockerfileContent = ghContext.payload.pull_request?.changes?.[0]?.files?.[dockerfile]?.content
         dockerfileContent && fsa.writeFileSync(dockerfile, dockerfileContent)
@@ -53,15 +54,14 @@ export default async function resolveMeta(): Promise<void> {
         core.info(`Checking version for ${meta.name}`)
         const { hasUpdate, meta: newMeta, dockerfile: dockerfileContent } = await useCheckVersion(meta)
         if (hasUpdate) {
+          meta = newMeta
           fsa.writeFileSync(metafile, JSON.stringify(newMeta, null, 2))
-          dockerfileContent && fsa.writeFileSync(meta.dockerMeta.dockerfile, dockerfileContent)
+          dockerfileContent && fsa.writeFileSync(dockerfile, dockerfileContent)
         }
       }
     }
     else {
       meta = await fsa.readJSON(metafile)
-      const docker = meta.dockerMeta
-      const dockerfile = path.join(context, docker.dockerfile || 'Dockerfile')
       if (!fsa.existsSync(dockerfile)) {
         core.info(`Dockerfile not found: ${dockerfile}`)
         core.setOutput('status', 'failure')
@@ -70,6 +70,9 @@ export default async function resolveMeta(): Promise<void> {
     }
 
     core.group(`${meta.name} Metadata`, async () => core.info(JSON.stringify(meta, null, 2)))
+
+    const dockerfileContent = await fsa.readFile(dockerfile, 'utf-8')
+    core.group(`${meta.name} Dockerfile`, async () => core.info(dockerfileContent))
 
     const data = await useResolveMeta(meta)
 
