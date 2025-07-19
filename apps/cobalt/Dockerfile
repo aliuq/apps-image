@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/imputnet/cobalt.git . && git checkout a60e94d
+RUN git clone https://github.com/imputnet/cobalt.git . && git checkout 7aa128d
 
 FROM node:23-alpine AS builder
 WORKDIR /app
