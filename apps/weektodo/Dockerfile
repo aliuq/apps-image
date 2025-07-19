@@ -1,6 +1,10 @@
+FROM alpine/git AS base
+WORKDIR /app
+RUN git clone https://github.com/manuelernestog/weektodo.git . && git checkout 0296d29
+
 FROM node:16.20.2-alpine3.18 AS builder
 WORKDIR /app
-RUN apk add git && git clone https://github.com/manuelernestog/weektodo.git .
+COPY --from=base /app .
 RUN yarn install --frozen-lockfile
 RUN yarn run build
 
