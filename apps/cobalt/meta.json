@@ -6,7 +6,7 @@
   "checkVer": {
     "type": "version",
     "file": "web/package.json",
-    "targetVersion": "a60e94d6288f5a21fa8420348c0bad97594b760a"
+    "targetVersion": "7aa128d9ccd07775ae4869b1245814b0705c9312"
   },
   "dockerMeta": {
     "images": [
