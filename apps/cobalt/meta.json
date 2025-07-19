@@ -1,8 +1,8 @@
 {
   "name": "cobalt",
-  "version": "11.2.2",
+  "version": "11.2.3",
   "repo": "https://github.com/imputnet/cobalt",
-  "sha": "4d2c8b0a8c78a70cd6ffc6cf10540e9115baa093",
+  "sha": "773ed026b87182d1071652be86a4f964cba1d967",
   "checkVer": {
     "type": "version",
     "file": "web/package.json",
@@ -19,8 +19,8 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=11.2.2",
-      "type=raw,value=4d2c8b0"
+      "type=raw,value=11.2.3",
+      "type=raw,value=773ed02"
     ],
     "labels": {
       "title": "Cobalt",
