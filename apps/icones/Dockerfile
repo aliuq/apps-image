@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/antfu-collective/icones.git .
+RUN git clone https://github.com/antfu-collective/icones.git . && git checkout ac522b6
 
 FROM node:22.14.0-alpine3.20 AS build
 WORKDIR /app
