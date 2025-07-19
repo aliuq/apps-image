@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-RUN git clone https://github.com/aahnik/tgcf.git .
+RUN git clone https://github.com/aahnik/tgcf.git . && git checkout f0d5859
 
 FROM python:3.10-slim-bullseye AS builder
 WORKDIR /app
