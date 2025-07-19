@@ -5,7 +5,7 @@
   "sha": "e66929c889f1985bc4d36a14e5104baa72fdbb92",
   "checkVer": {
     "type": "tag",
-    "targetVersion": "v0.2.2"
+    "targetVersion": "v0.2.3"
   },
   "dockerMeta": {
     "images": [
