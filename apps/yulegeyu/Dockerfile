@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/liyupi/yulegeyu.git .
+RUN git clone https://github.com/liyupi/yulegeyu.git . && git checkout 4b9de83
 
 FROM node:20.10.0-alpine AS build
 WORKDIR /app
