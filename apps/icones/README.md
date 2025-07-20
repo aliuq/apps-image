@@ -79,3 +79,7 @@ docker buildx build --progress=plain -f ./Dockerfile -t icones:debug --load .
 
 - [https://icones.js.org](https://icones.js.org)
 - [https://icones.netlify.app](https://icones.netlify.app)
+
+---
+
+> 📝 该文档由 AI 辅助生成并整理，如有问题请随时反馈
