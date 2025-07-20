@@ -2,8 +2,6 @@
 
 > 精选开源应用的 Docker 镜像集合，提供开箱即用的容器化解决方案
 
-[![GitHub](https://img.shields.io/github/license/aliuq/apps-image)](https://github.com/aliuq/apps-image/blob/master/LICENSE)
-<!-- [![GitHub Stars](https://img.shields.io/github/stars/aliuq/apps-image)](https://github.com/aliuq/apps-image) -->
 [![Build Status](https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml)](https://github.com/aliuq/apps-image/actions)
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-aliuq-blue)](https://hub.docker.com/u/aliuq)
 
