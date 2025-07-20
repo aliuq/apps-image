@@ -66,3 +66,7 @@ docker run --rm --name inpaint-web-local -p 8080:80 inpaint-web:local
 # 显示详细构建日志
 docker buildx build --progress=plain -f ./Dockerfile -t inpaint-web:debug --load .
 ```
+
+---
+
+> 📝 该文档由 AI 辅助生成并整理，如有问题请随时反馈
