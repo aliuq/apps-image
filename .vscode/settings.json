@@ -72,5 +72,6 @@
   ],
   "markdownlint.config": {
     "first-line-h1": false
-  }
+  },
+  "docker.lsp.experimental.vulnerabilityScanning": false
 }
