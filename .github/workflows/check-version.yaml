@@ -7,23 +7,26 @@ on:
     inputs:
       app:
         description: App name, e.g. weektodo
-        required: false
         type: string
       create_pr:
-        description: Create a PR if the version is outdated
-        required: false
+        description: 有新版本时创建 PR
         type: boolean
         default: false
       debug:
-        description: Debug mode
-        required: false
+        description: Debug 模式
         type: boolean
         default: false
       mock:
-        description: Mock data for testing, should be create a pull request
-        required: false
+        description: 有新版本时创建 PR，但不会触发镜像构建工作流
         type: boolean
         default: false
+      context:
+        description: 上下文目录，例如 apps/icones
+        type: choice
+        options:
+          - apps/tgcf
+          - apps/weektodo
+          - apps/icones
   push:
     branches:
       - master
@@ -36,7 +39,7 @@ jobs:
     if: |
       (github.event_name == 'schedule') ||
       (github.event_name == 'workflow_dispatch') ||
-      (github.event_name == 'push' && contains(github.event.head_commit.message, 'force build'))
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'force check'))
     permissions:
       contents: read
     steps:
