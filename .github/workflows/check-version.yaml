@@ -23,6 +23,7 @@ on:
       context:
         description: 上下文目录，例如 apps/icones
         type: choice
+        default: ''
         options:
           - apps/tgcf
           - apps/weektodo
