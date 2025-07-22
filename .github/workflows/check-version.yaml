@@ -23,12 +23,22 @@ on:
       context:
         description: 上下文目录，例如 apps/icones
         type: choice
-        default: ''
+        default: all
         options:
-          - ''
+          - all
+          - apps/cobalt
+          - apps/icones
+          - apps/inpaint-web
+          - apps/jsonhero-web
+          - apps/lsky
+          - apps/memogram
+          - apps/readest
+          - apps/srcbook
+          - apps/telegram-upload
+          - apps/telemirror
           - apps/tgcf
           - apps/weektodo
-          - apps/icones
+          - apps/yulegeyu
   push:
     branches:
       - master
