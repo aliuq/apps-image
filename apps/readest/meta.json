@@ -1,0 +1,30 @@
+{
+  "name": "readest",
+  "version": "0.0.0",
+  "repo": "https://github.com/readest/readest",
+  "sha": "ac522b6",
+  "checkVer": {
+    "type": "version",
+    "file": "apps/readest-app/package.json"
+  },
+  "dockerMeta": {
+    "images": [
+      "aliuq/readest",
+      "ghcr.io/aliuq/readest"
+    ],
+    "context": "apps/readest",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
+    "tags": [
+      "type=raw,value=latest",
+      "type=raw,value=0.0.0",
+      "type=raw,value=ac522b6"
+    ],
+    "labels": {
+      "title": "Readest",
+      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
+      "licenses": "AGPL-3.0"
+    }
+  }
+}
