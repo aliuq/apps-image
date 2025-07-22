@@ -25,6 +25,7 @@ on:
         type: choice
         default: ''
         options:
+          - ''
           - apps/tgcf
           - apps/weektodo
           - apps/icones
