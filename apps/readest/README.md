@@ -27,7 +27,7 @@ docker run --rm --name readest -p 3000:3000 -e USE_DEFAULT=true aliuq/readest:la
 
 ### 使用 Docker Compose
 
-创建 `docker-compose.yml` 文件：
+创建 `docker-compose.yml` 文件
 
 ```yaml
 name: readest
