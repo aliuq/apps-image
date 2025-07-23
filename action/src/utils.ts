@@ -58,7 +58,15 @@ export function createLoggerNs(ns?: string, useColor = false) {
     error: (msg: string) => core.error(`${prefix}${msg}`),
     debug: (msg: string) => isDebug && core.info(`${prefix}${msg}`),
     group: (label: string, fn: () => Promise<void>) => core.group(`${prefix}${label}`, fn),
+    groupJson: (label: string, data: object) => core.group(
+      `${prefix}${label}`,
+      async () => core.info(JSON.stringify(data, null, 2)),
+    ),
     debugGroup: (label: string, fn: () => Promise<void>) => isDebug && core.group(`${prefix}${label}`, fn),
+    debugGroupJson: (label: string, data: object) => isDebug && core.group(
+      `${prefix}${label}`,
+      async () => core.info(JSON.stringify(data, null, 2)),
+    ),
   }
 }
 
