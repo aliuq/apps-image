@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/lsky-org/lsky-pro.git . && git checkout aa9aa31
+RUN git clone https://github.com/lsky-org/lsky-pro.git . && git checkout aa6dd04
 
 FROM node:20-alpine3.20 AS web
 WORKDIR /app
