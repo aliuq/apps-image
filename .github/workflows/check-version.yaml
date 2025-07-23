@@ -2,12 +2,9 @@ name: Check Version
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 */6 * * *' # 每 6 小时检查一次
   workflow_dispatch:
     inputs:
-      app:
-        description: App name, e.g. weektodo
-        type: string
       create_pr:
         description: 有新版本时创建 PR
         type: boolean
@@ -17,7 +14,7 @@ on:
         type: boolean
         default: false
       mock:
-        description: 有新版本时创建 PR，但不会触发镜像构建工作流
+        description: 有新版本时创建 PR，但不会触发镜像构建
         type: boolean
         default: false
       context:
@@ -63,7 +60,7 @@ jobs:
         with:
           action: check-version
           token: ${{ secrets.PAT }}
-          app: ${{ inputs.app }}
+          context: ${{ inputs.context }}
           create_pr: ${{ inputs.create_pr }}
           debug: ${{ inputs.debug }}
           mock: ${{ inputs.mock }}

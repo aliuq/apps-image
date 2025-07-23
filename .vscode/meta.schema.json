@@ -1,27 +1,37 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["name", "repo", "version", "sha", "checkVer", "dockerMeta"],
+  "required": ["name", "type", "version", "dockerMeta"],
   "properties": {
     "name": {
       "type": "string",
-      "description": "App 名称，建议使用唯一标识"
+      "description": "应用/镜像名称，建议使用唯一标识"
     },
-    "repo": {
+    "type": {
       "type": "string",
-      "description": "App 仓库地址"
+      "enum": ["app", "base", "sync"],
+      "description": "镜像类型: app-应用镜像, base-基础镜像, sync-同步镜像"
+    },
+    "description": {
+      "type": "string",
+      "description": "镜像描述信息"
     },
     "version": {
       "type": "string",
-      "description": "App 版本"
-    },
-    "sha": {
-      "type": "string",
-      "description": "App 代码的 SHA 值"
+      "description": "当前版本"
     },
     "skip": {
       "type": "boolean",
-      "description": "是否阻止检查更新"
+      "default": false,
+      "description": "是否跳过检查更新"
+    },
+    "repo": {
+      "type": "string",
+      "description": "源代码仓库地址（仅 app 类型需要）"
+    },
+    "sha": {
+      "type": "string",
+      "description": "源代码的 SHA 值（仅 app 类型需要）"
     },
     "checkVer": {
       "type": "object",
@@ -45,54 +55,386 @@
     },
     "dockerMeta": {
       "type": "object",
-      "description": "Docker 镜像的元数据",
-      "required": ["images", "tags", "labels", "context", "dockerfile", "push", "platforms"],
+      "description": "Docker 镜像元数据",
+      "required": ["images", "tags", "context", "dockerfile", "platforms"],
       "properties": {
         "images": {
           "type": "array",
-          "description": "Docker 镜像名称",
+          "description": "Docker 镜像名称列表",
           "items": {
             "type": "string"
-          }
+          },
+          "minItems": 1
         },
         "tags": {
           "type": "array",
-          "description": "Docker 镜像标签，[格式参考](https://github.com/docker/metadata-action)",
+          "description": "Docker 镜像标签模板，支持变量替换，[查看更多](https://github.com/docker/metadata-action)",
           "items": {
             "type": "string"
-          }
+          },
+          "examples": [
+            "type=ref,event=branch",
+            "type=ref,event=tag",
+            "type=semver,pattern={{version}}",
+            "type=raw,value=latest,enable={{is_default_branch}}"
+          ]
         },
         "labels": {
           "type": "object",
-          "description": "Docker 镜像标签",
+          "description": "Docker 镜像标签（metadata）",
           "additionalProperties": {
             "type": "string"
           }
         },
         "context": {
           "type": "string",
-          "description": "Docker 构建上下文"
+          "description": "Docker 构建上下文路径"
         },
         "dockerfile": {
           "type": "string",
-          "description": "Dockerfile 路径"
-        },
-        "push": {
-          "type": "boolean",
-          "description": "是否推送 Docker 镜像"
+          "description": "默认 Dockerfile 文件路径（非变体镜像使用）"
         },
         "platforms": {
           "type": "array",
-          "description": "Docker 构建平台，e.g. ['linux/amd64', 'linux/arm64']",
+          "description": "构建目标平台",
           "items": {
+            "type": "string",
+            "enum": ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/386"]
+          },
+          "default": ["linux/amd64", "linux/arm64"]
+        },
+        "build_args": {
+          "type": "object",
+          "description": "Docker 构建参数",
+          "additionalProperties": {
             "type": "string"
           }
         },
+        "push": {
+          "type": "boolean",
+          "default": true,
+          "description": "是否推送镜像到仓库"
+        },
         "readme_path": {
           "type": ["string", "boolean"],
-          "description": "README 文件路径, 基于 context 的相对路径, 为 false 时不处理 README"
+          "default": "README.md",
+          "description": "README 文件路径（相对于 context），false 表示不处理"
+        }
+      }
+    },
+    "sync": {
+      "type": "object",
+      "description": "同步镜像配置（仅 sync 类型使用）",
+      "required": ["source", "targets"],
+      "properties": {
+        "source": {
+          "type": "object",
+          "description": "源镜像信息",
+          "required": ["registry", "image"],
+          "properties": {
+            "registry": {
+              "type": "string",
+              "description": "源仓库地址",
+              "examples": ["docker.io", "ghcr.io", "quay.io"]
+            },
+            "image": {
+              "type": "string",
+              "description": "源镜像名称",
+              "examples": ["foo/bar", "library/nginx"]
+            },
+            "auth": {
+              "type": "object",
+              "description": "源仓库认证配置",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "用户名或认证密钥变量名"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密码或认证令牌变量名"
+                }
+              }
+            }
+          }
+        },
+        "targets": {
+          "type": "array",
+          "description": "目标仓库列表",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["registry", "image"],
+            "properties": {
+              "registry": {
+                "type": "string",
+                "description": "目标仓库地址",
+                "examples": ["registry.cn-hangzhou.aliyuncs.com", "harbor.example.com"]
+              },
+              "image": {
+                "type": "string",
+                "description": "目标镜像名称"
+              },
+              "namespace": {
+                "type": "string",
+                "description": "目标命名空间（可选）"
+              },
+              "tag_prefix": {
+                "type": "string",
+                "description": "标签前缀"
+              },
+              "tag_suffix": {
+                "type": "string",
+                "description": "标签后缀"
+              },
+              "auth": {
+                "type": "object",
+                "description": "目标仓库认证配置",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "用户名或认证密钥变量名"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "密码或认证令牌变量名"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "retry": {
+          "type": "object",
+          "description": "重试配置",
+          "properties": {
+            "max_attempts": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 3,
+              "description": "最大重试次数"
+            },
+            "delay_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3600,
+              "default": 30,
+              "description": "重试延迟秒数"
+            }
+          }
         }
       }
     }
-  }
+  },
+  "definitions": {
+    "gitVersionCheck": {
+      "type": "object",
+      "description": "Git 仓库版本检查（app 类型）",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["version", "sha", "tag"],
+          "description": "检查类型: version-文件版本, sha-提交哈希, tag-Git标签"
+        },
+        "file": {
+          "type": "string",
+          "description": "版本文件路径（type=version 时必需）",
+          "examples": ["package.json", "Cargo.toml", "pyproject.toml"]
+        },
+        "targetVersion": {
+          "type": "string",
+          "description": "目标版本（用于错误修复）"
+        },
+        "branch": {
+          "type": "string",
+          "default": "main",
+          "description": "检查的分支名称"
+        },
+        "tag_pattern": {
+          "type": "string",
+          "description": "标签匹配模式（type=tag 时使用）",
+          "examples": ["v*", "*.*.*"]
+        }
+      }
+    },
+    "baseVersionCheck": {
+      "type": "object",
+      "description": "基础镜像版本检查（base 类型）",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "manual",
+          "description": "手动控制版本"
+        },
+        "variants": {
+          "type": "object",
+          "description": "镜像变体配置，支持多个基础镜像",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["dockerfile"],
+            "properties": {
+              "dockerfile": {
+                "type": "string",
+                "description": "变体对应的 Dockerfile 路径"
+              },
+              "tags": {
+                "type": "array",
+                "description": "该变体的标签后缀",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "platforms": {
+                "type": "array",
+                "description": "该变体支持的平台（覆盖全局配置）",
+                "items": {
+                  "type": "string",
+                  "enum": ["linux/amd64", "linux/arm64", "linux/arm/v7", "linux/386"]
+                }
+              },
+              "build_args": {
+                "type": "object",
+                "description": "该变体的构建参数",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "examples": [
+            {
+              "ubuntu": {
+                "dockerfile": "Dockerfile.ubuntu",
+                "tags": ["ubuntu", "{version}-ubuntu"]
+              },
+              "alpine": {
+                "dockerfile": "Dockerfile.alpine",
+                "tags": ["alpine", "{version}-alpine", "latest"]
+              }
+            }
+          ]
+        },
+        "default_variant": {
+          "type": "string",
+          "description": "默认变体名称（用于 latest 标签等）"
+        }
+      }
+    },
+    "syncVersionCheck": {
+      "type": "object",
+      "description": "同步镜像版本检查（sync 类型）",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "registry",
+          "description": "检查镜像仓库"
+        },
+        "check_frequency": {
+          "type": "string",
+          "enum": ["always", "daily", "weekly", "manual"],
+          "default": "always",
+          "description": "检查频率: always-每次工作流运行时检查, daily-每日一次, weekly-每周一次, manual-仅手动触发"
+        },
+        "last_check": {
+          "type": "string",
+          "description": "上次检查时间（ISO 8601 格式）",
+          "format": "date-time"
+        },
+        "tag_mappings": {
+          "type": "array",
+          "description": "标签映射和跟踪配置",
+          "items": {
+            "type": "object",
+            "required": ["source_tag"],
+            "properties": {
+              "source_tag": {
+                "type": "string",
+                "description": "源镜像标签",
+                "examples": ["stable", "latest", "v1.0.0"]
+              },
+              "target_tags": {
+                "type": "array",
+                "description": "目标标签列表，空数组表示使用相同标签",
+                "items": {
+                  "type": "string"
+                },
+                "default": []
+              },
+              "last_sha": {
+                "type": "string",
+                "description": "上次同步时的源镜像 SHA 值",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "last_sync": {
+                "type": "string",
+                "description": "上次同步时间（ISO 8601 格式）",
+                "format": "date-time"
+              },
+              "enabled": {
+                "type": "boolean",
+                "default": true,
+                "description": "是否启用此标签的同步"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "app"
+          }
+        }
+      },
+      "then": {
+        "required": ["repo", "sha"],
+        "properties": {
+          "checkVer": {
+            "$ref": "#/definitions/gitVersionCheck"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "base"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "checkVer": {
+            "$ref": "#/definitions/baseVersionCheck"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "sync"
+          }
+        }
+      },
+      "then": {
+        "required": ["sync"],
+        "properties": {
+          "checkVer": {
+            "$ref": "#/definitions/syncVersionCheck"
+          }
+        }
+      }
+    }
+  ]
 }

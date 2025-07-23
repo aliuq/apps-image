@@ -6,4 +6,4 @@ export const isAct = process.env.ACT === 'true'
 /**
  * 是否为调试模式
  */
-export const isDebug = core.getInput('debug', { required: false }) === 'true' || core.isDebug()
+export const isDebug = core.getBooleanInput('debug') || core.isDebug()

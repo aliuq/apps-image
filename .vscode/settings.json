@@ -49,6 +49,7 @@
     "isready",
     "jsonhero",
     "lsky",
+    "Metas",
     "multx",
     "oxlint",
     "oxlintignore",
@@ -66,7 +67,7 @@
   ],
   "json.schemas": [
     {
-      "fileMatch": ["apps/*/meta.json"],
+      "fileMatch": ["**/*/meta.json"],
       "url": "./.vscode/meta.schema.json"
     }
   ],

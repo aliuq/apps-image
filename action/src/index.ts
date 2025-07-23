@@ -1,18 +1,20 @@
-import process from 'node:process'
+import type { Action } from './types.js'
 import * as core from '@actions/core'
+import * as gh from '@actions/github'
 import { green } from 'kolorist'
 import checkVersion from './actions/check-version.js'
-import resolveMeta from './actions/resolve-meta.js'
 
+import resolveMeta from './actions/resolve-meta.js'
 import { isAct } from './config.js'
 import { logDebug } from './utils.js'
 
-async function run(): Promise<void> {
+async function run() {
   try {
-    // 工作流类型
-    const action = core.getInput('action', { required: true })
+    const action = core.getInput('action', { required: true }) as Action
 
-    logDebug(`Running in ${green(isAct ? 'ACT' : 'GitHub')} environment`)
+    logDebug(`Action: ${green(action)}`)
+    logDebug(`Event: ${green(gh.context.eventName)}`)
+    logDebug(`Environment: ${green(isAct ? 'ACT' : 'GitHub Actions')}`)
 
     if (action === 'check-version') {
       await checkVersion()
