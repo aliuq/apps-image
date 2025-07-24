@@ -7,10 +7,10 @@ import fg from 'fast-glob'
 import fsa from 'fs-extra'
 import { cyan, green, red, yellow } from 'kolorist'
 import { createPullRequest } from 'octokit-plugin-create-pull-request'
-import { isAct } from '../config.js'
+import { getCurrentBranch, isAct } from '../config.js'
 import useCheckVersion from '../hooks/useCheckVersion.js'
 import { validateMeta } from '../types.js'
-import { createLoggerNs, escapeHtml } from '../utils.js'
+import { createLoggerNs, escapeHtml, formatDate } from '../utils.js'
 
 /**
  * 检查单个 app 或者检查全部应用
@@ -23,29 +23,38 @@ export default async function checkVersion() {
 
     const apps = await getApps()
     if (!apps.length) {
-      logger.info('No apps found, please check your directory')
+      logger.info(yellow('No apps found, please check your directory'))
       core.setOutput('status', 'success')
       core.setOutput('updates_count', '0')
       core.setOutput('has_updates', 'false')
+
+      // 添加空结果的 summary
+      await generateJobSummary({
+        totalApps: 0,
+        updatedApps: [],
+        errorApps: [],
+        upToDateApps: [],
+        typeStats: new Map(),
+        duration: 0,
+      })
+
       return
     }
 
+    const startTime = performance.now()
     const summary = new Map<string, CheckResult>()
     const typeSet = new Map<string, number>()
 
     let processedCount = 0
     for await (const app of apps) {
       processedCount++
-      logger.info(`⏳ [${processedCount}/${apps.length}] Checking ${cyan(app.name)}...`)
-
-      const startTime = performance.now()
+      logger.info(`⏳ [${processedCount}/${apps.length}] Checking ${cyan(app.dockerMeta.context)}...`)
       const result = await useCheckVersion(app)
-      const duration = (performance.now() - startTime).toFixed(2)
-
-      const resultWithDuration = { ...result, duration }
-      summary.set(app.dockerMeta.context, resultWithDuration)
+      summary.set(app.dockerMeta.context, result)
       typeSet.set(app.type, (typeSet.get(app.type) || 0) + 1)
     }
+
+    const totalDuration = (performance.now() - startTime).toFixed(2)
 
     // 输出统计信息
     const totalApps = summary.size
@@ -64,16 +73,15 @@ export default async function checkVersion() {
     ].join(' | '))
 
     // 输出应用类型统计
-    const typeStats = Array.from(typeSet.entries())
-      .map(([type, count]) => `${type}(${count})`)
-      .join(', ')
+    const typeStats = Array.from(typeSet.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
     logger.info(`App types:\n${typeStats}`)
 
     // 详细错误信息
     if (errorApps.length > 0) {
       await logger.group('Error Details', async () => {
         errorApps.forEach((app) => {
-          core.info(`${red('•')} ${app.meta.name}: ${app.error}`)
+          const meta = app.meta
+          core.info(`${red('•')} ${meta.dockerMeta.context}: ${app.error}`)
         })
       })
     }
@@ -83,13 +91,24 @@ export default async function checkVersion() {
       await logger.group('Available Updates', async () => {
         updatedApps.forEach((app) => {
           const meta = app.meta
-          core.info(`${green('•')} ${meta.name}: ${meta.version} (${meta.dockerMeta.context})`)
+          core.info(`${green('•')} ${meta.dockerMeta.context}: ${meta.version}`)
         })
       })
 
       // 处理 PR 创建
       await handlePullRequestCreation(updatedApps, summary)
     }
+
+    // 生成 GitHub Actions Summary
+    await generateJobSummary({
+      totalApps,
+      updatedApps,
+      errorApps,
+      upToDateApps,
+      typeStats: typeSet,
+      duration: totalDuration,
+      summary,
+    })
 
     // 设置输出
     core.setOutput('status', 'success')
@@ -132,7 +151,12 @@ export default async function checkVersion() {
 export async function getApps(): Promise<Meta[]> {
   const logger = createLoggerNs('GetApps')
 
-  const metaFiles = await fg.glob(['apps/*/meta.json', 'base/*/meta.json', 'sync/*/meta.json'])
+  const metaFiles = await fg.glob([
+    'apps/**/*/meta.json',
+    'base/**/*/meta.json',
+    'sync/**/*/meta.json',
+    'test/**/*/meta.json',
+  ])
   await logger.debugGroupJson(`Meta Files(${metaFiles.length})`, metaFiles)
 
   if (metaFiles.length === 0) {
@@ -223,7 +247,6 @@ export async function getApps(): Promise<Meta[]> {
   )
 
   if (!validMetaItems.length) {
-    logger.info('No valid meta files found, please check your directory and meta.json format')
     return []
   }
 
@@ -407,4 +430,170 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
 
     return summary
   }
+}
+
+/**
+ * 生成 GitHub Actions Job Summary
+ */
+async function generateJobSummary(data: {
+  totalApps: number
+  updatedApps: CheckResult[]
+  errorApps: CheckResult[]
+  upToDateApps: CheckResult[]
+  typeStats: Map<string, number>
+  duration: string | number
+  summary?: Map<string, CheckResult>
+}) {
+  const { totalApps, updatedApps, errorApps, upToDateApps, typeStats, duration } = data
+
+  const ghContext = gh.context
+  const repoUrl = `https://github.com/${ghContext.repo.owner}/${ghContext.repo.repo}`
+
+  // 获取当前分支
+  const currentBranch = getCurrentBranch()
+  const appTypeStats = Array.from(typeStats.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
+
+  let markdownContent = `# 版本检查总结
+
+## 概览
+
+| 总应用数 | 可更新 | 错误数 | 最新版本 | 执行时间 | 运行时间 | 应用类型分布 |
+|---------|--------|--------|----------|----------|----------|-------------|
+| ${totalApps} | ${updatedApps.length} | ${errorApps.length} | ${upToDateApps.length} | ${duration}ms | ${formatDate()} | ${appTypeStats} |
+
+`
+
+  // 更新详情
+  if (updatedApps.length > 0) {
+    markdownContent += `## 可用更新 (${updatedApps.length})
+
+| 应用名称 | 当前版本 | 新版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 | PR状态 |
+|---------|----------|--------|------|----------|------------|-----------|------|----------|--------|
+`
+    updatedApps.forEach((app) => {
+      const meta = app.meta // 新版本的 meta
+      const oldMeta = app.oldMeta // 原始的 meta
+      const context = meta.dockerMeta.context
+
+      // 构建文件链接
+      const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
+      const metaPath = `${context}/meta.json`
+      const readmePath = `${context}/README.md`
+
+      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
+      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
+      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
+      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+
+      const prStatus = app.pr?.html_url
+        ? `[🔗 查看PR](${app.pr.html_url})`
+        : app.pr?.error
+          ? `❌ 失败: ${app.pr.error.substring(0, 30)}...`
+          : '⏳ 等待中'
+
+      // 使用 oldMeta 的版本作为当前版本，meta 的版本作为新版本
+      const currentVersion = oldMeta?.version ? `\`${oldMeta.version}\`` : '`N/A`'
+      const newVersion = `\`${meta.version}\``
+
+      markdownContent += `| **${meta.name}** | ${currentVersion} | ${newVersion} | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms | ${prStatus} |\n`
+    })
+    markdownContent += '\n'
+  }
+
+  // 错误详情
+  if (errorApps.length > 0) {
+    markdownContent += `## 检查错误 (${errorApps.length})
+
+| 应用名称 | 类型 | 错误信息 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |
+|---------|------|----------|----------|------------|-----------|------|----------|
+`
+    errorApps.forEach((app) => {
+      const meta = app.meta || app.oldMeta || {} // 错误时可能没有 meta，使用 oldMeta
+      const context = meta.dockerMeta?.context || 'unknown'
+
+      // 构建文件链接
+      const dockerfilePath = `${context}/${meta.dockerMeta?.dockerfile || 'Dockerfile'}`
+      const metaPath = `${context}/meta.json`
+      const readmePath = `${context}/README.md`
+
+      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
+      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
+      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
+      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+
+      const errorMsg = app.error ? app.error.substring(0, 80) + (app.error.length > 80 ? '...' : '') : '未知错误'
+
+      markdownContent += `| **${meta.name || 'unknown'}** | \`${meta.type || 'unknown'}\` | ${errorMsg} | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
+    })
+    markdownContent += '\n'
+  }
+
+  // 最新应用状态 (前10个)
+  if (upToDateApps.length > 0) {
+    const displayApps = upToDateApps.slice(0, 10)
+    markdownContent += `## 已是最新版本 (显示 ${displayApps.length}/${upToDateApps.length})
+
+| 应用名称 | 版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |
+|---------|------|------|----------|------------|-----------|------|----------|
+`
+    displayApps.forEach((app) => {
+      const meta = app.meta
+      const context = meta.dockerMeta.context
+
+      // 构建文件链接
+      const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
+      const metaPath = `${context}/meta.json`
+      const readmePath = `${context}/README.md`
+
+      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
+      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
+      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
+      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+
+      markdownContent += `| **${meta.name}** | \`${meta.version}\` | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
+    })
+
+    if (upToDateApps.length > 10) {
+      markdownContent += `\n<details>\n<summary>显示全部 ${upToDateApps.length} 个已是最新版本的应用</summary>\n\n`
+      markdownContent += `| 应用名称 | 版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |\n|---------|------|------|----------|------------|-----------|------|----------|\n`
+      upToDateApps.slice(10).forEach((app) => {
+        const meta = app.meta
+        const context = meta.dockerMeta.context
+
+        const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
+        const metaPath = `${context}/meta.json`
+        const readmePath = `${context}/README.md`
+
+        const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
+        const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
+        const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
+        const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+
+        markdownContent += `| **${meta.name}** | \`${meta.version}\` | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
+      })
+      markdownContent += `\n</details>\n`
+    }
+    markdownContent += '\n'
+  }
+
+  // 状态说明
+  markdownContent += `---
+
+### 状态说明
+- **可用更新**: 检测到新版本，可能会创建PR
+- **已是最新版本**: 无需更新
+- **检查错误**: 检查失败，请查看错误信息
+- **🔗 查看PR**: PR已成功创建
+- **⏳ 等待中**: 操作进行中
+- **❌ 失败**: 操作失败
+
+*生成时间: ${formatDate()} | 版本检查工作流*
+`
+
+  // 写入 GitHub Actions Summary
+  await core.summary.addRaw(markdownContent).write()
+
+  // 同时输出到日志
+  const logger = createLoggerNs('Summary')
+  logger.info('GitHub Actions Summary 已生成')
 }

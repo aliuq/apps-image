@@ -1,7 +1,7 @@
 import type Buffer from 'node:buffer'
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
-import { cyan } from 'kolorist'
+import { cyan, yellow } from 'kolorist'
 import { isDebug } from './config.js'
 
 // let _isDebug = undefined
@@ -9,9 +9,10 @@ import { isDebug } from './config.js'
 /**
  * Execute a command and return the output
  */
-export async function execCommand(command: string, args?: string[], options?: exec.ExecOptions): Promise<string> {
+export async function execCommand(command: string, args?: string[], options?: exec.ExecOptions) {
   let result = ''
   let error = ''
+  const logger = createLoggerNs()
   try {
     await exec.exec(command, args, {
       listeners: {
@@ -28,9 +29,12 @@ export async function execCommand(command: string, args?: string[], options?: ex
     return result?.trim?.()
   }
   catch (e: any) {
-    if (error)
-      core.warning(error)
-    core.warning(e.message)
+    logger.info(yellow(command))
+
+    core.warning(
+      [error?.trim() || e.message?.trim(), `command: ${command}`].join('\n'),
+      { title: 'Command Execution Error' },
+    )
     return ''
   }
 }

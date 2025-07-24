@@ -31,6 +31,7 @@
     },
     "sha": {
       "type": "string",
+      "pattern": "^$|^[a-f0-9]{40}$",
       "description": "源代码的 SHA 值（仅 app 类型需要）"
     },
     "checkVer": {
@@ -256,6 +257,19 @@
           "type": "string",
           "description": "标签匹配模式（type=tag 时使用）",
           "examples": ["v*", "*.*.*"]
+        },
+        "processFiles": {
+          "type": "array",
+          "description": "需要进行占位符替换的额外文件列表（相对于 context 目录）",
+          "items": {
+            "type": "string"
+          },
+          "examples": [
+            "docker-compose.yml",
+            "scripts/entrypoint.sh",
+            "config/app.conf",
+            ".env.example"
+          ]
         }
       }
     },

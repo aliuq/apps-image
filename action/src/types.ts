@@ -32,6 +32,8 @@ export interface GitVersionCheck {
   branch?: string
   tag_pattern?: string
   regex?: string
+  /** 需要进行占位符替换的额外文件列表（相对于 context 目录） */
+  processFiles?: string[]
 }
 
 /**
@@ -228,9 +230,9 @@ export interface CheckResult {
    */
   reason?: string
   /**
-   * 检查持续时间（毫秒）
+   * 时间戳，检查持续时间（毫秒）
    */
-  duration?: number | string
+  duration?: number
   /**
    * PR 创建结果
    */
@@ -239,6 +241,10 @@ export interface CheckResult {
     html_url?: string
     error?: string
   }
+  /**
+   * 保存原始的 meta 作为 oldMeta
+   */
+  oldMeta?: Meta
 }
 
 /**
