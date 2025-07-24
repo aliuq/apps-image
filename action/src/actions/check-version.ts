@@ -19,7 +19,7 @@ export default async function checkVersion() {
   const logger = createLoggerNs()
 
   try {
-    logger.info('Starting version check process...')
+    logger.debug('Starting version check process...')
 
     const apps = await getApps()
     if (!apps.length) {
@@ -44,6 +44,8 @@ export default async function checkVersion() {
     const startTime = performance.now()
     const summary = new Map<string, CheckResult>()
     const typeSet = new Map<string, number>()
+
+    logger.info('')
 
     let processedCount = 0
     for await (const app of apps) {
