@@ -19,24 +19,16 @@ export default async function checkVersion() {
   const logger = createLoggerNs()
 
   try {
-    logger.info('🚀 Starting version check process...')
+    logger.info('Starting version check process...')
 
     const apps = await getApps()
     if (!apps.length) {
-      logger.warning('No apps found, please check your directory')
+      logger.info('No apps found, please check your directory')
       core.setOutput('status', 'success')
       core.setOutput('updates_count', '0')
       core.setOutput('has_updates', 'false')
       return
     }
-
-    logger.info(`📋 Found ${green(apps.length.toString())} apps to check`)
-
-    // 打印应用列表
-    await logger.debugGroup('Apps to check', async () => {
-      const appList = apps.map(app => `${app.type.toUpperCase()}: ${app.name} (${app.dockerMeta.context})`).join('\n')
-      core.info(appList)
-    })
 
     const summary = new Map<string, CheckResult>()
     const typeSet = new Map<string, number>()
@@ -53,17 +45,6 @@ export default async function checkVersion() {
       const resultWithDuration = { ...result, duration }
       summary.set(app.dockerMeta.context, resultWithDuration)
       typeSet.set(app.type, (typeSet.get(app.type) || 0) + 1)
-
-      // 输出单个检查结果
-      if (result.hasUpdate) {
-        logger.info(`✅ ${green(app.name)}: Update available (${duration}ms)`)
-      }
-      else if (result.status === 'error') {
-        logger.error(`❌ ${red(app.name)}: Check failed - ${result.error} (${duration}ms)`)
-      }
-      else {
-        logger.info(`✓ ${app.name}: Up to date (${duration}ms)`)
-      }
     }
 
     // 输出统计信息
@@ -74,7 +55,7 @@ export default async function checkVersion() {
     const upToDateApps = results.filter(r => !r.hasUpdate && r.status === 'success')
 
     logger.info('')
-    logger.info('📊 Check Summary:')
+    logger.info('Check Summary:')
     logger.info([
       `Total: ${green(totalApps.toString())} apps checked`,
       `Updates: ${updatedApps.length ? cyan(updatedApps.length.toString()) : green('0')}`,
@@ -86,11 +67,11 @@ export default async function checkVersion() {
     const typeStats = Array.from(typeSet.entries())
       .map(([type, count]) => `${type}(${count})`)
       .join(', ')
-    logger.info(`App types: ${typeStats}`)
+    logger.info(`App types:\n${typeStats}`)
 
     // 详细错误信息
     if (errorApps.length > 0) {
-      await logger.group('❌ Error Details', async () => {
+      await logger.group('Error Details', async () => {
         errorApps.forEach((app) => {
           core.info(`${red('•')} ${app.meta.name}: ${app.error}`)
         })
@@ -99,7 +80,7 @@ export default async function checkVersion() {
 
     // 详细更新信息
     if (updatedApps.length > 0) {
-      await logger.group('🔄 Available Updates', async () => {
+      await logger.group('Available Updates', async () => {
         updatedApps.forEach((app) => {
           const meta = app.meta
           core.info(`${green('•')} ${meta.name}: ${meta.version} (${meta.dockerMeta.context})`)
@@ -116,10 +97,10 @@ export default async function checkVersion() {
     core.setOutput('has_updates', updatedApps.length > 0 ? 'true' : 'false')
     core.setOutput('error_count', errorApps.length.toString())
 
-    logger.info(`✨ Version check completed successfully!`)
+    logger.info(`Version check completed successfully!`)
   }
   catch (error) {
-    logger.error('💥 Version check failed:')
+    logger.error('Version check failed:')
 
     if (error instanceof Error) {
       logger.error(`Error: ${error.message}`)
@@ -151,9 +132,7 @@ export default async function checkVersion() {
 export async function getApps(): Promise<Meta[]> {
   const logger = createLoggerNs('GetApps')
 
-  logger.debug('🔍 Searching for meta files...')
-  const metaFiles = await fg.glob(['**/*/meta.json'])
-  logger.debug(`Found ${metaFiles.length} meta files`)
+  const metaFiles = await fg.glob(['apps/*/meta.json', 'base/*/meta.json', 'sync/*/meta.json'])
   await logger.debugGroupJson(`Meta Files(${metaFiles.length})`, metaFiles)
 
   if (metaFiles.length === 0) {
@@ -167,7 +146,6 @@ export async function getApps(): Promise<Meta[]> {
 
   for await (const metaFile of metaFiles) {
     const context = path.dirname(metaFile)
-    logger.debug(`Processing ${metaFile}...`)
 
     try {
       const meta = await fsa.readJSON(metaFile, 'utf-8') as Meta
@@ -178,10 +156,7 @@ export async function getApps(): Promise<Meta[]> {
       let reason: string | undefined
 
       // 验证检查
-      if (!meta) {
-        reason = 'Failed to parse meta.json'
-      }
-      else if (!docker?.dockerfile) {
+      if (!docker?.dockerfile) {
         reason = 'No Dockerfile specified in dockerMeta'
       }
       else if (!fs.existsSync(dockerfile)) {
@@ -205,12 +180,11 @@ export async function getApps(): Promise<Meta[]> {
         docker.context = docker.context || context
         docker.dockerfile = docker.dockerfile || 'Dockerfile'
         docker.push = docker.push ?? true
+
         validCount++
-        logger.debug(`✅ ${meta.name} validated successfully`)
       }
       else {
         invalidCount++
-        logger.debug(`❌ ${context}: ${reason}`)
       }
 
       allMetaSet.set(context, { context, meta, reason })
@@ -218,7 +192,6 @@ export async function getApps(): Promise<Meta[]> {
     catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Unknown error'
       invalidCount++
-      logger.error(`Failed to process ${metaFile}: ${errorMsg}`)
 
       allMetaSet.set(context, {
         context,
@@ -232,7 +205,7 @@ export async function getApps(): Promise<Meta[]> {
   const validMetaItems = allMetaItems.filter(item => !item.reason)
   const validMetas = validMetaItems.map(item => item.meta)
 
-  logger.info(`📋 Meta validation: ${green(validCount.toString())} valid, ${invalidCount > 0 ? red(invalidCount.toString()) : green('0')} invalid`)
+  logger.debug(`Meta validation: ${green(validCount)} valid, ${invalidCount ? red(invalidCount) : green('0')} invalid`)
 
   await logger.group(
     `Meta Files Resolved(${metaFiles.length})`,
@@ -241,7 +214,7 @@ export async function getApps(): Promise<Meta[]> {
         const { context, meta, reason } = item
         const statusIcon = reason ? '❌' : '✅'
         const nameDisplay = meta?.name || 'unknown'
-        const reasonDisplay = reason ? ` ${yellow(`(${reason})`)}` : ''
+        const reasonDisplay = reason ? ` ${yellow(` ${reason}`)}` : ''
         return `${statusIcon} ${cyan(nameDisplay)} (${context})${reasonDisplay}`
       },
       ).join('\n')
@@ -250,7 +223,7 @@ export async function getApps(): Promise<Meta[]> {
   )
 
   if (!validMetaItems.length) {
-    logger.warning('No valid meta files found, please check your directory and meta.json format')
+    logger.info('No valid meta files found, please check your directory and meta.json format')
     return []
   }
 
@@ -265,12 +238,12 @@ export async function getApps(): Promise<Meta[]> {
 
     if (!metaItem) {
       const availableContexts = Array.from(allMetaSet.keys()).join(', ')
-      logger.error(`Invalid context: ${red(context)}, available: ${availableContexts}`)
+      logger.warning(`Invalid context: ${red(context)}, available: ${availableContexts}`)
       return false
     }
 
     if (metaItem.reason) {
-      logger.error(`Invalid meta for ${red(context)}: ${metaItem.reason}`)
+      logger.warning(`Invalid meta for ${red(context)}: ${metaItem.reason}`)
       return false
     }
 
@@ -302,7 +275,7 @@ export async function getApps(): Promise<Meta[]> {
     logger.debug(`Push event with commit message: ${cyan(escapeHtml(ghMessage))}`)
 
     if (ghMessage.includes('force check')) {
-      logger.info('🔄 Force check detected in commit message')
+      logger.info('Force check detected in commit message')
 
       // 优先从修改的文件获取
       const changedFiles = ghContext.payload?.commits?.[0]?.modified || []
@@ -332,7 +305,7 @@ export async function getApps(): Promise<Meta[]> {
         }
       }
       else {
-        logger.warning(`No valid context pattern found in commit message: ${ghMessage}`)
+        logger.info(`No valid context pattern found in commit message: ${ghMessage}`)
         logger.info('Expected format: type(context): message, e.g., chore(apps/app-name): update')
       }
     }
@@ -348,16 +321,16 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
   const enableCreatePr = core.getBooleanInput('create_pr')
 
   if (!enableCreatePr) {
-    logger.warning('🚫 PR creation disabled by input parameter')
+    logger.warning('PR creation disabled by input parameter')
     return
   }
 
   if (isAct) {
-    logger.info('🎭 Running in ACT environment, skipping PR creation')
+    logger.warning('Running in ACT environment, skipping PR creation')
     return
   }
 
-  logger.info(`🔄 Creating PRs for ${checkResults.length} updates...`)
+  logger.debug(`Creating PRs for ${checkResults.length} updates...`)
 
   let currentContext = ''
   let successCount = 0
@@ -381,8 +354,6 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
       currentContext = checkResult.meta.dockerMeta.context
 
       try {
-        logger.info(`📝 Creating PR for ${cyan(checkResult.meta.name)}...`)
-
         // 验证 PR 数据
         if (!checkResult.pr?.data) {
           throw new Error(`Missing PR data for ${checkResult.meta.name}`)
@@ -398,7 +369,6 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
         summary.set(currentContext, data)
 
         successCount++
-        logger.info(`✅ PR created for ${green(checkResult.meta.name)}: ${result?.data.html_url}`)
       }
       catch (prError) {
         const errorMsg = prError instanceof Error ? prError.message : 'Unknown PR creation error'
@@ -415,7 +385,7 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
       }
     }
 
-    logger.info(`📊 PR creation summary: ${green(successCount.toString())} successful, ${failureCount > 0 ? red(failureCount.toString()) : green('0')} failed`)
+    logger.info(`PR creation summary: ${green(successCount.toString())} successful, ${failureCount > 0 ? red(failureCount.toString()) : green('0')} failed`)
 
     return summary
   }
@@ -423,7 +393,7 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
     const errorMsg = error instanceof Error ? error.message : 'Unknown error'
     failureCount++
 
-    logger.error(`💥 PR creation process failed: ${errorMsg}`)
+    logger.error(`PR creation process failed: ${errorMsg}`)
 
     if (currentContext && summary.has(currentContext)) {
       const data = summary.get(currentContext)!
@@ -435,7 +405,6 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
       summary.set(currentContext, data)
     }
 
-    core.setFailed(`Failed to create PR for ${currentContext}: ${errorMsg}`)
     return summary
   }
 }
