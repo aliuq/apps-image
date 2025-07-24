@@ -48,7 +48,7 @@ export default async function checkVersion() {
     let processedCount = 0
     for await (const app of apps) {
       processedCount++
-      logger.info(`⏳ [${processedCount}/${apps.length}] Checking ${cyan(app.dockerMeta.context)}...`)
+      logger.debug(`⏳ [${processedCount}/${apps.length}] Checking ${cyan(app.dockerMeta.context)}...`)
       const result = await useCheckVersion(app)
       summary.set(app.dockerMeta.context, result)
       typeSet.set(app.type, (typeSet.get(app.type) || 0) + 1)
@@ -63,10 +63,8 @@ export default async function checkVersion() {
     const errorApps = results.filter(r => r.status === 'error')
     const upToDateApps = results.filter(r => !r.hasUpdate && r.status === 'success')
 
-    logger.info('')
-    logger.info('Check Summary:')
     logger.info([
-      `Total: ${green(totalApps.toString())} apps checked`,
+      `\nTotal: ${green(totalApps.toString())} apps checked`,
       `Updates: ${updatedApps.length ? cyan(updatedApps.length.toString()) : green('0')}`,
       `Errors: ${errorApps.length ? red(errorApps.length.toString()) : green('0')}`,
       `Up to date: ${green(upToDateApps.length.toString())}`,
@@ -74,7 +72,7 @@ export default async function checkVersion() {
 
     // 输出应用类型统计
     const typeStats = Array.from(typeSet.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
-    logger.info(`App types:\n${typeStats}`)
+    logger.debug(`App types:\n${typeStats}`)
 
     // 详细错误信息
     if (errorApps.length > 0) {
@@ -88,7 +86,7 @@ export default async function checkVersion() {
 
     // 详细更新信息
     if (updatedApps.length > 0) {
-      await logger.group('Available Updates', async () => {
+      await logger.debugGroup('Available Updates', async () => {
         updatedApps.forEach((app) => {
           const meta = app.meta
           core.info(`${green('•')} ${meta.dockerMeta.context}: ${meta.version}`)
@@ -116,7 +114,7 @@ export default async function checkVersion() {
     core.setOutput('has_updates', updatedApps.length > 0 ? 'true' : 'false')
     core.setOutput('error_count', errorApps.length.toString())
 
-    logger.info(`Version check completed successfully!`)
+    logger.debug(`Version check completed successfully!`)
   }
   catch (error) {
     logger.error('Version check failed:')
@@ -149,7 +147,7 @@ export default async function checkVersion() {
  * - sync/*\/meta.json
  */
 export async function getApps(): Promise<Meta[]> {
-  const logger = createLoggerNs('GetApps')
+  const logger = createLoggerNs()
 
   const metaFiles = await fg.glob([
     'apps/**/*/meta.json',
@@ -470,6 +468,8 @@ async function generateJobSummary(data: {
 | 应用名称 | 当前版本 | 新版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 | PR状态 |
 |---------|----------|--------|------|----------|------------|-----------|------|----------|--------|
 `
+    const enableCreatePr = core.getBooleanInput('create_pr')
+
     updatedApps.forEach((app) => {
       const meta = app.meta // 新版本的 meta
       const oldMeta = app.oldMeta // 原始的 meta
@@ -486,10 +486,12 @@ async function generateJobSummary(data: {
       const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
 
       const prStatus = app.pr?.html_url
-        ? `[🔗 查看PR](${app.pr.html_url})`
+        ? `[✅ 查看PR](${app.pr.html_url})`
         : app.pr?.error
-          ? `❌ 失败: ${app.pr.error.substring(0, 30)}...`
-          : '⏳ 等待中'
+          ? `❌ Failed: ${app.pr.error.substring(0, 30)}...`
+          : !enableCreatePr
+              ? '⚠️ Disabled'
+              : 'N/A'
 
       // 使用 oldMeta 的版本作为当前版本，meta 的版本作为新版本
       const currentVersion = oldMeta?.version ? `\`${oldMeta.version}\`` : '`N/A`'
@@ -595,5 +597,5 @@ async function generateJobSummary(data: {
 
   // 同时输出到日志
   const logger = createLoggerNs('Summary')
-  logger.info('GitHub Actions Summary 已生成')
+  logger.debug('GitHub Actions Summary 已生成')
 }
