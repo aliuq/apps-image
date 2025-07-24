@@ -1,0 +1,23 @@
+{
+  "name": "yulegeyu",
+  "type": "app",
+  "version": "1234567",
+  "description": "鱼了个鱼",
+  "repo": "https://github.com/liyupi/yulegeyu",
+  "sha": "1234567890abcdef1234567890abcdef12345678",
+  "checkVer": {
+    "type": "sha"
+  },
+  "dockerMeta": {
+    "images": [
+      "ghcr.io/aliuq/yulegeyu"
+    ],
+    "tags": [
+      "type=raw,value=latest"
+    ],
+    "context": "test/yulegeyu",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": false
+  }
+}
