@@ -154,7 +154,7 @@ Total: ${CQ(N.toString())} apps checked`,`Updates: ${U.length?XQ(U.length.toStri
 `,z+=`| 路径 | 应用名称 | 无效原因 |
 `,z+=`|:-----|:---------|:---------|
 `,k.forEach((L)=>{z+=`| \`${L.context}\` | ${L.meta?.name||"N/A"} | ${L.reason||"未知错误"} |
-`})}if(Y){if(z+=`
+`})}if(!Y){if(z+=`
 
 ## ℹ️ 详细信息
 
@@ -180,5 +180,5 @@ Total: ${CQ(N.toString())} apps checked`,`Updates: ${U.length?XQ(U.length.toStri
 `),C.annotations=D.join(`
 `),iF.group("Post Docker Meta",async()=>iF.info(JSON.stringify(C,null,2))),C}async function SU(){try{let A=Mz.context,Q=A.eventName,B=Q==="pull_request",E="",I;if(Q==="pull_request"){if(E=(A.payload.pull_request?.title||"").match(/^chore\(([^)]+)\): update version to/)?.[1],!E){OA.info("PR title should be in the format: chore(context): update version to xxx"),OA.setOutput("status","failure");return}}else if(Q==="workflow_dispatch")E=OA.getInput("context",{required:!0}),I=OA.getInput("push",{required:!1})==="true";let C=wz.join(E,"meta.json");if(!MB.default.existsSync(C)){OA.info(`Meta file not found: ${C}`),OA.setOutput("status","failure");return}let g={},F=g?.dockerMeta,Y=wz.join(E,F?.dockerfile||"Dockerfile");if(CC){if(B){let U=A.payload.pull_request?.changes?.[0]?.files?.[C]?.content;MB.default.writeFileSync(C,U),g=await MB.default.readJSON(C);let J=A.payload.pull_request?.changes?.[0]?.files?.[Y]?.content;J&&MB.default.writeFileSync(Y,J)}else if(Q==="workflow_dispatch"){g=await MB.default.readJSON(C),OA.info(`Checking version for ${g.name}`);let{hasUpdate:U,meta:J,dockerfile:R}=await Wg(g);if(U)g=J,MB.default.writeFileSync(C,JSON.stringify(J,null,2)),R&&MB.default.writeFileSync(Y,R)}}else if(g=await MB.default.readJSON(C),!MB.default.existsSync(Y)){OA.info(`Dockerfile not found: ${Y}`),OA.setOutput("status","failure");return}if(I!==void 0)g.dockerMeta.push=I;OA.group(`${g.name} Metadata`,async()=>OA.info(JSON.stringify(g,null,2)));let N=await MB.default.readFile(Y,"utf-8");OA.group(`${g.name} Dockerfile`,async()=>OA.info(N));let D=await zU(g);for(let[U,J]of Object.entries(D))OA.setOutput(U,J);OA.setOutput("status","success")}catch(A){if(A instanceof Error)OA.setFailed(A.message);else OA.setFailed("An unexpected error occurred")}}async function Bi(){try{let A=DC.getInput("action",{required:!0});if(dF(`Action: ${CQ(A)}`),dF(`Event: ${CQ(Vz.context.eventName)}`),dF(`Environment: ${CQ(CC?"ACT":"GitHub Actions")}`),A==="check-version")await KU();else if(A==="resolve-meta")await SU();else DC.setFailed(`Invalid action: ${A}`)}catch(A){if(A instanceof Error)DC.setFailed(A.message);else DC.setFailed("An unexpected error occurred")}}Bi();
 
-//# debugId=E301D36799E16E3264756E2164756E21
+//# debugId=F595A2BCEEF5241D64756E2164756E21
 //# sourceMappingURL=index.js.map
