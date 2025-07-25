@@ -137,4 +137,7 @@ export default antfu(
       ],
     },
   },
+  {
+    ignores: ['.github'],
+  },
 )

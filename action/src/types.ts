@@ -295,3 +295,22 @@ export function validateMeta(meta: any): meta is Meta {
       return false
   }
 }
+
+export interface MetaDetail {
+  context: string
+  meta: Meta
+  reason?: string
+}
+
+export interface JobSummaryOptions {
+  /** 应用检查结果的 Map */
+  summary?: Map<string, CheckResult>
+  /** 执行所用时间（毫秒） */
+  totalDuration?: string | number
+  /** 应用类型统计信息 */
+  typeStats?: Record<string, number>
+  /** 实际开始时间 */
+  actualStartTime?: number
+  /** 所有 Meta 详细信息 */
+  allMetaDetails?: Array<MetaDetail>
+}

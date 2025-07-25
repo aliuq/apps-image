@@ -1,5 +1,6 @@
 {
   "name": "cobalt",
+  "type": "app",
   "version": "11.3",
   "repo": "https://github.com/imputnet/cobalt",
   "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
@@ -12,15 +13,15 @@
       "aliuq/cobalt",
       "ghcr.io/aliuq/cobalt"
     ],
-    "context": "apps/cobalt",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=11.3",
       "type=raw,value=e4b5388"
     ],
+    "context": "apps/cobalt",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "Cobalt",
       "description": "best way to save what you love",

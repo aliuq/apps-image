@@ -1,5 +1,6 @@
 {
   "name": "yulegeyu",
+  "type": "app",
   "version": "4b9de83",
   "repo": "https://github.com/liyupi/yulegeyu",
   "sha": "4b9de839b62360b05835e5754ec7b7d3e55b2abf",
@@ -11,14 +12,14 @@
       "aliuq/yulegeyu",
       "ghcr.io/aliuq/yulegeyu"
     ],
-    "context": "apps/yulegeyu",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=4b9de83"
     ],
+    "context": "apps/yulegeyu",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "鱼了个鱼",
       "description": "羊了个羊纯前端实现版【鱼了个鱼】，自定义关卡+图案+无限道具",

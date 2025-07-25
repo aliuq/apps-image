@@ -1,10 +1,9 @@
 {
   "name": "telemirror",
+  "type": "app",
   "version": "22b7121",
   "repo": "https://github.com/khoben/telemirror",
   "sha": "22b7121320ad1a652dbcd3bf6014b0a2349e799a",
-  "push": true,
-  "tags": "",
   "checkVer": {
     "type": "sha"
   },
@@ -13,14 +12,14 @@
       "aliuq/telemirror",
       "ghcr.io/aliuq/telemirror"
     ],
-    "context": "apps/telemirror",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=22b7121"
     ],
+    "context": "apps/telemirror",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "Telemirror",
       "description": "Telegram message forwarder (client API)",

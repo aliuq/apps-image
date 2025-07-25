@@ -41,8 +41,8 @@ export async function execCommand(command: string, args?: string[], options?: ex
 
 /**
  * 创建一个日志记录器
+ *
  * @param ns 命名空间
- * @returns
  */
 export function createLogger(ns: string) {
   return (msg: string) => core.info(`${cyan(`#${ns}`)}: ${msg}`)
@@ -50,8 +50,8 @@ export function createLogger(ns: string) {
 
 /**
  * 创建一个命名空间的日志记录器
+ *
  * @param ns 命名空间
- * @returns
  */
 export function createLoggerNs(ns?: string, useColor = false) {
   const func = useColor ? cyan : (str: string | number) => String(str)
@@ -108,4 +108,28 @@ export function formatDate(input: string | Date = new Date()): string {
     minute: '2-digit',
     second: '2-digit',
   }).replace(/\//g, '-')
+}
+
+/**
+ * 格式化执行时间为人类友好的格式
+ */
+export function formatDuration(ms: number): string {
+  if (ms < 1000) {
+    return `${ms.toFixed(1)}ms`
+  }
+
+  const seconds = ms / 1000
+  if (seconds < 60) {
+    return `${seconds.toFixed(1)}s`
+  }
+
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+  if (minutes < 60) {
+    return `${minutes}m ${remainingSeconds.toFixed(1)}s`
+  }
+
+  const hours = Math.floor(minutes / 60)
+  const remainingMinutes = minutes % 60
+  return `${hours}h ${remainingMinutes}m ${remainingSeconds.toFixed(1)}s`
 }

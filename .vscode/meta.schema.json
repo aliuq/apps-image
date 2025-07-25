@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "required": ["name", "type", "version", "dockerMeta"],
   "properties": {
     "name": {
@@ -36,13 +37,14 @@
     },
     "checkVer": {
       "type": "object",
+      "additionalProperties": false,
       "required": ["type"],
       "description": "检查更新的方式",
       "properties": {
         "type": {
           "type": "string",
           "enum": ["version", "sha", "tag"],
-          "description": "检查更新的方式"
+          "description": "检查更新的方式: version/sha/tag(app类型), manual(base类型), registry(sync类型)"
         },
         "file": {
           "type": "string",
@@ -56,6 +58,7 @@
     },
     "dockerMeta": {
       "type": "object",
+      "additionalProperties": false,
       "description": "Docker 镜像元数据",
       "required": ["images", "tags", "context", "dockerfile", "platforms"],
       "properties": {

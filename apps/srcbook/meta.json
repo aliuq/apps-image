@@ -1,5 +1,6 @@
 {
   "name": "srcbook",
+  "type": "app",
   "version": "0.0.19",
   "repo": "https://github.com/srcbookdev/srcbook",
   "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
@@ -12,15 +13,15 @@
       "aliuq/srcbook",
       "ghcr.io/aliuq/srcbook"
     ],
-    "context": "apps/srcbook",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=0.0.19",
       "type=raw,value=0ba24b1"
     ],
+    "context": "apps/srcbook",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "SrcBook",
       "description": "TypeScript-centric app development platform: notebook and AI app builder",

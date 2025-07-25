@@ -1,4 +1,4 @@
-import type { CheckResult, Meta } from '../types.js'
+import type { CheckResult, JobSummaryOptions, Meta, MetaDetail } from '../types.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import * as core from '@actions/core'
@@ -10,40 +10,32 @@ import { createPullRequest } from 'octokit-plugin-create-pull-request'
 import { getCurrentBranch, isAct } from '../config.js'
 import useCheckVersion from '../hooks/useCheckVersion.js'
 import { validateMeta } from '../types.js'
-import { createLoggerNs, escapeHtml, formatDate } from '../utils.js'
+import { createLoggerNs, escapeHtml, formatDate, formatDuration } from '../utils.js'
 
 /**
  * 检查单个 app 或者检查全部应用
  */
 export default async function checkVersion() {
   const logger = createLoggerNs()
+  const actualStartTime = Date.now()
 
   try {
     logger.debug('Starting version check process...')
 
-    const apps = await getApps()
+    const { metas: apps, allMetaDetails } = await getApps()
+
     if (!apps.length) {
       logger.info(yellow('No apps found, please check your directory'))
       core.setOutput('status', 'success')
       core.setOutput('updates_count', '0')
-      core.setOutput('has_updates', 'false')
 
-      // 添加空结果的 summary
-      await generateJobSummary({
-        totalApps: 0,
-        updatedApps: [],
-        errorApps: [],
-        upToDateApps: [],
-        typeStats: new Map(),
-        duration: 0,
-      })
-
+      await generateJobSummary({ actualStartTime, allMetaDetails })
       return
     }
 
-    const startTime = performance.now()
+    const startTime = Date.now()
     const summary = new Map<string, CheckResult>()
-    const typeSet = new Map<string, number>()
+    const typeStats: Record<string, number> = {}
 
     logger.info('')
 
@@ -53,10 +45,10 @@ export default async function checkVersion() {
       logger.debug(`⏳ [${processedCount}/${apps.length}] Checking ${cyan(app.dockerMeta.context)}...`)
       const result = await useCheckVersion(app)
       summary.set(app.dockerMeta.context, result)
-      typeSet.set(app.type, (typeSet.get(app.type) || 0) + 1)
+      typeStats[app.type] = (typeStats[app.type] || 0) + 1
     }
 
-    const totalDuration = (performance.now() - startTime).toFixed(2)
+    const totalDuration = Date.now() - startTime
 
     // 输出统计信息
     const totalApps = summary.size
@@ -70,11 +62,11 @@ export default async function checkVersion() {
       `Updates: ${updatedApps.length ? cyan(updatedApps.length.toString()) : green('0')}`,
       `Errors: ${errorApps.length ? red(errorApps.length.toString()) : green('0')}`,
       `Up to date: ${green(upToDateApps.length.toString())}`,
+      `Duration: ${cyan(formatDuration(Number(totalDuration)))}`,
     ].join(' | '))
 
     // 输出应用类型统计
-    const typeStats = Array.from(typeSet.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
-    logger.debug(`App types:\n${typeStats}`)
+    logger.debug(`App types: ${Object.entries(typeStats).map(([type, count]) => `${type}(${count})`).join(' · ')}`)
 
     // 详细错误信息
     if (errorApps.length > 0) {
@@ -100,20 +92,11 @@ export default async function checkVersion() {
     }
 
     // 生成 GitHub Actions Summary
-    await generateJobSummary({
-      totalApps,
-      updatedApps,
-      errorApps,
-      upToDateApps,
-      typeStats: typeSet,
-      duration: totalDuration,
-      summary,
-    })
+    await generateJobSummary({ summary, totalDuration, typeStats, actualStartTime, allMetaDetails })
 
     // 设置输出
     core.setOutput('status', 'success')
     core.setOutput('updates_count', updatedApps.length.toString())
-    core.setOutput('has_updates', updatedApps.length > 0 ? 'true' : 'false')
     core.setOutput('error_count', errorApps.length.toString())
 
     logger.debug(`Version check completed successfully!`)
@@ -137,7 +120,6 @@ export default async function checkVersion() {
     // 设置错误状态输出
     core.setOutput('status', 'error')
     core.setOutput('updates_count', '0')
-    core.setOutput('has_updates', 'false')
   }
 }
 
@@ -148,7 +130,7 @@ export default async function checkVersion() {
  * - base/*\/meta.json
  * - sync/*\/meta.json
  */
-export async function getApps(): Promise<Meta[]> {
+export async function getApps(): Promise<{ metas: Meta[], allMetaDetails: Array<MetaDetail> }> {
   const logger = createLoggerNs()
 
   const metaFiles = await fg.glob([
@@ -161,12 +143,10 @@ export async function getApps(): Promise<Meta[]> {
 
   if (metaFiles.length === 0) {
     logger.warning('No meta.json files found in apps/, base/, or sync/ directories')
-    return []
+    return { metas: [], allMetaDetails: [] }
   }
 
-  const allMetaSet = new Map()
-  let validCount = 0
-  let invalidCount = 0
+  const allMetaSet = new Map<string, MetaDetail>()
 
   for await (const metaFile of metaFiles) {
     const context = path.dirname(metaFile)
@@ -204,18 +184,12 @@ export async function getApps(): Promise<Meta[]> {
         docker.context = docker.context || context
         docker.dockerfile = docker.dockerfile || 'Dockerfile'
         docker.push = docker.push ?? true
-
-        validCount++
-      }
-      else {
-        invalidCount++
       }
 
       allMetaSet.set(context, { context, meta, reason })
     }
     catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Unknown error'
-      invalidCount++
 
       allMetaSet.set(context, {
         context,
@@ -228,11 +202,12 @@ export async function getApps(): Promise<Meta[]> {
   const allMetaItems = Array.from(allMetaSet.values())
   const validMetaItems = allMetaItems.filter(item => !item.reason)
   const validMetas = validMetaItems.map(item => item.meta)
+  const invalidCount = allMetaItems.length - validMetaItems.length
 
-  logger.debug(`Meta validation: ${green(validCount)} valid, ${invalidCount ? red(invalidCount) : green('0')} invalid`)
+  logger.debug(`Meta validation: ${green(validMetaItems.length)} valid, ${invalidCount ? red(invalidCount) : green('0')} invalid`)
 
   await logger.group(
-    `Meta Files Resolved(${metaFiles.length})`,
+    `Meta Files Resolved(${allMetaItems.length})`,
     async () => {
       const summary = allMetaItems.map((item: any) => {
         const { context, meta, reason } = item
@@ -247,7 +222,7 @@ export async function getApps(): Promise<Meta[]> {
   )
 
   if (!validMetaItems.length) {
-    return []
+    return { metas: [], allMetaDetails: allMetaItems }
   }
 
   // 事件处理逻辑
@@ -281,15 +256,15 @@ export async function getApps(): Promise<Meta[]> {
     // `all` is a special case to return all valid meta
     if (!context || context === 'all') {
       logger.debug(`Processing all apps (${validMetas.length} found)`)
-      return validMetas
+      return { metas: validMetas, allMetaDetails: allMetaItems }
     }
 
     const resolved = resolveContext(context)
     if (resolved) {
       logger.debug(`Processing specific context: ${cyan(context)} (${resolved.name})`)
-      return [resolved]
+      return { metas: [resolved], allMetaDetails: allMetaItems }
     }
-    return []
+    return { metas: [], allMetaDetails: allMetaItems }
   }
 
   // push 事件
@@ -312,7 +287,7 @@ export async function getApps(): Promise<Meta[]> {
       if (modifiedMetas?.length > 0) {
         const modifiedNames = modifiedMetas.map((m: any) => m.name).join(', ')
         logger.debug(`Processing modified meta files: ${modifiedNames}`)
-        return modifiedMetas
+        return { metas: modifiedMetas, allMetaDetails: allMetaItems }
       }
 
       logger.debug(`No modified meta files found in commit, trying to extract context from message`)
@@ -324,7 +299,7 @@ export async function getApps(): Promise<Meta[]> {
         const resolved = resolveContext(context)
         if (resolved) {
           logger.debug(`Processing context from commit message: ${cyan(context)}`)
-          return [resolved]
+          return { metas: [resolved], allMetaDetails: allMetaItems }
         }
       }
       else {
@@ -336,7 +311,7 @@ export async function getApps(): Promise<Meta[]> {
 
   // 默认返回所有有效的 meta
   logger.debug(`No specific context found, processing all valid metas (${validMetas.length} found)`)
-  return validMetas
+  return { metas: validMetas, allMetaDetails: allMetaItems }
 }
 
 async function handlePullRequestCreation(checkResults: CheckResult[], summary: Map<string, CheckResult>) {
@@ -435,34 +410,108 @@ async function handlePullRequestCreation(checkResults: CheckResult[], summary: M
 /**
  * 生成 GitHub Actions Job Summary
  */
-async function generateJobSummary(data: {
-  totalApps: number
-  updatedApps: CheckResult[]
-  errorApps: CheckResult[]
-  upToDateApps: CheckResult[]
-  typeStats: Map<string, number>
-  duration: string | number
-  summary?: Map<string, CheckResult>
-}) {
-  const { totalApps, updatedApps, errorApps, upToDateApps, typeStats, duration } = data
+async function generateJobSummary(options: JobSummaryOptions) {
+  const {
+    summary = new Map() as NonNullable<JobSummaryOptions['summary']>,
+    totalDuration = 0,
+    typeStats = {},
+    actualStartTime,
+    allMetaDetails,
+  } = options
+
+  const logger = createLoggerNs('Summary')
+
+  // 从 summary 中提取所有必要的统计信息
+  const results = Array.from(summary.values())
+  const totalApps = results.length
+  // Per app status
+  /** 可更新应用 */
+  const updatedApps: CheckResult[] = []
+  /** 错误应用 */
+  const errorApps: CheckResult[] = []
+  /** 已是最新版本应用 */
+  const upToDateApps: CheckResult[] = []
+  /** 跳过的应用 */
+  const skippedApps: CheckResult[] = []
+
+  results.forEach((result) => {
+    if (result.status === 'error') {
+      errorApps.push(result)
+    }
+    else if (result.status === 'success') {
+      result.hasUpdate ? updatedApps.push(result) : upToDateApps.push(result)
+    }
+    else if (result.status === 'skipped') {
+      skippedApps.push(result)
+    }
+  })
 
   const ghContext = gh.context
   const repoUrl = `https://github.com/${ghContext.repo.owner}/${ghContext.repo.repo}`
 
   // 获取当前分支
   const currentBranch = getCurrentBranch()
-  const appTypeStats = Array.from(typeStats.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
+  const appTypeStats = Object.entries(typeStats).map(([type, count]) => `${type}(${count})`).join(' · ')
+
+  // 计算实际运行时间 - 使用实际开始时间
+  const actualRunningTime = actualStartTime ? formatDate(new Date(actualStartTime)) : formatDate()
+
+  // 格式化执行时间
+  const formattedDuration = formatDuration(Number(totalDuration))
 
   let md = `# 版本检查总结`
 
-  // 概览表格
+  // 概览表格 - 添加更多有用信息
   md += `\n\n## 📊 概览\n\n`
-  md += '| 总应用数 | 可更新 | 错误数 | 最新版本 | 执行时间 | 运行时间 | 应用类型分布 |\n'
-  md += '|---------|--------|--------|----------|----------|----------|-------------|\n'
-  md += `| ${totalApps} | ${updatedApps.length} | ${errorApps.length} | ${upToDateApps.length} | ${duration}ms | ${formatDate()} | ${appTypeStats} |`
+  md += '| 总应用数 | 可更新 | 错误数 | 跳过检查 | 最新版本 | 执行时间 | 运行时间 | 应用类型分布 |\n'
+  md += '|:---------|:-------|:-------|:-------|:---------|:---------|:------------|:------------|\n'
+  md += `| ${totalApps} | ${updatedApps.length} | ${errorApps.length} | ${skippedApps.length} | ${upToDateApps.length} | ${formattedDuration} | ${actualRunningTime} | ${appTypeStats} |`
+
+  // 添加扫描统计信息
+  const totalMetaFilesCount = allMetaDetails?.length
+  const invalidMetaFiles = allMetaDetails?.filter(item => item.reason)
+
+  if (totalMetaFilesCount) {
+    md += `\n\n### 📋 扫描统计\n\n`
+    md += '| 扫描文件数 | 有效配置 | 无效配置 | 有效率 |\n'
+    md += '|:-----------|:---------|:---------|:-------|\n'
+    const validRate = totalApps > 0 ? ((totalApps / totalMetaFilesCount) * 100).toFixed(1) : '0.0'
+    md += `| ${totalMetaFilesCount} | ${totalApps} | ${invalidMetaFiles?.length} | ${validRate}% |`
+
+    // 如果有无效文件，显示详细信息
+    if (invalidMetaFiles?.length) {
+      md += `\n\n#### ⚠️ 无效配置详情\n\n`
+      md += '| 路径 | 应用名称 | 无效原因 |\n'
+      md += '|:-----|:---------|:---------|\n'
+      invalidMetaFiles.forEach((item) => {
+        md += `| \`${item.context}\` | ${item.meta?.name || 'N/A'} | ${item.reason || '未知错误'} |\n`
+      })
+    }
+  }
+
+  // 如果没有应用，显示提示信息和统计
+  if (!totalApps) {
+    md += `\n\n## ℹ️ 详细信息\n\n`
+
+    if (totalMetaFilesCount) {
+      md += `发现 **${totalMetaFilesCount}** 个 meta.json 文件，但其中 **${invalidMetaFiles?.length || 'N/A'}** 个文件无效。\n\n`
+    }
+
+    md += `请检查以下目录中是否存在有效的 \`meta.json\` 文件：\n\n`
+    md += `- \`apps/*/meta.json\`\n`
+    md += `- \`base/*/meta.json\`\n`
+    md += `- \`sync/*/meta.json\`\n`
+    md += `- \`test/*/meta.json\`\n`
+
+    md += `\n---\n\n*生成时间: ${actualRunningTime} | 版本检查工作流 v2.0*`
+
+    await core.summary.addRaw(md).write()
+    logger.debug('GitHub Actions Summary 已生成 (空结果)')
+    return
+  }
 
   // 合并所有应用并按类型分组
-  const allApps = [...updatedApps, ...errorApps, ...upToDateApps]
+  const allApps = [...updatedApps, ...errorApps, ...upToDateApps, ...skippedApps]
   const appsByType = groupAppsByType(allApps)
 
   // 类型映射和图标
@@ -484,6 +533,7 @@ async function generateJobSummary(data: {
     const errorCount = appsOfType.filter(app => app.status === 'error').length
     const updateCount = appsOfType.filter(app => app.hasUpdate && app.status === 'success').length
     const upToDateCount = appsOfType.filter(app => !app.hasUpdate && app.status === 'success').length
+    const skippedCount = appsOfType.filter(app => app.status === 'skipped').length
 
     md += `\n\n## ${typeInfo.icon} ${typeInfo.name} (${typeCount})`
 
@@ -495,6 +545,8 @@ async function generateJobSummary(data: {
       statusParts.push(`🔄 可更新: ${updateCount}`)
     if (upToDateCount > 0)
       statusParts.push(`✅ 最新: ${upToDateCount}`)
+    if (skippedCount > 0)
+      statusParts.push(`⏭️ 跳过: ${skippedCount}`)
 
     if (statusParts.length > 0) {
       md += ` - ${statusParts.join(' | ')}`
@@ -502,8 +554,8 @@ async function generateJobSummary(data: {
     md += '\n\n'
 
     // 表格标题
-    md += '| 状态 | 应用名称 | 版本信息 | 仓库地址 | 镜像地址 | 文件链接 | 执行时间 | PR状态 |\n'
-    md += '|------|----------|----------|----------|----------|----------|----------|--------|\n'
+    md += '| 应用名称 | 状态 | 版本信息 | 仓库地址 | 镜像地址 | 文件链接 | 执行时间 | PR状态 |\n'
+    md += '|:--------|:-----|:---------|:---------|:---------|:---------|:---------|:-------|\n'
 
     // 排序：错误 → 可更新 → 已是最新版本
     const sortedApps = sortAppsByStatus(appsOfType)
@@ -531,17 +583,16 @@ async function generateJobSummary(data: {
       // 生成 PR 状态
       const prStatus = generatePRStatus(pr, enableCreatePr, hasUpdate, status)
 
-      md += `| ${statusInfo} | **${context}** | ${versionInfo} | ${repoLink} | ${imageLinks} | ${fileLinks} | ${appDuration || 0}ms | ${prStatus} |\n`
+      // 格式化应用执行时间
+      const formattedAppDuration = formatDuration(appDuration || 0)
+
+      md += `| **${context}** | ${statusInfo} | ${versionInfo} | ${repoLink} | ${imageLinks} | ${fileLinks} | ${formattedAppDuration} | ${prStatus} |\n`
     })
   }
 
-  md += `\n\n---\n*生成时间: ${formatDate()} | 版本检查工作流 v2.0*`
+  md += `\n---\n\n*生成时间: ${formatDate()} | 版本检查工作流 v2.0*`
 
-  // 写入 GitHub Actions Summary
   await core.summary.addRaw(md).write()
-
-  // 同时输出到日志
-  const logger = createLoggerNs('Summary')
   logger.debug('GitHub Actions Summary 已生成 (重新设计版本)')
 }
 
@@ -563,17 +614,19 @@ function groupAppsByType(apps: CheckResult[]): Map<string, CheckResult[]> {
 }
 
 /**
- * 按状态排序应用：错误 → 可更新 → 已是最新版本
+ * 按状态排序应用：错误 → 可更新 → 跳过 → 已是最新版本
  */
 function sortAppsByStatus(apps: CheckResult[]): CheckResult[] {
   return apps.sort((a, b) => {
-    // 定义优先级：错误(0) → 可更新(1) → 已是最新版本(2)
+    // 定义优先级：错误(0) → 可更新(1) → 跳过(2) → 已是最新版本(3)
     const getPriority = (app: CheckResult): number => {
       if (app.status === 'error')
         return 0
       if (app.hasUpdate && app.status === 'success')
         return 1
-      return 2 // 已是最新版本
+      if (app.status === 'skipped')
+        return 2
+      return 3 // 已是最新版本
     }
 
     const priorityA = getPriority(a)
@@ -597,6 +650,10 @@ function generateStatusInfo(app: CheckResult, error?: string): string {
     return `❌ 错误<br/><small>${errorMsg}</small>`
   }
 
+  if (app.status === 'skipped') {
+    return `⏭️ 跳过检查`
+  }
+
   if (app.hasUpdate && app.status === 'success') {
     return `🔄 **可更新**`
   }
@@ -610,6 +667,10 @@ function generateStatusInfo(app: CheckResult, error?: string): string {
 function generateVersionInfo(app: CheckResult, oldMeta: any, meta: any, hasUpdate: boolean, status: string): string {
   if (status === 'error') {
     return `\`${oldMeta?.version || 'N/A'}\``
+  }
+
+  if (status === 'skipped') {
+    return `\`${meta?.version || 'N/A'}\` (跳过)`
   }
 
   if (hasUpdate && status === 'success') {
@@ -661,6 +722,11 @@ function generateImageLinks(meta: any): string {
  * 生成 PR 状态
  */
 function generatePRStatus(pr: any, enableCreatePr: boolean, hasUpdate: boolean, status: string): string {
+  // 跳过检查和错误状态的应用不需要PR
+  if (status === 'skipped' || status === 'error') {
+    return 'N/A'
+  }
+
   // 只有可更新的应用才会有 PR 相关信息
   if (!hasUpdate || status !== 'success') {
     return 'N/A'

@@ -1,5 +1,6 @@
 {
   "name": "filecodebox",
+  "type": "app",
   "version": "bdab5bb",
   "repo": "https://github.com/vastsa/FileCodeBox",
   "sha": "bdab5bb375f39de720e27b7282e7b2c1442afd5b",
@@ -11,14 +12,14 @@
       "aliuq/filecodebox",
       "ghcr.io/aliuq/filecodebox"
     ],
-    "context": "apps/filecodebox",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=bdab5bb"
     ],
+    "context": "apps/filecodebox",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "FileCodeBox",
       "description": "文件快递柜-匿名口令分享文本，文件，像拿快递一样取文件",

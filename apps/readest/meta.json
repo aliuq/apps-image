@@ -1,5 +1,6 @@
 {
   "name": "readest",
+  "type": "app",
   "version": "0.9.67",
   "repo": "https://github.com/readest/readest",
   "sha": "a5f18ab0245539bdc436d1b1339252175cca6486",
@@ -12,15 +13,15 @@
       "aliuq/readest",
       "ghcr.io/aliuq/readest"
     ],
-    "context": "apps/readest",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=0.9.67",
       "type=raw,value=a5f18ab"
     ],
+    "context": "apps/readest",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "Readest",
       "description": "Readest 是一款现代化、功能丰富的电子书阅读器",

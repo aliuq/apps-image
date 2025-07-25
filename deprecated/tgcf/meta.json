@@ -1,5 +1,6 @@
 {
   "name": "tgcf",
+  "type": "app",
   "version": "f0d5859",
   "repo": "https://github.com/aahnik/tgcf",
   "sha": "f0d5859acfda4aa234d3c5316f14eb3b38e5f7ce",
@@ -11,14 +12,14 @@
       "aliuq/tgcf",
       "ghcr.io/aliuq/tgcf"
     ],
-    "context": "apps/tgcf",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=f0d5859"
     ],
+    "context": "apps/tgcf",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "tgcf",
       "description": "The ultimate tool to automate custom telegram message forwarding. Live-syncer, Auto-poster, backup-bot, cloner, chat-forwarder, duplicator, ... Call it whatever you like! tgcf can fulfill your custom needs.",
