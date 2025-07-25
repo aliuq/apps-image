@@ -1,5 +1,6 @@
 {
   "name": "icones",
+  "type": "app",
   "version": "ac522b6",
   "repo": "https://github.com/antfu-collective/icones",
   "sha": "ac522b61118e3ffe9273d6cf74ce083dc76a3768",
@@ -11,14 +12,14 @@
       "aliuq/icones",
       "ghcr.io/aliuq/icones"
     ],
-    "context": "apps/icones",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
     "tags": [
       "type=raw,value=latest",
       "type=raw,value=ac522b6"
     ],
+    "context": "apps/icones",
+    "dockerfile": "Dockerfile",
+    "platforms": [],
+    "push": true,
     "labels": {
       "title": "Icones",
       "description": "Icon Explorer with Instant searching, powered by Iconify",
