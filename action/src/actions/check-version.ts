@@ -453,151 +453,231 @@ async function generateJobSummary(data: {
   const currentBranch = getCurrentBranch()
   const appTypeStats = Array.from(typeStats.entries()).map(([type, count]) => `${type}(${count})`).join(', ')
 
-  let markdownContent = `# 版本检查总结
+  let md = `# 版本检查总结`
 
-## 概览
+  // 概览表格
+  md += `\n\n## 📊 概览\n\n`
+  md += '| 总应用数 | 可更新 | 错误数 | 最新版本 | 执行时间 | 运行时间 | 应用类型分布 |\n'
+  md += '|---------|--------|--------|----------|----------|----------|-------------|\n'
+  md += `| ${totalApps} | ${updatedApps.length} | ${errorApps.length} | ${upToDateApps.length} | ${duration}ms | ${formatDate()} | ${appTypeStats} |`
 
-| 总应用数 | 可更新 | 错误数 | 最新版本 | 执行时间 | 运行时间 | 应用类型分布 |
-|---------|--------|--------|----------|----------|----------|-------------|
-| ${totalApps} | ${updatedApps.length} | ${errorApps.length} | ${upToDateApps.length} | ${duration}ms | ${formatDate()} | ${appTypeStats} |
+  // 合并所有应用并按类型分组
+  const allApps = [...updatedApps, ...errorApps, ...upToDateApps]
+  const appsByType = groupAppsByType(allApps)
 
-`
-
-  // 更新详情
-  if (updatedApps.length > 0) {
-    markdownContent += `## 可用更新 (${updatedApps.length})
-
-| 应用名称 | 当前版本 | 新版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 | PR状态 |
-|---------|----------|--------|------|----------|------------|-----------|------|----------|--------|
-`
-    const enableCreatePr = core.getBooleanInput('create_pr')
-
-    updatedApps.forEach((app) => {
-      const meta = app.meta // 新版本的 meta
-      const oldMeta = app.oldMeta // 原始的 meta
-      const context = meta.dockerMeta.context
-
-      // 构建文件链接
-      const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
-      const metaPath = `${context}/meta.json`
-      const readmePath = `${context}/README.md`
-
-      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
-      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
-      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
-      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
-
-      const prStatus = app.pr?.html_url
-        ? `[✅ 查看PR](${app.pr.html_url})`
-        : app.pr?.error
-          ? `❌ Failed: ${app.pr.error.substring(0, 30)}...`
-          : !enableCreatePr
-              ? '⚠️ Disabled'
-              : 'N/A'
-
-      // 使用 oldMeta 的版本作为当前版本，meta 的版本作为新版本
-      const currentVersion = oldMeta?.version ? `\`${oldMeta.version}\`` : '`N/A`'
-      const newVersion = `\`${meta.version}\``
-
-      markdownContent += `| **${meta.name}** | ${currentVersion} | ${newVersion} | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms | ${prStatus} |\n`
-    })
-    markdownContent += '\n'
+  // 类型映射和图标
+  const typeMap = {
+    app: { name: '应用程序', icon: '🚀' },
+    base: { name: '基础镜像', icon: '🏗️' },
+    sync: { name: '同步镜像', icon: '🔄' },
   }
 
-  // 错误详情
-  if (errorApps.length > 0) {
-    markdownContent += `## 检查错误 (${errorApps.length})
+  // 按类型生成表格
+  const appTypes = ['app', 'base', 'sync'] as const
+  for (const type of appTypes) {
+    const appsOfType = appsByType.get(type)
+    if (!appsOfType || appsOfType.length === 0)
+      continue
 
-| 应用名称 | 类型 | 错误信息 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |
-|---------|------|----------|----------|------------|-----------|------|----------|
-`
-    errorApps.forEach((app) => {
-      const meta = app.meta || app.oldMeta || {} // 错误时可能没有 meta，使用 oldMeta
-      const context = meta.dockerMeta?.context || 'unknown'
+    const typeInfo = typeMap[type]
+    const typeCount = appsOfType.length
+    const errorCount = appsOfType.filter(app => app.status === 'error').length
+    const updateCount = appsOfType.filter(app => app.hasUpdate && app.status === 'success').length
+    const upToDateCount = appsOfType.filter(app => !app.hasUpdate && app.status === 'success').length
 
-      // 构建文件链接
-      const dockerfilePath = `${context}/${meta.dockerMeta?.dockerfile || 'Dockerfile'}`
-      const metaPath = `${context}/meta.json`
-      const readmePath = `${context}/README.md`
+    md += `\n\n## ${typeInfo.icon} ${typeInfo.name} (${typeCount})`
 
-      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
-      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
-      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
-      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+    // 添加类型统计
+    const statusParts = []
+    if (errorCount > 0)
+      statusParts.push(`❌ 错误: ${errorCount}`)
+    if (updateCount > 0)
+      statusParts.push(`🔄 可更新: ${updateCount}`)
+    if (upToDateCount > 0)
+      statusParts.push(`✅ 最新: ${upToDateCount}`)
 
-      const errorMsg = app.error ? app.error.substring(0, 80) + (app.error.length > 80 ? '...' : '') : '未知错误'
-
-      markdownContent += `| **${meta.name || 'unknown'}** | \`${meta.type || 'unknown'}\` | ${errorMsg} | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
-    })
-    markdownContent += '\n'
-  }
-
-  // 最新应用状态 (前10个)
-  if (upToDateApps.length > 0) {
-    const displayApps = upToDateApps.slice(0, 10)
-    markdownContent += `## 已是最新版本 (显示 ${displayApps.length}/${upToDateApps.length})
-
-| 应用名称 | 版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |
-|---------|------|------|----------|------------|-----------|------|----------|
-`
-    displayApps.forEach((app) => {
-      const meta = app.meta
-      const context = meta.dockerMeta.context
-
-      // 构建文件链接
-      const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
-      const metaPath = `${context}/meta.json`
-      const readmePath = `${context}/README.md`
-
-      const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
-      const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
-      const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
-      const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
-
-      markdownContent += `| **${meta.name}** | \`${meta.version}\` | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
-    })
-
-    if (upToDateApps.length > 10) {
-      markdownContent += `\n<details>\n<summary>显示全部 ${upToDateApps.length} 个已是最新版本的应用</summary>\n\n`
-      markdownContent += `| 应用名称 | 版本 | 类型 | 仓库地址 | Dockerfile | meta.json | 文档 | 执行时间 |\n|---------|------|------|----------|------------|-----------|------|----------|\n`
-      upToDateApps.slice(10).forEach((app) => {
-        const meta = app.meta
-        const context = meta.dockerMeta.context
-
-        const dockerfilePath = `${context}/${meta.dockerMeta.dockerfile || 'Dockerfile'}`
-        const metaPath = `${context}/meta.json`
-        const readmePath = `${context}/README.md`
-
-        const repoLink = meta.repo ? `[🔗 仓库](${meta.repo})` : '无'
-        const dockerfileLink = `[📄 Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
-        const metaLink = `[⚙️ meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
-        const readmeLink = `[📖 README](${repoUrl}/blob/${currentBranch}/${readmePath})`
-
-        markdownContent += `| **${meta.name}** | \`${meta.version}\` | \`${meta.type}\` | ${repoLink} | ${dockerfileLink} | ${metaLink} | ${readmeLink} | ${app.duration}ms |\n`
-      })
-      markdownContent += `\n</details>\n`
+    if (statusParts.length > 0) {
+      md += ` - ${statusParts.join(' | ')}`
     }
-    markdownContent += '\n'
+    md += '\n\n'
+
+    // 表格标题
+    md += '| 状态 | 应用名称 | 版本信息 | 仓库地址 | 镜像地址 | 文件链接 | 执行时间 | PR状态 |\n'
+    md += '|------|----------|----------|----------|----------|----------|----------|--------|\n'
+
+    // 排序：错误 → 可更新 → 已是最新版本
+    const sortedApps = sortAppsByStatus(appsOfType)
+
+    const enableCreatePr = core.getBooleanInput('create_pr')
+    sortedApps.forEach((app) => {
+      const { meta, oldMeta, pr, duration: appDuration, error, hasUpdate, status } = app
+      const context = meta.dockerMeta.context
+
+      // 生成状态图标和信息
+      const statusInfo = generateStatusInfo(app, error)
+
+      // 生成版本信息
+      const versionInfo = generateVersionInfo(app, oldMeta, meta, hasUpdate, status)
+
+      // 生成文件链接
+      const fileLinks = generateFileLinks(context, meta, repoUrl, currentBranch)
+
+      // 生成仓库链接
+      const repoLink = meta.repo ? `[${meta.name}](${meta.repo})` : meta.name
+
+      // 生成镜像地址链接
+      const imageLinks = generateImageLinks(meta)
+
+      // 生成 PR 状态
+      const prStatus = generatePRStatus(pr, enableCreatePr, hasUpdate, status)
+
+      md += `| ${statusInfo} | **${context}** | ${versionInfo} | ${repoLink} | ${imageLinks} | ${fileLinks} | ${appDuration || 0}ms | ${prStatus} |\n`
+    })
   }
 
-  // 状态说明
-  markdownContent += `---
-
-### 状态说明
-- **可用更新**: 检测到新版本，可能会创建PR
-- **已是最新版本**: 无需更新
-- **检查错误**: 检查失败，请查看错误信息
-- **🔗 查看PR**: PR已成功创建
-- **⏳ 等待中**: 操作进行中
-- **❌ 失败**: 操作失败
-
-*生成时间: ${formatDate()} | 版本检查工作流*
-`
+  md += `\n\n---\n*生成时间: ${formatDate()} | 版本检查工作流 v2.0*`
 
   // 写入 GitHub Actions Summary
-  await core.summary.addRaw(markdownContent).write()
+  await core.summary.addRaw(md).write()
 
   // 同时输出到日志
   const logger = createLoggerNs('Summary')
-  logger.debug('GitHub Actions Summary 已生成')
+  logger.debug('GitHub Actions Summary 已生成 (重新设计版本)')
+}
+
+/**
+ * 按应用类型分组
+ */
+function groupAppsByType(apps: CheckResult[]): Map<string, CheckResult[]> {
+  const grouped = new Map<string, CheckResult[]>()
+
+  apps.forEach((app) => {
+    const type = app.meta.type
+    if (!grouped.has(type)) {
+      grouped.set(type, [])
+    }
+    grouped.get(type)!.push(app)
+  })
+
+  return grouped
+}
+
+/**
+ * 按状态排序应用：错误 → 可更新 → 已是最新版本
+ */
+function sortAppsByStatus(apps: CheckResult[]): CheckResult[] {
+  return apps.sort((a, b) => {
+    // 定义优先级：错误(0) → 可更新(1) → 已是最新版本(2)
+    const getPriority = (app: CheckResult): number => {
+      if (app.status === 'error')
+        return 0
+      if (app.hasUpdate && app.status === 'success')
+        return 1
+      return 2 // 已是最新版本
+    }
+
+    const priorityA = getPriority(a)
+    const priorityB = getPriority(b)
+
+    if (priorityA !== priorityB) {
+      return priorityA - priorityB
+    }
+
+    // 同优先级按名称排序
+    return a.meta.dockerMeta.context.localeCompare(b.meta.dockerMeta.context)
+  })
+}
+
+/**
+ * 生成状态信息
+ */
+function generateStatusInfo(app: CheckResult, error?: string): string {
+  if (app.status === 'error') {
+    const errorMsg = error ? error.substring(0, 50) + (error.length > 50 ? '...' : '') : '未知错误'
+    return `❌ 错误<br/><small>${errorMsg}</small>`
+  }
+
+  if (app.hasUpdate && app.status === 'success') {
+    return `🔄 **可更新**`
+  }
+
+  return `✅ 最新版本`
+}
+
+/**
+ * 生成版本信息
+ */
+function generateVersionInfo(app: CheckResult, oldMeta: any, meta: any, hasUpdate: boolean, status: string): string {
+  if (status === 'error') {
+    return `\`${oldMeta?.version || 'N/A'}\``
+  }
+
+  if (hasUpdate && status === 'success') {
+    const oldVersion = oldMeta?.version || 'N/A'
+    const newVersion = meta?.version || 'N/A'
+    return `\`${oldVersion}\` → **\`${newVersion}\`**`
+  }
+
+  return `\`${meta?.version || 'N/A'}\``
+}
+
+/**
+ * 生成文件链接
+ */
+function generateFileLinks(context: string, meta: any, repoUrl: string, currentBranch: string): string {
+  const dockerfilePath = `${context}/${meta.dockerMeta?.dockerfile || 'Dockerfile'}`
+  const metaPath = `${context}/meta.json`
+  const readmePath = `${context}/README.md`
+
+  const dockerfileLink = `[Dockerfile](${repoUrl}/blob/${currentBranch}/${dockerfilePath})`
+  const metaLink = `[meta.json](${repoUrl}/blob/${currentBranch}/${metaPath})`
+  const readmeLink = `[README](${repoUrl}/blob/${currentBranch}/${readmePath})`
+
+  return `${dockerfileLink} • ${metaLink} • ${readmeLink}`
+}
+
+/**
+ * 生成镜像地址链接
+ */
+function generateImageLinks(meta: any): string {
+  const imageName = meta.name
+
+  if (!imageName) {
+    return 'N/A'
+  }
+
+  // Docker Hub 链接
+  const dockerHubUrl = `https://hub.docker.com/r/aliuq/${imageName}`
+  const dockerHubLink = `[Docker Hub](${dockerHubUrl})`
+
+  // GHCR 链接
+  const ghcrUrl = `https://github.com/aliuq/apps-image/pkgs/container/${imageName}`
+  const ghcrLink = `[GHCR](${ghcrUrl})`
+
+  return `${dockerHubLink} • ${ghcrLink}`
+}
+
+/**
+ * 生成 PR 状态
+ */
+function generatePRStatus(pr: any, enableCreatePr: boolean, hasUpdate: boolean, status: string): string {
+  // 只有可更新的应用才会有 PR 相关信息
+  if (!hasUpdate || status !== 'success') {
+    return 'N/A'
+  }
+
+  if (pr?.html_url) {
+    return `[✅ 查看PR](${pr.html_url})`
+  }
+
+  if (pr?.error) {
+    const errorMsg = pr.error.substring(0, 30) + (pr.error.length > 30 ? '...' : '')
+    return `❌ ${errorMsg}`
+  }
+
+  if (!enableCreatePr) {
+    return '⚠️ 已禁用'
+  }
+
+  return '⏳ 待创建'
 }

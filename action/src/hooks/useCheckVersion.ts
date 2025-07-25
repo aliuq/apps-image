@@ -28,6 +28,7 @@ export default async function useCheckVersion(meta: Meta): Promise<CheckResult> 
     return {
       hasUpdate: false,
       meta,
+      oldMeta: meta,
       status: 'error',
       error: error instanceof Error ? error.message : 'Unknown error',
     }

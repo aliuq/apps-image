@@ -244,7 +244,7 @@ export interface CheckResult {
   /**
    * 保存原始的 meta 作为 oldMeta
    */
-  oldMeta?: Meta
+  oldMeta: Meta
 }
 
 /**
