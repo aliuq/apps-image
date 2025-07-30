@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-RUN git clone -b v0.9.67 --recurse-submodules https://github.com/readest/readest .
+RUN git clone -b v0.9.68 --recurse-submodules https://github.com/readest/readest .
 
 FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
