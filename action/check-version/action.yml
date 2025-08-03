@@ -1,0 +1,34 @@
+name: Action
+author: AliuQ
+description: 检查版本更新的 GitHub Action
+inputs:
+  token:
+    description: Personal Access Token (PAT) for the repository
+    required: false
+  context:
+    description: 'Context directory, only works on resolve-meta, e.g. apps/tgcf'
+    required: false
+  concurrency:
+    description: Number of concurrent checks, defaults to 3
+    required: false
+    default: '3'
+  enable_pr:
+    description: Create a PR if the version is outdated, supports `true`, `false`, and `development`
+    required: false
+    default: 'true'
+  debug:
+    description: Debug mode
+    required: false
+    default: 'false'
+  log_format:
+    description: Log format for the action, supports `simple`, `detailed`, and `json`
+    required: false
+    default: simple
+
+runs:
+  using: node20
+  main: ../dist/check.js
+
+branding:
+  icon: message-square
+  color: blue

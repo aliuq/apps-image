@@ -1,22 +1,10 @@
 name: Check Version
 
 on:
-  schedule:
-    - cron: '0 */6 * * *' # 每 6 小时检查一次
+  # schedule:
+  #   - cron: '0 */6 * * *' # 每 6 小时检查一次
   workflow_dispatch:
     inputs:
-      create_pr:
-        description: 有新版本时创建 PR
-        type: boolean
-        default: false
-      debug:
-        description: Debug 模式
-        type: boolean
-        default: false
-      mock:
-        description: 有新版本时创建 PR，但不会触发镜像构建
-        type: boolean
-        default: false
       context:
         description: 上下文目录，例如 apps/icones
         type: choice
@@ -36,31 +24,74 @@ on:
           - apps/tgcf
           - apps/weektodo
           - apps/yulegeyu
-  push:
-    branches:
-      - master
-    paths:
-      - apps/*/meta.json
+          - test/weektodo
+      enable_pr:
+        description: 是否创建 PR
+        type: choice
+        default: "true"
+        options:
+          - "true"
+          - "false"
+          - "development"
+      concurrency:
+        description: 并发数，控制同时处理的应用数量
+        type: number
+        default: 3
+      debug:
+        description: Debug 模式
+        type: boolean
+        default: false
+      log_format:
+        description: 日志格式
+        type: choice
+        default: detailed
+        options:
+          - simple
+          - detailed
+          - json
+  # push:
+  #   branches:
+  #     - master
+  #   paths:
+  #     - apps/*/meta.json
 
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    if: |
-      (github.event_name == 'schedule') ||
-      (github.event_name == 'workflow_dispatch') ||
-      (github.event_name == 'push' && contains(github.event.head_commit.message, 'force check'))
+    if: github.event_name == 'workflow_dispatch'
+    # if: |
+    #   (github.event_name == 'schedule') ||
+    #   (github.event_name == 'workflow_dispatch') ||
+    #   (github.event_name == 'push' && contains(github.event.head_commit.message, 'force check'))
     permissions:
       contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check Version
-        uses: ./action
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache Repo
+        id: cache-repo
+        uses: actions/cache@v4
         with:
-          action: check-version
+          path: .git-cache
+          key: git-repos-${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('.git-cache/**') }}
+          restore-keys: |
+            git-repos-${{ runner.os }}-${{ steps.get-date.outputs.date }}-
+            git-repos-${{ runner.os }}-
+            git-repos-
+
+      - name: Check Version
+        uses: ./action/check-version
+        with:
           token: ${{ secrets.PAT }}
           context: ${{ inputs.context }}
-          create_pr: ${{ inputs.create_pr }}
+          enable_pr: ${{ inputs.enable_pr }}
           debug: ${{ inputs.debug }}
-          mock: ${{ inputs.mock }}
+          concurrency: ${{ inputs.concurrency }}
+          log_format: ${{ inputs.log_format }}

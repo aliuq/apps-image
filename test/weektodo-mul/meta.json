@@ -1,0 +1,20 @@
+{
+  "name": "weektodo-mul",
+  "type": "app",
+  "context": "test/weektodo-mul",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "repo": "manuelernestog/weektodo",
+        "type": "version",
+        "file": "package.json"
+      }
+    },
+    "dev": {
+      "checkver": {
+        "repo": "manuelernestog/weektodo",
+        "type": "sha"
+      }
+    }
+  }
+}

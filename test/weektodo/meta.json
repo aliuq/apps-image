@@ -1,0 +1,14 @@
+{
+  "name": "weektodo",
+  "type": "app",
+  "context": "apps/weektodo",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "repo": "manuelernestog/weektodo",
+        "type": "version",
+        "file": "package.json"
+      }
+    }
+  }
+}
