@@ -8,7 +8,9 @@
         "repo": "manuelernestog/weektodo",
         "type": "version",
         "file": "package.json"
-      }
+      },
+      "version": "2.2.0",
+      "sha": "d384fc72d04e9c8a8431d456a3218c08d0c77e29"
     }
   }
 }
