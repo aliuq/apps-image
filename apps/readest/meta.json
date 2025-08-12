@@ -1,8 +1,8 @@
 {
   "name": "readest",
-  "version": "0.9.69",
+  "version": "0.9.71",
   "repo": "https://github.com/readest/readest",
-  "sha": "1ef126f820e4941cf3dd9c166f18cd6bc54c1f44",
+  "sha": "3350bdbdd38dc6232b5533113c84c4cb1b3f20c5",
   "checkVer": {
     "type": "version",
     "file": "apps/readest-app/package.json"
@@ -18,8 +18,8 @@
     "push": true,
     "tags": [
       "type=raw,value=latest",
-      "type=raw,value=0.9.69",
-      "type=raw,value=1ef126f"
+      "type=raw,value=0.9.71",
+      "type=raw,value=3350bdb"
     ],
     "labels": {
       "title": "Readest",
