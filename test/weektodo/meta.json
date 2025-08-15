@@ -7,6 +7,8 @@
   "context": "apps/weektodo",
   "variants": {
     "latest": {
+      "version": "2.2.0",
+      "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
       "checkver": {
         "repo": "manuelernestog/weektodo",
         "type": "version",
