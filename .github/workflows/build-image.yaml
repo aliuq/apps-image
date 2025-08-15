@@ -1,20 +1,22 @@
-name: Build Docker Image
+name: Build Docker Image Test
 
 on:
   workflow_dispatch:
     inputs:
       context:
-        description: 'Context directory, e.g. apps/tgcf'
+        description: 上下文目录，例如 apps/icones
+        type: choice
         required: true
-        default: ''
+        options:
+          - test/weektodo
+          - test/weektodo-mul
+      variants:
+        description: 'Build variants, e.g. "latest,stable"'
+        required: false
+        default: 'latest'
         type: string
       debug:
         description: Debug mode
-        required: false
-        default: false
-        type: boolean
-      push:
-        description: Push the image to the registry
         required: false
         default: false
         type: boolean
@@ -23,73 +25,93 @@ on:
       - master
 
 jobs:
-  resolve-docker-metadata:
+  metadata:
     runs-on: ubuntu-latest
     if: |
-      github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'chore(') && contains(github.event.pull_request.title, ' update version to '))
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request'
     permissions:
       pull-requests: read
     outputs:
-      context: ${{ steps.meta.outputs.context }}
-      dockerfile: ${{ steps.meta.outputs.file }}
-      platforms: ${{ steps.meta.outputs.platforms }}
-      push: ${{ steps.meta.outputs.push }}
-      images: ${{ steps.meta.outputs.images }}
-      tags: ${{ steps.meta.outputs.tags }}
-      labels: ${{ steps.meta.outputs.labels }}
-      annotations: ${{ steps.meta.outputs.annotations }}
-      notify: ${{ steps.meta.outputs.notify }}
-      readme_path: ${{ steps.meta.outputs.readme_path }}
+      matrix: ${{ steps.metadata.outputs.matrix }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Resolve
-        id: meta
-        uses: ./action
-        with:
-          action: resolve-meta
-          debug: ${{ inputs.debug }}
-          push: ${{ inputs.push }}
-          context: ${{ inputs.context }}
-
-  call-workflow-build:
-    needs: resolve-docker-metadata
-    if: needs.resolve-docker-metadata.outputs.dockerfile
-    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
-    permissions:
-      contents: read
-      packages: write
-    with:
-      context: ${{ needs.resolve-docker-metadata.outputs.context }}
-      images: ${{ needs.resolve-docker-metadata.outputs.images }}
-      tags: ${{ needs.resolve-docker-metadata.outputs.tags }}
-      file: ${{ needs.resolve-docker-metadata.outputs.dockerfile }}
-      push: ${{ fromJSON(needs.resolve-docker-metadata.outputs.push) }}
-      platforms: ${{ needs.resolve-docker-metadata.outputs.platforms }}
-      meta_labels: ${{ needs.resolve-docker-metadata.outputs.labels }}
-      annotations: ${{ needs.resolve-docker-metadata.outputs.annotations }}
-      # notify: ${{ needs.resolve-docker-metadata.outputs.notify }}
-      readme_path: ${{ needs.resolve-docker-metadata.outputs.readme_path }}
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      CHAT_ID: ${{ secrets.CHAT_ID }}
-      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
-  merge-pull-request:
-    runs-on: ubuntu-latest
-    needs: [resolve-docker-metadata, call-workflow-build]
-    if: github.event_name != 'workflow_dispatch' && needs.resolve-docker-metadata.outputs.push == 'true' && success()
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - name: Merge PR
-        uses: pascalgn/automerge-action@v0.16.4
+      - uses: actions/checkout@v4
+      - name: Resolve metadata
+        id: metadata
+        uses: ./action/resolve-meta
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST: ${{ github.event.pull_request.number }}
-          MERGE_DELETE_BRANCH: true
+          TZ: Asia/Shanghai
+        with:
+          context: ${{ inputs.context }}
+          variants: ${{ inputs.variants }}
+          debug: ${{ inputs.debug }}
+
+  docker-build:
+    needs: metadata
+    name: Build ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    if: needs.metadata.outputs.matrix
+    strategy:
+      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.metadata.imageLines }}
+          tags: ${{ matrix.metadata.tagLines }}
+          labels: ${{ matrix.metadata.labelLines }}
+          annotations: ${{ matrix.metadata.labelLines }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushDocker }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushGhcr }}
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushAli && env.ACR_REGISTRY && env.ACR_USERNAME && env.ACR_PASSWORD }}
+        env:
+          ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
+          ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ALI_ACR_PASSWORD }}
+        with:
+          registry: ${{ secrets.ALI_ACR_REGISTRY }}
+          username: ${{ secrets.ALI_ACR_USERNAME }}
+          password: ${{ secrets.ALI_ACR_PASSWORD }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # - name: Move Dockerfile to Root
+      #   if: env.ACT == 'true'
+      #   run: |
+      #     cp -r "${{ matrix.build.context }}/${{ matrix.build.file }}" ${{ matrix.build.file }}
+
+
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.build.context }}
+          file: ${{ matrix.build.file }}
+          platforms: ${{ matrix.build.platforms }}
+          # push: ${{ matrix.build.push }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
