@@ -58,7 +58,7 @@ on:
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     # if: |
     #   (github.event_name == 'schedule') ||
     #   (github.event_name == 'workflow_dispatch') ||
@@ -68,23 +68,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Get Date
-        id: get-date
-        run: |
-          echo "date=$(/bin/date -u "+%Y%m%d")" >> $GITHUB_OUTPUT
-        shell: bash
-
-      - name: Cache Repo
-        id: cache-repo
-        uses: actions/cache@v4
-        with:
-          path: .git-cache
-          key: git-repos-${{ runner.os }}-${{ steps.get-date.outputs.date }}-${{ hashFiles('.git-cache/**') }}
-          restore-keys: |
-            git-repos-${{ runner.os }}-${{ steps.get-date.outputs.date }}-
-            git-repos-${{ runner.os }}-
-            git-repos-
 
       - name: Check Version
         uses: ./action/check-version
