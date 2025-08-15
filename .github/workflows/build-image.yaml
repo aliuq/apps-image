@@ -13,7 +13,7 @@ on:
       variants:
         description: 'Build variants, e.g. "latest,stable"'
         required: false
-        default: 'latest'
+        default: latest
         type: string
       debug:
         description: Debug mode
@@ -101,14 +101,12 @@ jobs:
       #   run: |
       #     cp -r "${{ matrix.build.context }}/${{ matrix.build.file }}" ${{ matrix.build.file }}
 
-
-
       - name: Build & Push
         uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.build.context }}
           file: ${{ matrix.build.file }}
-          platforms: ${{ matrix.build.platforms }}
+          platforms: ${{ matrix.build.platformLines }}
           # push: ${{ matrix.build.push }}
           push: false
           tags: ${{ steps.meta.outputs.tags }}
