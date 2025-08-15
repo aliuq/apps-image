@@ -4,20 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       context:
-        description: 上下文目录，例如 apps/icones
+        description: App Context，e.g. apps/icones
         type: choice
         required: true
         options:
           - test/weektodo
           - test/weektodo-mul
       variants:
-        description: 'Build variants, e.g. "latest,stable"'
-        required: false
+        description: Build variants, e.g. latest,stable
         default: latest
         type: string
       debug:
         description: Debug mode
-        required: false
         default: false
         type: boolean
   pull_request:
@@ -110,5 +108,5 @@ jobs:
           push: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
