@@ -54,6 +54,7 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
     steps:
+      - uses: actions/checkout@v4
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
