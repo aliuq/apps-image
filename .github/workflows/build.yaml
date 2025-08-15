@@ -1,162 +1,117 @@
-name: Release Docker Image
+name: Build Docker Image Test
 
 on:
-  push:
+  workflow_dispatch:
+    inputs:
+      context:
+        description: 上下文目录，例如 apps/icones
+        type: choice
+        required: true
+        options:
+          - test/weektodo
+          - test/weektodo-mul
+      variants:
+        description: 'Build variants, e.g. "latest,stable"'
+        required: false
+        default: 'latest'
+        type: string
+      debug:
+        description: Debug mode
+        required: false
+        default: false
+        type: boolean
+  pull_request:
     branches:
       - master
-    paths:
-      - "app/**/Dockerfile"
-      - "app/**/Dockerfile.*"
-      - "base/**/Dockerfile"
-      - "base/**/Dockerfile.*"
 
 jobs:
-  build:
+  metadata:
     runs-on: ubuntu-latest
-    # 如果提交日志中包含 [skip ci] 则不执行
-    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'pull_request'
     permissions:
-      contents: read
-      packages: write
-
+      pull-requests: read
+    outputs:
+      matrix: ${{ steps.metadata.outputs.matrix }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Resolve metadata
+        id: metadata
+        uses: ./action/resolve-meta
+        env:
+          TZ: Asia/Shanghai
         with:
-          fetch-depth: 2
+          context: ${{ inputs.context }}
+          variants: ${{ inputs.variants }}
+          debug: ${{ inputs.debug }}
 
-      - name: Get changed names and outout
-        id: changed
-        shell: bash
-        run: |
-          changed_names=$(git diff --name-only HEAD^ | grep -E '^(app|base)/' | sort | uniq)
-          if [ -z "$changed_names" ]; then
-            echo "No changes in app or base directory"
-            exit 0
-          fi
-          echo "names=$(echo $changed_names)" >> $GITHUB_OUTPUT
-
-      - name: Build Docker image
-        if: contains(github.event.head_commit.message, '[skip docker]') == false || contains(github.event.head_commit.message, '[skip github]') == false
-        run: |
-          if [ -z "${{ steps.changed.outputs.names }}" ]; then
-            echo "No changes in app or base directory"
-            exit 0
-          fi
-
-          for name in ${{ steps.changed.outputs.names }}; do
-            IFS='/' read -ra ADDR <<< "$name"
-            category=${ADDR[0]}
-            imageName=${ADDR[1]}
-            dockerfileName=${ADDR[2]}
-            version=$(cat $name | grep -E 'LABEL version=' | awk -F'=' '{print $2}' | tr -d '"')
-
-            if [[ $dockerfileName != "Dockerfile" && $dockerfileName != "Dockerfile."* ]]; then
-              echo "No Dockerfile found in $name"
-              continue
-            fi
-
-            tag="$version"
-            if [[ $dockerfileName == "Dockerfile."* ]]; then
-              tag=${dockerfileName:11}
-            fi
-
-            builderName="builder-$imageName-$tag"
-
-            echo ""
-            echo "文件路径: $name"
-            echo "镜像分类: $category"
-            echo "镜像名称: $imageName"
-            echo "镜像标签: $tag"
-            echo "镜像版本: $version"
-            echo "Dockerfile 文件名: $dockerfileName"
-            echo "执行命令 ($builderName):"
-
-            echo "> docker buildx create --name $builderName --driver docker-container"
-            docker buildx create --name $builderName --driver docker-container
-
-            echo "> docker buildx use $builderName"
-            docker buildx use $builderName
-
-            echo "> docker buildx build --no-cache -t $imageName:$tag --load --label \"category=$category\" -f $name ./$category/$imageName/"
-            docker buildx build --no-cache -t $imageName:$tag --load --label "category=$category" -f $name ./$category/$imageName/
-          done
+  docker-build:
+    needs: metadata
+    name: Build ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    if: needs.metadata.outputs.matrix
+    strategy:
+      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    steps:
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.metadata.imageLines }}
+          tags: ${{ matrix.metadata.tagLines }}
+          labels: ${{ matrix.metadata.labelLines }}
+          annotations: ${{ matrix.metadata.labelLines }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
-        if: contains(github.event.head_commit.message, '[skip docker]') == false
+        if: ${{ matrix.pushDocker }}
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push to Docker Hub
-        if: contains(github.event.head_commit.message, '[skip docker]') == false
-        run: |
-          for name in ${{ steps.changed.outputs.names }}; do
-            IFS='/' read -ra ADDR <<< "$name"
-            category=${ADDR[0]}
-            imageName=${ADDR[1]}
-            dockerfileName=${ADDR[2]}
-            version=$(cat $name | grep -E 'LABEL version=' | awk -F'=' '{print $2}' | tr -d '"')
-
-            tag="$version"
-            customTag=false
-            if [[ $dockerfileName == "Dockerfile."* ]]; then
-              customTag=true
-              tag=${dockerfileName:11}
-            fi
-
-            dockerHubName="${{ secrets.DOCKERHUB_USERNAME }}/$imageName:$tag"
-            echo "> docker tag $imageName:$tag $dockerHubName"
-            docker tag $imageName:$tag $dockerHubName
-            echo "> docker push $dockerHubName"
-            docker push $dockerHubName
-
-            if [ $customTag == false ]; then
-              dockerHubLatestName="${{ secrets.DOCKERHUB_USERNAME }}/$imageName:latest"
-              echo "> docker tag $imageName:$tag $dockerHubLatestName"
-              docker tag $imageName:$tag $dockerHubLatestName
-              echo "> docker push $dockerHubLatestName"
-              docker push $dockerHubLatestName
-            fi
-          done
-
-      - name: Login to GitHub Container Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
-        if: contains(github.event.head_commit.message, '[skip github]') == false
+        if: ${{ matrix.pushGhcr }}
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push to GitHub Container Registry
-        if: contains(github.event.head_commit.message, '[skip github]') == false
-        run: |
-          for name in ${{ steps.changed.outputs.names }}; do
-            IFS='/' read -ra ADDR <<< "$name"
-            category=${ADDR[0]}
-            imageName=${ADDR[1]}
-            dockerfileName=${ADDR[2]}
-            version=$(cat $name | grep -E 'LABEL version=' | awk -F'=' '{print $2}' | tr -d '"')
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushAli && env.ACR_REGISTRY && env.ACR_USERNAME && env.ACR_PASSWORD }}
+        env:
+          ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
+          ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ALI_ACR_PASSWORD }}
+        with:
+          registry: ${{ secrets.ALI_ACR_REGISTRY }}
+          username: ${{ secrets.ALI_ACR_USERNAME }}
+          password: ${{ secrets.ALI_ACR_PASSWORD }}
 
-            tag="$version"
-            customTag=false
-            if [[ $dockerfileName == "Dockerfile."* ]]; then
-              customTag=true
-              tag=${dockerfileName:11}
-            fi
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-            dockerHubName="ghcr.io/${{ github.actor }}/$imageName:$tag"
-            echo "> docker tag $imageName:$tag $dockerHubName"
-            docker tag $imageName:$tag $dockerHubName
-            echo "> docker push $dockerHubName"
-            docker push $dockerHubName
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-            if [ $customTag == false ]; then
-              dockerHubLatestName="ghcr.io/${{ github.actor }}/$imageName:latest"
-              echo "> docker tag $imageName:$tag $dockerHubLatestName"
-              docker tag $imageName:$tag $dockerHubLatestName
-              echo "> docker push $dockerHubLatestName"
-              docker push $dockerHubLatestName
-            fi
-          done
+      # - name: Move Dockerfile to Root
+      #   if: env.ACT == 'true'
+      #   run: |
+      #     cp -r "${{ matrix.build.context }}/${{ matrix.build.file }}" ${{ matrix.build.file }}
+
+
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.build.context }}
+          file: ${{ matrix.build.file }}
+          platforms: ${{ matrix.build.platforms }}
+          # push: ${{ matrix.build.push }}
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
