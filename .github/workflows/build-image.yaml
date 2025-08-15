@@ -51,6 +51,9 @@ jobs:
     name: Build ${{ matrix.variant }}
     runs-on: ubuntu-latest
     if: needs.metadata.outputs.matrix
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
     steps:
@@ -96,11 +99,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      # - name: Move Dockerfile to Root
-      #   if: env.ACT == 'true'
-      #   run: |
-      #     cp -r "${{ matrix.build.context }}/${{ matrix.build.file }}" ${{ matrix.build.file }}
 
       - name: Build & Push
         uses: docker/build-push-action@v6
