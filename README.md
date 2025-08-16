@@ -50,6 +50,7 @@
 act --workflows ".github/workflows/check-version.yaml" --input app="cobalt" workflow_dispatch
 
 # 检查所有应用
+act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true
 act --workflows ".github/workflows/check-version.yaml" workflow_dispatch
 
 # 使用 act 测试 GitHub Actions

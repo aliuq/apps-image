@@ -86,6 +86,7 @@ export class MetaAppsManager {
     // 判断是否 skip
     if (meta.skip) {
       logger.debug(`Skipping app ${context} due to skip flag`)
+      core.notice(`Skipping app ${context} due to skip flag`)
       return
     }
 
