@@ -6,6 +6,8 @@
   "license": "GPL-3.0",
   "variants": {
     "latest": {
+      "version": "f7ff41f",
+      "sha": "f7ff41f0163fa7e4db47889be18cdba656a728dc",
       "checkver": {
         "repo": "https://github.com/lxfater/inpaint-web",
         "type": "sha"
