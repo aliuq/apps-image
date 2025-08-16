@@ -6,7 +6,7 @@ FROM node:16.20.2-alpine3.18 AS builder
 WORKDIR /app
 COPY --from=source /app .
 
-RUN yarn install --frozen-lockfile --ignore-scripts
+RUN yarn install --frozen-lockfile
 RUN yarn run build
 
 FROM nginx:1.21.3-alpine
