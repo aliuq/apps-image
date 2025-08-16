@@ -1,0 +1,29 @@
+{
+  "name": "icones",
+  "type": "app",
+  "title": "Icones",
+  "description": "Icon Explorer with Instant searching, powered by Iconify",
+  "license": "MIT",
+  "context": "apps/icones",
+  "variants": {
+    "latest": {
+      "version": "ac522b6",
+      "sha": "ac522b61118e3ffe9273d6cf74ce083dc76a3768",
+      "checkver": {
+        "repo": "https://github.com/antfu-collective/icones",
+        "type": "sha"
+      },
+      "docker": {
+        "images": [
+          "aliuq/icones",
+          "ghcr.io/aliuq/icones"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
+    }
+  }
+}
