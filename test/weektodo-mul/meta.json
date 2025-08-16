@@ -16,8 +16,6 @@
       }
     },
     "dev": {
-      "version": "d384fc7",
-      "sha": "d384fc72d04e9c8a8431d456a3218c08d0c77e29",
       "checkver": {
         "repo": "manuelernestog/weektodo",
         "type": "sha"
