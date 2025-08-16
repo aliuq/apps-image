@@ -17,7 +17,7 @@ async function main() {
   const logger = createLogger()
   try {
     await logger.json(config, 'Inputs')
-    core.summary.addHeading('Version Check Results')
+    core.summary.addHeading('Version Check Results', 2)
 
     // 1. 初始化应用管理生命周期
     const appsManager = new CheckAppsManager()

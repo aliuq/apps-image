@@ -29,7 +29,7 @@ on:
       enable_pr:
         description: 是否创建 PR
         type: choice
-        default: "true"
+        default: "false"
         options:
           - "true"
           - "false"
@@ -62,10 +62,6 @@ on:
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    # if: |
-    #   (github.event_name == 'schedule') ||
-    #   (github.event_name == 'workflow_dispatch') ||
-    #   (github.event_name == 'push' && contains(github.event.head_commit.message, 'force check'))
     permissions:
       contents: read
     steps:

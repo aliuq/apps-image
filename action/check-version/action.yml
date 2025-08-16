@@ -15,7 +15,7 @@ inputs:
   enable_pr:
     description: Create a PR if the version is outdated, supports `true`, `false`, and `development`
     required: false
-    default: 'true'
+    default: 'false'
   debug:
     description: Debug mode
     required: false

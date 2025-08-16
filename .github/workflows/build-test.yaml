@@ -1,4 +1,4 @@
-name: Build Docker Image Test
+name: Build Docker Image By ACT
 
 on:
   workflow_dispatch:
@@ -21,9 +21,8 @@ on:
 
 jobs:
   metadata:
-    name: Resolve Metadata
+    name: Resolve Docker Metadata
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
     permissions:
       pull-requests: read
     outputs:
