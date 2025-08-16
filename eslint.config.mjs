@@ -10,9 +10,15 @@ export default antfu(
     ignores: ['dist', 'node_modules', '.history'],
   },
   {
-    files: ['action/src/**/*.ts'],
+    files: ['action/**/*.ts'],
     rules: {
       'ts/explicit-function-return-type': 'off',
+    },
+  },
+  {
+    files: ['spec/**/*.spec.js'],
+    rules: {
+      'no-console': 'off',
     },
   },
   {
@@ -27,45 +33,75 @@ export default antfu(
           order: [
             'name',
             'type',
-            'version',
+            'title',
             'description',
+            'license',
+            'version',
             'skip',
-            'repo',
             'sha',
-            'checkVer',
+            'context',
+            'readme',
+            'variants',
+            'checkver',
             'dockerMeta',
             'sync',
           ],
         },
         {
-          // checkVer 字段排序
-          pathPattern: '^checkVer$',
+          // checkver 字段排序
+          pathPattern: '^checkver$',
           order: [
+            'repo',
             'type',
             'file',
-            'targetVersion',
             'branch',
             'tag_pattern',
+            'targetVersion',
+            'processFiles',
             'check_frequency',
             'last_check',
-            'variants',
-            'default_variant',
             'tag_mappings',
           ],
         },
         {
-          // checkVer.variants.* 字段排序
-          pathPattern: '^checkVer\\.variants\\..+$',
+          // variants.* 字段排序
+          pathPattern: '^variants\\..+$',
           order: [
+            'version',
+            'sha',
+            'enabled',
             'dockerfile',
+            'images',
             'tags',
+            'labels',
             'platforms',
-            'build_args',
+            'buildArgs',
+            'push',
+            'cache',
+            'secrets',
+            'outputs',
+            'checkver',
           ],
         },
         {
-          // checkVer.tag_mappings[] 字段排序
-          pathPattern: '^checkVer\\.tag_mappings\\[\\d+\\]$',
+          // variants.*.checkver 字段排序
+          pathPattern: '^variants\\..+\\.checkver$',
+          order: [
+            'repo',
+            'type',
+            'file',
+            'branch',
+            'tag_pattern',
+            'targetVersion',
+            'processFiles',
+            'check_frequency',
+            'last_check',
+            'tag_mappings',
+          ],
+        },
+        {
+          // checkver.tag_mappings[] 字段排序
+          pathPattern: '^checkver\\.tag_mappings\\[\\d+\\]$',
           order: [
             'source_tag',
             'target_tags',
@@ -77,15 +113,16 @@ export default antfu(
         {
           pathPattern: '^dockerMeta$',
           order: [
+            'dockerfile',
             'images',
             'tags',
-            'context',
-            'dockerfile',
-            'platforms',
-            'build_args',
-            'push',
-            'readme_path',
             'labels',
+            'platforms',
+            'buildArgs',
+            'push',
+            'cache',
+            'secrets',
+            'outputs',
           ],
         },
         {
@@ -138,6 +175,6 @@ export default antfu(
     },
   },
   {
-    ignores: ['.github'],
+    ignores: ['**/dist', '**/build'],
   },
 )

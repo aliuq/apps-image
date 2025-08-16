@@ -1,5 +1,19 @@
 {
   "inputs": {
-    "debug": "true"
+    "debug": "true",
+    "enable_pr": "false",
+    "context": "apps/icones",
+    "variants": "latest"
+  },
+  "pull_request": {
+    "number": 1,
+    "title": "update(test/weektodo): update latest version to 2.2.0",
+    "body": "",
+    "head": {
+      "ref": "update/test-weektodo"
+    },
+    "base": {
+      "ref": "master"
+    }
   }
 }

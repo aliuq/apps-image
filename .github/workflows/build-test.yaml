@@ -1,0 +1,93 @@
+name: Build Docker Image Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      context:
+        description: App Context，e.g. apps/icones
+        type: choice
+        required: true
+        options:
+          - test/weektodo
+          - test/weektodo-mul
+      variants:
+        description: Build variants, e.g. latest,stable
+        default: latest
+        type: string
+      debug:
+        description: Debug mode
+        default: false
+        type: boolean
+
+jobs:
+  metadata:
+    name: Resolve Metadata
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    permissions:
+      pull-requests: read
+    outputs:
+      matrix: ${{ steps.metadata.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve metadata
+        id: metadata
+        uses: ./action/resolve-meta
+        env:
+          TZ: Asia/Shanghai
+        with:
+          context: ${{ inputs.context }}
+          variants: ${{ inputs.variants }}
+          debug: ${{ inputs.debug }}
+
+  docker-build:
+    needs: metadata
+    name: Build ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    if: needs.metadata.outputs.matrix
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.metadata.imageLines }}
+          tags: ${{ matrix.metadata.tagLines }}
+          labels: ${{ matrix.metadata.labelLines }}
+          annotations: ${{ matrix.metadata.labelLines }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.build.context }}
+          file: ${{ matrix.build.file }}
+          platforms: ${{ matrix.build.platformLines }}
+          push: ${{ matrix.build.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
+          cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache-new,mode=max
+
+      - name: Move cache
+        run: |
+          rm -rf ${{ runner.temp }}/.buildx-cache
+          mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache

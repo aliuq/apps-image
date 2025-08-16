@@ -42,10 +42,17 @@
     "postcss"
   ],
   "cSpell.words": [
+    "aliyuncs",
     "buildx",
+    "bunx",
+    "checkver",
+    "Datas",
+    "defu",
+    "globber",
     "icones",
     "imputnet",
     "inpaint",
+    "inpainting",
     "isready",
     "jsonhero",
     "lsky",
@@ -74,5 +81,10 @@
   "markdownlint.config": {
     "first-line-h1": false
   },
-  "docker.lsp.experimental.vulnerabilityScanning": false
+  "docker.lsp.experimental.vulnerabilityScanning": false,
+  "todo-tree.filtering.excludeGlobs": [
+    "**/node_modules/*/**",
+    "**/dist/**"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|/\\*|^\\s*\\*)\\s*($TAGS)"
 }

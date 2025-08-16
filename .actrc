@@ -1,3 +1,2 @@
--e event.json
 --pull=false
 --secret-file .env

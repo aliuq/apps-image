@@ -1,13 +1,75 @@
+/**
+ * 配置管理模块
+ */
+
+import type { PushEvent } from '@octokit/webhooks-definitions/schema.js'
+import type { CheckVersionInputs, ResolveMetadataInputs } from './types/input.js'
 import process from 'node:process'
-import * as core from '@actions/core'
-import * as gh from '@actions/github'
+import core from '@actions/core'
+import gh from '@actions/github'
+
+type EventName = 'push' | 'pull_request' | 'workflow_dispatch' | 'schedule'
+
+let _checkVersionConfig: CheckVersionInputs | undefined
+let _resolveMetadataConfig: ResolveMetadataInputs | undefined
 
 export const isAct = process.env.ACT === 'true'
-
+export const ghContext = gh.context
+export const eventName = ghContext.eventName as EventName
+export const ghContextPayload = ghContext.payload as PushEvent
 /**
- * 是否为调试模式
+ * 是否为 debug 模式
+ *
+ * 1. workflow_dispatch 事件下，debug 输入为 true
+ * 2. core.isDebug()
+ * 3. ACT 环境
  */
-export const isDebug = core.getBooleanInput('debug') || core.isDebug()
+export const isDebug = (eventName === 'workflow_dispatch' && core.getBooleanInput('debug')) || core.isDebug() || isAct
+
+/** 获取缓存目录 */
+export const CaCheDir = process.env.CACHE_DIR || '.git-cache'
+
+export const checkVersionConfig = getCheckVersionConfig()
+export const resolveMetadataConfig = getResolveMetadataConfig()
+
+/** 获取检查版本的 Action 配置 */
+export function getCheckVersionConfig(): CheckVersionInputs {
+  const context = core.getInput('context')
+  const enablePr = core.getInput('enable_pr')
+
+  const enablePrMap: Record<string, any> = {
+    true: true,
+    false: false,
+    development: 'development',
+  }
+
+  if (!_checkVersionConfig) {
+    _checkVersionConfig = {
+      token: core.getInput('token') || process.env.GITHUB_TOKEN,
+      context: context === 'all' ? undefined : context,
+      concurrency: Number.parseInt(core.getInput('concurrency')) || 3,
+      enablePr: enablePrMap[enablePr] ?? (['push', 'schedule'].includes(eventName)),
+      debug: eventName === 'workflow_dispatch' ? core.getBooleanInput('debug') : undefined,
+    }
+  }
+  return _checkVersionConfig
+}
+
+/** 获取解析元数据的 Action 配置 */
+export function getResolveMetadataConfig(): ResolveMetadataInputs {
+  const context = core.getInput('context')
+  const variants = core.getInput('variants')
+
+  if (!_resolveMetadataConfig) {
+    _resolveMetadataConfig = {
+      context,
+      variants,
+      debug: eventName === 'workflow_dispatch' ? core.getBooleanInput('debug') : undefined,
+    }
+  }
+
+  return _resolveMetadataConfig
+}
 
 /**
  * 获取当前分支名称

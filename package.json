@@ -8,10 +8,11 @@
     "action"
   ],
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "eslint:inspect": "bunx @eslint/config-inspector --config eslint.config.mjs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.18.0",
-    "eslint": "^9.31.0"
+    "@antfu/eslint-config": "^4.19.0",
+    "eslint": "^9.33.0"
   }
 }

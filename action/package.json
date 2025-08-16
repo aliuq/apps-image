@@ -4,24 +4,36 @@
   "version": "0.0.0",
   "private": true,
   "description": "A tool to check application updates",
+  "sideEffects": false,
   "engines": {
     "node": "20.x"
   },
   "scripts": {
-    "dev": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --sourcemap=linked --watch",
-    "build": "bun build ./src/index.ts --outdir ./dist --target node --format esm --minify --sourcemap=linked"
+    "dev": "concurrently -c cyan,magenta --pad-prefix --timings 'bun:dev:check' 'bun:dev:metadata'",
+    "dev:check": "bun build ./src/check.ts --outdir dist --target node --watch",
+    "dev:metadata": "bun build ./src/metadata.ts --outdir dist --target node --watch",
+    "build": "bun build ./src/check.ts ./src/metadata.ts --outdir dist --target node --minify",
+    "build:check": "bun build ./src/check.ts --outdir dist --target node --minify",
+    "build:metadata": "bun build ./src/metadata.ts --outdir dist --target node --minify"
   },
   "devDependencies": {
+    "@actions/cache": "^4.0.5",
     "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^6.0.1",
     "@actions/glob": "^0.5.0",
     "@octokit/core": "^7.0.3",
-    "@types/fs-extra": "^11.0.4",
-    "fast-glob": "^3.3.3",
-    "fs-extra": "^11.3.0",
+    "@octokit/webhooks-definitions": "^3.67.3",
+    "@types/semver": "^7.7.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "concurrently": "^9.2.0",
+    "dayjs": "^1.11.13",
+    "defu": "^6.1.4",
     "kolorist": "^1.8.0",
     "octokit-plugin-create-pull-request": "^6.0.1",
-    "typescript": "^5.8.3"
+    "semver": "^7.7.2",
+    "superjson": "^2.2.2",
+    "typescript": "^5.9.2"
   }
 }
