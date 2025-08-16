@@ -1,0 +1,28 @@
+{
+  "name": "inpaint-web",
+  "type": "app",
+  "title": "Inpaint Web",
+  "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
+  "license": "GPL-3.0",
+  "context": "apps/inpaint-web",
+  "variants": {
+    "latest": {
+      "version": "f7ff41f",
+      "sha": "f7ff41f0163fa7e4db47889be18cdba656a728dc",
+      "checkver": {
+        "repo": "https://github.com/lxfater/inpaint-web",
+        "type": "sha"
+      },
+      "docker": {
+        "images": [
+          "aliuq/inpaint-web",
+          "ghcr.io/aliuq/inpaint-web"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value=f7ff41f"
+        ]
+      }
+    }
+  }
+}

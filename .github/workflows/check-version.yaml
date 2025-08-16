@@ -49,16 +49,18 @@ on:
           - simple
           - detailed
           - json
-  # push:
-  #   branches:
-  #     - master
-  #   paths:
-  #     - apps/*/meta.json
+  push:
+    branches:
+      - master
+      - dev
+    paths:
+      - test/*/meta.json
+      - test/*/Dockerfile
+      - test/*/Dockerfile.*
 
 jobs:
   check-version:
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     # if: |
     #   (github.event_name == 'schedule') ||
     #   (github.event_name == 'workflow_dispatch') ||

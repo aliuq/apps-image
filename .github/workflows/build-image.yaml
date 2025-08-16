@@ -1,4 +1,4 @@
-name: Build Docker Image Test
+name: Build Docker Image
 
 on:
   workflow_dispatch:
@@ -25,6 +25,7 @@ on:
 
 jobs:
   metadata:
+    name: Resolve Metadata
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'workflow_dispatch' ||
@@ -105,8 +106,7 @@ jobs:
           context: ${{ matrix.build.context }}
           file: ${{ matrix.build.file }}
           platforms: ${{ matrix.build.platformLines }}
-          # push: ${{ matrix.build.push }}
-          push: false
+          push: ${{ matrix.build.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
