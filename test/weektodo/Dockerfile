@@ -5,8 +5,8 @@ RUN git clone https://github.com/manuelernestog/weektodo . && git checkout 0296d
 FROM node:16.20.2-alpine3.18 AS builder
 WORKDIR /app
 COPY --from=source /app .
-
-RUN yarn install --frozen-lockfile
+# 5 min
+RUN yarn install --frozen-lockfile --network-timeout 600000
 RUN yarn run build
 
 FROM nginx:1.21.3-alpine
