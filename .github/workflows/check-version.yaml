@@ -25,6 +25,7 @@ on:
           - apps/weektodo
           - apps/yulegeyu
           - test/weektodo
+          - test/weektodo-mul
       enable_pr:
         description: 是否创建 PR
         type: choice
