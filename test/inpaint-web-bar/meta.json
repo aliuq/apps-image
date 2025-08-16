@@ -1,5 +1,5 @@
 {
-  "name": "inpaint-web-foo",
+  "name": "inpaint-web-bar",
   "type": "app",
   "title": "Inpaint Web",
   "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
