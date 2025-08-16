@@ -1,11 +1,17 @@
-FROM alpine/git AS base
+FROM alpine/git AS source
 WORKDIR /app
 RUN git clone https://github.com/lxfater/inpaint-web.git . && git checkout f7ff41f
 
 FROM node:18.20.2-alpine3.19 AS build
 WORKDIR /app
-COPY --from=base /app .
-RUN npm ci && npm run fast-build
+COPY --from=source /app .
+
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
+
+RUN --mount=type=cache,target=/root/.npm \
+    --mount=type=cache,target=/app/node_modules/.cache \
+    npm run fast-build
 
 FROM aliuq/nginx:vue
 WORKDIR /app
