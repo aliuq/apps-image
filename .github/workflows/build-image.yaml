@@ -10,6 +10,7 @@ on:
         options:
           - test/weektodo
           - test/weektodo-mul
+          - test/inpaint-web-bar
       variants:
         description: Build variants, e.g. latest,stable
         default: latest
