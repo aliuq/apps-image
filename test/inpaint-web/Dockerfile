@@ -1,6 +1,6 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/lxfater/inpaint-web . && git checkout {{sha}}
+RUN git clone https://github.com/lxfater/inpaint-web . && git checkout f7ff41f
 
 FROM node:18.20.2-alpine3.19 AS build
 WORKDIR /app
