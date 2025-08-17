@@ -1,22 +1,21 @@
-FROM alpine/git AS base
+FROM alpine/git AS source
 WORKDIR /app
-RUN git clone --branch v0.3.0 https://github.com/usememos/telegram-integration.git .
+ARG VERSION=v0.3.0
+RUN git clone --branch ${VERSION} https://github.com/usememos/telegram-integration .
 
 # Build stage
 FROM cgr.dev/chainguard/go:latest AS builder
 WORKDIR /app
-COPY --from=base /app/go.mod ./
-COPY --from=base /app/go.sum ./
+COPY --from=source /app/go.mod ./
+COPY --from=source /app/go.sum ./
 RUN go mod download
-COPY --from=base /app .
+COPY --from=source /app .
 RUN CGO_ENABLED=0 go build -o memogram ./bin/memogram
 RUN chmod +x memogram
 
 # Run stage
 FROM cgr.dev/chainguard/static:latest-glibc
 WORKDIR /app
-ENV SERVER_ADDR=dns:localhost:5230
-ENV BOT_TOKEN=your_telegram_bot_token
-COPY --from=base /app/.env.example .env
+COPY --from=source /app/.env.example .env
 COPY --from=builder /app/memogram .
 CMD ["./memogram"]

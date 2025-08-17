@@ -1,30 +1,28 @@
 {
   "name": "memogram",
   "type": "app",
-  "version": "0.3.0",
-  "repo": "https://github.com/usememos/telegram-integration",
-  "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
-  "checkVer": {
-    "type": "tag"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/memogram",
-      "ghcr.io/aliuq/memogram"
-    ],
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=0.3.0",
-      "type=raw,value=316ea40"
-    ],
-    "context": "apps/memogram",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "labels": {
-      "title": "Memogram",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "licenses": "Custom properties"
+  "title": "Memogram",
+  "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+  "license": "Custom properties",
+  "variants": {
+    "latest": {
+      "version": "0.3.0",
+      "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
+      "checkver": {
+        "type": "tag",
+        "repo": "https://github.com/usememos/telegram-integration"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
     }
   }
 }
