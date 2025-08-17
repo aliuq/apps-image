@@ -1,30 +1,52 @@
 {
   "name": "lsky",
   "type": "app",
-  "version": "2.1",
-  "repo": "https://github.com/lsky-org/lsky-pro",
-  "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
-  "checkVer": {
-    "type": "tag"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/lsky",
-      "ghcr.io/aliuq/lsky"
-    ],
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=2.1",
-      "type=raw,value=923f567"
-    ],
-    "context": "apps/lsky",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "labels": {
-      "title": "兰空图床",
-      "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
-      "licenses": "GPL-3.0"
+  "title": "兰空图床",
+  "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
+  "license": "GPL-3.0",
+  "variants": {
+    "latest": {
+      "version": "2.1",
+      "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
+      "checkver": {
+        "type": "tag",
+        "repo": "https://github.com/lsky-org/lsky-pro"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ],
+        "platforms": [
+          "linux/amd64"
+        ]
+      }
+    },
+    "dev": {
+      "version": "aa6dd04",
+      "sha": "aa6dd044ba668c647ffa40532a475a1e844c5e13",
+      "checkver": {
+        "type": "sha",
+        "repo": "https://github.com/lsky-org/lsky-pro"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=dev",
+          "type=raw,value={{sha}}-dev"
+        ],
+        "platforms": [
+          "linux/amd64"
+        ]
+      }
     }
   }
 }

@@ -6,7 +6,7 @@ import type { GitCommitInfo } from './types/git.js'
 import type { CheckVariantResult } from './types/index.js'
 import type { CheckVersionType, ImageVariant } from './types/schema.js'
 import { cyan, green, red, yellow } from 'kolorist'
-import { valid as semverValid } from 'semver'
+import { coerce, valid as semverValid } from 'semver'
 import { CaCheDir } from './config.js'
 import { Git } from './git.js'
 import { createLogger } from './logger.js'
@@ -134,11 +134,13 @@ export class VariantContext {
       return
     }
 
+    this.logger.debug(`All tags: ${tags.join(', ')}`)
+
     const checkver = this.variant.checkver
     let tag
     if (!checkver.tagPattern) {
       this.logger.debug('No tag pattern specified, will using semver to find a valid tag')
-      tag = tags.find(tag => semverValid(tag))
+      tag = tags.find(tag => semverValid(coerce(tag)))
       this.logger.debug(`Found tag: ${tag}`)
       if (!tag) {
         this.logger.warn(yellow('No valid semver tag found, returning empty version'))
