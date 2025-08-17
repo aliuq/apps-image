@@ -2,6 +2,7 @@
   "name": "yulegeyu",
   "type": "app",
   "title": "鱼了个鱼",
+  "slogan": "羊了个羊纯前端实现版，休闲益智游戏",
   "description": "羊了个羊纯前端实现版【鱼了个鱼】，自定义关卡+图案+无限道具",
   "variants": {
     "latest": {

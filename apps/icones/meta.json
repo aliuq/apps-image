@@ -2,6 +2,7 @@
   "name": "icones",
   "type": "app",
   "title": "Icones",
+  "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
   "description": "Icon Explorer with Instant searching, powered by Iconify",
   "license": "MIT",
   "variants": {

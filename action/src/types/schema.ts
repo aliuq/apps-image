@@ -117,6 +117,8 @@ export interface Meta {
   type: ImageType
   /** 应用显示名称 */
   title?: string
+  /** 应用标语 */
+  slogan?: string
   /** 应用描述 */
   description?: string
   /** 许可证 */

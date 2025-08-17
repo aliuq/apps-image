@@ -2,6 +2,7 @@
   "name": "inpaint-web",
   "type": "app",
   "title": "Inpaint Web",
+  "slogan": "AI 图像修复工具，智能去除图片对象",
   "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
   "license": "GPL-3.0",
   "variants": {

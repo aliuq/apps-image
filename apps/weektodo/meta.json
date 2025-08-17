@@ -2,6 +2,7 @@
   "name": "weektodo",
   "type": "app",
   "title": "WeekToDo | FOSS Minimalist Weekly Planner",
+  "slogan": "每周任务管理工具，高效规划待办事项",
   "description": "WeekToDo is a Free and Open Source Minimalist Weekly Planner and To Do list App focused on privacy. Available for Windows, Mac, Linux or online.",
   "license": "GPL-3.0 license",
   "variants": {

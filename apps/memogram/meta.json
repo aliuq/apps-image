@@ -2,6 +2,7 @@
   "name": "memogram",
   "type": "app",
   "title": "Memogram",
+  "slogan": "Memos 的 Telegram 机器人集成",
   "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
   "license": "Custom properties",
   "variants": {

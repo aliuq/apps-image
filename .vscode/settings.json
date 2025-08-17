@@ -83,7 +83,8 @@
     }
   ],
   "markdownlint.config": {
-    "first-line-h1": false
+    "first-line-h1": false,
+    "no-inline-html": false
   },
   "docker.lsp.experimental.vulnerabilityScanning": false,
   "todo-tree.filtering.excludeGlobs": [

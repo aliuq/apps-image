@@ -2,6 +2,7 @@
   "name": "srcbook",
   "type": "app",
   "title": "SrcBook",
+  "slogan": "TypeScript 笔记本，浏览器中运行 TS",
   "description": "TypeScript-centric app development platform: notebook and AI app builder",
   "license": "Apache-2.0",
   "variants": {

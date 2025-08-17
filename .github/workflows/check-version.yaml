@@ -11,6 +11,7 @@ on:
         default: all
         options:
           - all
+          # ContextStart
           - apps/cobalt
           - apps/icones
           - apps/inpaint-web
@@ -21,11 +22,15 @@ on:
           - apps/srcbook
           - apps/telegram-upload
           - apps/telemirror
-          - apps/tgcf
           - apps/weektodo
           - apps/yulegeyu
+          - base/self
+          - base/tg-session
+          - test/icones
+          - test/inpaint-web
           - test/weektodo
           - test/weektodo-mul
+          # ContextEnd
       enable_pr:
         description: 是否创建 PR
         type: choice

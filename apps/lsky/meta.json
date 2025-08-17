@@ -2,6 +2,7 @@
   "name": "lsky",
   "type": "app",
   "title": "兰空图床",
+  "slogan": "兰空图床，轻量级图片云存储系统",
   "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
   "license": "GPL-3.0",
   "variants": {

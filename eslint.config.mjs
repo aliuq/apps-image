@@ -34,6 +34,7 @@ export default antfu(
             'name',
             'type',
             'title',
+            'slogan',
             'description',
             'license',
             'context',

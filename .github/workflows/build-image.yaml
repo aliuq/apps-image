@@ -8,9 +8,26 @@ on:
         type: choice
         required: true
         options:
+          # ContextStart
+          - apps/cobalt
+          - apps/icones
+          - apps/inpaint-web
+          - apps/jsonhero-web
+          - apps/lsky
+          - apps/memogram
+          - apps/readest
+          - apps/srcbook
+          - apps/telegram-upload
+          - apps/telemirror
+          - apps/weektodo
+          - apps/yulegeyu
+          - base/self
+          - base/tg-session
+          - test/icones
+          - test/inpaint-web
           - test/weektodo
           - test/weektodo-mul
-          - test/inpaint-web-bar
+          # ContextEnd
       variants:
         description: Build variants, e.g. latest,stable
         default: latest

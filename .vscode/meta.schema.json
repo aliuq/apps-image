@@ -20,6 +20,10 @@
       "type": "string",
       "description": "应用显示名称"
     },
+    "slogan": {
+      "type": "string",
+      "description": "标语"
+    },
     "description": {
       "type": "string",
       "description": "应用描述"

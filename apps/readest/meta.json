@@ -2,6 +2,7 @@
   "name": "readest",
   "type": "app",
   "title": "Readest",
+  "slogan": "现代化的电子书阅读器，优雅的阅读体验",
   "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
   "license": "AGPL-3.0",
   "variants": {

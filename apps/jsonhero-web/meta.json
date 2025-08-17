@@ -2,6 +2,7 @@
   "name": "jsonhero-web",
   "type": "app",
   "title": "Jsonhero Web",
+  "slogan": "Web JSON 浏览器，快速浏览和搜索 JSON",
   "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
   "license": "Apache-2.0",
   "variants": {

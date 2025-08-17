@@ -2,6 +2,7 @@
   "name": "telemirror",
   "type": "app",
   "title": "Telemirror",
+  "slogan": "Telegram 消息镜像转发工具",
   "description": "Telegram message forwarder (client API)",
   "license": "GPL-3.0",
   "variants": {
@@ -25,6 +26,7 @@
       }
     },
     "stable": {
+      "enabled": false,
       "checkver": {
         "type": "tag",
         "repo": "khoben/telemirror"

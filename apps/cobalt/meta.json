@@ -2,6 +2,7 @@
   "name": "cobalt",
   "type": "app",
   "title": "Cobalt",
+  "slogan": "媒体下载器，支持多平台视频/音频下载",
   "description": "best way to save what you love",
   "license": "AGPL-3.0",
   "variants": {
