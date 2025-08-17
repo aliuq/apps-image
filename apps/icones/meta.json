@@ -1,29 +1,28 @@
 {
   "name": "icones",
   "type": "app",
-  "version": "ac522b6",
-  "repo": "https://github.com/antfu-collective/icones",
-  "sha": "ac522b61118e3ffe9273d6cf74ce083dc76a3768",
-  "checkVer": {
-    "type": "sha"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/icones",
-      "ghcr.io/aliuq/icones"
-    ],
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=ac522b6"
-    ],
-    "context": "apps/icones",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "labels": {
-      "title": "Icones",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "licenses": "MIT"
+  "title": "Icones",
+  "description": "Icon Explorer with Instant searching, powered by Iconify",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "version": "ac522b6",
+      "sha": "ac522b61118e3ffe9273d6cf74ce083dc76a3768",
+      "checkver": {
+        "type": "sha",
+        "repo": "https://github.com/antfu-collective/icones"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
     }
   }
 }
