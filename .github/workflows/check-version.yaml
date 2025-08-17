@@ -55,6 +55,9 @@ on:
       - master
       - dev
     paths:
+      - apps/*/meta.json
+      - apps/*/Dockerfile
+      - apps/*/Dockerfile.*
       - test/*/meta.json
       - test/*/Dockerfile
       - test/*/Dockerfile.*
