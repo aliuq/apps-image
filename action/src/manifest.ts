@@ -37,8 +37,7 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
     { data: 'Description', header: true },
     { data: 'Variant', header: true },
     { data: 'Version', header: true },
-    { data: 'Stats', header: true },
-    { data: 'URL', header: true },
+    { data: 'Stats & URL', header: true },
   ])
 
   for await (const app of apps) {
@@ -66,11 +65,9 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
         const dockerHubUrl = `https://hub.docker.com/r/aliuq/${app.name}`
         const dockerPull = toImg(`docker/pulls/aliuq/${app.name}?label=docker`, dockerHubUrl)
         const imageSize = toImg(`docker/image-size/aliuq/${app.name}?label=image`, dockerHubUrl)
-
-        rows.push({ data: `${dockerPull} ${imageSize}`, rowspan })
-
         const readmePath = path.relative(cwd, path.join(app.context, 'README.md'))
-        rows.push({ data: toImg(`badge/README-${hasReadme ? 'blue' : 'gray'}`, readmePath), rowspan })
+
+        rows.push({ data: `${dockerPull} ${imageSize} ${toImg(`badge/README-${hasReadme ? 'blue' : 'gray'}`, readmePath)}`, rowspan })
       }
       tableRows.push(rows)
     })
