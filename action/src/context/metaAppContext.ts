@@ -53,6 +53,10 @@ export class MetaAppContext {
       // 替换占位符
       content = content.replace(placeholderReg, values[0])
 
+      // 如果存在转义的,需要恢复
+      // \\{\\{version\\}\\} => {{version}}
+      content = content.replace(/\\([{$}])/g, '$1')
+
       if (values.length === 2 && values[1]) {
         const oldValue = values[1]
         const oldValueReg = new RegExp(escapeRegex(oldValue), 'g')

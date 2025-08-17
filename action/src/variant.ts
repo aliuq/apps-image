@@ -205,7 +205,7 @@ export class VariantContext {
     }
 
     // version 可能是带有前缀的，例如 v1.0.0，需要去掉前缀
-    version = version && (semverValid(version) || '')
+    version = (version && semverValid(coerce(version))) ? version : ''
     if (!version) {
       this.logger.error(red(`Invalid version format in ${checkver.file}: ${version}`))
       return
