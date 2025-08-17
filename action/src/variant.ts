@@ -139,6 +139,7 @@ export class VariantContext {
     if (!checkver.tagPattern) {
       this.logger.debug('No tag pattern specified, will using semver to find a valid tag')
       tag = tags.find(tag => semverValid(tag))
+      this.logger.debug(`Found tag: ${tag}`)
       if (!tag) {
         this.logger.warn(yellow('No valid semver tag found, returning empty version'))
       }
@@ -155,9 +156,12 @@ export class VariantContext {
     }
 
     const cleanTag = tag.trim()
-    const tagSha = await git.getTagSha(this.repo, cleanTag)
+    const tagSha = await git.getTagSha(repoPath, cleanTag)
 
-    return { version: cleanTag.replace(/^v/, ''), sha: tagSha }
+    const result = { version: cleanTag.replace(/^v/, ''), sha: tagSha }
+    this.logger.debug(`Tag Result: ${green(cleanTag)}, sha: ${green(tagSha)}`)
+
+    return result
   }
 
   /**

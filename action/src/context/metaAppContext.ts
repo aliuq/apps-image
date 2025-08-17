@@ -3,8 +3,8 @@
  */
 import type { ImageVariant, Meta, PlaceholderData } from '../types/index.js'
 import path from 'node:path'
-import gh from '@actions/github'
 import { cyan, yellow } from 'kolorist'
+import { isAct } from '../config.js'
 import { pathExists } from '../file.js'
 import { createLogger } from '../logger.js'
 import { detectRepo, escapeRegex } from '../utils.js'
@@ -138,7 +138,7 @@ export class MetaAppContext {
           file: dockerfile,
           context: this.context,
           // 测试应用不需要推送，固定为 false
-          push: isTest ? false : (variant?.docker?.push ?? true),
+          push: (isTest || isAct) ? false : (variant?.docker?.push ?? true),
         },
         pushDocker,
         pushGhcr,

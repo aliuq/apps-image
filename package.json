@@ -12,7 +12,7 @@
     "eslint:inspect": "bunx @eslint/config-inspector --config eslint.config.mjs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.19.0",
+    "@antfu/eslint-config": "^5.2.1",
     "eslint": "^9.33.0"
   }
 }
