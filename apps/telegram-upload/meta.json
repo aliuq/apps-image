@@ -1,30 +1,28 @@
 {
   "name": "telegram-upload",
   "type": "app",
-  "version": "c700f86",
-  "repo": "https://github.com/Nekmo/telegram-upload",
-  "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
-  "checkVer": {
-    "type": "sha"
-  },
-  "tags": "",
-  "dockerMeta": {
-    "images": [
-      "aliuq/telegram-upload",
-      "ghcr.io/aliuq/telegram-upload"
-    ],
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=c700f86"
-    ],
-    "context": "apps/telegram-upload",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "labels": {
-      "title": "Telegram Upload",
-      "description": "Upload and download files from Telegram up to 4 GiB using your account",
-      "licenses": "MIT"
+  "title": "Telegram Upload",
+  "description": "Upload and download files from Telegram up to 4 GiB using your account",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "version": "c700f86",
+      "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
+      "checkver": {
+        "type": "sha",
+        "repo": "https://github.com/Nekmo/telegram-upload"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
     }
   }
 }
