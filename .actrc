@@ -1,2 +1,3 @@
 --pull=false
 --secret-file .env
+--artifact-server-path /tmp/apps-image-artifacts

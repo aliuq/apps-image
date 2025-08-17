@@ -55,7 +55,7 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
 
       if (index === 0) {
         rows.push({ data: repo ? `<a href="${repo}">${app.name}</a>` : app.name, rowspan })
-        rows.push({ data: app.slogan || '', rowspan })
+        rows.push({ data: (app.slogan ? splitTextByWidth(app.slogan, 12) : '') || '', rowspan })
       }
 
       rows.push(`<strong>${variantName}</strong>`)
@@ -131,4 +131,37 @@ function toImg(url: string, href?: string) {
     return `<a href="${href}">${img}</a>`
   }
   return `<a href="https://img.shields.io/${href}">${img}</a>`
+}
+
+function splitTextByWidth(text: string, maxWidth: number): string {
+  if (!text)
+    return ''
+
+  const lines: string[] = []
+  let currentLine = ''
+  let currentWidth = 0
+
+  for (const char of text) {
+    // 中文字符宽度为2，英文字符宽度为1
+    const charWidth = /[\u4E00-\u9FA5]/.test(char) ? 2 : 1
+
+    // 如果添加当前字符会超过最大宽度，则开始新行
+    if (currentWidth + charWidth > maxWidth && currentLine) {
+      lines.push(currentLine)
+      currentLine = char
+      currentWidth = charWidth
+    }
+    else {
+      currentLine += char
+      currentWidth += charWidth
+    }
+  }
+
+  // 添加最后一行
+  if (currentLine) {
+    lines.push(currentLine)
+  }
+
+  // 使用 <br> 连接多行，适合在表格中显示
+  return lines.join('<br>')
 }
