@@ -1,31 +1,29 @@
 {
   "name": "srcbook",
   "type": "app",
-  "version": "0.0.19",
-  "repo": "https://github.com/srcbookdev/srcbook",
-  "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
-  "checkVer": {
-    "type": "version",
-    "file": "srcbook/package.json"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/srcbook",
-      "ghcr.io/aliuq/srcbook"
-    ],
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=0.0.19",
-      "type=raw,value=0ba24b1"
-    ],
-    "context": "apps/srcbook",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "labels": {
-      "title": "SrcBook",
-      "description": "TypeScript-centric app development platform: notebook and AI app builder",
-      "licenses": "Apache-2.0"
+  "title": "SrcBook",
+  "description": "TypeScript-centric app development platform: notebook and AI app builder",
+  "license": "Apache-2.0",
+  "variants": {
+    "latest": {
+      "version": "0.0.19",
+      "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+      "checkver": {
+        "type": "version",
+        "repo": "https://github.com/srcbookdev/srcbook",
+        "file": "srcbook/package.json"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
     }
   }
 }
