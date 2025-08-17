@@ -1,6 +1,7 @@
 FROM alpine/git AS source
 WORKDIR /app
-RUN git clone https://github.com/triggerdotdev/jsonhero-web.git . && git checkout 1515705
+ARG VERSION=1515705
+RUN git clone https://github.com/triggerdotdev/jsonhero-web . && git checkout ${VERSION}
 
 # Build stage
 FROM node:16.17.0-alpine3.16
