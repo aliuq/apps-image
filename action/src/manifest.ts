@@ -127,10 +127,7 @@ function toImg(url: string, href?: string) {
   if (!href)
     return img
 
-  if (href.startsWith('http') || href.startsWith('./')) {
-    return `<a href="${href}">${img}</a>`
-  }
-  return `<a href="https://img.shields.io/${href}">${img}</a>`
+  return `<a href="${href}">${img}</a>`
 }
 
 function splitTextByWidth(text: string, maxWidth: number): string {
