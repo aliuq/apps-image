@@ -35,9 +35,9 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
   tableRows.push([
     { data: 'Name', header: true },
     { data: 'Description', header: true },
-    { data: 'Variant', header: true },
     { data: 'Version', header: true },
-    { data: 'Stats & URL', header: true },
+    { data: 'Stats', header: true },
+    { data: 'URL', header: true },
   ])
 
   for await (const app of apps) {
@@ -45,32 +45,30 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
       continue
     }
     const hasReadme = await pathExists(path.join(app.context, 'README.md'))
-    const variants = Object.entries(app.variants)
+    const latestVariant = app.variants.latest
 
-    variants.forEach(([variantName, variant]: any, index) => {
-      const rowspan = String(variants.length)
-      const version = variant.version || 'N/A'
-      const repo = detectRepo(app.variants?.latest?.checkver.repo || '')
-      const rows: SummaryTableRow = []
+    const rows: SummaryTableRow = []
 
-      if (index === 0) {
-        rows.push({ data: repo ? `<a href="${repo}">${app.name}</a>` : app.name, rowspan })
-        rows.push({ data: (app.slogan ? splitTextByWidth(app.slogan, 25) : '') || '', rowspan })
-      }
+    const repo = detectRepo(latestVariant?.checkver.repo || '')
+    rows.push(repo ? `<a href="${repo}">${app.name}</a>` : app.name)
+    rows.push((app.slogan ? splitTextByWidth(app.slogan, 25) : '') || '')
 
-      rows.push(`<strong>${variantName}</strong>`)
-      rows.push(toImg(`badge/${version}-${version !== 'N/A' ? '8A2BE2' : 'gray'}`))
+    const variantImage = latestVariant
+      ? toImg(`badge/latest-${latestVariant.version}-${latestVariant.version !== 'N/A' ? 'blue' : 'gray'}`)
+      : 'N/A'
 
-      if (index === 0) {
-        const dockerHubUrl = `https://hub.docker.com/r/aliuq/${app.name}`
-        const dockerPull = toImg(`docker/pulls/aliuq/${app.name}?label=docker`, dockerHubUrl)
-        const imageSize = toImg(`docker/image-size/aliuq/${app.name}?label=image`, dockerHubUrl)
-        const readmePath = path.relative(cwd, path.join(app.context, 'README.md'))
+    rows.push(variantImage)
 
-        rows.push({ data: `${dockerPull} ${imageSize} ${toImg(`badge/README-${hasReadme ? 'blue' : 'gray'}`, readmePath)}`, rowspan })
-      }
-      tableRows.push(rows)
-    })
+    const dockerHubUrl = `https://hub.docker.com/r/aliuq/${app.name}`
+    const dockerPull = toImg(`docker/pulls/aliuq/${app.name}?label=docker`, dockerHubUrl)
+    const imageSize = toImg(`docker/image-size/aliuq/${app.name}?label=image`, dockerHubUrl)
+
+    rows.push({ data: `${dockerPull} ${imageSize}` })
+
+    const readmePath = path.relative(cwd, app.context)
+    rows.push(toImg(`badge/README-${hasReadme ? 'blue' : 'gray'}`, readmePath))
+
+    tableRows.push(rows)
   }
 
   core.summary.addTable(tableRows)
