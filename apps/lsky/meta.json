@@ -21,9 +21,6 @@
           "type=raw,value=latest",
           "type=raw,value={{version}}",
           "type=raw,value={{sha}}"
-        ],
-        "platforms": [
-          "linux/amd64"
         ]
       }
     },
@@ -42,9 +39,6 @@
         "tags": [
           "type=raw,value=dev",
           "type=raw,value={{sha}}-dev"
-        ],
-        "platforms": [
-          "linux/amd64"
         ]
       }
     }
