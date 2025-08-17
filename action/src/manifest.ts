@@ -51,7 +51,7 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
 
     const repo = detectRepo(latestVariant?.checkver.repo || '')
     rows.push(repo ? `<a href="${repo}">${app.name}</a>` : app.name)
-    rows.push((app.slogan ? splitTextByWidth(app.slogan, 30) : '') || '')
+    rows.push((app.slogan ? splitTextByWidth(app.slogan, 28) : '') || '')
 
     const variantImage = latestVariant
       ? toImg(`badge/latest-${latestVariant.version}-${latestVariant.version !== 'N/A' ? 'blue' : 'gray'}`)
