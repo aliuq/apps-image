@@ -1,11 +1,11 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/manuelernestog/weektodo.git . && git checkout 0296d29
+RUN git clone https://github.com/manuelernestog/weektodo . && git checkout 0296d29
 
 FROM node:16.20.2-alpine3.18 AS builder
 WORKDIR /app
 COPY --from=base /app .
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --network-timeout 600000
 RUN yarn run build
 
 FROM nginx:1.21.3-alpine
