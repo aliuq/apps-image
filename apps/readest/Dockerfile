@@ -1,6 +1,7 @@
 FROM alpine/git AS source
 WORKDIR /app
-RUN git clone -b v0.9.71 --recurse-submodules https://github.com/readest/readest .
+ARG READEST_VERSION=v0.9.71
+RUN git clone -b ${READEST_VERSION} --recurse-submodules https://github.com/readest/readest .
 
 FROM node:22-slim AS base
 ENV PNPM_HOME="/pnpm"
@@ -9,16 +10,16 @@ RUN corepack enable && corepack prepare pnpm@latest-10 --activate
 
 FROM base AS build
 WORKDIR /app
+# ENV NODE_OPTIONS="--max-old-space-size=6144"
 
 COPY --from=source /app .
-RUN pnpm install
 
-RUN pnpm --filter=*app setup-pdfjs && \
-    pnpm --filter=*app build-web
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter=@readest/readest-app setup-pdfjs && \
+    pnpm --filter=@readest/readest-app build-web
 
-RUN cd /app/apps/readest-app && \
-    rm -rf .next/cache && \
-    pnpm install dotenv-cli @next/bundle-analyzer -P
+RUN rm -rf /app/apps/readest-app/.next/cache && \
+    pnpm --filter=@readest/readest-app install dotenv-cli @next/bundle-analyzer -P
 
 FROM base
 ENV NODE_ENV=production
@@ -32,10 +33,11 @@ COPY --from=build /app/apps/readest-app/public /app/apps/readest-app/public
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN pnpm fetch --prod && pnpm install -r --offline --prod
+
 RUN chmod +x /docker-entrypoint.sh && \
     mv /app/apps/readest-app/.env.local.example /app/apps/readest-app/.env.local && \
     rm -rf packages/tauri* apps/readest-app/src-tauri
-WORKDIR /app/apps/readest-app
 
+WORKDIR /app/apps/readest-app
 ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 3000
