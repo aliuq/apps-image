@@ -55,7 +55,7 @@ async function buildTable(apps: Array<Meta & { context: string }>) {
 
       if (index === 0) {
         rows.push({ data: repo ? `<a href="${repo}">${app.name}</a>` : app.name, rowspan })
-        rows.push({ data: (app.slogan ? splitTextByWidth(app.slogan, 20) : '') || '', rowspan })
+        rows.push({ data: (app.slogan ? splitTextByWidth(app.slogan, 25) : '') || '', rowspan })
       }
 
       rows.push(`<strong>${variantName}</strong>`)
