@@ -4,7 +4,7 @@
 import type { ImageVariant, Meta, PlaceholderData } from '../types/index.js'
 import path from 'node:path'
 import { cyan, yellow } from 'kolorist'
-import { isAct } from '../config.js'
+import { getCurrentBranch, ghContext, isAct } from '../config.js'
 import { pathExists } from '../file.js'
 import { createLogger } from '../logger.js'
 import { detectRepo, escapeRegex } from '../utils.js'
@@ -75,9 +75,14 @@ export class MetaAppContext {
   public async buildMatrixData(variants: Meta['variants'] = {}) {
     const matrixData = new Set()
 
-    for (const [variantName, variant] of Object.entries(variants)) {
+    const { repo, owner } = ghContext.repo
+    const defaultBranch = getCurrentBranch()
+    const defaultManualUrl = `https://github.com/${owner}/${repo}/tree/${defaultBranch}/${this.context}`
+
+    for await (const [variantName, variant] of Object.entries(variants)) {
+      const isManual = ['manual'].includes(variant.checkver.type)
       const cord1 = ['version', 'tag', 'sha'].includes(variant.checkver.type) && (!variant?.version || !variant?.sha)
-      const cord2 = ['manual'].includes(variant.checkver.type) && (isAct ? !variant?.version : (!variant?.version || !variant?.sha))
+      const cord2 = isManual && (isAct ? !variant?.version : (!variant?.version || !variant?.sha))
 
       if (cord1 || cord2) {
         this.logger.warn(`${yellow(variantName)} variant is missing version or sha, skipping!`)
@@ -107,7 +112,7 @@ export class MetaAppContext {
       const newTags = this.resolveTemplate(tagContent, { version: [version!], sha: [sha?.slice(0, 7)], fullSha: [sha] }).split('\n')
       const uniqueTags = Array.from(new Set(newTags))
       // Labels: created、description、licenses、revision、source、title、url、version
-      const url = variant.checkver?.repo ? detectRepo(variant.checkver.repo) : ''
+      const url = variant.checkver?.repo ? detectRepo(variant.checkver.repo) : (isManual ? defaultManualUrl : undefined)
       const labels = {
         description: this.meta.description || '',
         licenses: this.meta.license || '',
@@ -116,6 +121,7 @@ export class MetaAppContext {
         title: this.meta.title || this.name || '',
         url,
         version,
+        ...(variant.docker?.labels || {}),
       }
       const fullLabels = Object.entries(labels).map(([key, value]) => `org.opencontainers.image.${key}=${value}`)
       // 判断需要构建推送到平台
@@ -126,8 +132,11 @@ export class MetaAppContext {
       const platforms = variant.docker?.platforms || ['linux/amd64', 'linux/arm64']
       // 测试应用
       const isTest = this.context.startsWith('test/')
-
-      // Annotations, same as Labels
+      // 是否推送镜像
+      const shouldPush = (isTest || isAct) ? false : (variant?.docker?.push ?? true)
+      // 是否推送 README
+      const readmePath = path.join(this.context, 'README.md')
+      const hasReadme = await pathExists(readmePath)
 
       matrixData.add({
         variant: variantName,
@@ -145,7 +154,12 @@ export class MetaAppContext {
           file: dockerfile,
           context: this.context,
           // 测试应用不需要推送，固定为 false
-          push: (isTest || isAct) ? false : (variant?.docker?.push ?? true),
+          push: shouldPush,
+        },
+        readme: {
+          push: shouldPush && pushDocker && hasReadme,
+          path: readmePath,
+          repo: `aliuq/${this.name}`,
         },
         pushDocker,
         pushGhcr,

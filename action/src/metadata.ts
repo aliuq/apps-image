@@ -44,6 +44,10 @@ async function main() {
       await logger.json({ include: matrixArray }, 'Matrix')
       core.setOutput('matrix', { include: matrixArray })
       appsManager.generateSummary(matrixArray)
+
+      // 将 latest 变体导出去
+      const latestVariant = matrixArray.find((item: any) => item.variant === 'latest')
+      core.setOutput('latest', latestVariant)
     }
     core.summary.write()
   }

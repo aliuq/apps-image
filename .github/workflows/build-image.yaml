@@ -45,9 +45,6 @@ jobs:
   metadata:
     name: Resolve Docker Metadata
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'pull_request'
     permissions:
       pull-requests: read
     outputs:
@@ -74,6 +71,8 @@ jobs:
       packages: write
     strategy:
       matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    outputs:
+      json: ${{ steps.meta.outputs.json }}
     steps:
       - uses: actions/checkout@v4
       - name: Docker meta
@@ -129,3 +128,87 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Push README
+        if: ${{ matrix.readme.push }}
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ matrix.readme.repo }}
+          readme-filepath: ${{ matrix.readme.path }}
+
+  post-docker-build:
+    name: Merge PR & Notification
+    needs: [metadata, docker-build]
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Pre Notification
+        id: pre-notify
+        uses: actions/github-script@v7
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        with:
+          script: |
+            const meta = ${{ toJson(fromJson(needs.docker-build.outputs.json)) }}
+            const latest = ${{ toJson(fromJson(needs.metadata.outputs.latest)) }}
+
+            const data = {
+              name: `**${latest.readme.repo}**`,
+              tags: meta.tags.map(t => `\`${t}\``).join('\n')
+            }
+            const flag = latest.readme.repo.replace('/', '_')
+
+            const url = meta.labels['org.opencontainers.image.url']
+            if (url) {
+              data.name = `[**${latest.readme.repo}**](${url})`
+            }
+
+            const buttons = []
+            const infoButtons = [{ "text": "工作流", "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }]
+            url && infoButtons.push({ "text": "仓库地址", "url": url })
+            infoButtons.push({ "text": "项目地址", "url": "https://github.com/${{ github.repository }}" })
+            buttons.push(infoButtons)
+
+            const registrys = []
+            if (latest.pushDocker) {
+              const image = latest.metadata.images.find(i => i.startsWith(process.env.DOCKERHUB_USERNAME))
+              registrys.push({ text: "Docker", url: `https://hub.docker.com/r/${image}` })
+            }
+            if (latest.pushGhcr) {
+              const image = latest.metadata.images.find(i => i.startsWith('ghcr.io/')).split('/').pop()
+              registrys.push({ text: "GHCR", url: `https://github.com/users/aliuq/packages/container/package/${image}` })
+            }
+            buttons.push(registrys)
+
+            core.setOutput('tags', data.tags)
+            core.setOutput('name', data.name)
+            core.setOutput('buttons', buttons)
+            core.setOutput('flag', flag)
+
+      - name: Notification
+        uses: aliuq/telegram-action@v1
+        with:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          reply_to_message_id: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+          message: |
+            🎉 ${{ steps.pre-notify.outputs.name }} has new builds
+
+            ${{ steps.pre-notify.outputs.tags }}
+
+            #build_image #${{ steps.pre-notify.outputs.flag }}
+
+          buttons: ${{ steps.pre-notify.outputs.buttons }}
+
+      - name: Merge PR
+        uses: pascalgn/automerge-action@v0.16.4
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST: ${{ github.event.pull_request.number }}
+          MERGE_DELETE_BRANCH: true
