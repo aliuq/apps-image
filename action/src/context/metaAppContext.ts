@@ -51,7 +51,7 @@ export class MetaAppContext {
       const placeholderPattern = [`$${key}$`, `{{${key}}}`, `{${key}}`].map(escapeRegex).join('|')
       const placeholderReg = new RegExp(placeholderPattern, 'g')
       // 替换占位符
-      content = content.replace(placeholderReg, values[0])
+      content = content.replace(placeholderReg, values[0] ?? '')
 
       // 如果存在转义的,需要恢复
       // \\{\\{version\\}\\} => {{version}}
@@ -76,7 +76,10 @@ export class MetaAppContext {
     const matrixData = new Set()
 
     for (const [variantName, variant] of Object.entries(variants)) {
-      if (!variant?.version || !variant?.sha) {
+      const cord1 = ['version', 'tag', 'sha'].includes(variant.checkver.type) && (!variant?.version || !variant?.sha)
+      const cord2 = ['manual'].includes(variant.checkver.type) && (isAct ? !variant?.version : (!variant?.version || !variant?.sha))
+
+      if (cord1 || cord2) {
         this.logger.warn(`${yellow(variantName)} variant is missing version or sha, skipping!`)
         continue // 如果没有版本或 sha，跳过
       }
@@ -101,7 +104,7 @@ export class MetaAppContext {
       // Tags
       const defaultTags = [`type=raw,value=${variantName}`, 'type=raw,value={{version}}', 'type=raw,value={{sha}}']
       const tagContent = (variant.docker?.tags || defaultTags).join('\n')
-      const newTags = this.resolveTemplate(tagContent, { version: [version], sha: [sha.slice(0, 7)], fullSha: [sha] }).split('\n')
+      const newTags = this.resolveTemplate(tagContent, { version: [version!], sha: [sha?.slice(0, 7)], fullSha: [sha] }).split('\n')
       const uniqueTags = Array.from(new Set(newTags))
       // Labels: created、description、licenses、revision、source、title、url、version
       const url = variant.checkver?.repo ? detectRepo(variant.checkver.repo) : ''

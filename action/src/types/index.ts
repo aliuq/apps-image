@@ -77,5 +77,5 @@ export interface ProcessedFile {
  */
 export type PlaceholderData = Record<
   string,
-  [replacedValue: string] | [replacedValue: string, originalValue?: string]
+  [replacedValue?: string] | [replacedValue: string, originalValue?: string]
 >

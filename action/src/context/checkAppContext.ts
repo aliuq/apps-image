@@ -302,7 +302,7 @@ export class CheckAppContext {
       const placeholderPattern = [`$${key}$`, `{{${key}}}`, `{${key}}`].map(escapeRegex).join('|')
       const placeholderReg = new RegExp(placeholderPattern, 'g')
       // 替换占位符
-      content = content.replace(placeholderReg, values[0])
+      content = content.replace(placeholderReg, values[0] ?? '')
 
       if (values.length === 2 && values[1]) {
         const oldValue = values[1]

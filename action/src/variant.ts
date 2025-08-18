@@ -8,7 +8,7 @@ import path from 'node:path'
 import process from 'node:process'
 import { cyan, green, red, yellow } from 'kolorist'
 import { coerce, valid as semverValid } from 'semver'
-import { CaCheDir } from './config.js'
+import { CaCheDir, isAct } from './config.js'
 import { Git } from './git.js'
 import { createLogger } from './logger.js'
 
@@ -278,6 +278,7 @@ export class VariantContext {
 
       if (version && version !== prevVariant.version) {
         const newSha = await this.git.getSha(repoPath, filePath)
+        isAct && this.logger.debug(yellow(`ACT 模式，SHA 值取到的是上一个版本的值`))
         return { version, sha: newSha, prevVariant }
       }
     }

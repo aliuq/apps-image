@@ -11,7 +11,7 @@ import core from '@actions/core'
 import { green, yellow } from 'kolorist'
 import { checkVersionConfig as config, isAct } from './config.js'
 import { CheckAppsManager } from './context/checkAppsManager.js'
-import { createLogger, safeStringify } from './logger.js'
+import { createLogger } from './logger.js'
 
 async function main() {
   const logger = createLogger()
