@@ -17,7 +17,7 @@ async function main() {
   const logger = createLogger()
   try {
     await logger.json(config, 'Inputs')
-    core.summary.addHeading('Version Check Results', 2)
+    core.summary.addHeading('Check Version Results', 2)
 
     // 1. 初始化应用管理生命周期
     const appsManager = new CheckAppsManager()
@@ -37,7 +37,8 @@ async function main() {
 
     if (!outdatedApps?.size) {
       logger.info('🎉 All apps are up to date, no updates needed')
-      core.summary.addRaw('🎉 All apps are up to date, no updates needed')
+      core.summary.addRaw(`\n🎉 Total ${allApps.size} apps are up to date, no updates needed`)
+      core.summary.addDetails('Apps', `<pre lang="json"><code>${JSON.stringify(appPaths, null, 2)}</code></pre>`)
     }
     else {
       logger.info(`Total ${green(allApps.size)} apps checked, ${green(outdatedApps.size)} apps needs update`)

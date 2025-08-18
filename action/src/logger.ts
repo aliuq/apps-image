@@ -146,9 +146,10 @@ export class Logger {
       case 'detailed': {
         const timestamp = this.options.timestamp ? dayjs().format('HH:mm:ss.SSS') : null
         const upperLevel = level.toUpperCase().padEnd(5)
+        // debug 和 info 才需要，warn 和 error 不需要
         const levelStr = this.options.color ? (logColorMap[level]?.(upperLevel) || upperLevel) : upperLevel
         const timePrefix = timestamp ? `[${gray(timestamp)}] ` : ''
-        return `${timePrefix}${levelStr} ${nsPrefix}${formattedMessage}`
+        return `${timePrefix}${['debug', 'info'].includes(level) ? levelStr : ''} ${nsPrefix}${formattedMessage}`
       }
 
       case 'simple':
