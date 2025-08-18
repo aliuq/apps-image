@@ -65,7 +65,7 @@ function mergeOptions(options: LoggerOptions = {}): Required<LoggerOptions> {
 /**
  * 安全的 JSON 字符串化，处理循环引用和错误边界
  */
-function safeStringify(obj: any, space?: number) {
+export function safeStringify(obj: any, space?: number) {
   const serialized = superjson.serialize(obj)
   return JSON.stringify(serialized.json, null, space)
 }
