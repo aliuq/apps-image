@@ -24,11 +24,10 @@
       }
     },
     "ubuntu": {
+      "version": "0.0.1",
       "enabled": false,
       "checkver": {
-        "type": "version",
-        "repo": "aliuq/apps-image",
-        "file": "base/self/meta.json"
+        "type": "manual"
       },
       "docker": {
         "images": [
