@@ -7,6 +7,7 @@
   "variants": {
     "latest": {
       "version": "0.0.3",
+      "sha": "79b01f0c532f3cb7f9e9ea75d9f888a169b75c17",
       "checkver": {
         "type": "manual"
       },
