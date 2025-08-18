@@ -38,7 +38,7 @@ async function main() {
     if (!outdatedApps?.size) {
       logger.info('🎉 All apps are up to date, no updates needed')
       core.summary.addRaw(`\n🎉 Total ${allApps.size} apps are up to date, no updates needed`)
-      core.summary.addDetails('Apps', `<pre lang="json"><code>${JSON.stringify(appPaths, null, 2)}</code></pre>`)
+      core.summary.addDetails('Apps', `<pre lang="json"><code>\n${JSON.stringify(appPaths, null, 2)}\n</code></pre>`)
     }
     else {
       logger.info(`Total ${green(allApps.size)} apps checked, ${green(outdatedApps.size)} apps needs update`)
