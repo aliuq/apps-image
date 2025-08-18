@@ -6,7 +6,6 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "0.0.3",
       "checkver": {
         "type": "manual"
       },
