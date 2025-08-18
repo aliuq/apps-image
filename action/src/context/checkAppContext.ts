@@ -85,7 +85,7 @@ export class CheckAppContext {
     const body = await this.buildPRBody(checkVariantResults)
 
     // 3. 设置变量
-    const isDev = config.enablePr === 'development'
+    const isDev = config.createPr === 'development'
     const branchPrefix = isDev ? 'test' : 'update'
     const title = checkVariantResults.map(r => `update ${r.variantName} version to ${r.version}`).join(', ')
 

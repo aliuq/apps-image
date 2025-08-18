@@ -35,9 +35,11 @@ export const resolveMetadataConfig = getResolveMetadataConfig()
 /** 获取检查版本的 Action 配置 */
 export function getCheckVersionConfig(): CheckVersionInputs {
   const context = core.getInput('context')
-  const enablePr = core.getInput('enable_pr')
+  const createPr = core.getInput('create_pr') ?? process.env.CREATE_PR
+  // 本地使用并发可能出现问题
+  const concurrency = process.env.CONCURRENCY ?? (isAct ? 1 : 3)
 
-  const enablePrMap: Record<string, any> = {
+  const createPrMap: Record<string, any> = {
     true: true,
     false: false,
     development: 'development',
@@ -47,8 +49,8 @@ export function getCheckVersionConfig(): CheckVersionInputs {
     _checkVersionConfig = {
       token: core.getInput('token') || process.env.GITHUB_TOKEN,
       context: context === 'all' ? undefined : context,
-      concurrency: Number.parseInt(core.getInput('concurrency')) || 3,
-      enablePr: enablePrMap[enablePr] ?? (['push', 'schedule'].includes(eventName)),
+      concurrency: +concurrency,
+      createPr: createPrMap[createPr] ?? (['push', 'schedule'].includes(eventName)),
       debug: eventName === 'workflow_dispatch' ? core.getBooleanInput('debug') : undefined,
     }
   }

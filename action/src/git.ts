@@ -143,8 +143,8 @@ export class Git {
   /**
    * 获取最新的提交 SHA
    */
-  public async getSha(repoPath: string) {
-    const command = 'git log -1 --format=%H'
+  public async getSha(repoPath: string, filePath?: string) {
+    const command = `git log -1 --format=%H${filePath ? ` -- ${filePath}` : ''}`
     const { stdout } = await this.exec(command, { cwd: repoPath })
     return stdout.trim()
   }
@@ -165,6 +165,19 @@ export class Git {
     const command = `git rev-list -n 1 ${tag}`
     const { stdout } = await this.exec(command, { cwd: repoPath })
     return stdout.trim()
+  }
+
+  /**
+   * 获取提交的文件内容
+   */
+  public async getCommitFile(repoPath: string, commit: string, file: string) {
+    try {
+      const { stdout } = await this.exec(`git show ${commit}:${file}`, { cwd: repoPath })
+      return stdout
+    }
+    catch {
+      return null // 文件不存在
+    }
   }
 
   /**

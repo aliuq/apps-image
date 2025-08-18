@@ -25,7 +25,7 @@ export interface CheckVersionInputs {
    * - `development` - 创建 PR，使用 `dev/xxx` 分支，该分支格式不会触发镜像构建
    * @default true
    */
-  enablePr?: boolean | 'development'
+  createPr?: boolean | 'development'
   /**
    * 是否启用调试模式，调试模式下，将打印更多日志信息
    * @default false

@@ -1,7 +1,7 @@
 {
   "inputs": {
     "debug": "true",
-    "enable_pr": "false",
+    "create_pr": "false",
     "context": "apps/icones",
     "variants": "latest"
   },

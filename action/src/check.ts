@@ -44,11 +44,11 @@ async function main() {
     }
 
     // 6. 构建 PR 数据
-    if (config.enablePr || isAct) {
+    if (config.createPr || isAct) {
       const prResults = await appsManager.buildPrDatas(outdatedApps)
       await logger.json(prResults, 'PR Datas')
 
-      if (config.enablePr) {
+      if (config.createPr) {
         const createPrResults = await appsManager.createPr(prResults)
         await logger.json(createPrResults, 'Create PR Results')
         appsManager.generateSummary(outdatedApps, allApps, createPrResults)

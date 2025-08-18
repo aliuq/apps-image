@@ -1,10 +1,11 @@
 /**
  * 单个变体的上下文
  */
-
 import type { GitCommitInfo } from './types/git.js'
 import type { CheckVariantResult } from './types/index.js'
-import type { CheckVersionType, ImageVariant } from './types/schema.js'
+import type { CheckVersionType, ImageVariant, Meta } from './types/schema.js'
+import path from 'node:path'
+import process from 'node:process'
 import { cyan, green, red, yellow } from 'kolorist'
 import { coerce, valid as semverValid } from 'semver'
 import { CaCheDir } from './config.js'
@@ -52,49 +53,89 @@ export class VariantContext {
   public async check() {
     const { version, sha, checkver } = this.variant
 
-    if (!checkver || !checkver.repo) {
-      this.logger.warn(yellow('Missing checkver configuration or repo URL'))
+    // 如果缺少检查更新配置，则直接返回
+    if (!checkver) {
+      this.logger.warn(yellow('Missing checkver configuration'))
       return
     }
 
     this.logger.debug(`Checking...`)
 
     try {
-      const repoPath = await this.git?.cloneOrUpdateRepo(this.repo, {
-        branch: checkver.branch,
-        targetVersion: checkver.targetVersion,
-        context: this.context,
-      })
-      const result = await this.checkVersionByType(repoPath)
-      if (!result) {
-        this.logger.warn(yellow('Failed to check version, no result returned'))
-        return
+      if (['version', 'file', 'tag'].includes(this.type!)) {
+        if (!checkver.repo) {
+          this.logger.warn(yellow('Missing checkver configuration or repo URL'))
+          return
+        }
+        const repoPath = await this.git?.cloneOrUpdateRepo(this.repo, {
+          branch: checkver.branch,
+          targetVersion: checkver.targetVersion,
+          context: this.context,
+        })
+
+        const result = await this.checkVersionByType(repoPath)
+        if (!result) {
+          this.logger.warn(yellow('Failed to check version, no result returned'))
+          return
+        }
+        this.logger.data('✅ Done', { variant: this.name, ...result })
+
+        let commitInfo: GitCommitInfo | undefined
+
+        const needsUpdate = version !== result.version || sha !== result.sha
+
+        if (needsUpdate) {
+          const verStr = `${green(version || 'N/A')} → ${green(result.version)}`
+          const shaStr = `${green(sha || 'N/A')} → ${green(result.sha)}`
+          this.logger.debug(`🎉 Needs update, version: ${verStr}, sha: ${shaStr}`)
+
+          commitInfo = await this.git.collectCommitInfo(repoPath, result.sha, sha)
+        }
+
+        const checkResult: CheckVariantResult = {
+          ...result,
+          commitInfo,
+          needsUpdate,
+          variantName: this.name,
+          context: this.context,
+          variant: this.variant,
+        }
+
+        this.logger.debug('Check successful!')
+        return checkResult
       }
-      this.logger.data('✅ Done', { variant: this.name, ...result })
+      else if (this.type === 'manual') {
+        if (!version) {
+          this.logger.warn(yellow('Missing version information for manual check'))
+          return
+        }
 
-      let commitInfo: GitCommitInfo | undefined
+        const repoPath = process.cwd()
 
-      const needsUpdate = version !== result.version || sha !== result.sha
+        const result = await this.getVersionFromManual(repoPath)
+        this.logger.data('✅ Done', { variant: this.name, ...result })
 
-      if (needsUpdate) {
-        const verStr = `${green(version || 'N/A')} → ${green(result.version)}`
-        const shaStr = `${green(sha || 'N/A')} → ${green(result.sha)}`
-        this.logger.debug(`🎉 Needs update, version: ${verStr}, sha: ${shaStr}`)
+        if (result) {
+          const prev = result.prevVariant || {}
+          const verStr = `${green(prev.version || 'N/A')} → ${green(result.version)}`
+          const shaStr = `${green(prev.sha || 'N/A')} → ${green(result.sha)}`
+          this.logger.debug(`🎉 Needs update, version: ${verStr}, sha: ${shaStr}`)
+        }
 
-        commitInfo = await this.git.collectCommitInfo(repoPath, result.sha, sha)
+        const checkResult: CheckVariantResult = {
+          // TODO 如果没有更新，version 和 sha 在这里不会有值，不确定后面的逻辑是否会出问题
+          version: result?.version || '',
+          sha: result?.sha || '',
+          needsUpdate: !!result,
+          variantName: this.name,
+          context: this.context,
+          // 如果本次没有修改 version，则不会有 prevVariant，应当使用 this.variant
+          variant: result?.prevVariant || this.variant,
+        }
+
+        this.logger.debug('Check successful!')
+        return checkResult
       }
-
-      const checkResult: CheckVariantResult = {
-        ...result,
-        commitInfo,
-        needsUpdate,
-        variantName: this.name,
-        context: this.context,
-        variant: this.variant,
-      }
-
-      this.logger.debug('Check successful!')
-      return checkResult
     }
     catch (error) {
       this.logger.error(red(`Check failed`), error)
@@ -215,6 +256,34 @@ export class VariantContext {
     const sha = await git.getFileSha(repoPath, checkver.file)
 
     return { version: version.replace(/^v/, ''), sha: sha?.trim() }
+  }
+
+  /**
+   * 类型为 manual 时检查版本
+   *
+   * 1. 当前 variant 中的 version 就是要更新的版本 A
+   * 2. 需要进行对比的是上一个提交记录中的版本 B
+   * 3. 如果 A 和 B 两者不一致，说明要更新到当前的版本 A
+   * 4. 需要更新 SHA
+   */
+  private async getVersionFromManual(repoPath: string) {
+    try {
+      const { version } = this.variant
+
+      const filePath = path.join(this.context, 'meta.json')
+      const prevContent = await this.git.getCommitFile(repoPath, 'HEAD~1', filePath)
+      // 上一个版本可以不存在
+      const prevContentJson: Meta = prevContent ? JSON.parse(prevContent) : undefined
+      const prevVariant = prevContentJson ? prevContentJson.variants?.[this.name] : {} as ImageVariant
+
+      if (version && version !== prevVariant.version) {
+        const newSha = await this.git.getSha(repoPath, filePath)
+        return { version, sha: newSha, prevVariant }
+      }
+    }
+    catch (error) {
+      this.logger.debug(red(`Failed to get commit file: ${error}`))
+    }
   }
 
   /**
