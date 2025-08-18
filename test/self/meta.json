@@ -6,7 +6,6 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "0.0.2",
       "checkver": {
         "type": "manual"
       },
@@ -24,7 +23,7 @@
       }
     },
     "ubuntu": {
-      "version": "0.0.1",
+      "enabled": false,
       "checkver": {
         "type": "manual"
       },
