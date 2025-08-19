@@ -55,6 +55,8 @@ jobs:
         uses: ./action/resolve-meta
         env:
           TZ: Asia/Shanghai
+          ALI_ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
+          ALI_ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}

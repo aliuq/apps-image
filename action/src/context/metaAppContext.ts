@@ -83,6 +83,8 @@ export class MetaAppContext {
     const defaultManualUrl = `https://github.com/${owner}/${repo}/tree/${defaultBranch}/${this.context}`
     const dockerUser = 'aliuq'
     const ghcrUser = owner
+    const acrRegistry = process.env.ALI_ACR_REGISTRY
+    const acrUser = process.env.ALI_ACR_USERNAME
 
     for await (const [variantName, variant] of Object.entries(variants)) {
       const isManual = ['manual'].includes(variant.checkver.type)
@@ -110,6 +112,7 @@ export class MetaAppContext {
       const defaultImages = [
         dockerUser ? `${dockerUser}/{{name}}` : undefined,
         ghcrUser ? `ghcr.io/${ghcrUser}/{{name}}` : undefined,
+        acrRegistry && acrUser ? `${acrRegistry}/${acrUser}/{{name}}` : undefined,
       ].filter(Boolean)
       const imagesContent = (variant.docker?.images || defaultImages).join('\n')
       const newImages = this.resolveTemplate(imagesContent, { name: [this.name] }).split('\n')
