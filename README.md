@@ -2,10 +2,10 @@
 
 <p>
   <a href="https://github.com/aliuq/apps-image/actions/workflows/check-version.yaml">
-    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/check-version.yaml?label=Check Version">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/check-version.yaml?label=Check%20Version">
   </a>
   <a href="https://github.com/aliuq/apps-image/actions/workflows/build-image.yaml">
-    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml?label=Build Image">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml?label=Build%20Image">
   </a>
   <a href="https://hub.docker.com/u/aliuq">
     <img alt="Docker Hub" src="https://img.shields.io/badge/Docker%20Hub-aliuq-blue">
