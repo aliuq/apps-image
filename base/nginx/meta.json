@@ -1,0 +1,43 @@
+{
+  "name": "nginx",
+  "type": "base",
+  "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
+  "variants": {
+    "latest": {
+      "version": "0.1.0",
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}"
+        ]
+      }
+    },
+    "vue": {
+      "version": "0.1.0",
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=vue",
+          "type=raw,value={{version}}-vue"
+        ]
+      }
+    },
+    "svelte": {
+      "version": "0.1.0",
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=svelte",
+          "type=raw,value={{version}}-svelte"
+        ]
+      }
+    }
+  }
+}
