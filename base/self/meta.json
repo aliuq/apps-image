@@ -6,37 +6,27 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "enabled": false,
+      "version": "0.1.0",
       "checkver": {
         "type": "manual"
       },
       "docker": {
-        "images": [
-          "aliuq/{{name}}",
-          "ghcr.io/aliuq/{{name}}"
-        ],
         "tags": [
           "type=raw,value=latest",
           "type=raw,value=alpine",
-          "type=raw,value={{version}}",
-          "type=raw,value={{sha}}"
+          "type=raw,value={{version}}"
         ]
       }
     },
     "ubuntu": {
-      "enabled": false,
+      "version": "0.1.0",
       "checkver": {
         "type": "manual"
       },
       "docker": {
-        "images": [
-          "aliuq/{{name}}",
-          "ghcr.io/aliuq/{{name}}"
-        ],
         "tags": [
           "type=raw,value=ubuntu",
-          "type=raw,value={{version}}",
-          "type=raw,value={{sha}}"
+          "type=raw,value={{version}}"
         ]
       }
     }

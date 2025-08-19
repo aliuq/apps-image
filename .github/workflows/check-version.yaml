@@ -24,6 +24,7 @@ on:
           - apps/telemirror
           - apps/weektodo
           - apps/yulegeyu
+          - base/alpine
           - base/self
           - base/tg-session
           - test/icones
