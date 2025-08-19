@@ -12,12 +12,6 @@
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/triggerdotdev/jsonhero-web"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

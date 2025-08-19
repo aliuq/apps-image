@@ -12,13 +12,6 @@
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/antfu-collective/icones"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}",
-          "type=raw,value={{sha}}"
-        ]
       }
     }
   }

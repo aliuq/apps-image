@@ -13,12 +13,6 @@
         "type": "version",
         "repo": "https://github.com/srcbookdev/srcbook",
         "file": "srcbook/package.json"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

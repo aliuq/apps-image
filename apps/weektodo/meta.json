@@ -13,12 +13,6 @@
         "type": "version",
         "repo": "https://github.com/manuelernestog/weektodo",
         "file": "package.json"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

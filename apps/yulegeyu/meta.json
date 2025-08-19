@@ -11,12 +11,6 @@
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/liyupi/yulegeyu"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

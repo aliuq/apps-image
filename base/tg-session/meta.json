@@ -9,12 +9,6 @@
       "sha": "d2b131980136ab125a170a534f29cd7a9e1b5b81",
       "checkver": {
         "type": "manual"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

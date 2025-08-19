@@ -12,12 +12,6 @@
       "checkver": {
         "type": "tag",
         "repo": "https://github.com/readest/readest"
-      },
-      "docker": {
-        "tags": [
-          "type=raw,value=latest",
-          "type=raw,value={{version}}"
-        ]
       }
     }
   }

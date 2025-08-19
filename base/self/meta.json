@@ -29,7 +29,7 @@
       "docker": {
         "tags": [
           "type=raw,value=ubuntu",
-          "type=raw,value={{version}}"
+          "type=raw,value={{version}}-ubuntu"
         ]
       }
     }
