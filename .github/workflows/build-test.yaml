@@ -151,7 +151,8 @@ jobs:
             const data = {
               name: `**${matrix.name}**`,
               tags: meta.tags.map(t => `\`${t}\``).join('\n'),
-              url: meta.labels['org.opencontainers.image.url']
+              url: meta.labels['org.opencontainers.image.url'],
+              flag: matrix.name.replace(/-/g, '_')
             }
             if (data.url) {
               data.name = `[**${matrix.name}**](${data.url})`
@@ -176,6 +177,7 @@ jobs:
 
             core.setOutput("tags", data.tags)
             core.setOutput("name", data.name)
+            core.setOutput("flag", flag)
             core.setOutput("buttons", buttons)
 
       - name: Notification
@@ -190,6 +192,6 @@ jobs:
 
             ${{ steps.pre-notify.outputs.tags }}
 
-            #build_image #app_${{ matrix.name }}
+            #build_image #app_${{ steps.pre-notify.outputs.flag }}
 
           buttons: ${{ steps.pre-notify.outputs.buttons }}
