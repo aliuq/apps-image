@@ -5,6 +5,7 @@
   "variants": {
     "latest": {
       "version": "3.22.1",
+      "sha": "8094646e4c1eb983d6803204212e1227545f9f0a",
       "checkver": {
         "type": "manual"
       }
