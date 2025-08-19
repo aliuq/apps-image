@@ -121,7 +121,8 @@ export class Git {
    */
   public async unshallow(repoPath: string) {
     try {
-      await this.exec('git fetch --unshallow', { cwd: repoPath })
+      const { stdout: isShallow } = await this.exec('git rev-parse --is-shallow-repository', { cwd: repoPath })
+      isShallow && await this.exec('git fetch --unshallow', { cwd: repoPath })
     }
     catch (error) {
       // 如果已经在完整克隆，会报错，但是可以忽略
