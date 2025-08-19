@@ -14,14 +14,9 @@
         "repo": "https://github.com/lsky-org/lsky-pro"
       },
       "docker": {
-        "images": [
-          "aliuq/{{name}}",
-          "ghcr.io/aliuq/{{name}}"
-        ],
         "tags": [
           "type=raw,value=latest",
-          "type=raw,value={{version}}",
-          "type=raw,value={{sha}}"
+          "type=raw,value={{version}}"
         ]
       }
     },
@@ -33,13 +28,9 @@
         "repo": "https://github.com/lsky-org/lsky-pro"
       },
       "docker": {
-        "images": [
-          "aliuq/{{name}}",
-          "ghcr.io/aliuq/{{name}}"
-        ],
         "tags": [
           "type=raw,value=dev",
-          "type=raw,value={{sha}}-dev"
+          "type=raw,value=dev-{{sha}}"
         ]
       }
     }
