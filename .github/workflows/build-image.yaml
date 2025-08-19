@@ -56,8 +56,8 @@ jobs:
         uses: ./action/resolve-meta
         env:
           TZ: Asia/Shanghai
-          ALI_ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
-          ALI_ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
+          ALI_ACR_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+          ALI_ACR_USERNAME: aliuq
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}
