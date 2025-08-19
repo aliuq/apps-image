@@ -1,6 +1,7 @@
 /**
  * 解析数据的入口
  */
+import process from 'node:process'
 import core from '@actions/core'
 import { yellow } from 'kolorist'
 import { resolveMetadataConfig as config, isAct } from './config.js'
@@ -28,8 +29,10 @@ async function main() {
 
     // 3. 获取 variants
     const variants = app.getChangedVariants(result.variants)
-    if (!variants || !Object.keys(variants)?.length)
-      return
+    if (!variants || !Object.keys(variants)?.length) {
+      core.notice('No changed variants found.')
+      process.exit(0)
+    }
     await logger.json(variants, 'Changed variants')
 
     core.summary.addHeading('Resolve Docker Metadata summary', 2)

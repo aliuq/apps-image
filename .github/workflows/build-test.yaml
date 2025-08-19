@@ -61,6 +61,10 @@ jobs:
         uses: ./action/resolve-meta
         env:
           TZ: Asia/Shanghai
+          DOCKERHUB_USERNAME: aliuq
+          GHCR_USERNAME: aliuq
+          ALI_ACR_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+          ALI_ACR_USERNAME: aliuq
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}
@@ -75,7 +79,7 @@ jobs:
       contents: read
       packages: write
     strategy:
-      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+      matrix: ${{ needs.metadata.outputs.matrix && fromJson(needs.metadata.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: Docker meta

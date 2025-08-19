@@ -74,7 +74,7 @@ jobs:
       contents: read
       packages: write
     strategy:
-      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+      matrix: ${{ needs.metadata.outputs.matrix && fromJson(needs.metadata.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: Docker meta
