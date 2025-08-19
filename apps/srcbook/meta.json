@@ -15,14 +15,9 @@
         "file": "srcbook/package.json"
       },
       "docker": {
-        "images": [
-          "aliuq/{{name}}",
-          "ghcr.io/aliuq/{{name}}"
-        ],
         "tags": [
           "type=raw,value=latest",
-          "type=raw,value={{version}}",
-          "type=raw,value={{sha}}"
+          "type=raw,value={{version}}"
         ]
       }
     }
