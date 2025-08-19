@@ -341,12 +341,12 @@ export class CheckAppsManager {
       })
     }
 
-    core.summary.addTable(tableRows)
-
     // 添加统计信息
     const totalVariants = Array.from(allApps.values()).reduce((sum, variants) => sum + variants.length, 0)
     const outdatedVariants = Array.from(outdatedApps.values()).reduce((sum, variants) => sum + variants.length, 0)
 
-    core.summary.addRaw(`\n**统计信息**: 共检查 ${allApps.size} 个应用包含 ${totalVariants} 个变体，其中 ${outdatedVariants} 个变体需要更新`)
+    core.summary.addRaw(`\n**统计信息**: 共检查 ${allApps.size} 个应用包含 ${totalVariants} 个变体，其中 ${outdatedVariants} 个变体需要更新\n`)
+
+    core.summary.addTable(tableRows)
   }
 }
