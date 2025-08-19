@@ -1,8 +1,8 @@
 name: Check Version
 
 on:
-  # schedule:
-  #   - cron: '0 */6 * * *' # 每 6 小时检查一次
+  schedule:
+    - cron: '0 */6 * * *' # 每 6 小时检查一次
   workflow_dispatch:
     inputs:
       context:
@@ -34,11 +34,11 @@ on:
       create_pr:
         description: 是否创建 PR
         type: choice
-        default: "false"
+        default: 'false'
         options:
-          - "true"
-          - "false"
-          - "development"
+          - 'true'
+          - 'false'
+          - development
       debug:
         description: Debug 模式
         type: boolean
@@ -46,7 +46,6 @@ on:
   push:
     branches:
       - master
-      - dev
     paths:
       - apps/*/meta.json
       - apps/*/Dockerfile

@@ -1,4 +1,4 @@
-name: Build Docker Image By ACT
+name: Build Docker Image For ACT
 
 on:
   workflow_dispatch:
