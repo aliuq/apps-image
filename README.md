@@ -1,13 +1,16 @@
 # Apps Image
 
-> 精选开源应用的 Docker 镜像集合，提供开箱即用的容器化解决方案
-
-[![Build Status](https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml)](https://github.com/aliuq/apps-image/actions)
-[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-aliuq-blue)](https://hub.docker.com/u/aliuq)
-
-## 项目简介
-
-本项目致力于为优秀的开源应用提供稳定、安全的 Docker 镜像，所有镜像都经过精心构建和测试，确保在生产环境中的可靠性
+<p>
+  <a href="https://github.com/aliuq/apps-image/actions/workflows/check-version.yaml">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/check-version.yaml?label=Check Version">
+  </a>
+  <a href="https://github.com/aliuq/apps-image/actions/workflows/build-image.yaml">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml?label=Build Image">
+  </a>
+  <a href="https://hub.docker.com/u/aliuq">
+    <img alt="Docker Hub" src="https://img.shields.io/badge/Docker%20Hub-aliuq-blue">
+  </a>
+</p>
 
 <!-- AppList Start -->
 <h2>应用列表 (15)</h2>
@@ -15,38 +18,22 @@
 
 <!-- AppList End -->
 
-## 镜像特性
-
-- ✅ **定期更新**: 自动跟踪上游项目更新
-- 🔒 **安全可靠**: 基于官方镜像构建，安全扫描通过
-- 📦 **体积优化**: 使用多阶段构建，镜像体积小巧
-- 🏷️ **标签规范**: 提供 latest 和版本标签
-- 📚 **文档完善**: 每个应用都有详细的使用文档
-
-## 构建
-
-本项目使用 GitHub Actions 自动构建和发布 Docker 镜像，支持多架构（amd64, arm64）
-
-### 构建状态
-
-所有镜像的构建状态可以通过上方的 Build Status 徽章查看，或访问 [GitHub Actions](https://github.com/aliuq/apps-image/actions) 页面查看详细信息
-
-### 本地测试
+## 本地测试
 
 ```bash
 # 检查单个应用
-act --workflows ".github/workflows/check-version.yaml" --input app="cobalt" workflow_dispatch
-
+act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=base/nginx
+# 检查多个应用
+act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=base/nginx,base/self
 # 检查所有应用
-act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true
-act --workflows ".github/workflows/check-version.yaml" workflow_dispatch
+act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=all
 
-time act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=apps/yulegeyu
-
-time act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/telemirror
-
-# 使用 act 测试 GitHub Actions
-act --workflows ".github/workflows/build-image.yaml" --job "resolve-docker-metadata" --input context="apps/cobalt" --input debug="true" workflow_dispatch
+# 模拟构建流程，仅查看 docker metadata
+act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones --input build=false --input notify=false
+# 模拟构建流程，包括构建镜像、消息推送
+act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones
+# 模拟构建流程，latest、dev 变体
+act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones --input build=false --input notify=false --input variants=latest,dev
 ```
 
 ## LICENSE
