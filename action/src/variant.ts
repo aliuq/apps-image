@@ -271,7 +271,7 @@ export class VariantContext {
       const { version } = this.variant
 
       const filePath = path.join(this.context, 'meta.json')
-      await this.git.unshallow(repoPath)
+      // await this.git.unshallow(repoPath)
       const prevContent = await this.git.getCommitFile(repoPath, 'HEAD~1', filePath)
       // 上一个版本可以不存在
       const prevContentJson: Meta = prevContent ? JSON.parse(prevContent) : undefined
