@@ -3,6 +3,7 @@
  */
 import type { ImageVariant, Meta, PlaceholderData } from '../types/index.js'
 import path from 'node:path'
+import process from 'node:process'
 import { cyan, yellow } from 'kolorist'
 import { getCurrentBranch, ghContext, isAct } from '../config.js'
 import { pathExists } from '../file.js'
@@ -75,6 +76,8 @@ export class MetaAppContext {
   public async buildMatrixData(variants: Meta['variants'] = {}) {
     const matrixData = new Set()
 
+    const dockerUser = process.env.DOCKERHUB_USERNAME
+    const ghcrUser = process.env.GHCR_USERNAME
     const { repo, owner } = ghContext.repo
     const defaultBranch = getCurrentBranch()
     const defaultManualUrl = `https://github.com/${owner}/${repo}/tree/${defaultBranch}/${this.context}`
@@ -102,7 +105,10 @@ export class MetaAppContext {
       }
 
       // Images
-      const defaultImages = [`aliuq/{{name}}`, `ghcr.io/aliuq/{{name}}`]
+      const defaultImages = [
+        dockerUser ? `${dockerUser}/{{name}}` : undefined,
+        ghcrUser ? `ghcr.io/${ghcrUser}/{{name}}` : undefined,
+      ].filter(Boolean)
       const imagesContent = (variant.docker?.images || defaultImages).join('\n')
       const newImages = this.resolveTemplate(imagesContent, { name: [this.name] }).split('\n')
       const uniqueImages = Array.from(new Set(newImages))
@@ -125,8 +131,8 @@ export class MetaAppContext {
       }
       const fullLabels = Object.entries(labels).map(([key, value]) => `org.opencontainers.image.${key}=${value}`)
       // 判断需要构建推送到平台
-      const pushDocker = uniqueImages.some(im => im.match(/^aliuq\//))
-      const pushGhcr = uniqueImages.some(im => im.match(/^ghcr\.io\//))
+      const pushDocker = dockerUser && uniqueImages.some(im => im.startsWith(dockerUser))
+      const pushGhcr = ghcrUser && uniqueImages.some(im => im.match(/^ghcr\.io\//))
       const pushAli = uniqueImages.some(im => im.match(/^registry\..*?\.aliyuncs\.com/))
       // platforms
       const platforms = variant.docker?.platforms || ['linux/amd64', 'linux/arm64']
@@ -139,6 +145,7 @@ export class MetaAppContext {
       const hasReadme = await pathExists(readmePath)
 
       matrixData.add({
+        name: this.name,
         variant: variantName,
         metadata: {
           images: uniqueImages,
@@ -159,7 +166,7 @@ export class MetaAppContext {
         readme: {
           push: shouldPush && pushDocker && hasReadme,
           path: readmePath,
-          repo: `aliuq/${this.name}`,
+          repo: `${dockerUser}/${this.name}`,
         },
         pushDocker,
         pushGhcr,

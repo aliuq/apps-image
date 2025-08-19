@@ -40,6 +40,10 @@ on:
         description: Enable build image
         default: true
         type: boolean
+      notify:
+        description: Enable notification
+        default: true
+        type: boolean
 
 jobs:
   metadata:
@@ -56,6 +60,8 @@ jobs:
         uses: ./action/resolve-meta
         env:
           TZ: Asia/Shanghai
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          GHCR_USERNAME: ${{ github.repository_owner }}
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}
@@ -130,6 +136,7 @@ jobs:
       - name: Pre Notification
         id: pre-notify
         uses: actions/github-script@v7
+        if: inputs.notify
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         with:
@@ -138,13 +145,12 @@ jobs:
             const matrix = ${{ toJson(matrix) }}
 
             const data = {
-              name: `**${matrix.readme.repo}**`,
+              name: `**${matrix.name}**`,
               tags: meta.tags.map(t => `\`${t}\``).join('\n'),
-              flag: matrix.readme.repo.replace('/', '_'),
               url: meta.labels['org.opencontainers.image.url']
             }
             if (data.url) {
-              data.name = `[**${matrix.readme.repo}**](${data.url})`
+              data.name = `[**${matrix.name}**](${data.url})`
             }
 
             const buttons = []
@@ -162,15 +168,15 @@ jobs:
               const image = matrix.metadata.images.find(i => i.startsWith('ghcr.io/')).split('/').pop()
               registrys.push({ text: "GHCR", url: `https://github.com/users/aliuq/packages/container/package/${image}` })
             }
-            buttons.push(registrys)
+            registrys.length && buttons.push(registrys)
 
             core.setOutput("tags", data.tags)
             core.setOutput("name", data.name)
             core.setOutput("buttons", buttons)
-            core.setOutput("flag", data.flag)
 
       - name: Notification
         uses: aliuq/telegram-action@v1
+        if: inputs.notify
         with:
           bot_token: ${{ secrets.BOT_TOKEN }}
           chat_id: ${{ secrets.CHAT_ID }}
@@ -180,6 +186,6 @@ jobs:
 
             ${{ steps.pre-notify.outputs.tags }}
 
-            #build_image #${{ steps.pre-notify.outputs.flag }}
+            #build_image #app_${{ matrix.name }}
 
           buttons: ${{ steps.pre-notify.outputs.buttons }}

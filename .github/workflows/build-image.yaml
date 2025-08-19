@@ -57,6 +57,8 @@ jobs:
         uses: ./action/resolve-meta
         env:
           TZ: Asia/Shanghai
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          GHCR_USERNAME: ${{ github.repository_owner }}
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}
@@ -64,7 +66,7 @@ jobs:
 
   docker-build:
     needs: metadata
-    name: Build ${{ matrix.variant }}
+    name: Build Variant（${{ matrix.variant }}）
     runs-on: ubuntu-latest
     if: needs.metadata.outputs.matrix
     permissions:
@@ -148,13 +150,12 @@ jobs:
             const matrix = ${{ toJson(matrix) }}
 
             const data = {
-              name: `**${matrix.readme.repo}**`,
+              name: `**${matrix.name}**`,
               tags: meta.tags.map(t => `\`${t}\``).join('\n'),
-              flag: matrix.readme.repo.replace('/', '_'),
               url: meta.labels['org.opencontainers.image.url']
             }
             if (data.url) {
-              data.name = `[**${matrix.readme.repo}**](${data.url})`
+              data.name = `[**${matrix.name}**](${data.url})`
             }
 
             const buttons = []
@@ -172,12 +173,11 @@ jobs:
               const image = matrix.metadata.images.find(i => i.startsWith('ghcr.io/')).split('/').pop()
               registrys.push({ text: "GHCR", url: `https://github.com/users/aliuq/packages/container/package/${image}` })
             }
-            buttons.push(registrys)
+            registrys.length && buttons.push(registrys)
 
             core.setOutput("tags", data.tags)
             core.setOutput("name", data.name)
             core.setOutput("buttons", buttons)
-            core.setOutput("flag", data.flag)
 
       - name: Notification
         uses: aliuq/telegram-action@v1
@@ -190,11 +190,12 @@ jobs:
 
             ${{ steps.pre-notify.outputs.tags }}
 
-            #build_image #${{ steps.pre-notify.outputs.flag }}
+            #build_image #app_${{ matrix.name }}
 
           buttons: ${{ steps.pre-notify.outputs.buttons }}
 
   merge-pull-request:
+    name: Merge Pull Request
     runs-on: ubuntu-latest
     needs: [metadata, docker-build]
     if: github.event_name == 'pull_request'
