@@ -122,6 +122,7 @@ export class Git {
   public async unshallow(repoPath: string) {
     try {
       const { stdout: isShallow } = await this.exec('git rev-parse --is-shallow-repository', { cwd: repoPath })
+      this.logger.debug(`isShallow ${isShallow}`)
       isShallow && await this.exec('git fetch --unshallow', { cwd: repoPath })
     }
     catch (error) {
