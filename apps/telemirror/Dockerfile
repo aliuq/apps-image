@@ -1,6 +1,7 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/khoben/telemirror . && git checkout 90c52b1
+ARG VERSION=90c52b1
+RUN git clone https://github.com/khoben/telemirror . && git checkout ${VERSION}
 
 FROM python:3.11-slim-bullseye AS build
 
