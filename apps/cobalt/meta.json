@@ -22,8 +22,7 @@
         "tags": [
           "type=raw,value=latest",
           "type=raw,value={{version}}",
-          "type=raw,value={{sha}}",
-          "type=match,pattern=\\d+,value={{version}}"
+          "type=raw,value={{major}}"
         ]
       }
     }
