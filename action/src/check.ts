@@ -54,6 +54,9 @@ async function main() {
         await logger.json(createPrResults, 'Create PR Results')
         appsManager.generateSummary(outdatedApps, allApps, createPrResults)
       }
+      else {
+        appsManager.generateSummary(outdatedApps, allApps)
+      }
     }
     else {
       appsManager.generateSummary(outdatedApps, allApps)

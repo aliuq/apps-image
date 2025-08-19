@@ -66,7 +66,7 @@ export class CheckAppsManager {
   public async getCheckVersionContext() {
     try {
       if (eventName === 'workflow_dispatch') {
-        return checkVersionConfig.context ? [checkVersionConfig.context] : undefined
+        return checkVersionConfig.context ? checkVersionConfig.context.split(',').map(s => s.trim()) : undefined
       }
       else if (eventName === 'schedule') {
         return undefined
@@ -331,7 +331,7 @@ export class CheckAppsManager {
         }
         rows.push(result.variantName)
         rows.push(`<code>${currentVersion}</code>`)
-        rows.push(`<code>${result.version}</code>`)
+        rows.push(`<code>${result.version || 'N/A'}</code>`)
         rows.push(status)
         if (prUrls) {
           const prData = prUrls.get(appContext)

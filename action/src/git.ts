@@ -12,7 +12,7 @@ import { createLogger } from './logger.js'
 
 export interface CloneOptions {
   branch?: string
-  depth?: number
+  // depth?: number
   targetVersion?: string
   context?: string
 }
@@ -55,7 +55,7 @@ export class Git {
   /**
    * 克隆仓库
    */
-  private async cloneRepo(repoUrl: string, targetPath: string, options: CloneOptions): Promise<void> {
+  public async cloneRepo(repoUrl: string, targetPath: string, options: CloneOptions = {}): Promise<void> {
     const { branch, targetVersion } = options
 
     // 构建 git clone 命令
@@ -88,7 +88,7 @@ export class Git {
   /**
    * 更新仓库
    */
-  private async updateRepo(repoPath: string, options: CloneOptions): Promise<void> {
+  public async updateRepo(repoPath: string, options: CloneOptions = {}): Promise<void> {
     const { branch, targetVersion } = options
 
     try {
@@ -113,6 +113,19 @@ export class Git {
     catch (error) {
       this.logger.error(red(`Git update failed in ${repoPath}: ${error}`))
       throw new Error(`Failed to update repository: ${error}`)
+    }
+  }
+
+  /**
+   * 将浅克隆转成完整克隆
+   */
+  public async unshallow(repoPath: string) {
+    try {
+      await this.exec('git fetch --unshallow', { cwd: repoPath })
+    }
+    catch (error) {
+      // 如果已经在完整克隆，会报错，但是可以忽略
+      this.logger.debug(yellow(`Git unshallow failed in ${repoPath}: ${error}`))
     }
   }
 

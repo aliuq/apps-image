@@ -123,9 +123,9 @@ export class VariantContext {
         }
 
         const checkResult: CheckVariantResult = {
-          // TODO 如果没有更新，version 和 sha 在这里不会有值，不确定后面的逻辑是否会出问题
-          version: result?.version || '',
-          sha: result?.sha || '',
+          // 如果没有更新，version 和 sha 在这里不会有值，也说明版本没有改变，需要使用之前的版本填补这里
+          version: result?.version || this.variant?.version || '',
+          sha: result?.sha || this.variant?.sha || '',
           needsUpdate: !!result,
           variantName: this.name,
           context: this.context,
@@ -271,9 +271,11 @@ export class VariantContext {
       const { version } = this.variant
 
       const filePath = path.join(this.context, 'meta.json')
+      await this.git.unshallow(repoPath)
       const prevContent = await this.git.getCommitFile(repoPath, 'HEAD~1', filePath)
       // 上一个版本可以不存在
       const prevContentJson: Meta = prevContent ? JSON.parse(prevContent) : undefined
+      await this.logger.json(prevContentJson, 'Previous Meta Content')
       const prevVariant = prevContentJson ? prevContentJson.variants?.[this.name] : {} as ImageVariant
 
       if (version && version !== prevVariant.version) {
