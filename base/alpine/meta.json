@@ -1,0 +1,13 @@
+{
+  "name": "alpine",
+  "type": "base",
+  "description": "Alpine Linux 3.20",
+  "variants": {
+    "latest": {
+      "version": "3.22.1",
+      "checkver": {
+        "type": "manual"
+      }
+    }
+  }
+}
