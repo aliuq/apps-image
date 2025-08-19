@@ -1,4 +1,20 @@
 {
   "name": "tg-session",
-  "version": "0.0.0"
+  "type": "base",
+  "description": "A Telegram session string generator with QR code login support. This tool helps you generate session strings for Telegram applications.",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "version": "0.1.0",
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}"
+        ]
+      }
+    }
+  }
 }
