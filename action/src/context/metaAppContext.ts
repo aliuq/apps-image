@@ -8,7 +8,7 @@ import { cyan, yellow } from 'kolorist'
 import { getCurrentBranch, ghContext, isAct } from '../config.js'
 import { pathExists } from '../file.js'
 import { createLogger } from '../logger.js'
-import { detectRepo, escapeRegex } from '../utils.js'
+import { detectRepo, escapeRegex, parseVersionLoose } from '../utils.js'
 
 /**
  * 应用上下文类
@@ -119,7 +119,16 @@ export class MetaAppContext {
       // Tags
       const defaultTags = [`type=raw,value=${variantName}`, 'type=raw,value={{version}}', 'type=raw,value={{sha}}']
       const tagContent = (variant.docker?.tags || defaultTags).join('\n')
-      const newTags = this.resolveTemplate(tagContent, { version: [version!], sha: [sha?.slice(0, 7)], fullSha: [sha] }).split('\n')
+      // semver
+      const match = (version && version.includes('.')) ? parseVersionLoose(version) : undefined
+      const newTags = this.resolveTemplate(tagContent, {
+        version: [version!],
+        sha: [sha?.slice(0, 7)],
+        fullSha: [sha],
+        major: [match?.major],
+        minor: [match?.minor],
+        patch: [match?.patch],
+      }).split('\n')
       const uniqueTags = Array.from(new Set(newTags))
       // Labels: created、description、licenses、revision、source、title、url、version
       const url = variant.checkver?.repo ? detectRepo(variant.checkver.repo) : (isManual ? defaultManualUrl : undefined)

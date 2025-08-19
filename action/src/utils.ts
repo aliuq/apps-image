@@ -188,3 +188,19 @@ export function escapeHtml(text: string): string {
 
   return text.replace(/[&<>"']/g, match => htmlEscapes[match])
 }
+
+export function parseVersionLoose(version: string) {
+  // 宽松匹配：可有 v 前缀，可有空格，minor/patch 可选，后缀忽略
+  const regex = /v?\s*(\d+)(?:\.(\d+))?(?:\.(\d+))?/i
+
+  const match = version.match(regex)
+  if (!match) {
+    return null
+  }
+
+  return {
+    major: String(Number.parseInt(match[1], 10)),
+    minor: String(match[2] ? Number.parseInt(match[2], 10) : 0),
+    patch: String(match[3] ? Number.parseInt(match[3], 10) : 0),
+  }
+}
