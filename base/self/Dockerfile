@@ -3,7 +3,7 @@ FROM alpine:3.19.1
 # For nghttp2-dev, we need this respository.
 # RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >>/etc/apk/repositories
 # RUN echo https://dl-cdn.alpinelinux.org/alpine/v3.19/main >>/etc/apk/repositories
-# 
+#
 
 LABEL version="0.0.2"
 LABEL maintainer="AliuQ <aliuq@bilishare.com>"
@@ -15,7 +15,7 @@ RUN apk update && apk --no-cache add \
 
 SHELL ["bash", "-c"]
 
-ENV NVM_VERSION 0.39.7
+ENV NVM_VERSION=0.39.7
 
 # install nvm
 RUN touch ~/.bashrc && \

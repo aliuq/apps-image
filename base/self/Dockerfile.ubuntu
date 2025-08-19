@@ -1,8 +1,5 @@
 FROM ubuntu:22.04
 
-LABEL version="0.0.1"
-LABEL maintainer="AliuQ <aliuq@bilishare.com>"
-
 # 修改 archive.ubuntu.com 为阿里云镜像
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
     sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
@@ -21,7 +18,7 @@ RUN add-apt-repository -y ppa:git-core/ppa && \
 RUN curl -fsSL https://raw.githubusercontent.com/aliuq/shs/main/zsh/ubuntu.sh | bash -s 5.9
 
 # NVM
-ENV NVM_VERSION 0.39.7
+ENV NVM_VERSION=0.39.7
 RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
 
 # Oh-my-zsh
