@@ -1,0 +1,19 @@
+{
+  "name": "n8n-workflows",
+  "type": "app",
+  "slogan": "n8n 工作流模板",
+  "description": "all of the workflows of n8n i could find (also from the site itself)",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "sha",
+        "repo": "Zie619/n8n-workflows"
+      },
+      "docker": {
+        "labels": {
+          "author": "Zie619"
+        }
+      }
+    }
+  }
+}
