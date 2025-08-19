@@ -62,7 +62,7 @@ export class VariantContext {
     this.logger.debug(`Checking...`)
 
     try {
-      if (['version', 'file', 'tag'].includes(this.type!)) {
+      if (['version', 'tag', 'sha'].includes(this.type!)) {
         if (!checkver.repo) {
           this.logger.warn(yellow('Missing checkver configuration or repo URL'))
           return
