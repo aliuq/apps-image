@@ -117,7 +117,7 @@ export class MetaAppContext {
       const newImages = this.resolveTemplate(imagesContent, { name: [this.name] }).split('\n')
       const uniqueImages = Array.from(new Set(newImages))
       // Tags
-      const defaultTags = [`type=raw,value=${variantName}`, 'type=raw,value={{version}}', 'type=raw,value={{sha}}']
+      const defaultTags = [`type=raw,value=${variantName}`, 'type=raw,value={{version}}']
       const tagContent = (variant.docker?.tags || defaultTags).join('\n')
       // semver
       const match = (version && version.includes('.')) ? parseVersionLoose(version) : undefined
