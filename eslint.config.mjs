@@ -10,44 +10,95 @@ export default antfu(
     ignores: ['dist', 'node_modules', '.history'],
   },
   {
-    files: ['apps/*/meta.json'],
+    files: ['action/**/*.ts'],
+    rules: {
+      'ts/explicit-function-return-type': 'off',
+    },
+  },
+  {
+    files: ['spec/**/*.spec.js'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
+  {
+    files: ['**/*/meta.json'],
     rules: {
       'jsonc/array-element-newline': ['error', 'consistent'],
       'jsonc/array-bracket-newline': ['error', { multiline: true, minItems: 1 }],
       'jsonc/sort-keys': [
         'error',
         {
+          pathPattern: '^$',
           order: [
             'name',
-            'version',
-            'repo',
-            'sha',
+            'type',
+            'title',
+            'slogan',
+            'description',
+            'license',
+            'context',
+            'readme',
+            'variants',
             'skip',
-            'checkVer',
-            'dockerMeta',
           ],
-          pathPattern: '^$',
         },
         {
-          pathPattern: '^checkVer$',
+        // variants.*.checkver 字段排序
+          pathPattern: '^variants\\..+\\.checkver$',
           order: [
             'type',
+            'repo',
+            'branch',
             'file',
+            'regex',
+            'tagPattern',
+            'targetVersion',
+            'processFiles',
+            'checkFrequency',
+            'lastCheck',
           ],
         },
         {
-          pathPattern: '^dockerMeta$',
+        // variants.*.docker.cache 字段排序
+          pathPattern: '^variants\\..+\\.docker\\.cache$',
           order: [
+            'from',
+            'to',
+          ],
+        },
+        {
+        // variants.*.docker 字段排序
+          pathPattern: '^variants\\..+\\.docker$',
+          order: [
+            'file',
             'images',
-            'context',
-            'dockerfile',
-            'platforms',
-            'push',
             'tags',
+            'platforms',
             'labels',
+            'buildArgs',
+            'secrets',
+            'outputs',
+            'cache',
+            'push',
+            'load',
+          ],
+        },
+        {
+        // variants.* 字段排序
+          pathPattern: '^variants\\..+$',
+          order: [
+            'version',
+            'sha',
+            'enabled',
+            'checkver',
+            'docker',
           ],
         },
       ],
     },
+  },
+  {
+    ignores: ['**/dist', '**/build', '.github/instructions'],
   },
 )

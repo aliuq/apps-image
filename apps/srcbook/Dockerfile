@@ -1,7 +1,7 @@
 FROM node:22.7.0-alpine3.20 AS builder
 WORKDIR /app
 
-RUN yarn add srcbook && \
+RUN yarn add srcbook@0.0.19 && \
   rm -rf package* yarn* && \
   cp -R ./node_modules/srcbook/dist . && \
   cp -R ./node_modules/srcbook/public . && \

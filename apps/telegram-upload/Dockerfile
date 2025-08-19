@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-RUN git clone https://github.com/Nekmo/telegram-upload.git . && git checkout c700f86
+RUN git clone https://github.com/Nekmo/telegram-upload . && git checkout c700f86
 
 FROM python:3.9.7-slim-bullseye AS build
 WORKDIR /app

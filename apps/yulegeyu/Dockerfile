@@ -1,11 +1,13 @@
-FROM alpine/git AS base
+FROM alpine/git AS source
 WORKDIR /app
-RUN git clone https://github.com/liyupi/yulegeyu.git . && git checkout 4b9de83
+RUN git clone https://github.com/liyupi/yulegeyu . && git checkout 4b9de83
 
 FROM node:20.10.0-alpine AS build
 WORKDIR /app
-COPY --from=base /app .
-RUN yarn install && yarn build
+
+COPY --from=source /app .
+RUN yarn install --frozen-lockfile --network-timeout 600000
+RUN yarn run build
 
 FROM aliuq/nginx:vue
 

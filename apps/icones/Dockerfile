@@ -1,10 +1,10 @@
-FROM alpine/git AS base
-WORKDIR /app
-RUN git clone https://github.com/antfu-collective/icones.git . && git checkout ac522b6
+FROM alpine/git AS source
+ARG VERSION=ac522b6
+RUN git clone https://github.com/antfu-collective/icones /app && git checkout ${VERSION}
 
 FROM node:22.14.0-alpine3.20 AS build
 WORKDIR /app
-COPY --from=base /app .
+COPY --from=source /app .
 RUN corepack enable && corepack prepare --activate
 RUN pnpm install && pnpm run build
 

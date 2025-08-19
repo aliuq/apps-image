@@ -1,31 +1,30 @@
 {
-  "#": "weektodo",
   "name": "weektodo",
-  "version": "2.2.0",
-  "repo": "https://github.com/manuelernestog/weektodo",
-  "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
-  "checkVer": {
-    "type": "version",
-    "file": "package.json"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/weektodo",
-      "ghcr.io/aliuq/weektodo"
-    ],
-    "context": "apps/weektodo",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=2.2.0",
-      "type=raw,value=0296d29"
-    ],
-    "labels": {
-      "title": "WeekToDo | FOSS Minimalist Weekly Planner",
-      "description": "WeekToDo is a Free and Open Source Minimalist Weekly Planner and To Do list App focused on privacy. Available for Windows, Mac, Linux or online.",
-      "licenses": "GPL-3.0 license"
+  "type": "app",
+  "title": "WeekToDo | FOSS Minimalist Weekly Planner",
+  "slogan": "每周任务管理工具，高效规划待办事项",
+  "description": "WeekToDo is a Free and Open Source Minimalist Weekly Planner and To Do list App focused on privacy. Available for Windows, Mac, Linux or online.",
+  "license": "GPL-3.0 license",
+  "variants": {
+    "latest": {
+      "version": "2.2.0",
+      "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
+      "checkver": {
+        "type": "version",
+        "repo": "https://github.com/manuelernestog/weektodo",
+        "file": "package.json"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ]
+      },
+      "tags": [
+        "type=raw,value=latest",
+        "type=raw,value={{version}}",
+        "type=raw,value={{sha}}"
+      ]
     }
   }
 }

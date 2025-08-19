@@ -1,0 +1,23 @@
+name: Action
+author: AliuQ
+description: Action for aliuq/apps-image repository
+inputs:
+  context:
+    description: 'Context directory, only works on resolve-meta, e.g. apps/tgcf'
+    required: false
+  variants:
+    description: 'Variants to build, e.g. latest,dev'
+    required: false
+    default: ''
+  debug:
+    description: Debug mode
+    required: false
+    default: 'false'
+
+runs:
+  using: node20
+  main: ../dist/metadata.js
+
+branding:
+  icon: message-square
+  color: blue

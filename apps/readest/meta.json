@@ -1,30 +1,29 @@
 {
   "name": "readest",
-  "version": "0.9.72",
-  "repo": "https://github.com/readest/readest",
-  "sha": "f2640359a018d0a75a215d72bb8f9f5506131a44",
-  "checkVer": {
-    "type": "version",
-    "file": "apps/readest-app/package.json"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/readest",
-      "ghcr.io/aliuq/readest"
-    ],
-    "context": "apps/readest",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=0.9.72",
-      "type=raw,value=f264035"
-    ],
-    "labels": {
-      "title": "Readest",
-      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
-      "licenses": "AGPL-3.0"
+  "type": "app",
+  "title": "Readest",
+  "slogan": "现代化的电子书阅读器，优雅的阅读体验",
+  "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
+  "license": "AGPL-3.0",
+  "variants": {
+    "latest": {
+      "version": "0.9.72",
+      "sha": "f2640359a018d0a75a215d72bb8f9f5506131a44",
+      "checkver": {
+        "type": "tag",
+        "repo": "https://github.com/readest/readest"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
     }
   }
 }

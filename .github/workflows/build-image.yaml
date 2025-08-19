@@ -4,85 +4,198 @@ on:
   workflow_dispatch:
     inputs:
       context:
-        description: 'Context directory, e.g. apps/tgcf'
+        description: App Context，e.g. apps/icones
+        type: choice
         required: true
-        default: ''
+        options:
+          # ContextStart
+          - apps/cobalt
+          - apps/icones
+          - apps/inpaint-web
+          - apps/jsonhero-web
+          - apps/lsky
+          - apps/memogram
+          - apps/readest
+          - apps/srcbook
+          - apps/telegram-upload
+          - apps/telemirror
+          - apps/weektodo
+          - apps/yulegeyu
+          - base/self
+          - base/tg-session
+          - test/icones
+          - test/self
+          - test/weektodo
+          - test/weektodo-mul
+          # ContextEnd
+      variants:
+        description: Build variants, e.g. latest,stable
+        default: latest
         type: string
       debug:
         description: Debug mode
-        required: false
-        default: false
-        type: boolean
-      push:
-        description: Push the image to the registry
-        required: false
         default: false
         type: boolean
   pull_request:
     branches:
       - master
+      - dev
 
 jobs:
-  resolve-docker-metadata:
+  metadata:
+    name: Resolve Docker Metadata
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'chore(') && contains(github.event.pull_request.title, ' update version to '))
     permissions:
       pull-requests: read
     outputs:
-      context: ${{ steps.meta.outputs.context }}
-      dockerfile: ${{ steps.meta.outputs.file }}
-      platforms: ${{ steps.meta.outputs.platforms }}
-      push: ${{ steps.meta.outputs.push }}
-      images: ${{ steps.meta.outputs.images }}
-      tags: ${{ steps.meta.outputs.tags }}
-      labels: ${{ steps.meta.outputs.labels }}
-      annotations: ${{ steps.meta.outputs.annotations }}
-      notify: ${{ steps.meta.outputs.notify }}
-      readme_path: ${{ steps.meta.outputs.readme_path }}
+      matrix: ${{ steps.metadata.outputs.matrix }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Resolve
-        id: meta
-        uses: ./action
+      - uses: actions/checkout@v4
+      - name: Resolve metadata
+        id: metadata
+        uses: ./action/resolve-meta
+        env:
+          TZ: Asia/Shanghai
         with:
-          action: resolve-meta
-          debug: ${{ inputs.debug }}
-          push: ${{ inputs.push }}
           context: ${{ inputs.context }}
+          variants: ${{ inputs.variants }}
+          debug: ${{ inputs.debug }}
 
-  call-workflow-build:
-    needs: resolve-docker-metadata
-    if: needs.resolve-docker-metadata.outputs.dockerfile
-    uses: aliuq/workflows/.github/workflows/build-image-notify.yml@master
+  docker-build:
+    needs: metadata
+    name: Build Variant（${{ matrix.variant }}）
+    runs-on: ubuntu-latest
+    if: needs.metadata.outputs.matrix
     permissions:
       contents: read
       packages: write
-    with:
-      context: ${{ needs.resolve-docker-metadata.outputs.context }}
-      images: ${{ needs.resolve-docker-metadata.outputs.images }}
-      tags: ${{ needs.resolve-docker-metadata.outputs.tags }}
-      file: ${{ needs.resolve-docker-metadata.outputs.dockerfile }}
-      push: ${{ fromJSON(needs.resolve-docker-metadata.outputs.push) }}
-      platforms: ${{ needs.resolve-docker-metadata.outputs.platforms }}
-      meta_labels: ${{ needs.resolve-docker-metadata.outputs.labels }}
-      annotations: ${{ needs.resolve-docker-metadata.outputs.annotations }}
-      # notify: ${{ needs.resolve-docker-metadata.outputs.notify }}
-      readme_path: ${{ needs.resolve-docker-metadata.outputs.readme_path }}
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-      CHAT_ID: ${{ secrets.CHAT_ID }}
-      REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    strategy:
+      matrix: ${{ fromJson(needs.metadata.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ matrix.metadata.imageLines }}
+          tags: ${{ matrix.metadata.tagLines }}
+          labels: ${{ matrix.metadata.labelLines }}
+          annotations: ${{ matrix.metadata.labelLines }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushDocker }}
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushGhcr }}
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v3
+        if: ${{ matrix.pushAli && env.ACR_REGISTRY && env.ACR_USERNAME && env.ACR_PASSWORD }}
+        env:
+          ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
+          ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ALI_ACR_PASSWORD }}
+        with:
+          registry: ${{ secrets.ALI_ACR_REGISTRY }}
+          username: ${{ secrets.ALI_ACR_USERNAME }}
+          password: ${{ secrets.ALI_ACR_PASSWORD }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.build.context }}
+          file: ${{ matrix.build.file }}
+          platforms: ${{ matrix.build.platformLines }}
+          push: ${{ matrix.build.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Push README
+        if: ${{ matrix.readme.push }}
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ matrix.readme.repo }}
+          readme-filepath: ${{ matrix.readme.path }}
+
+      - name: Pre Notification
+        id: pre-notify
+        uses: actions/github-script@v7
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        with:
+          script: |
+            const meta = ${{ toJson(fromJson(steps.meta.outputs.json)) }}
+            const matrix = ${{ toJson(matrix) }}
+
+            const data = {
+              name: `**${matrix.name}**`,
+              tags: meta.tags.map(t => `\`${t}\``).join('\n'),
+              url: meta.labels['org.opencontainers.image.url']
+            }
+            if (data.url) {
+              data.name = `[**${matrix.name}**](${data.url})`
+            }
+
+            const buttons = []
+            const infoButtons = [{ "text": "工作流", "url": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" }]
+            data.url && infoButtons.push({ "text": "仓库地址", "url": data.url })
+            infoButtons.push({ "text": "项目地址", "url": "https://github.com/${{ github.repository }}" })
+            buttons.push(infoButtons)
+
+            const registrys = []
+            if (matrix.pushDocker) {
+              const image = matrix.metadata.images.find(i => i.startsWith(process.env.DOCKERHUB_USERNAME))
+              registrys.push({ text: "Docker", url: `https://hub.docker.com/r/${image}` })
+            }
+            if (matrix.pushGhcr) {
+              const image = matrix.metadata.images.find(i => i.startsWith('ghcr.io/')).split('/').pop()
+              registrys.push({ text: "GHCR", url: `https://github.com/users/aliuq/packages/container/package/${image}` })
+            }
+            registrys.length && buttons.push(registrys)
+
+            core.setOutput("tags", data.tags)
+            core.setOutput("name", data.name)
+            core.setOutput("buttons", buttons)
+
+      - name: Notification
+        uses: aliuq/telegram-action@v1
+        with:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          reply_to_message_id: ${{ secrets.REPLY_TO_MESSAGE_ID }}
+          message: |
+            🎉 ${{ steps.pre-notify.outputs.name }} has new image builds
+
+            ${{ steps.pre-notify.outputs.tags }}
+
+            #build_image #app_${{ matrix.name }}
+
+          buttons: ${{ steps.pre-notify.outputs.buttons }}
 
   merge-pull-request:
+    name: Merge Pull Request
     runs-on: ubuntu-latest
-    needs: [resolve-docker-metadata, call-workflow-build]
-    if: github.event_name != 'workflow_dispatch' && needs.resolve-docker-metadata.outputs.push == 'true' && success()
+    needs: [metadata, docker-build]
+    if: github.event_name == 'pull_request'
     permissions:
       contents: write
       pull-requests: write

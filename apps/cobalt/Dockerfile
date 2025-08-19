@@ -1,10 +1,10 @@
-FROM alpine/git AS base
-WORKDIR /app
-RUN git clone https://github.com/imputnet/cobalt.git . && git checkout e4b5388
+FROM alpine/git AS source
+ARG VERSION=e4b5388
+RUN git clone https://github.com/imputnet/cobalt /app && git checkout ${VERSION}
 
 FROM node:23-alpine AS builder
 WORKDIR /app
-COPY --from=base /app .
+COPY --from=source /app .
 RUN corepack enable && corepack prepare --activate
 RUN pnpm install --frozen-lockfile
 RUN WEB_DEFAULT_API=\$BASE_API pnpm -C web build

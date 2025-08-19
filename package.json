@@ -1,15 +1,20 @@
 {
   "name": "apps-image",
   "version": "1.0.0",
-  "packageManager": "pnpm@9.12.3",
-  "description": "",
+  "private": true,
+  "description": "A collection of Docker images for various applications",
   "main": "index.js",
-  "workspaces": ["action"],
+  "workspaces": [
+    "action"
+  ],
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "eslint:inspect": "bunx @eslint/config-inspector --config eslint.config.mjs",
+    "manifest": "bun run --cwd=action src/manifest.ts"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.1",
-    "eslint": "^9.17.0"
+    "@antfu/eslint-config": "^5.2.1",
+    "eslint": "^9.33.0",
+    "fast-glob": "^3.3.3"
   }
 }

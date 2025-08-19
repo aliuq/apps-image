@@ -5,6 +5,7 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
+  // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     { "rule": "style/*", "severity": "off", "fixable": true },
     { "rule": "format/*", "severity": "off", "fixable": true },
@@ -42,17 +43,28 @@
     "postcss"
   ],
   "cSpell.words": [
+    "aliyuncs",
     "buildx",
+    "bunx",
+    "checkver",
+    "Datas",
+    "defu",
+    "dotenv",
+    "globber",
     "icones",
     "imputnet",
     "inpaint",
+    "inpainting",
     "isready",
     "jsonhero",
+    "khoben",
     "lsky",
+    "Metas",
     "multx",
     "oxlint",
     "oxlintignore",
     "oxlintrc",
+    "pdfjs",
     "PGDATA",
     "PYTHONUNBUFFERED",
     "qrcode",
@@ -66,12 +78,18 @@
   ],
   "json.schemas": [
     {
-      "fileMatch": ["apps/*/meta.json"],
-      "url": "./.vscode/meta.schema.json"
+      "fileMatch": ["**/*/meta.json"],
+      "url": ".vscode/meta.schema.json"
     }
   ],
   "markdownlint.config": {
-    "first-line-h1": false
+    "first-line-h1": false,
+    "no-inline-html": false
   },
-  "docker.lsp.experimental.vulnerabilityScanning": false
+  "docker.lsp.experimental.vulnerabilityScanning": false,
+  "todo-tree.filtering.excludeGlobs": [
+    "**/node_modules/*/**",
+    "**/dist/**"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|/\\*|^\\s*\\*)\\s*($TAGS)"
 }

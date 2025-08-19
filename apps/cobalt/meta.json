@@ -1,30 +1,31 @@
 {
   "name": "cobalt",
-  "version": "11.3",
-  "repo": "https://github.com/imputnet/cobalt",
-  "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
-  "checkVer": {
-    "type": "version",
-    "file": "web/package.json"
-  },
-  "dockerMeta": {
-    "images": [
-      "aliuq/cobalt",
-      "ghcr.io/aliuq/cobalt"
-    ],
-    "context": "apps/cobalt",
-    "dockerfile": "Dockerfile",
-    "platforms": [],
-    "push": true,
-    "tags": [
-      "type=raw,value=latest",
-      "type=raw,value=11.3",
-      "type=raw,value=e4b5388"
-    ],
-    "labels": {
-      "title": "Cobalt",
-      "description": "best way to save what you love",
-      "licenses": "AGPL-3.0"
+  "type": "app",
+  "title": "Cobalt",
+  "slogan": "媒体下载器，支持多平台视频/音频下载",
+  "description": "best way to save what you love",
+  "license": "AGPL-3.0",
+  "variants": {
+    "latest": {
+      "version": "11.3",
+      "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
+      "checkver": {
+        "type": "version",
+        "repo": "https://github.com/imputnet/cobalt",
+        "file": "web/package.json"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}",
+          "type=match,pattern=\\d+,value={{version}}"
+        ]
+      }
     }
   }
 }

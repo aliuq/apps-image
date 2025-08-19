@@ -1,0 +1,45 @@
+{
+  "name": "self",
+  "type": "base",
+  "title": "Personal Development Environment",
+  "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "version": "0.0.5",
+      "sha": "6713acca9d642119e4d0a30393bd7a0118d85143",
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value=alpine",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
+    },
+    "ubuntu": {
+      "enabled": false,
+      "checkver": {
+        "type": "manual"
+      },
+      "docker": {
+        "images": [
+          "aliuq/{{name}}",
+          "ghcr.io/aliuq/{{name}}"
+        ],
+        "tags": [
+          "type=raw,value=ubuntu",
+          "type=raw,value={{version}}",
+          "type=raw,value={{sha}}"
+        ]
+      }
+    }
+  }
+}
