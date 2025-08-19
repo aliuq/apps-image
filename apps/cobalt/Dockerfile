@@ -1,6 +1,7 @@
 FROM alpine/git AS source
+WORKDIR /app
 ARG VERSION=e4b5388
-RUN git clone https://github.com/imputnet/cobalt /app && git checkout ${VERSION}
+RUN git clone https://github.com/imputnet/cobalt . && git checkout ${VERSION}
 
 FROM node:23-alpine AS builder
 WORKDIR /app
