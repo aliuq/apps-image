@@ -76,13 +76,12 @@ export class MetaAppContext {
   public async buildMatrixData(variants: Meta['variants'] = {}) {
     const matrixData = new Set()
 
-    // const dockerUser = process.env.DOCKERHUB_USERNAME
-    // const ghcrUser = process.env.GHCR_USERNAME
     const { repo, owner } = ghContext.repo
     const defaultBranch = getCurrentBranch()
     const defaultManualUrl = `https://github.com/${owner}/${repo}/tree/${defaultBranch}/${this.context}`
-    const dockerUser = 'aliuq'
-    const ghcrUser = owner
+
+    const dockerUser = process.env.DOCKERHUB_USERNAME
+    const ghcrUser = process.env.GHCR_USERNAME
     const acrRegistry = process.env.ALI_ACR_REGISTRY
     const acrUser = process.env.ALI_ACR_USERNAME
 
@@ -138,7 +137,7 @@ export class MetaAppContext {
       // 判断需要构建推送到平台
       const pushDocker = dockerUser && uniqueImages.some(im => im.startsWith(dockerUser))
       const pushGhcr = ghcrUser && uniqueImages.some(im => im.match(/^ghcr\.io\//))
-      const pushAli = uniqueImages.some(im => im.match(/^registry\..*?\.aliyuncs\.com/))
+      const pushAli = acrRegistry && acrUser && uniqueImages.some(im => im.match(/^registry\..*?\.aliyuncs\.com/))
       // platforms
       const platforms = variant.docker?.platforms || ['linux/amd64', 'linux/arm64']
       // 测试应用
