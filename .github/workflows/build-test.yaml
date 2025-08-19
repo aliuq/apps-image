@@ -177,7 +177,7 @@ jobs:
 
             core.setOutput("tags", data.tags)
             core.setOutput("name", data.name)
-            core.setOutput("flag", flag)
+            core.setOutput("flag", data.flag)
             core.setOutput("buttons", buttons)
 
       - name: Notification
