@@ -1,6 +1,7 @@
 FROM alpine/git AS base
 WORKDIR /app
-RUN git clone https://github.com/manuelernestog/weektodo . && git checkout 0296d29
+ARG VERSION=0296d29
+RUN git clone https://github.com/manuelernestog/weektodo . && git checkout ${VERSION}
 
 FROM node:16.20.2-alpine3.18 AS builder
 WORKDIR /app
