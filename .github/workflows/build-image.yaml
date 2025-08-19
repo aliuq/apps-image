@@ -22,6 +22,7 @@ on:
           - apps/weektodo
           - apps/yulegeyu
           - base/alpine
+          - base/nginx
           - base/self
           - base/tg-session
           - test/icones
