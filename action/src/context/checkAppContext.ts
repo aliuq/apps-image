@@ -140,6 +140,8 @@ export class CheckAppContext {
           processFiles = processFiles.filter(file => file !== 'meta.json')
         }
 
+        this.logger.debug(`Processing files: ${processFiles.map(f => cyan(f)).join(', ')}`)
+
         for await (const file of processFiles) {
           const filePath = path.join(this.context, file)
           const content = await readFile(filePath)
@@ -250,7 +252,7 @@ export class CheckAppContext {
         details += `| **Changed** | ${changedValue} |\n\n`
 
         if (recentCommits?.length) {
-          const compareUrl = `${repoUrl}/compare/${oldShortSha}...${shortSha}`
+          const compareUrl = oldShortSha ? `${repoUrl}/compare/${oldShortSha}...${shortSha}` : `${repoUrl}/commits/${shortSha}`
 
           details += `📝 Recent Commits\n\n`
 
