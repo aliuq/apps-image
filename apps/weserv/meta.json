@@ -1,0 +1,37 @@
+{
+  "name": "weserv",
+  "type": "app",
+  "slogan": "wsrv.nl",
+  "description": "weserv 是一个用于快速生成图像的 API",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "sha",
+        "repo": "weserv/images",
+        "branch": "5.x"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value=5.x",
+          "type=raw,value={{version}}"
+        ]
+      }
+    },
+    "alpine": {
+      "enabled": false,
+      "checkver": {
+        "type": "sha",
+        "repo": "weserv/images",
+        "branch": "5.x"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=alpine",
+          "type=raw,value=5.x-alpine",
+          "type=raw,value={{version}}-alpine"
+        ]
+      }
+    }
+  }
+}
