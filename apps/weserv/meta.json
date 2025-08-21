@@ -21,7 +21,6 @@
       }
     },
     "alpine": {
-      "enabled": false,
       "checkver": {
         "type": "sha",
         "repo": "weserv/images",
