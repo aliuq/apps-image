@@ -18,11 +18,13 @@ on:
           - apps/jsonhero-web
           - apps/lsky
           - apps/memogram
+          - apps/n8n-workflows
           - apps/readest
           - apps/srcbook
           - apps/telegram-upload
           - apps/telemirror
           - apps/weektodo
+          - apps/weserv
           - apps/yulegeyu
           - base/alpine
           - base/nginx
