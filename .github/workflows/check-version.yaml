@@ -2,7 +2,7 @@ name: Check Version
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # 每 6 小时检查一次
+    - cron: '0 */2 * * *' # 每 2 小时检查一次
   workflow_dispatch:
     inputs:
       context:
