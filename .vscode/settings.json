@@ -93,5 +93,10 @@
     "**/node_modules/*/**",
     "**/dist/**"
   ],
-  "todo-tree.regex.regex": "(//|#|<!--|/\\*|^\\s*\\*)\\s*($TAGS)"
+  "todo-tree.regex.regex": "(//|#|<!--|/\\*|^\\s*\\*)\\s*($TAGS)",
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/instructions/git-commit-message.md"
+    }
+  ]
 }
