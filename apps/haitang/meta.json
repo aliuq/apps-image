@@ -1,0 +1,20 @@
+{
+  "name": "haitang",
+  "type": "app",
+  "title": "海棠诗社",
+  "description": "海棠诗社，古诗词的数字桃源",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "sha",
+        "repo": "javayhu/haitang"
+      },
+      "docker": {
+        "labels": {
+          "author": "javayhu"
+        }
+      }
+    }
+  }
+}
