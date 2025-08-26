@@ -6,6 +6,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
+      "version": "3d5ff9c",
+      "sha": "3d5ff9c222ee76e6635fad44b9df6bd57f3805fb",
       "checkver": {
         "type": "sha",
         "repo": "javayhu/haitang"
