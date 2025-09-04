@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     && apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
-ARG VERSION={{version}}
+ARG VERSION=1.103.2
 
 # code
 RUN arch=$(dpkg --print-architecture) && \
