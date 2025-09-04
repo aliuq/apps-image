@@ -1,6 +1,9 @@
 FROM debian:latest AS base
 
 FROM base AS build
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DEBCONF_NONINTERACTIVE_SEEN=true
+
 # 只安装构建必需的包，并在同一层清理缓存
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
