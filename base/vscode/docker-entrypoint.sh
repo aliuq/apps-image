@@ -1,0 +1,109 @@
+#!/bin/sh
+
+set -e
+
+ME=$(basename "$0")
+
+entrypoint_log() {
+  if [ -z "${NGINX_ENTRYPOINT_QUIET_LOGS:-}" ]; then
+    echo "$@"
+  fi
+}
+
+# starship
+update_starship() {
+  # Skip if `~/.config/starship.toml` already exists
+  if [ ! -f ~/.config/starship.toml ]; then
+    # If `STARSHIP_CONFIG` environment variable doesn't exist, copy from `/tmp/starship.toml` to `~/.config/starship.toml`
+    # If it exists: 1. If not a network address, treat as relative path and copy to `~/.config/starship.toml`
+    #               2. If it's a network address, download to `~/.config/starship.toml`
+    if [ -z "${STARSHIP_CONFIG:-}" ]; then
+      if [ -f /tmp/starship.toml ]; then
+        mkdir -p ~/.config
+        cp /tmp/starship.toml ~/.config/starship.toml
+      fi
+    else
+      if echo "$STARSHIP_CONFIG" | grep -qE '^https?://'; then
+        # Network address, download it
+        mkdir -p ~/.config
+        wget -O ~/.config/starship.toml "$STARSHIP_CONFIG"
+      else
+        # Not a network address, treat as relative path and copy
+        if [ -f "$STARSHIP_CONFIG" ]; then
+          mkdir -p ~/.config
+          cp "$STARSHIP_CONFIG" ~/.config/starship.toml
+        fi
+      fi
+    fi
+    entrypoint_log "$ME: starship config ~/.config/starship.toml has been updated."
+  else
+    entrypoint_log "$ME: starship config ~/.config/starship.toml already exists, skip copying."
+  fi
+}
+
+# `serve-web` mode: code-server web IDE
+# `tunnel` mode: code-server tunnel mode (not implemented)
+# `custom` mode: custom command (not implemented)
+# `empty` mode: do nothing
+run_mode=${RUN_MODE:-serve-web}
+
+run_serve_web() {
+  entrypoint_log "$ME: Starting in serve-web mode..."
+
+  local cmd="code serve-web --host ${HOST:-0.0.0.0} --port ${PORT:-8000}"
+
+  # connection-token
+  if [ -n "${TOKEN:-}" ]; then
+    cmd="$cmd --connection-token ${TOKEN}"
+  fi
+
+  cmd="$cmd $@"
+
+  entrypoint_log "$ME: Running command: $cmd"
+  exec $cmd
+}
+
+run_tunnel() {
+  entrypoint_log "$ME: Starting in tunnel mode..."
+  local cmd="code tunnel"
+
+  cmd="$cmd $@"
+
+  entrypoint_log "$ME: Running command: $cmd"
+  exec $cmd
+}
+
+run_custom() {
+  entrypoint_log "$ME: Starting in custom mode..."
+  exec "code $@"
+}
+
+run_empty() {
+  entrypoint_log "$ME: Starting in empty mode..."
+  exec "$@"
+}
+
+init_code() {
+  case "$run_mode" in
+    serve-web)
+      run_serve_web "$@"
+      ;;
+    tunnel)
+      run_tunnel "$@"
+      ;;
+    custom)
+      run_custom "$@"
+      ;;
+    empty)
+      run_empty "$@"
+      ;;
+    *)
+      entrypoint_log "$ME: Unknown RUN_MODE '$run_mode'. Supported modes are: serve-web, tunnel, custom."
+      exit 1
+      ;;
+  esac
+}
+
+update_starship
+init_code
+

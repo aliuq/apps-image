@@ -1,0 +1,20 @@
+{
+  "name": "vscode",
+  "type": "base",
+  "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "tag",
+        "repo": "microsoft/vscode"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}"
+        ]
+      }
+    }
+  }
+}
