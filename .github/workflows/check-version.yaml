@@ -31,6 +31,7 @@ on:
           - base/nginx
           - base/self
           - base/tg-session
+          - base/vscode
           - test/icones
           - test/self
           - test/weektodo
