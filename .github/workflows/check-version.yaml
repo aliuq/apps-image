@@ -75,6 +75,14 @@ jobs:
         with:
           fetch-depth: 0 # 0 = 完整历史
 
+      - name: Cache Git repositories
+        uses: actions/cache@v4
+        with:
+          path: .git-cache
+          key: git-repos-${{ hashFiles('**/meta.json') }}
+          restore-keys: |
+            git-repos-
+
       - name: Check Version
         uses: ./action/check-version
         env:
