@@ -73,10 +73,18 @@ RUN useradd -m -s /bin/zsh $USERNAME && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
     usermod -aG sudo $USERNAME && \
+    \
+    # 图形界面
     mkdir -p /etc/lightdm && \
     echo "[Seat:*]" > /etc/lightdm/lightdm.conf && \
     echo "autologin-user=$USERNAME" >> /etc/lightdm/lightdm.conf && \
-    echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm
+    echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm && \
+    \
+    # 控制台
+    mkdir -p /etc/systemd/system/getty@tty1.service.d && \
+    echo "[Service]" > /etc/systemd/system/getty@tty1.service.d/override.conf && \
+    echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf && \
+    echo "ExecStart=-/sbin/agetty --autologin $USERNAME --noclear %I \$TERM" >> /etc/systemd/system/getty@tty1.service.d/override.conf
 
 RUN chmod g+rw /home && \
     mkdir -p /home/workspace && \
