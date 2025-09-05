@@ -99,6 +99,8 @@ RUN chmod g+rw /home && \
     # Disable password authentication for users
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 
+USER $USERNAME
+
 # Install ohmyzsh, zsh-autosuggestions, zsh-syntax-highlighting
 RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
     chown -R $USERNAME:$USERNAME $HOME/.oh-my-zsh && \
@@ -107,8 +109,6 @@ RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
     curl -sS https://starship.rs/install.sh | sudo sh -s -- -y && \
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting starship fzf eza zoxide extract mise)/' $HOME/.zshrc && \
     sudo rm -rf "$HOME/.cache" /tmp/* /var/tmp/*
-
-USER $USERNAME
 
 WORKDIR /home/workspace
 
