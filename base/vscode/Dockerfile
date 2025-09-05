@@ -82,10 +82,19 @@ RUN useradd -m -s /bin/zsh $USERNAME && \
     # Change home directory to /home/workspace, if not changed, ssh connection will fail due to /etc/passwd
     usermod -d $HOME $USERNAME && \
     \
-    # Set default user to $USERNAME
-    echo "\n# Start $USERNAME user" >> /root/.bashrc && \
-    echo "exec su - $USERNAME" >> /root/.bashrc
+    # LightDM/GDM
+    mkdir -p /etc/lightdm && \
+    echo "[Seat:*]" > /etc/lightdm/lightdm.conf && \
+    echo "autologin-user=$USERNAME" >> /etc/lightdm/lightdm.conf && \
+    echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm && \
+    \
+    # TTY
+    mkdir -p /etc/systemd/system/getty@tty1.service.d && \
+    echo "[Service]" > /etc/systemd/system/getty@tty1.service.d/override.conf && \
+    echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/override.conf && \
+    echo "ExecStart=-/sbin/agetty --autologin $USERNAME --noclear %I \$TERM" >> /etc/systemd/system/getty@tty1.service.d/override.conf
 
+# Update permissions and create workspace directory
 RUN chmod g+rw /home && \
     mkdir -p /home/workspace && \
     chown -R $USERNAME:$USERNAME /home/workspace && \
@@ -101,7 +110,7 @@ RUN chmod g+rw /home && \
 
 USER $USERNAME
 
-# Install ohmyzsh, zsh-autosuggestions, zsh-syntax-highlighting
+# (user) Install ohmyzsh, zsh-autosuggestions, zsh-syntax-highlighting
 RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
     chown -R $USERNAME:$USERNAME $HOME/.oh-my-zsh && \
     git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions && \
