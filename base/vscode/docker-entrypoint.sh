@@ -105,5 +105,5 @@ init_code() {
 }
 
 update_starship
-init_code
+init_code "$@"
 

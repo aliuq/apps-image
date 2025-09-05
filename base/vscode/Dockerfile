@@ -53,10 +53,8 @@ COPY --from=build /usr/local/bin/zoxide /usr/local/bin/zoxide
 COPY --from=build /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=build /usr/share/fonts/CascadiaCode /usr/share/fonts/CascadiaCode
 
-COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./starship.toml /usr/local/starship.toml
 
-RUN chmod +x /docker-entrypoint.sh
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
@@ -74,7 +72,11 @@ ARG USERNAME=coder
 RUN useradd -m -s /bin/zsh $USERNAME && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
-    usermod -aG sudo $USERNAME
+    usermod -aG sudo $USERNAME && \
+    mkdir -p /etc/lightdm && \
+    echo "[Seat:*]" > /etc/lightdm/lightdm.conf && \
+    echo "autologin-user=$USERNAME" >> /etc/lightdm/lightdm.conf && \
+    echo "autologin-user-timeout=0" >> /etc/lightdm/lightdm
 
 RUN chmod g+rw /home && \
     mkdir -p /home/workspace && \
@@ -97,5 +99,8 @@ RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
     sudo rm -rf "$HOME/.cache" /tmp/* /var/tmp/*
 
 SHELL ["/bin/zsh", "-c"]
+
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN sudo chmod +x /docker-entrypoint.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
