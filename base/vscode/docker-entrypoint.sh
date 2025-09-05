@@ -42,9 +42,10 @@ update_starship() {
 }
 
 # `serve-web` mode: code-server web IDE
-# `tunnel` mode: code-server tunnel mode (not implemented)
-# `custom` mode: custom command (not implemented)
+# `tunnel` mode: code-server tunnel mode
+# `custom` mode: custom command
 # `empty` mode: do nothing
+# `ssh` mode: ssh server
 run_mode=${RUN_MODE:-serve-web}
 
 run_serve_web() {
@@ -83,6 +84,47 @@ run_empty() {
   exec "$@"
 }
 
+run_ssh() {
+  entrypoint_log "$ME: Starting in ssh mode..."
+
+  # Generate SSH host keys if they don't exist
+  if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
+    entrypoint_log "$ME: Generating SSH host keys..."
+    sudo ssh-keygen -A
+  fi
+
+  # Check if `PUBLIC_KEY` environment variable exists
+  if [ -n "${PUBLIC_KEY:-}" ]; then
+    echo "$PUBLIC_KEY" >> $HOME/.ssh/authorized_keys
+    entrypoint_log "$ME: Public key added to $HOME/authorized_keys"
+  else
+    entrypoint_log "$ME: No PUBLIC_KEY provided, skipping public key setup."
+  fi
+
+  # Ensure SSH service directory exists
+  sudo mkdir -p /var/run/sshd
+
+  # Start SSH service and keep container running
+  entrypoint_log "$ME: Starting SSH daemon..."
+
+  # Start sshd in background mode, then keep container running
+  sudo /usr/sbin/sshd
+
+  # Check if SSH service is running
+  if pgrep sshd > /dev/null; then
+    entrypoint_log "$ME: SSH daemon started successfully"
+  else
+    entrypoint_log "$ME: Failed to start SSH daemon"
+    exit 1
+  fi
+
+  # Keep container running
+  entrypoint_log "$ME: Container is ready. SSH service is running on port 22."
+
+  # Allow restarting sshd service without destroying the container
+  tail -f /dev/null
+}
+
 init_code() {
   case "$run_mode" in
     serve-web)
@@ -96,6 +138,9 @@ init_code() {
       ;;
     empty)
       run_empty "$@"
+      ;;
+    ssh)
+      run_ssh "$@"
       ;;
     *)
       entrypoint_log "$ME: Unknown RUN_MODE '$run_mode'. Supported modes are: serve-web, tunnel, custom."
