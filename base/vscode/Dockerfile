@@ -86,8 +86,7 @@ RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
     git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting && \
     curl -sS https://starship.rs/install.sh | sudo sh -s -- -y && \
-    sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting starship fzf eza zoxide extract mise)/' $HOME/.zshrc && \
-    sudo rm -rf "$HOME/.cache" /tmp/* /var/tmp/*
+    sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting starship fzf eza zoxide extract mise)/' $HOME/.zshrc
 
 SHELL ["/bin/zsh"]
 
