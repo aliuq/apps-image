@@ -14,13 +14,13 @@ entrypoint_log() {
 update_starship() {
   # Skip if `~/.config/starship.toml` already exists
   if [ ! -f ~/.config/starship.toml ]; then
-    # If `STARSHIP_CONFIG` environment variable doesn't exist, copy from `/tmp/starship.toml` to `~/.config/starship.toml`
+    # If `STARSHIP_CONFIG` environment variable doesn't exist, copy from `/usr/local/starship.toml` to `~/.config/starship.toml`
     # If it exists: 1. If not a network address, treat as relative path and copy to `~/.config/starship.toml`
     #               2. If it's a network address, download to `~/.config/starship.toml`
     if [ -z "${STARSHIP_CONFIG:-}" ]; then
-      if [ -f /tmp/starship.toml ]; then
+      if [ -f /usr/local/starship.toml ]; then
         mkdir -p ~/.config
-        cp /tmp/starship.toml ~/.config/starship.toml
+        cp /usr/local/starship.toml ~/.config/starship.toml
       fi
     else
       if echo "$STARSHIP_CONFIG" | grep -qE '^https?://'; then

@@ -54,7 +54,7 @@ COPY --from=build /usr/local/bin/mise /usr/local/bin/mise
 COPY --from=build /usr/share/fonts/CascadiaCode /usr/share/fonts/CascadiaCode
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./starship.toml /tmp/starship.toml
+COPY ./starship.toml /usr/local/starship.toml
 
 RUN chmod +x /docker-entrypoint.sh
 # Install dependencies
@@ -69,27 +69,33 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fontconfig \
     && apt-get clean autoclean && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
 
+ARG USERNAME=coder
 # Create a non-root user
-RUN useradd -m coder && \
-    echo 'coder ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/coder && \
-    chmod 0444 /etc/sudoers.d/coder && \
-    usermod -aG sudo coder
+RUN useradd -m -s /bin/zsh $USERNAME && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+    chmod 0440 /etc/sudoers.d/$USERNAME && \
+    usermod -aG sudo $USERNAME
 
-USER coder
+RUN chmod g+rw /home && \
+    mkdir -p /home/workspace && \
+    chown -R $USERNAME:$USERNAME /home/workspace
 
-ENV HOME=/home/coder
-ENV WORKSPACE=$HOME/workspace
-ENV ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
+USER $USERNAME
+
+WORKDIR /home/workspace
+
+ENV HOME=/home/workspace \
+    ZSH_CUSTOM=/home/workspace/.oh-my-zsh/custom
 
 # Install ohmyzsh、zsh-autosuggestions、zsh-syntax-highlighting
 RUN sh -c "$(curl -fsSL https://install.ohmyz.sh/)" && \
+    chown -R $USERNAME:$USERNAME $HOME/.oh-my-zsh && \
     git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting $ZSH_CUSTOM/plugins/zsh-syntax-highlighting && \
     curl -sS https://starship.rs/install.sh | sudo sh -s -- -y && \
-    sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting starship fzf eza zoxide extract mise)/' $HOME/.zshrc
+    sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting starship fzf eza zoxide extract mise)/' $HOME/.zshrc && \
+    sudo rm -rf "$HOME/.cache" /tmp/* /var/tmp/*
 
-SHELL ["/bin/zsh"]
-
-WORKDIR /home/coder/workspace
+SHELL ["/bin/zsh", "-c"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
