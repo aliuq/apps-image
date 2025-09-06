@@ -23,7 +23,7 @@ docker run -d --name vscode -p 8000:8000 aliuq/vscode:latest
 docker run -d --name vscode -p 8000:8000 -e TOKEN=your-secret-token aliuq/vscode:latest
 
 # 映射工作目录
-docker run -d --name vscode -p 8000:8000 -v $(pwd):/home/coder/workspace aliuq/vscode:latest
+docker run -d --name vscode -p 8000:8000 -v $(pwd):/home/workspace aliuq/vscode:latest
 ```
 
 访问 `http://localhost:8000` 即可使用 Web IDE
@@ -34,6 +34,28 @@ docker run -d --name vscode -p 8000:8000 -v $(pwd):/home/coder/workspace aliuq/v
 
 ```bash
 docker run -it --rm -e RUN_MODE=tunnel aliuq/vscode:latest
+```
+
+### SSH 模式
+
+```bash
+# 使用公钥认证
+docker run -d --name vscode-ssh -p 2222:22 \
+  -e RUN_MODE=ssh \
+  -e PUBLIC_KEY="$(cat ~/.ssh/id_rsa.pub)" \
+  -v $(pwd):/home/workspace \
+  aliuq/vscode:latest
+
+# 使用公钥文件
+docker run -d --name vscode-ssh -p 2222:22 \
+  -e RUN_MODE=ssh \
+  -e PUBLIC_KEY_FILE=/tmp/id_rsa.pub \
+  -v ~/.ssh/id_rsa.pub:/tmp/id_rsa.pub \
+  -v $(pwd):/home/workspace \
+  aliuq/vscode:latest
+
+# SSH 连接
+ssh -i /tmp/id_rsa -p 2222 coder@localhost
 ```
 
 ### 使用 Docker Compose
@@ -51,7 +73,7 @@ services:
     ports:
       - '8000:8000'
     volumes:
-      - ./workspace:/home/coder/workspace
+      - ./workspace:/home/workspace
     environment:
       - TOKEN=your-secret-token # 可选，设置访问令牌
 ```
@@ -89,16 +111,20 @@ docker-compose up -d
 - 非 root 用户运行（`coder` 用户）
 - 支持 sudo 权限
 - 可选的访问令牌保护
+- SSH 密钥认证（SSH 模式）
+- 禁用密码认证和 root 登录
 
 ## 环境变量
 
 | 变量名 | 默认值 | 描述 |
 |--------|--------|------|
-| `RUN_MODE` | `serve-web` | 运行模式：`serve-web`, `tunnel`, `custom`, `empty` |
+| `RUN_MODE` | `serve-web` | 运行模式：`serve-web`, `tunnel`, `custom`, `empty`, `ssh` |
 | `HOST` | `0.0.0.0` | 绑定的主机地址 |
 | `PORT` | `8000` | 监听端口 |
 | `TOKEN` | - | 访问令牌（可选） |
 | `STARSHIP_CONFIG` | - | Starship 配置文件路径或 URL |
+| `PUBLIC_KEY` | - | SSH 公钥内容（SSH 模式） |
+| `PUBLIC_KEY_FILE` | - | SSH 公钥文件路径（SSH 模式） |
 
 ## 运行模式
 
@@ -123,6 +149,7 @@ docker run -it -e RUN_MODE=tunnel aliuq/vscode:latest
 自定义 VS Code 命令
 
 ```bash
+# code --version
 docker run -e RUN_MODE=custom aliuq/vscode:latest --version
 ```
 
@@ -132,6 +159,18 @@ docker run -e RUN_MODE=custom aliuq/vscode:latest --version
 
 ```bash
 docker run -it -e RUN_MODE=empty aliuq/vscode:latest /bin/zsh
+```
+
+### ssh
+
+启动 SSH 服务器，可通过 SSH 远程连接
+
+```bash
+# 使用公钥认证
+docker run -d -p 2222:22 -e RUN_MODE=ssh -e PUBLIC_KEY="$(cat ~/.ssh/id_rsa.pub)" aliuq/vscode:latest
+
+# 连接到容器
+ssh -p 2222 coder@localhost
 ```
 
 ## 自定义配置
@@ -162,10 +201,10 @@ docker run -e STARSHIP_CONFIG=https://example.com/starship.toml aliuq/vscode:lat
 
 ```bash
 # 映射当前目录作为工作空间
-docker run -v $(pwd):/home/coder/workspace aliuq/vscode:latest
+docker run -v $(pwd):/home/workspace aliuq/vscode:latest
 
 # 映射特定目录
-docker run -v /path/to/your/project:/home/coder/workspace aliuq/vscode:latest
+docker run -v /path/to/your/project:/home/workspace aliuq/vscode:latest
 ```
 
 ## 使用示例
@@ -176,7 +215,7 @@ docker run -v /path/to/your/project:/home/coder/workspace aliuq/vscode:latest
 docker run -d \
   --name vscode-nodejs \
   -p 8000:8000 \
-  -v $(pwd):/home/coder/workspace \
+  -v $(pwd):/home/workspace \
   -e TOKEN=my-secret-token \
   aliuq/vscode:latest
 ```
@@ -186,7 +225,7 @@ docker run -d \
 ```bash
 docker run -it --rm \
   -p 8000:8000 \
-  -v $(pwd):/home/coder/workspace \
+  -v $(pwd):/home/workspace \
   aliuq/vscode:latest
 ```
 
@@ -195,22 +234,41 @@ docker run -it --rm \
 ```bash
 docker run -it --rm \
   -e RUN_MODE=tunnel \
-  -v $(pwd):/home/coder/workspace \
+  -v $(pwd):/home/workspace \
   aliuq/vscode:latest
+```
+
+### SSH 远程开发
+
+```bash
+# 启动 SSH 服务
+docker run -d \
+  --name vscode-ssh \
+  -p 2222:22 \
+  -e RUN_MODE=ssh \
+  -e PUBLIC_KEY="$(cat ~/.ssh/id_rsa.pub)" \
+  -v $(pwd):/home/workspace \
+  aliuq/vscode:latest
+
+# 通过 SSH 连接
+ssh -p 2222 coder@localhost
 ```
 
 ## 网络访问
 
 - **Web IDE**: `http://localhost:8000`
 - **带令牌**: `http://localhost:8000/?tkn=your-token`
+- **SSH 连接**: `ssh -p 2222 coder@localhost`
 
 ## 注意事项
 
 1. 首次启动可能需要一些时间来初始化 VS Code 服务
 2. 建议设置访问令牌以提高安全性
-3. 工作目录默认为 `/home/coder/workspace`
+3. 工作目录默认为 `/home/workspace`
 4. 容器以非特权用户 `coder` 运行
-5. 隧道模式需要登录 Github/Microsoft 账户
+5. 隧道模式需要登录 GitHub/Microsoft 账户
+6. SSH 模式仅支持公钥认证，已禁用密码认证
+7. SSH 服务监听 22 端口，Web IDE 监听 8000 端口
 
 ## 参考引用
 
