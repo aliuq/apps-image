@@ -17,6 +17,20 @@
           "type=raw,value={{version}}"
         ]
       }
+    },
+    "stable": {
+      "version": "1.103.2",
+      "sha": "6f17636121051a53c88d3e605c491d22af2ba755",
+      "checkver": {
+        "type": "tag",
+        "repo": "microsoft/vscode"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=stable",
+          "type=raw,value={{version}}-stable"
+        ]
+      }
     }
   }
 }

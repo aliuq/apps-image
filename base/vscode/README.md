@@ -5,6 +5,32 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/aliuq/vscode)](https://hub.docker.com/r/aliuq/vscode)
 [![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/vscode)](https://hub.docker.com/r/aliuq/vscode)
 
+## 镜像变体
+
+本项目提供两个镜像变体以满足不同的使用需求：
+
+### 标准版（`latest`）- 推荐
+
+- 基于非特权用户 `coder` (UID 1000)
+- 遵循 Docker 安全最佳实践
+- 适合生产环境和安全敏感场景
+- SSH 禁用 root 登录，仅允许指定用户访问
+
+### 稳定版（`stable`）
+
+- 基于 `root` 用户运行
+- 简化权限管理，便于快速部署
+- 适合开发和测试环境
+- 减少权限相关的配置复杂性
+
+```bash
+# 使用标准版（推荐）
+docker run -d --name vscode -p 8000:8000 aliuq/vscode:latest
+
+# 使用稳定版
+docker run -d --name vscode-stable -p 8000:8000 aliuq/vscode:stable
+```
+
 ## 项目信息
 
 - **官方仓库**: [microsoft/vscode](https://github.com/microsoft/vscode)
@@ -265,10 +291,11 @@ ssh -p 2222 coder@localhost
 1. 首次启动可能需要一些时间来初始化 VS Code 服务
 2. 建议设置访问令牌以提高安全性
 3. 工作目录默认为 `/home/workspace`
-4. 容器以非特权用户 `coder` 运行
+4. **latest**以非特权用户 `coder` 运行，**stable**以 `root` 运行
 5. 隧道模式需要登录 GitHub/Microsoft 账户
 6. SSH 模式仅支持公钥认证，已禁用密码认证
 7. SSH 服务监听 22 端口，Web IDE 监听 8000 端口
+8. **推荐使用latest**以获得更好的安全性
 
 ## 参考引用
 
