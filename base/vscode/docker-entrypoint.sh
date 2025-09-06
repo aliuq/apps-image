@@ -53,9 +53,11 @@ run_serve_web() {
 
   local cmd="code serve-web --host ${HOST:-0.0.0.0} --port ${PORT:-8000}"
 
-  # connection-token
+  # If `TOKEN` environment variable exists, add `--connection-token` parameter, otherwise add `--without-connection-token`
   if [ -n "${TOKEN:-}" ]; then
     cmd="$cmd --connection-token ${TOKEN}"
+  else
+    cmd="$cmd --without-connection-token"
   fi
 
   cmd="$cmd $@"
@@ -93,16 +95,18 @@ run_ssh() {
     sudo ssh-keygen -A
   fi
 
-  # Check if `PUBLIC_KEY` environment variable exists
+  # Check if `PUBLIC_KEY` environment variable exists or `PUBLIC_KEY_FILE` exists
+  if [ -n "${PUBLIC_KEY_FILE:-}" ] && [ -f "$PUBLIC_KEY_FILE" ]; then
+    PUBLIC_KEY=$(cat "$PUBLIC_KEY_FILE")
+    entrypoint_log "$ME: Using public key from file $PUBLIC_KEY_FILE"
+  fi
+
   if [ -n "${PUBLIC_KEY:-}" ]; then
     echo "$PUBLIC_KEY" >> $HOME/.ssh/authorized_keys
     entrypoint_log "$ME: Public key added to $HOME/authorized_keys"
   else
     entrypoint_log "$ME: No PUBLIC_KEY provided, skipping public key setup."
   fi
-
-  # Ensure SSH service directory exists
-  sudo mkdir -p /var/run/sshd
 
   # Start SSH service and keep container running
   entrypoint_log "$ME: Starting SSH daemon..."
