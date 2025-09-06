@@ -19,18 +19,15 @@ update_starship() {
     #               2. If it's a network address, download to `~/.config/starship.toml`
     if [ -z "${STARSHIP_CONFIG:-}" ]; then
       if [ -f /usr/local/starship.toml ]; then
-        mkdir -p ~/.config
         cp /usr/local/starship.toml ~/.config/starship.toml
       fi
     else
       if echo "$STARSHIP_CONFIG" | grep -qE '^https?://'; then
         # Network address, download it
-        mkdir -p ~/.config
         wget -O ~/.config/starship.toml "$STARSHIP_CONFIG"
       else
         # Not a network address, treat as relative path and copy
         if [ -f "$STARSHIP_CONFIG" ]; then
-          mkdir -p ~/.config
           cp "$STARSHIP_CONFIG" ~/.config/starship.toml
         fi
       fi

@@ -89,9 +89,11 @@ RUN \
     chmod g+rw /home && \
     mkdir -p /home/workspace && \
     chown -R $USERNAME:$USERNAME /home/workspace && \
+    mkdir -p $HOME/.config && \
+    chown -R $USERNAME:$USERNAME $HOME/.config && \
     \
     # Setup user ssh environment, chmod 700 for .ssh and 600 for authorized_keys
-    mkdir -p $HOME/.ssh $HOME/.config && chmod 700 $HOME/.ssh && \
+    mkdir -p $HOME/.ssh && chmod 700 $HOME/.ssh && \
     touch $HOME/.ssh/authorized_keys && chmod 600 $HOME/.ssh/authorized_keys && \
     chown -R $USERNAME:$USERNAME $HOME/.ssh
 
