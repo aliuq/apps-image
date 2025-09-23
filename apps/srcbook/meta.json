@@ -14,6 +14,21 @@
         "repo": "https://github.com/srcbookdev/srcbook",
         "file": "srcbook/package.json"
       }
+    },
+    "tls": {
+      "version": "0.0.19",
+      "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+      "checkver": {
+        "type": "version",
+        "repo": "https://github.com/srcbookdev/srcbook",
+        "file": "srcbook/package.json"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=tls",
+          "type=raw,value={{version}}-tls"
+        ]
+      }
     }
   }
 }
