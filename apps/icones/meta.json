@@ -7,8 +7,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "e07e435",
-      "sha": "e07e435b53158f7cca37ebaa3b08bd96ed7611b4",
+      "version": "adcee5a",
+      "sha": "adcee5a1b19183eff72a923520458aab8e6e39fd",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/antfu-collective/icones"
