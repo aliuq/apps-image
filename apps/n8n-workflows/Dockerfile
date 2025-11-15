@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=51721cf
+ARG VERSION=0261fe5
 RUN git clone https://github.com/Zie619/n8n-workflows . && git checkout ${VERSION}
 
 FROM python:3.11-slim-bookworm AS base
