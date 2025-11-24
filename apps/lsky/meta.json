@@ -21,8 +21,8 @@
       }
     },
     "dev": {
-      "version": "2b3f31a",
-      "sha": "2b3f31a204a9ad950453921fff05c42df10517ba",
+      "version": "38d52c4",
+      "sha": "38d52c4609eb85236b45ac75acac2ced55174953",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/lsky-org/lsky-pro"
