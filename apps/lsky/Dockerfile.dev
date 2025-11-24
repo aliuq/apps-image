@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=2b3f31a
+ARG VERSION=38d52c4
 RUN git clone https://github.com/lsky-org/lsky-pro.git . && git checkout ${VERSION}
 
 FROM node:20-alpine3.20 AS web
