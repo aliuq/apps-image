@@ -2,7 +2,7 @@ FROM debian:12 AS base
 
 FROM base AS deps
 
-ARG VERSION=1.106.2
+ARG VERSION=1.106.3
 
 # deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
