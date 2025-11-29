@@ -5,8 +5,8 @@
   "description": "all of the workflows of n8n i could find (also from the site itself)",
   "variants": {
     "latest": {
-      "version": "0261fe5",
-      "sha": "0261fe56028ee138e7419412d90e992b87929817",
+      "version": "3e4a7af",
+      "sha": "3e4a7af7761b4d56748fe32b46eac39275a5a2eb",
       "checkver": {
         "type": "sha",
         "repo": "Zie619/n8n-workflows"
