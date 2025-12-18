@@ -8,7 +8,7 @@ FROM docker.io/rockylinux/rockylinux:10
 
 LABEL maintainer="Kleis Auke Wolthuizen <info@kleisauke.nl>"
 
-ARG NGINX_VERSION=1.29.0
+ARG NGINX_VERSION=1.29.4
 
 # Copy the contents of this repository to the container
 COPY --from=source /app /var/www/imagesweserv
@@ -22,44 +22,61 @@ RUN dnf update -y \
     && dnf install -y https://rpms.remirepo.net/enterprise/remi-release-10.rpm \
     && dnf config-manager --set-enabled remi \
     && dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-10.noarch.rpm \
-    && dnf group install -y --with-optional 'Development Tools' \
+    && dnf group install -y 'Development Tools' \
     && dnf install -y --setopt=tsflags=nodocs --setopt=install_weak_deps=False \
+        meson \
         vips-devel \
+        vips-jxl \
         vips-heif \
         vips-poppler \
         vips-magick-im7 \
-        # FIXME(kleisauke): Re-enable in RL 10.1 - https://bugzilla.redhat.com/show_bug.cgi?id=2341746
-        #jemalloc-devel \
+        jemalloc-devel \
         openssl-devel \
         pcre2-devel \
         zlib-devel \
         nginx-filesystem \
-    # Build CMake-based project
-    && cmake -S . -B _build \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DBUILD_TOOLS=ON \
-        -DNGX_VERSION=$NGINX_VERSION \
-        -DCUSTOM_NGX_FLAGS="--prefix=/usr/share/nginx;\
---sbin-path=/usr/sbin/nginx;\
---modules-path=/usr/lib64/nginx/modules;\
---conf-path=/etc/nginx/nginx.conf;\
---error-log-path=/var/log/nginx/error.log;\
---http-log-path=/var/log/nginx/access.log;\
---http-client-body-temp-path=/var/lib/nginx/tmp/client_body;\
---http-proxy-temp-path=/var/lib/nginx/tmp/proxy;\
---http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi;\
---http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi;\
---http-scgi-temp-path=/var/lib/nginx/tmp/scgi;\
---pid-path=/run/nginx.pid;\
---lock-path=/run/lock/subsys/nginx;\
---user=nginx;\
---group=nginx" \
-    && cmake --build _build -- -j$(nproc) \
+    # Build and install Meson-based project
+    && meson setup build --prefix=/usr -Dcli=true \
+    && meson compile -C build \
+    && meson install -C build \
+    # Build and install nginx along with the weserv module
+    && mkdir nginx \
+    && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | \
+        tar xzC nginx --strip-components=1 \
+    && cd nginx \
+    && ./configure \
+        --prefix=/usr/share/nginx \
+        --sbin-path=/usr/sbin/nginx \
+        --modules-path=/usr/lib64/nginx/modules \
+        --conf-path=/etc/nginx/nginx.conf \
+        --error-log-path=/var/log/nginx/error.log \
+        --http-log-path=/var/log/nginx/access.log \
+        --http-client-body-temp-path=/var/lib/nginx/tmp/client_body \
+        --http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
+        --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi \
+        --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi \
+        --http-scgi-temp-path=/var/lib/nginx/tmp/scgi \
+        --pid-path=/run/nginx.pid \
+        --lock-path=/run/lock/subsys/nginx \
+        --user=nginx \
+        --group=nginx \
+        --add-module=/var/www/imagesweserv \
+        --with-file-aio \
+        --with-http_ssl_module \
+        --with-http_v2_module \
+        --with-http_realip_module \
+        --with-http_stub_status_module \
+        --with-http_secure_link_module \
+        --with-pcre-jit \
+    && make -j$(nproc) \
+    && make install \
     && ldconfig \
-    # Remove build directory and dependencies
-    && rm -rf _build \
+    && cd ../ \
+    # Remove build directories and dependencies
+    && rm -rf build nginx \
     && dnf group remove -y 'Development Tools' \
     && dnf remove -y \
+        meson \
         vips-devel \
         openssl-devel \
         pcre2-devel \
@@ -78,10 +95,8 @@ RUN dnf update -y \
 
 # Set default timezone (can be overridden with -e "TZ=Continent/City")
 ENV TZ=Europe/Amsterdam \
-    # Reduce the effects of memory fragmentation in long-running, multi-threaded processes
-    MALLOC_ARENA_MAX=2
-    # FIXME(kleisauke): Re-enable in RL 10.1 - https://bugzilla.redhat.com/show_bug.cgi?id=2341746
-    #LD_PRELOAD=/usr/lib64/libjemalloc.so
+    # Use jemalloc on glibc-based Linux systems to reduce the effects of memory fragmentation
+    LD_PRELOAD=/usr/lib64/libjemalloc.so
 
 EXPOSE 80
 
