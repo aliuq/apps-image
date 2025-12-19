@@ -40,7 +40,7 @@ RUN dnf update -y \
     && meson compile -C build \
     && meson install -C build \
     # Build and install nginx along with the weserv module
-    && mkdir nginx \
+    && mkdir -p nginx \
     && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | \
         tar xzC nginx --strip-components=1 \
     && cd nginx \
