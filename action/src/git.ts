@@ -6,7 +6,7 @@ import { Buffer } from 'node:buffer'
 import path from 'node:path'
 import exec from '@actions/exec'
 import { cyan, gray, red, yellow } from 'kolorist'
-import { CaCheDir, isAct } from './config.js'
+import { CaCheDir } from './config.js'
 import { pathExists, readFile, readJson } from './file.js'
 import { createLogger } from './logger.js'
 

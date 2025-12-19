@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import dayjsDuration from 'dayjs/plugin/duration.js'
 import { blue, cyan, gray, green, magenta, red, yellow } from 'kolorist'
 import superjson from 'superjson'
-import { getCheckVersionConfig, isAct, isDebug } from './config.js'
+import { isAct, isDebug } from './config.js'
 
 dayjs.extend(dayjsDuration)
 
