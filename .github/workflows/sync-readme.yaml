@@ -62,7 +62,7 @@ jobs:
             const hasDockerHubImage = variants.some(variant => {
               const tags = variant.docker?.tags || []
               if (!tags.length) return true
-              return tags.some(tag => tag.startsWith('aliuq/')
+              return tags.some(tag => tag.startsWith('aliuq/'))
             })
 
             if (!hasDockerHubImage) {
