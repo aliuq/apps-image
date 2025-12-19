@@ -11,8 +11,7 @@
       "sha": "6eb7d91122f40a69de30fe210ea23f2601d117a5",
       "checkver": {
         "type": "tag",
-        "repo": "https://github.com/readest/readest",
-        "targetVersion": "v0.9.95"
+        "repo": "https://github.com/readest/readest"
       }
     },
     "test": {
