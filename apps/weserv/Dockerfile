@@ -35,6 +35,7 @@ RUN dnf update -y \
         pcre2-devel \
         zlib-devel \
         nginx-filesystem \
+        tar \
     # Build and install Meson-based project
     && meson setup build --prefix=/usr -Dcli=true \
     && meson compile -C build \
