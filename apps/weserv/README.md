@@ -61,6 +61,8 @@ docker run -d --name weserv -p 8080:80 aliuq/weserv:alpine
 services:
   weserv:
     image: aliuq/weserv:alpine
+    environment:
+      - TZ=Asia/Shanghai
     # ...其他配置
 ```
 
