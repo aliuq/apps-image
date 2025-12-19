@@ -4,27 +4,28 @@ ARG BRANCH=5.x
 ARG VERSION=0f029b4
 ARG NGINX_VERSION=1.29.4
 RUN git clone -b ${BRANCH} --recurse-submodules https://github.com/weserv/images . && git checkout ${VERSION}
+# Download NGINX source, because of rockylinux(arm64) can't extract it during build
 RUN mkdir -p nginx \
     && wget -O - https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | \
         tar xzC nginx --strip-components=1
 
-FROM docker.io/rockylinux/rockylinux:10
+FROM rockylinux/rockylinux:10 AS builder
 
 LABEL maintainer="Kleis Auke Wolthuizen <info@kleisauke.nl>"
 
-# Update packages and configure repositories (cached layer)
+COPY --from=source /app /var/www/imagesweserv
+WORKDIR /var/www/imagesweserv
+
 RUN set -eux; \
     dnf clean packages \
     && dnf update -y \
+    # Install libvips and needed dependencies
     && dnf install -y epel-release \
     && crb enable \
     && dnf install -y https://rpms.remirepo.net/enterprise/remi-release-10.rpm \
     && dnf config-manager --set-enabled remi \
-    && dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-10.noarch.rpm
-
-# Install build dependencies (cached layer)
-RUN set -eux; \
-    dnf group install -y 'Development Tools' \
+    && dnf install -y --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-10.noarch.rpm \
+    && dnf group install -y 'Development Tools' \
     && dnf install -y --setopt=tsflags=nodocs --setopt=install_weak_deps=False \
         meson \
         vips-devel \
@@ -36,21 +37,13 @@ RUN set -eux; \
         openssl-devel \
         pcre2-devel \
         zlib-devel \
-        nginx-filesystem
-
-# Copy the contents of this repository to the container
-COPY --from=source /app /var/www/imagesweserv
-WORKDIR /var/www/imagesweserv
-
-# Build and install Meson-based project (rebuild when source changes)
-RUN set -eux; \
-    meson setup build --prefix=/usr -Dcli=true \
+        nginx-filesystem \
+    # Build and install Meson-based project
+    && meson setup build --prefix=/usr -Dcli=true \
     && meson compile -C build \
-    && meson install -C build
-
-# Build and install nginx along with the weserv module (rebuild when NGINX_VERSION changes)
-RUN set -eux; \
-    cd nginx \
+    && meson install -C build \
+    # Build and install nginx along with the weserv module
+    && cd nginx \
     && ./configure \
         --prefix=/usr/share/nginx \
         --sbin-path=/usr/sbin/nginx \
@@ -79,11 +72,8 @@ RUN set -eux; \
     && make install \
     && ldconfig \
     && cd ../ \
-    && rm -rf nginx
-
-# Cleanup build dependencies (final optimization)
-RUN set -eux; \
-    rm -rf /var/www/imagesweserv/build \
+    # Remove build directories and dependencies
+    && rm -rf build nginx \
     && dnf group remove -y 'Development Tools' \
     && dnf remove -y \
         meson \
@@ -91,17 +81,17 @@ RUN set -eux; \
         openssl-devel \
         pcre2-devel \
         zlib-devel \
-    && dnf clean all
-
-# Setup nginx directories and configuration
-RUN set -eux; \
-    mkdir -m 700 /var/lib/nginx \
+    && dnf clean all \
+    # Ensure nginx directories exist with the correct permissions
+    && mkdir -m 700 /var/lib/nginx \
     && mkdir -m 700 /var/lib/nginx/tmp \
     && mkdir -m 700 /usr/lib64/nginx \
     && mkdir -m 755 /usr/lib64/nginx/modules \
+    # Forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/weserv-access.log \
     && ln -sf /dev/stderr /var/log/nginx/weserv-error.log \
-    && cp /var/www/imagesweserv/ngx_conf/*.conf /etc/nginx
+    # Copy nginx configuration to the appropriate location
+    && cp ngx_conf/*.conf /etc/nginx
 
 # Set default timezone (can be overridden with -e "TZ=Continent/City")
 ENV TZ=Europe/Amsterdam \
