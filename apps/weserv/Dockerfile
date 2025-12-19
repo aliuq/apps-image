@@ -2,13 +2,15 @@ FROM alpine/git AS source
 WORKDIR /app
 ARG BRANCH=5.x
 ARG VERSION=0f029b4
+ARG NGINX_VERSION=1.29.4
 RUN git clone -b ${BRANCH} --recurse-submodules https://github.com/weserv/images . && git checkout ${VERSION}
+RUN mkdir -p nginx \
+    && wget -O - https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | \
+        tar xzC nginx --strip-components=1
 
 FROM docker.io/rockylinux/rockylinux:10
 
 LABEL maintainer="Kleis Auke Wolthuizen <info@kleisauke.nl>"
-
-ARG NGINX_VERSION=1.29.4
 
 # Update packages and configure repositories (cached layer)
 RUN set -eux; \
@@ -48,10 +50,7 @@ RUN set -eux; \
 
 # Build and install nginx along with the weserv module (rebuild when NGINX_VERSION changes)
 RUN set -eux; \
-    mkdir -p nginx \
-    && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | \
-        tar xzC nginx --strip-components=1 \
-    && cd nginx \
+    cd nginx \
     && ./configure \
         --prefix=/usr/share/nginx \
         --sbin-path=/usr/sbin/nginx \
