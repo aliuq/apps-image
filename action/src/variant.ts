@@ -179,7 +179,14 @@ export class VariantContext {
 
     const checkver = this.variant.checkver
     let tag
-    if (!checkver.tagPattern) {
+
+    if (checkver.targetVersion) {
+      this.logger.debug(`Get version from tag, targetVersion: ${cyan(checkver.targetVersion)}`)
+      if (tags.includes(checkver.targetVersion)) {
+        tag = checkver.targetVersion
+      }
+    }
+    else if (!checkver.tagPattern) {
       this.logger.debug('No tag pattern specified, will using semver to find a valid tag')
       tag = tags.find(tag => semverValid(coerce(tag)))
       this.logger.debug(`Found tag: ${tag}`)
@@ -212,7 +219,13 @@ export class VariantContext {
    */
   private async getVersionFromSha(repoPath: string) {
     const git = this.git!
-    const sha = await git.getSha(repoPath)
+    const targetVersion = this.variant.checkver?.targetVersion
+    if (targetVersion) {
+      this.logger.debug(`Get version from SHA, targetVersion: ${cyan(targetVersion)}`)
+    }
+    const sha = targetVersion
+      ? await git.getShaFromShortSha(repoPath, targetVersion)
+      : await git.getSha(repoPath)
     const cleanSha = sha.trim()
     const version = cleanSha.slice(0, 7)
 
@@ -234,7 +247,11 @@ export class VariantContext {
 
     let version: string | undefined
 
-    if (checkver.file.endsWith('package.json')) {
+    if (checkver?.targetVersion) {
+      this.logger.debug(`Get version from file, targetVersion: ${cyan(checkver.targetVersion)}`)
+      version = checkver.targetVersion
+    }
+    else if (checkver.file.endsWith('package.json')) {
       version = await this.extractVersionFromPackageJson(repoPath, checkver.file, checkver.regex)
     }
     else if (checkver.regex) {

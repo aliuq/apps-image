@@ -183,6 +183,15 @@ export class Git {
   }
 
   /**
+   * 从短 SHA 获取完整 SHA
+   */
+  public async getShaFromShortSha(repoPath: string, shortSha: string) {
+    const command = `git rev-parse ${shortSha}`
+    const { stdout } = await this.exec(command, { cwd: repoPath })
+    return stdout.trim()
+  }
+
+  /**
    * 获取提交的文件内容
    */
   public async getCommitFile(repoPath: string, commit: string, file: string) {
