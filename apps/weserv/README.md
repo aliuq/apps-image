@@ -3,7 +3,8 @@
 > An image cache & resize service. Manipulate images on-the-fly with a worldwide cache.
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/aliuq/weserv)](https://hub.docker.com/r/aliuq/weserv)
-[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/weserv)](https://hub.docker.com/r/aliuq/weserv)
+[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/weserv/alpine?label=alpine)](https://hub.docker.com/r/aliuq/weserv)
+[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/weserv/latest?label=latest)](https://hub.docker.com/r/aliuq/weserv)
 
 ## 项目信息
 
