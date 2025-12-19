@@ -35,6 +35,8 @@ services:
     image: aliuq/weserv:latest
     container_name: weserv
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
     ports:
       - '8080:80'
 ```
