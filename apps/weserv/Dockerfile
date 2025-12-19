@@ -16,7 +16,7 @@ WORKDIR /var/www/imagesweserv
 
 # Update packages
 RUN set -eux; \
-    && dnf update -y \
+    dnf update -y \
     # Install libvips and needed dependencies
     && dnf install -y epel-release \
     && crb enable \
