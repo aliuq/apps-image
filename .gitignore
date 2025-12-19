@@ -2,6 +2,7 @@
 *.log
 test.sh
 node_modules
+.pnpm-store
 .env
 *.bak
 
