@@ -42,10 +42,8 @@ RUN set -eux; \
     && meson compile -C build \
     && meson install -C build \
     # Build and install nginx along with the weserv module
-    && mkdir -p nginx \
-    && curl -Lso nginx.tar.gz https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz \
-    && tar xz -f nginx.tar.gz -C nginx --strip-components=1 \
-    && rm -f nginx.tar.gz \
+    && curl -sL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | tar xz \
+    && mv nginx-$NGINX_VERSION nginx \
     && cd nginx \
     && ./configure \
         --prefix=/usr/share/nginx \
