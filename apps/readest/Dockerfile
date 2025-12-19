@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG READEST_VERSION=v0.9.94
+ARG READEST_VERSION=v0.9.95
 RUN git clone -b ${READEST_VERSION} --recurse-submodules https://github.com/readest/readest .
 
 FROM node:22-slim AS base
