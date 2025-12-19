@@ -25,7 +25,8 @@ RUN env_source=/app/apps/readest-app/.env.local.example; \
     sed -i 's|^NEXT_PUBLIC_SUPABASE_URL=.*$|NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.com|' $env_target
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter=@readest/readest-app setup-pdfjs && \
+RUN pnpm --filter @readest/readest-app setup-vendors && \
+    pnpm --filter=@readest/readest-app setup-pdfjs && \
     pnpm --filter=@readest/readest-app build-web
 
 # Replace `https://your-supabase-url.com` in `.next` js files with environment variable
