@@ -37,7 +37,7 @@ export class Git {
       this.logger.debug(`Checking if repository ${cyan(repoPath)} exists: ${exists}`)
       if (exists) {
         this.logger.debug(`Repository ${dirName} exists, updating...`)
-        await this.updateRepo(repoPath, options)
+        await this.updateRepo(repoUrl, repoPath, options)
       }
       else {
         this.logger.debug(`Cloning repository ${repoUrl} to ${dirName}...`)
@@ -88,7 +88,7 @@ export class Git {
   /**
    * 更新仓库
    */
-  public async updateRepo(repoPath: string, options: CloneOptions = {}): Promise<void> {
+  public async updateRepo(repoUrl: string, repoPath: string, options: CloneOptions = {}): Promise<void> {
     const { branch, targetVersion } = options
 
     try {
@@ -102,7 +102,15 @@ export class Git {
       }
       else {
         // 没有指定分支时，更新当前分支
-        await this.exec('git pull', { cwd: repoPath })
+        try {
+          await this.exec('git pull', { cwd: repoPath })
+        }
+        catch (error) {
+          this.logger.debug(yellow(`Git pull failed in ${repoPath}, possibly detached HEAD: ${error}`))
+          await this.exec(`rm -rf ${repoPath}`)
+          await this.cloneRepo(repoUrl, repoPath, options)
+          return
+        }
       }
 
       // 如果指定了目标版本，检出到该版本
