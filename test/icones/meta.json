@@ -10,8 +10,8 @@
       "version": "d96ef28",
       "sha": "d96ef283218ee96ea92e55f981a14504bd90a331",
       "checkver": {
-        "repo": "https://github.com/antfu-collective/icones",
-        "type": "sha"
+        "type": "sha",
+        "repo": "https://github.com/antfu-collective/icones"
       },
       "docker": {
         "images": [

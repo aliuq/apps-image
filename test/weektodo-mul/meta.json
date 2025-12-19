@@ -10,8 +10,8 @@
       "version": "2.2.0",
       "sha": "0296d299bd819e5cf31cf993bad9482fd7787981",
       "checkver": {
-        "repo": "manuelernestog/weektodo",
         "type": "version",
+        "repo": "manuelernestog/weektodo",
         "file": "package.json"
       }
     },
@@ -19,8 +19,8 @@
       "version": "d384fc7",
       "sha": "d384fc72d04e9c8a8431d456a3218c08d0c77e29",
       "checkver": {
-        "repo": "manuelernestog/weektodo",
-        "type": "sha"
+        "type": "sha",
+        "repo": "manuelernestog/weektodo"
       }
     }
   }

@@ -1,8 +1,6 @@
 import type { SummaryTableRow } from '@actions/core/lib/summary.js'
 import type { Meta } from './types/schema.js'
-import fs from 'node:fs'
 import path from 'node:path'
-import process from 'node:process'
 import core from '@actions/core'
 import fg from 'fast-glob'
 import { pathExists, readFile, readJson, writeFile } from './file.js'
