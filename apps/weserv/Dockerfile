@@ -15,8 +15,8 @@ COPY --from=source /app /var/www/imagesweserv
 WORKDIR /var/www/imagesweserv
 
 # Update packages
-RUN set -eux; && \
-    dnf update -y \
+RUN set -eux; \
+    && dnf update -y \
     # Install libvips and needed dependencies
     && dnf install -y epel-release \
     && crb enable \
