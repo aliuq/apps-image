@@ -43,7 +43,7 @@ RUN dnf update -y \
     # Build and install nginx along with the weserv module
     && mkdir -p nginx \
     && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | \
-        tar xzC nginx --strip-components=1 \
+        tar xz -C nginx --strip-components=1 \
     && cd nginx \
     && ./configure \
         --prefix=/usr/share/nginx \
