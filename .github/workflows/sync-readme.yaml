@@ -49,27 +49,35 @@ jobs:
             const metaFile = path.join(gcwd, appDir, 'meta.json')
             const meta = JSON.parse(fs.readFileSync(metaFile, 'utf-8'))
 
-            const docker = meta.dockerMeta
-            const skip = meta.skip || false
-
-            const images = docker.images
-            const matchDockerhub = images.find(i => i.match(/^aliuq\//))
-            const matchGhcr = images.find(i => i.match(/^ghcr.io\//))
-
-            const repo = matchDockerhub ? matchDockerhub : matchGhcr ? matchGhcr?.replace(/^ghcr.io\//, '') : ''
-            const data = { repo }
-            if (docker.readme_path !== false) {
-              data.readme_path = path.join(appDir, docker.readme_path || 'README.md')
-            }
+            const variants = Object.values(meta.variants)
+            const skip = meta.skip || !variants.some(variant => !variant?.skip)
 
             if (skip) {
-              core.info('Skip sync README')
+              core.info(`Meta indicates to skip README sync for ${meta.name}`)
               core.setOutput('status', 'success')
               process.exit(0)
-            } else {
-              await core.group('JSON Output', async () => core.info(JSON.stringify(data, null, 2)))
-              outputJson(data)
             }
+
+            // 判断是否存在推送到 Docker Hub 的镜像
+            const hasDockerHubImage = variants.some(variant => {
+              const tags = variant.docker?.tags || []
+              if (!tags.length) return true
+              return tags.some(tag => tag.startsWith('aliuq/')
+            })
+
+            if (!hasDockerHubImage) {
+              core.info('No Docker Hub images found, skipping README sync')
+              core.setOutput('status', 'success')
+              process.exit(0)
+            }
+
+            const data = {
+              repo: `aliuq/${meta.name}`,
+              readme_path: path.join(appDir, 'README.md')
+            }
+
+            await core.group('JSON Output', async () => core.info(JSON.stringify(data, null, 2)))
+            outputJson(data)
 
       - name: Sync README
         uses: peter-evans/dockerhub-description@v4
