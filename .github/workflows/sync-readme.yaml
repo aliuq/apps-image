@@ -60,9 +60,9 @@ jobs:
 
             // 判断是否存在推送到 Docker Hub 的镜像
             const hasDockerHubImage = variants.some(variant => {
-              const tags = variant.docker?.tags || []
-              if (!tags.length) return true
-              return tags.some(tag => tag.startsWith('aliuq/'))
+              const images = variant.docker?.images || []
+              if (!images.length) return true
+              return images.some(image => image.startsWith('aliuq/'))
             })
 
             if (!hasDockerHubImage) {
