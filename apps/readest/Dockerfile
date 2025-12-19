@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG READEST_VERSION=v0.9.93
+ARG READEST_VERSION=v0.9.94
 RUN git clone -b ${READEST_VERSION} --recurse-submodules https://github.com/readest/readest .
 
 FROM node:22-slim AS base
@@ -25,7 +25,8 @@ RUN env_source=/app/apps/readest-app/.env.local.example; \
     sed -i 's|^NEXT_PUBLIC_SUPABASE_URL=.*$|NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.com|' $env_target
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter=@readest/readest-app setup-pdfjs && \
+RUN pnpm --filter @readest/readest-app setup-vendors && \
+    pnpm --filter=@readest/readest-app setup-pdfjs && \
     pnpm --filter=@readest/readest-app build-web
 
 # Replace `https://your-supabase-url.com` in `.next` js files with environment variable
