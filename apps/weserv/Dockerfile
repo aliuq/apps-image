@@ -15,7 +15,8 @@ COPY --from=source /app /var/www/imagesweserv
 WORKDIR /var/www/imagesweserv
 
 # Update packages
-RUN dnf update -y \
+RUN set -eux; && \
+    dnf update -y \
     # Install libvips and needed dependencies
     && dnf install -y epel-release \
     && crb enable \
@@ -42,8 +43,7 @@ RUN dnf update -y \
     && meson install -C build \
     # Build and install nginx along with the weserv module
     && mkdir -p nginx \
-    && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | \
-        tar xz -C nginx --strip-components=1 \
+    && curl -Ls https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | tar xzC nginx --strip-components=1 \
     && cd nginx \
     && ./configure \
         --prefix=/usr/share/nginx \
