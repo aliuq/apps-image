@@ -37,6 +37,8 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Asia/Shanghai
+      # Optional: Custom deny IP list (comma-separated)
+      # - WESERV_DENY_IP=127.0.0.0/8,::1/128,10.0.0.0/8
     ports:
       - '8080:80'
 ```
@@ -46,6 +48,41 @@ services:
 ```bash
 docker-compose up -d
 ```
+
+### 配置拒绝访问的 IP 地址
+
+可以通过 `WESERV_DENY_IP` 环境变量自定义禁止访问的 IP 地址列表，使用逗号分隔多个 IP 段：
+
+```bash
+# 启动时指定自定义 IP 黑名单
+docker run -d --name weserv -p 8080:80 \
+  -e WESERV_DENY_IP="127.0.0.0/8,::1/128,10.0.0.0/8,172.16.0.0/12" \
+  aliuq/weserv:latest
+
+# 设置为空值以禁用 IP 黑名单功能
+docker run -d --name weserv -p 8080:80 \
+  -e WESERV_DENY_IP="" \
+  aliuq/weserv:latest
+```
+
+**行为说明**:
+
+- 如果**不设置** `WESERV_DENY_IP` 环境变量，将使用默认的 IP 黑名单
+- 如果设置为**空字符串**（`WESERV_DENY_IP=""`），将不启用任何 IP 黑名单限制
+- 如果设置为**具体值**，将使用自定义的 IP 黑名单
+
+**默认拒绝的 IP 范围**（未设置 `WESERV_DENY_IP` 时）:
+
+- `127.0.0.0/8` - 回环地址
+- `::1/128` - IPv6 回环地址
+- `169.254.0.0/16` - 链路本地地址
+- `224.0.0.0/4` - 多播地址
+- `fe80::/64` - IPv6 链路本地地址
+- `ff00::/8` - IPv6 多播地址
+- `10.0.0.0/8` - 私有网络
+- `172.16.0.0/12` - 私有网络
+- `192.168.0.0/16` - 私有网络
+- `fc00::/7` - IPv6 唯一本地地址
 
 ### Alpine 版本
 

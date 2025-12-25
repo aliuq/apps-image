@@ -93,6 +93,12 @@ RUN set -eux; \
     # Copy nginx configuration to the appropriate location
     && cp ngx_conf/*.conf /etc/nginx
 
+# Set weserv_deny_ip to env, ref: https://github.com/weserv/images/issues/440
+COPY nginx.conf /etc/nginx/nginx.conf
+
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 # Set default timezone (can be overridden with -e "TZ=Continent/City")
 ENV TZ=Europe/Amsterdam \
     # Use jemalloc on glibc-based Linux systems to reduce the effects of memory fragmentation
@@ -102,4 +108,5 @@ EXPOSE 80
 
 STOPSIGNAL SIGQUIT
 
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
