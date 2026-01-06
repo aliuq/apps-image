@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=fb6710e
+ARG VERSION=5debe32
 RUN git clone https://github.com/antfu-collective/icones . && git checkout ${VERSION}
 
 FROM node:22.14.0-alpine3.20 AS build
