@@ -1,0 +1,15 @@
+{
+  "name": "rayso",
+  "type": "app",
+  "title": "ray.so",
+  "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "sha",
+        "repo": "raycast/ray-so"
+      }
+    }
+  }
+}

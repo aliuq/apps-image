@@ -17,6 +17,7 @@ on:
           - apps/lsky
           - apps/memogram
           - apps/n8n-workflows
+          - apps/rayso
           - apps/readest
           - apps/srcbook
           - apps/telegram-upload
