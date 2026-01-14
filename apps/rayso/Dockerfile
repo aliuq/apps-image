@@ -3,7 +3,7 @@ WORKDIR /app
 ARG VERSION=b46b275
 RUN git clone https://github.com/raycast/ray-so . && git checkout ${VERSION}
 
-FROM node:24-alpine AS base
+FROM node:24-slim AS base
 WORKDIR /app
 
 FROM base AS build-base
@@ -40,7 +40,7 @@ RUN \
   # Remove .next/cache to reduce image size
   rm -rf .next/cache .next/server
 
-FROM base AS runner
+FROM node:24-alpine
 
 WORKDIR /app
 
