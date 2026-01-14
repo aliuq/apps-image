@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION={{version}}
+ARG VERSION=b46b275
 RUN git clone https://github.com/raycast/ray-so . && git checkout ${VERSION}
 
 FROM node:24-alpine AS base
