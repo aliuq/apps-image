@@ -3,17 +3,18 @@ WORKDIR /app
 ARG VERSION=b46b275
 RUN git clone https://github.com/raycast/ray-so . && git checkout ${VERSION}
 
-FROM node:24-slim AS base
+FROM node:24-alpine AS base
 WORKDIR /app
-
-FROM base AS build-base
 RUN npm install -g bun
 
-FROM build-base AS deps
+
+FROM base AS deps
 COPY --from=source /app/package.json ./
 RUN bun install
 
-FROM build-base AS builder
+FROM base AS builder
+
+ENV ODE_OPTIONS="--max-old-space-size=4096"
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=source /app .
@@ -25,6 +26,14 @@ RUN \
     sed -i '/const nextConfig = {/a\  output: "standalone",' next.config.js; \
   else \
     sed -i 's/output: .*/output: "standalone",/' next.config.js; \
+  fi && \
+  \
+  # staticPageGenerationTimeout to 1800 seconds (30 minutes)
+  # Avoids build timeouts for large static pages on arm64 architecture
+  if grep -q 'staticPageGenerationTimeout' next.config.js; then \
+    sed -i 's/staticPageGenerationTimeout: .*/staticPageGenerationTimeout: 1800,/' next.config.js; \
+  else \
+    sed -i '/const nextConfig = {/a\  staticPageGenerationTimeout: 1800,' next.config.js; \
   fi && \
   \
   # Build the Next.js application
@@ -40,7 +49,7 @@ RUN \
   # Remove .next/cache to reduce image size
   rm -rf .next/cache .next/server
 
-FROM node:24-alpine
+FROM base AS runner
 
 WORKDIR /app
 
