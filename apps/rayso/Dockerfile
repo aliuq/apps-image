@@ -1,74 +1,61 @@
 FROM alpine/git AS source
 WORKDIR /app
 ARG VERSION=b46b275
-RUN git clone https://github.com/raycast/ray-so . && git checkout ${VERSION}
+RUN git clone --depth=1 https://github.com/raycast/ray-so . && \
+    git checkout ${VERSION} && \
+    rm -rf .git
 
-FROM node:24-alpine AS base
+FROM node:24-alpine AS builder
+
 WORKDIR /app
+
+ENV NODE_ENV=production \
+    ODE_OPTIONS="--max-old-space-size=4096"
+
 RUN npm install -g bun
 
-
-FROM base AS deps
-COPY --from=source /app/package.json ./
-RUN bun install
-
-FROM base AS builder
-
-ENV ODE_OPTIONS="--max-old-space-size=4096"
-
-COPY --from=deps /app/node_modules ./node_modules
 COPY --from=source /app .
 
-RUN \
-  # If `output:` does not exist, add `  output: "standalone",` immediately after `const nextConfig = {`.
-  # If `output:` already exists, change its value to `"standalone"`.
+RUN bun install --no-cache && \
+  # Configure Next.js for standalone output
   if ! grep -q 'output:' next.config.js; then \
     sed -i '/const nextConfig = {/a\  output: "standalone",' next.config.js; \
   else \
     sed -i 's/output: .*/output: "standalone",/' next.config.js; \
   fi && \
-  \
-  # staticPageGenerationTimeout to 1800 seconds (30 minutes)
-  # Avoids build timeouts for large static pages on arm64 architecture
   if grep -q 'staticPageGenerationTimeout' next.config.js; then \
     sed -i 's/staticPageGenerationTimeout: .*/staticPageGenerationTimeout: 1800,/' next.config.js; \
   else \
     sed -i '/const nextConfig = {/a\  staticPageGenerationTimeout: 1800,' next.config.js; \
   fi && \
-  \
-  # Build the Next.js application
+  # Build the application
   bun run build && \
-  \
-  # If `.next/standalone/app/(navigation)/themes/assets` does not exist, copy the assets
-  # Copy app/(navigation)/themes/assets to .next/standalone/app/(navigation)/themes/assets
+  # Copy required assets
   if [ ! -d ".next/standalone/app/(navigation)/themes/assets" ]; then \
     mkdir -p ".next/standalone/app/(navigation)/themes/"; \
     cp -r "app/(navigation)/themes/assets" ".next/standalone/app/(navigation)/themes/"; \
-  fi && \
-  \
-  # Remove .next/cache to reduce image size
-  rm -rf .next/cache .next/server
+  fi
 
-FROM base AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PORT=3000 \
+    HOSTNAME="0.0.0.0"
 
 RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+    adduser --system --uid 1001 nextjs && \
+    mkdir -p .next && \
+    chown -R nextjs:nodejs /app
 
 USER nextjs
 
-EXPOSE 3000
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
+EXPOSE 3000
 
 CMD ["node", "server.js"]
