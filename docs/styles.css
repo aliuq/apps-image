@@ -1,0 +1,82 @@
+/* Minimal single-column style for Apps Image
+   - Inter font
+   - Light background #FAFAF9, text #0C0A09, CTA #CA8A04
+   - Responsive, accessible, small footprint
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --bg: #FAFAF9;
+  --surface: #ffffff;
+  --text: #0C0A09;
+  --muted: #6b6b66;
+  --primary: #CA8A04; /* CTA */
+  --max-width: 900px;
+}
+
+html,body{height:100%}
+html{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+body{margin:0;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+
+.container{max-width:var(--max-width);margin:0 auto;padding:24px}
+
+/* NAV */
+.navbar{background:transparent;padding:14px 0}
+.nav-container{display:flex;align-items:center;justify-content:space-between}
+.nav-brand .nav-title{font-weight:700;font-size:18px}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.btn-icon{background:transparent;border:0;cursor:pointer;padding:8px;border-radius:8px;color:var(--muted)}
+.btn-icon:hover{color:var(--text);background:rgba(0,0,0,0.03)}
+
+/* HERO */
+.hero{padding:64px 0}
+.hero-center{text-align:center;padding:48px 20px;border-radius:12px}
+.hero-title{font-size:40px;margin:0 0 8px;font-weight:700}
+.hero-description{margin:0 0 18px;color:var(--muted)}
+.btn-cta{display:inline-block;background:var(--primary);color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(202,138,4,0.12);transition:transform .18s ease,box-shadow .18s ease}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(202,138,4,0.16)}
+
+/* FILTERS & SEARCH */
+.filters{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:18px 0}
+.search-box{display:flex;align-items:center;gap:8px;background:var(--surface);padding:8px 12px;border-radius:10px;box-shadow:0 1px 2px rgba(16,24,40,0.03)}
+.search-input{border:0;outline:0;background:transparent;font-size:14px;color:var(--text)}
+.filter-buttons{display:flex;gap:8px}
+.filter-btn{background:transparent;border:1px solid rgba(12,10,9,0.06);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--muted)}
+.filter-btn.active{background:rgba(12,10,9,0.04);color:var(--text);border-color:rgba(12,10,9,0.08)}
+
+/* APPS GRID */
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:8px}
+.app-card{background:var(--surface);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(12,10,9,0.04);transition:transform .18s ease;border:1px solid rgba(12,10,9,0.03)}
+.app-card:hover{transform:translateY(-4px)}
+.app-header{display:flex;gap:12px;align-items:center}
+.app-icon{width:44px;height:44px;border-radius:8px;background:rgba(0,0,0,0.04);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--text)}
+.app-title{margin:0;font-size:16px;font-weight:600}
+.app-slogan{margin:10px 0 0;color:var(--muted);font-size:13px}
+.app-meta{display:flex;gap:12px;margin-top:12px;color:var(--muted);font-size:13px}
+.app-actions{display:flex;gap:8px;margin-top:12px}
+.app-action-link{padding:8px 10px;border-radius:8px;text-decoration:none;border:1px solid rgba(12,10,9,0.06);color:var(--muted);font-size:13px}
+.app-action-link.primary{background:var(--primary);color:#fff;border-color:transparent}
+
+/* EMPTY / LOADING */
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:8px;padding:32px;border-radius:8px;color:var(--muted)}
+.hidden{display:none}
+
+/* FOOTER */
+.footer{padding:22px 0;border-top:1px solid rgba(12,10,9,0.03);color:var(--muted);font-size:13px}
+
+/* Dark mode */
+:root, .dark{--bg:#FAFAF9}
+.dark{background:#0f172a;color:#f1f5f9}
+.dark body{background:#0f172a}
+.dark .container{color:#f1f5f9}
+.dark .app-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);box-shadow:none}
+.dark .search-box{background:rgba(255,255,255,0.02)}
+.dark .filter-btn{border-color:rgba(255,255,255,0.04)}
+.dark .btn-cta{box-shadow:none}
+
+/* Accessibility */
+.btn-cta:focus,.btn-icon:focus,.app-action-link:focus{outline:3px solid rgba(202,138,4,0.2);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Responsive tweaks */
+@media (max-width:640px){.hero-title{font-size:28px}.container{padding:18px}.hero{padding:40px 0}}
