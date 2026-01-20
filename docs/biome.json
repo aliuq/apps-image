@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["dist", "node_modules", "coverage", "*.lock", "bun.lock"]
+    "ignore": ["dist", "node_modules", "coverage", "*.lock", "bun.lock", "data.json"]
   },
   "formatter": {
     "enabled": true,
