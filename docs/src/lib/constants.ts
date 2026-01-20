@@ -19,6 +19,7 @@ export const REPO = {
 // Docker Hub
 export const DOCKER = {
   REGISTRY: 'aliuq',
+  HUB_URL: 'https://hub.docker.com/r/aliuq',
   SHIELDS_API: 'https://img.shields.io/docker',
 } as const
 

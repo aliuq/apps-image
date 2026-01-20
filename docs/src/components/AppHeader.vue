@@ -5,7 +5,8 @@ import { watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LucideGithub from '~icons/lucide/github'
 import LucideLanguages from '~icons/lucide/languages'
-import { REPO, STORAGE_KEYS } from '../lib/constants'
+import SimpleIconsDocker from '~icons/simple-icons/docker'
+import { DOCKER, REPO, STORAGE_KEYS } from '../lib/constants'
 import type { Locale, ThemeOption } from '../lib/constants'
 import ThemeToggle from './ThemeToggle.vue'
 
@@ -40,7 +41,7 @@ watch(locale, (newLocale) => {
           <p class="text-xs text-muted-foreground mt-0.5">{{ t('header.subtitle') }}</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1">
         <ThemeToggle v-model="theme" />
         <Button variant="ghost" size="sm" @click="toggleLocale" class="cursor-pointer">
           <LucideLanguages class="size-4" />
@@ -57,6 +58,19 @@ watch(locale, (newLocale) => {
           aria-label="View source on GitHub"
         >
           <LucideGithub class="size-5" />
+        </Button>
+
+        <Button
+          as="a"
+          :href="DOCKER.HUB_URL"
+          target="_blank"
+          rel="noreferrer"
+          variant="ghost"
+          size="icon"
+          class="cursor-pointer"
+          aria-label="View Docker Hub repository"
+        >
+          <SimpleIconsDocker class="size-5" />
         </Button>
       </div>
     </div>
