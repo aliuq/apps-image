@@ -1,6 +1,6 @@
 export default {
   common: {
-    search: 'Search name, description, version... (⌘K)',
+    search: 'Search name, description, version...',
     all: 'All',
     type: 'Type',
     checkMethod: 'Check Method',
