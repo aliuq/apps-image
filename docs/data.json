@@ -1,7 +1,36 @@
 {
-  "generated": "2026-01-20T13:52:45.593Z",
+  "generated": "2026-01-20T14:20:54.038Z",
   "total": 22,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "198e40d",
+          "sha": "198e40db288407d8e667aa55d060512b7715652b",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-01-20T10:10:42.000Z"
+    },
     {
       "name": "vscode",
       "type": "base",
@@ -75,36 +104,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-01-20T12:36:01.858Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "198e40d",
-          "sha": "198e40db288407d8e667aa55d060512b7715652b",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-01-20T12:36:01.854Z"
+      "updatedAt": "2026-01-16T16:09:34.000Z"
     },
     {
       "name": "n8n-workflows",
@@ -153,7 +153,7 @@
       "category": "app",
       "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
-      "updatedAt": "2026-01-20T12:35:57.932Z"
+      "updatedAt": "2026-01-16T08:10:15.000Z"
     },
     {
       "name": "readest",
@@ -210,37 +210,7 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-01-20T12:00:43.496Z"
-    },
-    {
-      "name": "inpaint-web",
-      "type": "app",
-      "title": "Inpaint Web",
-      "slogan": "AI 图像修复工具，智能去除图片对象",
-      "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
-      "license": "GPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "d1b6cfd",
-          "sha": "d1b6cfd334dbc53d30675635a80366841c0239f9",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/lxfater/inpaint-web",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/inpaint-web",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/inpaint-web",
-      "hasReadme": true,
-      "updatedAt": "2026-01-20T12:00:40.162Z"
+      "updatedAt": "2026-01-10T16:07:23.000Z"
     },
     {
       "name": "icones",
@@ -270,21 +240,22 @@
       "category": "app",
       "readmePath": "apps/icones",
       "hasReadme": true,
-      "updatedAt": "2026-01-20T12:00:36.485Z"
+      "updatedAt": "2026-01-06T04:21:41.000Z"
     },
     {
-      "name": "ai-trend-publish",
+      "name": "inpaint-web",
       "type": "app",
-      "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
-      "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
-      "license": "MIT",
+      "title": "Inpaint Web",
+      "slogan": "AI 图像修复工具，智能去除图片对象",
+      "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
+      "license": "GPL-3.0",
       "variants": {
         "latest": {
-          "version": "1.0.6",
-          "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
+          "version": "d1b6cfd",
+          "sha": "d1b6cfd334dbc53d30675635a80366841c0239f9",
           "checkver": {
-            "type": "tag",
-            "repo": "OpenAISpace/ai-trend-publish",
+            "type": "sha",
+            "repo": "https://github.com/lxfater/inpaint-web",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -293,13 +264,13 @@
           "enabled": true
         }
       },
-      "skip": true,
-      "context": "apps/ai-trend-publish",
+      "context": "apps/inpaint-web",
       "readme": "README.md",
+      "skip": false,
       "category": "app",
-      "readmePath": "apps/ai-trend-publish",
-      "hasReadme": false,
-      "updatedAt": "2026-01-18T17:00:28.338Z"
+      "readmePath": "apps/inpaint-web",
+      "hasReadme": true,
+      "updatedAt": "2025-12-23T14:07:26.000Z"
     },
     {
       "name": "haitang",
@@ -349,7 +320,7 @@
       "category": "app",
       "readmePath": "apps/haitang",
       "hasReadme": true,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
       "name": "lsky",
@@ -426,7 +397,7 @@
       "category": "app",
       "readmePath": "apps/lsky",
       "hasReadme": true,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
       "name": "telemirror",
@@ -502,7 +473,7 @@
       "category": "app",
       "readmePath": "apps/telemirror",
       "hasReadme": true,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
       "name": "weserv",
@@ -579,7 +550,7 @@
       "category": "app",
       "readmePath": "apps/weserv",
       "hasReadme": true,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
       "name": "alpine",
@@ -605,7 +576,7 @@
       "category": "base",
       "readmePath": "base/alpine",
       "hasReadme": false,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
       "name": "nginx",
@@ -706,7 +677,159 @@
       "category": "base",
       "readmePath": "base/nginx",
       "hasReadme": false,
-      "updatedAt": "2025-12-19T15:33:29.069Z"
+      "updatedAt": "2025-12-19T15:27:41.000Z"
+    },
+    {
+      "name": "srcbook",
+      "type": "app",
+      "title": "SrcBook",
+      "slogan": "TypeScript 笔记本，浏览器中运行 TS",
+      "description": "TypeScript-centric app development platform: notebook and AI app builder",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "0.0.19",
+          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/srcbookdev/srcbook",
+            "file": "srcbook/package.json",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        },
+        "tls": {
+          "version": "0.0.19",
+          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/srcbookdev/srcbook",
+            "file": "srcbook/package.json",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=tls",
+              "type=raw,value={{version}}-tls"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/srcbook",
+              "ghcr.io/aliuq/srcbook"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/srcbook",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/srcbook",
+      "hasReadme": true,
+      "updatedAt": "2025-09-23T18:01:48.000Z"
+    },
+    {
+      "name": "jsonhero-web",
+      "type": "app",
+      "title": "Jsonhero Web",
+      "slogan": "Web JSON 浏览器，快速浏览和搜索 JSON",
+      "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "1515705",
+          "sha": "15157053174ba7a0a79c77b2925fbde7e05a6334",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/triggerdotdev/jsonhero-web",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/jsonhero-web",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/jsonhero-web",
+      "hasReadme": true,
+      "updatedAt": "2025-08-19T18:38:11.000Z"
+    },
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.3.0",
+          "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2025-08-19T18:38:11.000Z"
+    },
+    {
+      "name": "telegram-upload",
+      "type": "app",
+      "title": "Telegram Upload",
+      "slogan": "Telegram 文件上传工具，支持大文件分片",
+      "description": "Upload and download files from Telegram up to 4 GiB using your account",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "c700f86",
+          "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/Nekmo/telegram-upload",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/telegram-upload",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/telegram-upload",
+      "hasReadme": true,
+      "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
       "name": "weektodo",
@@ -737,7 +860,7 @@
       "category": "app",
       "readmePath": "apps/weektodo",
       "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.344Z"
+      "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
       "name": "yulegeyu",
@@ -766,7 +889,7 @@
       "category": "app",
       "readmePath": "apps/yulegeyu",
       "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.344Z"
+      "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
       "name": "self",
@@ -841,7 +964,7 @@
       "category": "base",
       "readmePath": "base/self",
       "hasReadme": false,
-      "updatedAt": "2025-12-18T17:55:54.344Z"
+      "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
       "name": "tg-session",
@@ -868,7 +991,7 @@
       "category": "base",
       "readmePath": "base/tg-session",
       "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.344Z"
+      "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
       "name": "cobalt",
@@ -917,144 +1040,21 @@
       "category": "app",
       "readmePath": "apps/cobalt",
       "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.334Z"
+      "updatedAt": "2025-08-19T17:38:51.000Z"
     },
     {
-      "name": "jsonhero-web",
+      "name": "ai-trend-publish",
       "type": "app",
-      "title": "Jsonhero Web",
-      "slogan": "Web JSON 浏览器，快速浏览和搜索 JSON",
-      "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "1515705",
-          "sha": "15157053174ba7a0a79c77b2925fbde7e05a6334",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/triggerdotdev/jsonhero-web",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/jsonhero-web",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/jsonhero-web",
-      "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.334Z"
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.3.0",
-          "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.334Z"
-    },
-    {
-      "name": "srcbook",
-      "type": "app",
-      "title": "SrcBook",
-      "slogan": "TypeScript 笔记本，浏览器中运行 TS",
-      "description": "TypeScript-centric app development platform: notebook and AI app builder",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "0.0.19",
-          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/srcbookdev/srcbook",
-            "file": "srcbook/package.json",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        },
-        "tls": {
-          "version": "0.0.19",
-          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/srcbookdev/srcbook",
-            "file": "srcbook/package.json",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=tls",
-              "type=raw,value={{version}}-tls"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/srcbook",
-              "ghcr.io/aliuq/srcbook"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/srcbook",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/srcbook",
-      "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.334Z"
-    },
-    {
-      "name": "telegram-upload",
-      "type": "app",
-      "title": "Telegram Upload",
-      "slogan": "Telegram 文件上传工具，支持大文件分片",
-      "description": "Upload and download files from Telegram up to 4 GiB using your account",
+      "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
+      "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "c700f86",
-          "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
+          "version": "1.0.6",
+          "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
           "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/Nekmo/telegram-upload",
+            "type": "tag",
+            "repo": "OpenAISpace/ai-trend-publish",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -1063,13 +1063,12 @@
           "enabled": true
         }
       },
-      "context": "apps/telegram-upload",
+      "skip": true,
+      "context": "apps/ai-trend-publish",
       "readme": "README.md",
-      "skip": false,
       "category": "app",
-      "readmePath": "apps/telegram-upload",
-      "hasReadme": true,
-      "updatedAt": "2025-12-18T17:55:54.334Z"
+      "readmePath": "apps/ai-trend-publish",
+      "hasReadme": false
     }
   ]
 }

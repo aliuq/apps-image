@@ -4,6 +4,7 @@
  * Generate data.json from all meta.json files with complete default values
  */
 
+const childProcess = require('node:child_process')
 const fs = require('node:fs')
 const path = require('node:path')
 
@@ -171,14 +172,34 @@ function readMetaFiles(dir, category) {
       const meta = parseJSONC(content)
 
       const completeMeta = applyDefaults(meta, category)
-      const stats = fs.statSync(metaPath)
+
+      const relativePath = path.relative(rootDir, metaPath)
+
+      const gitCommand = childProcess.spawnSync('git', [
+        'log',
+        '-1',
+        '--format=%ct',
+        '--',
+        relativePath,
+      ], {
+        cwd: rootDir,
+        encoding: 'utf-8',
+      })
+
+      let updatedAt
+      if (gitCommand.status === 0 && gitCommand.stdout) {
+        const timestamp = Number.parseInt(gitCommand.stdout.trim(), 10)
+        if (!Number.isNaN(timestamp)) {
+          updatedAt = new Date(timestamp * 1000).toISOString()
+        }
+      }
 
       apps.push({
         ...completeMeta,
         category,
         readmePath: category === 'app' ? `apps/${meta.name}` : `base/${meta.name}`,
         hasReadme: fs.existsSync(path.join(dir, entry.name, 'README.md')),
-        updatedAt: stats.mtime.toISOString(),
+        updatedAt,
       })
     }
     catch (error) {
