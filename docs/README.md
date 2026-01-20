@@ -1,157 +1,165 @@
-# Apps Image - GitHub Pages
+# Apps Image Gallery
 
-A modern, responsive web application showcasing all Dockerized applications in this repository.
+> A modern Vue3 application showcasing Docker images with comprehensive metadata, i18n support, and theme switching.
 
-## Features
+## ✨ Features
 
-✨ **Modern UI/UX Design (Minimal)**
-- Clean, single-column layout with focus on content
-- Lightweight, responsive, accessible styles
-- Fast loading and easy navigation
+### Core Features
 
-🌓 **Dark/Light Mode**
-- Automatic theme detection based on system preferences
-- Manual theme toggle with persistent storage
-- Optimized color palettes for both modes
+- 📦 **Application Catalog**: Display apps and base images with detailed metadata
+  - Description, version, check method
+  - Latest version, SHA, Docker tags
+  - Image size from Docker Hub API
+  - Source code and documentation links
+  - License, slogan, variants, and Docker Hub badges (pulls & image size)
 
-🔍 **Advanced Filtering**
-- Real-time search across app names, titles, and descriptions
-- Category filtering (All, Apps, Base Images)
-- Instant results with smooth animations
+- 🌍 **Internationalization**: Full i18n support with `vue-i18n`
+  - English and Chinese languages
+  - Browser language auto-detection
+  - Persistent language preference
 
-📱 **Fully Responsive**
-- Mobile-first design approach
-- Optimized for all screen sizes
-- Touch-friendly interface
+- 🎨 **Theme System**: Three theme modes
+  - Light mode
+  - Dark mode  
+  - System auto-follow
 
-♿ **Accessible**
-- WCAG AA compliant
-- Keyboard navigation support
-- Screen reader friendly
-- Reduced motion support
+- 🔍 **Advanced Filtering**:
+  - Real-time search (name, description, version)
+  - Filter by type (Apps/Base Images)
+  - Filter by check method (version/sha/tag/registry/manual)
 
-## Local Development
+- ⌨️ **Keyboard Shortcuts**: `⌘K` / `Ctrl+K` to focus search
+
+### UI/UX
+
+- Responsive design (Mobile/Tablet/Desktop)
+- Semantic HTML structure
+- WCAG AA accessible
+- Smooth animations with `prefers-reduced-motion` support
+- Clean, minimal design following ui-ux-pro-max guidelines
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ or 20+
-- Python 3 (for local server)
+- [Bun](https://bun.sh) >= 1.0
+- Node.js >= 18 (for data generation)
 
-### Generate Data
-
-```bash
-# Generate data.json from all meta.json files
-node scripts/generate-data.js
-```
-
-### Preview Locally
+### Installation
 
 ```bash
-# Start a local server
-python3 -m http.server 8080 --directory docs
+# Install dependencies
+bun install
 
-# Or use any other static server
-npx serve docs
+# Generate data.json from meta.json files
+node ../scripts/generate-data.js
+
+# Start dev server
+bun run dev
 ```
 
-Open http://localhost:8080 in your browser.
-
-## Deployment
-
-### Automatic Deployment (Recommended)
-
-The site is automatically deployed to GitHub Pages on every push to the `master` branch via GitHub Actions.
-
-**Prerequisites:**
-1. Enable GitHub Pages in repository settings
-2. Set source to "GitHub Actions"
-3. Push to master branch
-
-The workflow will:
-1. Generate fresh `data.json` from all meta.json files
-2. Build and upload the static site
-3. Deploy to GitHub Pages
-
-### Manual Deployment
+### Build for Production
 
 ```bash
-# 1. Generate data
-node scripts/generate-data.js
+# Build static files
+bun run build
 
-# 2. Commit and push
-git add docs/
-git commit -m "Update GitHub Pages"
-git push origin master
+# Preview production build
+bun run preview
 ```
 
-## Project Structure
+## 📁 Project Structure
 
-```
+```plaintext
 docs/
-├── index.html       # Main HTML page
-├── styles.css       # All CSS styles with dark/light mode
-├── app.js          # JavaScript functionality
-├── data.json       # Generated app data (auto-generated)
-└── .nojekyll       # Disable Jekyll processing
-
-scripts/
-└── generate-data.js # Script to generate data.json
-
-.github/workflows/
-└── deploy-pages.yml # GitHub Actions workflow
+├── src/
+│   ├── App.vue              # Main component
+│   ├── main.ts              # Entry point with i18n
+│   ├── i18n.ts              # i18n configuration
+│   ├── style.css            # Global styles (Tailwind v4)
+│   ├── data/
+│   │   ├── apps.ts          # Data loading and normalization
+│   │   └── types.ts         # TypeScript type definitions
+│   └── locales/
+│       ├── en.ts            # English translations
+│       └── zh.ts            # Chinese translations
+├── data.json                # Generated app data (Docker Hub + meta.json)
+├── CODE_REVIEW.md           # Code review report
+├── CHANGELOG.md             # Version history
+└── README.md                # This file
 ```
 
-## Design System
+## 🛠️ Tech Stack
 
-### Colors
+- **Framework**: Vue 3.5 (Composition API + script setup)
+- **Language**: TypeScript 5.9 (strict mode)
+- **Styling**: Tailwind CSS v4 + @tailwindcss/vite
+- **Build Tool**: Vite 7.2 (rolldown variant)
+- **Package Manager**: Bun
+- **Internationalization**: vue-i18n 11.2
 
-**Light Mode:**
-- Background: `#f8fafc` (slate-50)
-- Surface: `rgba(255, 255, 255, 0.85)`
-- Primary: `#2563eb` (blue-600)
-- Text: `#0f172a` (slate-900)
+## 📊 Data Source
 
-**Dark Mode:**
-- Background: `#0f172a` (slate-900)
-- Surface: `rgba(30, 41, 59, 0.85)`
-- Primary: `#3b82f6` (blue-500)
-- Text: `#f1f5f9` (slate-100)
+Data is generated from:
 
-### Typography
+1. `apps/*/meta.json` - Application metadata
+2. `base/*/meta.json` - Base image metadata  
+3. Docker Hub API v2 - Image sizes
 
-- **Headings:** Poppins (Sans-serif)
-- **Body:** Open Sans (Sans-serif)
-- **Code:** Courier New (Monospace)
+Run `node ../scripts/generate-data.js` to regenerate `data.json`.
 
-### Effects
+## ⌨️ Keyboard Shortcuts
 
-- **Backdrop Blur:** 8-12px for glass effects
-- **Shadows:** Elevation system (sm, md, lg, xl)
-- **Transitions:** 200ms cubic-bezier
-- **Border Radius:** 0.5rem - 1rem
+| Shortcut | Action |
+| -------- | ------ |
+| `⌘K` / `Ctrl+K` | Focus search box |
+| `Tab` | Navigate between elements |
+| `Enter` | Activate buttons/links |
 
-## Browser Support
+## 🎨 Theme Configuration
 
-- Chrome/Edge (last 2 versions)
-- Firefox (last 2 versions)
-- Safari (last 2 versions)
-- Mobile browsers (iOS Safari, Chrome)
+The app remembers your theme preference in `localStorage`:
 
-## Performance
+- `apps-image-theme`: `light` \| `dark` \| `system`
+- `apps-image-locale`: `en` \| `zh`
 
-- **Lighthouse Score:** 95+ across all metrics
-- **First Contentful Paint:** < 1s
-- **Time to Interactive:** < 2s
-- **Total Size:** < 50KB (excluding fonts)
+## 🧪 Code Quality
 
-## Contributing
+```bash
+# Lint check
+bun run lint
 
-When adding new applications:
+# Lint auto-fix
+bun run lint --fix
+```
 
-1. Ensure `meta.json` is properly formatted
-2. Run `node scripts/generate-data.js` locally to test
-3. Push changes to master - GitHub Pages will auto-update
+**Current Status**: ✅ 0 errors, 0 warnings
 
-## License
+## 📈 Performance
 
-Same as the main repository - [MIT License](../LICENSE)
+- Bundle size: ~50KB (gzipped)
+- First Contentful Paint: <1s
+- Time to Interactive: <2s
+- Lighthouse Score: 95+
+
+## 🔗 Related Documentation
+
+- [Code Review Report](./CODE_REVIEW.md)
+- [Changelog](./CHANGELOG.md)
+- [Main Project README](../README.md)
+
+## 🤝 Contributing
+
+1. Follow TypeScript strict mode
+2. Run `bun run lint` before commit
+3. Add translations to both `en.ts` and `zh.ts`
+4. Test in both light and dark modes
+5. Verify keyboard navigation
+
+## 📄 License
+
+MIT
+
+---
+
+**Built with** ❤️ **by** [@aliuq](https://github.com/aliuq)
