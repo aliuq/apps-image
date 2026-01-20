@@ -1,7 +1,64 @@
 {
-  "generated": "2026-01-20T14:20:54.038Z",
-  "total": 22,
+  "generated": "2026-01-20T18:48:07.991Z",
+  "total": 21,
   "apps": [
+    {
+      "name": "readest",
+      "type": "app",
+      "title": "Readest",
+      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
+      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
+      "license": "AGPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "0.9.98",
+          "sha": "0c25b85a8aa14b683a69f7b199b61c97210c9a31",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/readest/readest",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        },
+        "test": {
+          "version": "0.9.88",
+          "sha": "05e9549410bb3ba8e26b5dee3a1472b3a8fcd1b0",
+          "enabled": false,
+          "checkver": {
+            "type": "tag",
+            "repo": "readest/readest",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/{name}"
+            ],
+            "tags": [
+              "type=raw,value=test"
+            ],
+            "platforms": [
+              "linux/amd64"
+            ],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "apps/readest",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/readest",
+      "hasReadme": true,
+      "updatedAt": "2026-01-20T18:12:27.000Z"
+    },
     {
       "name": "rayso",
       "type": "app",
@@ -154,63 +211,6 @@
       "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
       "updatedAt": "2026-01-16T08:10:15.000Z"
-    },
-    {
-      "name": "readest",
-      "type": "app",
-      "title": "Readest",
-      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
-      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
-      "license": "AGPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "0.9.97",
-          "sha": "f53cee96169d7095d3fc22a90279d39543d5cb9c",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/readest/readest",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        },
-        "test": {
-          "version": "0.9.88",
-          "sha": "05e9549410bb3ba8e26b5dee3a1472b3a8fcd1b0",
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "readest/readest",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/{name}"
-            ],
-            "tags": [
-              "type=raw,value=test"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "apps/readest",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/readest",
-      "hasReadme": true,
-      "updatedAt": "2026-01-10T16:07:23.000Z"
     },
     {
       "name": "icones",
@@ -1041,34 +1041,6 @@
       "readmePath": "apps/cobalt",
       "hasReadme": true,
       "updatedAt": "2025-08-19T17:38:51.000Z"
-    },
-    {
-      "name": "ai-trend-publish",
-      "type": "app",
-      "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
-      "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.0.6",
-          "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
-          "checkver": {
-            "type": "tag",
-            "repo": "OpenAISpace/ai-trend-publish",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "skip": true,
-      "context": "apps/ai-trend-publish",
-      "readme": "README.md",
-      "category": "app",
-      "readmePath": "apps/ai-trend-publish",
-      "hasReadme": false
     }
   ]
 }
