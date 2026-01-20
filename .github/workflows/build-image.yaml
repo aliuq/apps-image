@@ -217,3 +217,67 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PULL_REQUEST: ${{ github.event.pull_request.number }}
           MERGE_DELETE_BRANCH: true
+
+  build-app-data:
+    name: Build Apps-Image Data
+    runs-on: ubuntu-latest
+    needs: [metadata, docker-build]
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch full history for proper git operations
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run script
+        run: |
+          set -euo pipefail
+
+          echo "📝 Generating docs data..."
+          node scripts/generate-data.js
+
+          echo "🔍 Checking for changes..."
+          if git diff --exit-code docs/data.json > /dev/null 2>&1; then
+            echo "✅ No changes detected in docs/data.json"
+            exit 0
+          fi
+
+          echo "📦 Changes detected, preparing commit..."
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add docs/data.json
+          git commit -m "chore: update docs data [skip ci]"
+
+          echo "🚀 Pushing changes with retry mechanism..."
+          MAX_RETRIES=3
+          for attempt in $(seq 1 $MAX_RETRIES); do
+            echo "Attempt $attempt/$MAX_RETRIES"
+
+            if git push origin HEAD:master; then
+              echo "✅ Successfully pushed changes"
+              exit 0
+            fi
+
+            if [ $attempt -eq $MAX_RETRIES ]; then
+              echo "❌ Failed to push after $MAX_RETRIES attempts"
+              exit 1
+            fi
+
+            echo "⚠️  Push failed, fetching and rebasing..."
+            git fetch origin master
+
+            if git rebase origin/master; then
+              echo "✅ Rebase successful, retrying push..."
+            else
+              echo "❌ Rebase failed, aborting..."
+              git rebase --abort
+              exit 1
+            fi
+
+            sleep 2
+          done
