@@ -99,6 +99,6 @@ export default antfu(
     },
   },
   {
-    ignores: ['**/dist', '**/build', '.github/instructions'],
+    ignores: ['**/dist', '**/build', '.github/instructions', 'docs'],
   },
 )

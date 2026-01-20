@@ -129,12 +129,6 @@
           "description": "需要处理占位符的文件列表",
           "default": ["Dockerfile"]
         },
-        "checkFrequency": {
-          "type": "string",
-          "enum": ["always", "daily", "weekly", "manual"],
-          "description": "检查频率",
-          "default": "always"
-        },
         "lastCheck": {
           "type": "string",
           "description": "上次检查时间（ISO 8601 格式）",
