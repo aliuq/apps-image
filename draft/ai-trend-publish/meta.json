@@ -1,0 +1,18 @@
+{
+  "name": "ai-trend-publish",
+  "type": "app",
+  "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
+  "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "version": "1.0.6",
+      "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
+      "checkver": {
+        "type": "tag",
+        "repo": "OpenAISpace/ai-trend-publish"
+      }
+    }
+  },
+  "skip": true
+}
