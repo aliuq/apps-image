@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useTemplateRef } from 'vue'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import LucideSearch from '~icons/lucide/search'
 import { defineShortcuts } from '../composables/defineShortcuts'
@@ -26,14 +26,16 @@ const query = defineModel<string>('query', { required: true })
 const typeFilter = defineModel<'all' | 'app' | 'base'>('typeFilter', { required: true })
 const methodFilter = defineModel<string>('methodFilter', { required: true })
 
-const inputRef = useTemplateRef<HTMLInputElement>('inputRef')
+const input = computed<HTMLInputElement | null>(
+  () => document.getElementById('search-input') as HTMLInputElement,
+)
 
 function focusSearch() {
-  inputRef.value?.focus()
-  inputRef.value?.select()
+  input.value?.focus()
+  input.value?.select()
 }
 function blurSearch() {
-  document.getElementById('search-input')?.blur()
+  input.value?.blur()
 }
 
 defineShortcuts({
@@ -52,7 +54,6 @@ defineShortcuts({
         <div class="grid gap-3 sm:grid-cols-[2fr_1fr_1fr]">
           <InputGroup>
             <InputGroupInput
-              ref="inputRef"
               :placeholder="t('common.search')"
               v-model="query"
               aria-label="Search applications and base images"
@@ -64,9 +65,7 @@ defineShortcuts({
 
             <InputGroupAddon align="inline-end">
               <KbdGroup>
-                <Kbd>Ctrl</Kbd>
-                <Kbd>⌘</Kbd>
-                <Kbd>K</Kbd>
+                <Kbd>/</Kbd>
               </KbdGroup>
             </InputGroupAddon>
           </InputGroup>
