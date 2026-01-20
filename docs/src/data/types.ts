@@ -29,6 +29,7 @@ export interface Meta {
   variants?: Record<string, Variant>
   readmePath?: string
   hasReadme?: boolean
+  updatedAt?: string
 }
 
 export interface DataFile {
@@ -56,4 +57,5 @@ export interface AppItem {
   dockerTags: string[]
   imageSize: string
   variants: Record<string, Variant>
+  updatedAt?: string
 }

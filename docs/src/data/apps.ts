@@ -51,6 +51,7 @@ function normalize(meta: Meta, variantName: string, variant?: Variant): AppItem 
     dockerTags,
     imageSize,
     variants: meta.variants || {},
+    updatedAt: meta.updatedAt,
   }
 }
 
@@ -72,4 +73,8 @@ export const apps: AppItem[] = dataFile.apps
     const picked = pickVariant(meta.variants)
     return normalize(meta, picked.key, picked.value)
   })
-  .sort((a, b) => a.title.localeCompare(b.title, 'en'))
+  .sort((a, b) => {
+    const dateA = new Date(a.updatedAt || 0).getTime()
+    const dateB = new Date(b.updatedAt || 0).getTime()
+    return dateB - dateA
+  })

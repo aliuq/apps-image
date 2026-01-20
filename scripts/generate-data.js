@@ -23,7 +23,6 @@ const DEFAULT_VALUES = {
   enabled: true,
   branch: 'main',
   processFiles: ['Dockerfile'],
-  checkFrequency: 'always',
   file: 'Dockerfile',
   images: ['aliuq/{name}', 'ghcr.io/aliuq/{name}'],
   tags: [
@@ -35,8 +34,6 @@ const DEFAULT_VALUES = {
   push: true,
   load: false,
 }
-
-const IMAGE_SIZE_CACHE = new Map()
 
 function getContextByType(type) {
   return type === 'base' ? `base/{name}` : `apps/{name}`
@@ -112,10 +109,6 @@ function applyDefaults(meta, _category) {
         if (checkver.processFiles === undefined) {
           checkver.processFiles = DEFAULT_VALUES.processFiles
         }
-
-        if (checkver.checkFrequency === undefined) {
-          checkver.checkFrequency = DEFAULT_VALUES.checkFrequency
-        }
       }
 
       if (variant.docker) {
@@ -178,12 +171,14 @@ function readMetaFiles(dir, category) {
       const meta = parseJSONC(content)
 
       const completeMeta = applyDefaults(meta, category)
+      const stats = fs.statSync(metaPath)
 
       apps.push({
         ...completeMeta,
         category,
         readmePath: category === 'app' ? `apps/${meta.name}` : `base/${meta.name}`,
         hasReadme: fs.existsSync(path.join(dir, entry.name, 'README.md')),
+        updatedAt: stats.mtime.toISOString(),
       })
     }
     catch (error) {
@@ -194,98 +189,17 @@ function readMetaFiles(dir, category) {
   return apps
 }
 
-function isDockerHubImage(image) {
-  const parts = image.split('/')
-  if (parts.length < 2) {
-    return false
-  }
-
-  const registry = parts[0]
-  return !registry.includes('.') && !registry.includes(':')
-}
-
-function formatBytes(bytes) {
-  if (!Number.isFinite(bytes) || bytes <= 0) {
-    return 'unknown'
-  }
-
-  const units = ['B', 'KB', 'MB', 'GB', 'TB']
-  let value = bytes
-  let unitIndex = 0
-
-  while (value >= 1024 && unitIndex < units.length - 1) {
-    value /= 1024
-    unitIndex += 1
-  }
-
-  return `${value.toFixed(1)} ${units[unitIndex]}`
-}
-
-async function fetchDockerImageSize(image) {
-  if (!isDockerHubImage(image)) {
-    return undefined
-  }
-
-  if (IMAGE_SIZE_CACHE.has(image)) {
-    return IMAGE_SIZE_CACHE.get(image)
-  }
-
-  const [namespace, repo] = image.split('/')
-  const url = `https://hub.docker.com/v2/repositories/${namespace}/${repo}/tags/latest`
-
-  try {
-    const response = await fetch(url, { headers: { Accept: 'application/json' } })
-    if (!response.ok) {
-      IMAGE_SIZE_CACHE.set(image, undefined)
-      return undefined
-    }
-
-    const data = await response.json()
-    const size = data?.full_size ?? data?.images?.[0]?.size
-    const formatted = formatBytes(size)
-    IMAGE_SIZE_CACHE.set(image, formatted)
-    return formatted
-  }
-  catch (error) {
-    console.error(`Failed to fetch image size for ${image}:`, error.message)
-    IMAGE_SIZE_CACHE.set(image, undefined)
-    return undefined
-  }
-}
-
-async function enrichDockerImageSizes(appsList) {
-  for (const app of appsList) {
-    if (!app.variants) {
-      continue
-    }
-
-    for (const variant of Object.values(app.variants)) {
-      if (!variant?.docker?.images?.length) {
-        continue
-      }
-
-      const dockerHubImage = variant.docker.images.find(isDockerHubImage)
-      if (!dockerHubImage) {
-        continue
-      }
-
-      const size = await fetchDockerImageSize(dockerHubImage)
-      if (size) {
-        variant.docker.imageSize = size
-      }
-    }
-  }
-}
-
 async function main() {
   const apps = [
     ...readMetaFiles(appsDir, 'app'),
     ...readMetaFiles(baseDir, 'base'),
   ]
 
-  apps.sort((a, b) => a.name.localeCompare(b.name))
-
-  await enrichDockerImageSizes(apps)
+  apps.sort((a, b) => {
+    const dateA = new Date(a.updatedAt || 0).getTime()
+    const dateB = new Date(b.updatedAt || 0).getTime()
+    return dateB - dateA
+  })
 
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true })

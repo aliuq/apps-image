@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useDateFormat } from '@vueuse/core'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
@@ -24,12 +25,29 @@ const enabledVariants = computed(() => {
 })
 
 const pullsImageUrl = computed(
-  () =>
-    `${DOCKER.SHIELDS_API}/pulls/${DOCKER.REGISTRY}/${props.item.name}?label=Pulls&logo=docker&logoColor=white`,
+  () => {
+    const url = new URL(`${DOCKER.SHIELDS_API}/pulls/${DOCKER.REGISTRY}/${props.item.name}`)
+    url.searchParams.set('label', 'Pulls')
+    url.searchParams.set('logo', 'docker')
+    url.searchParams.set('logoColor', 'white')
+    return url.toString()
+  }
 )
 
-const getVariantImageUrl = (variant: string) =>
-  `${DOCKER.SHIELDS_API}/image-size/${DOCKER.REGISTRY}/${props.item.name}/${variant}?label=${variant}&logo=docker&logoColor=white`
+const getVariantImageUrl = (variant: string) => {
+  const url = new URL(`${DOCKER.SHIELDS_API}/image-size/${DOCKER.REGISTRY}/${props.item.name}/${variant}`)
+  url.searchParams.set('label', variant)
+  url.searchParams.set('logo', 'docker')
+  url.searchParams.set('logoColor', 'white')
+  return url.toString()
+}
+
+const formatDate = (dateString?: string) => {
+  if (!dateString)
+    return null
+
+  return useDateFormat(new Date(dateString), 'YYYY-MM-DD HH:mm:ss').value
+}
 </script>
 
 <template>
@@ -50,16 +68,20 @@ const getVariantImageUrl = (variant: string) =>
           <span class="uppercase tracking-wider">{{ item.latestVersion }}</span>
         </div>
         <Badge v-if="item.license" variant="outline" class="text-[10px] shrink-0">{{ item.license }}</Badge>
+
+        <span v-if="item.updatedAt" class="ml-auto text-xs text-muted-foreground font-light shrink-0">
+          {{ formatDate(item.updatedAt) }}
+        </span>
       </div>
 
       <!-- 描述：简洁明了 -->
       <p class="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-        {{ item.slogan || item.description }}
+        {{ item.description }}
       </p>
     </CardHeader>
 
     <CardContent class="flex flex-col gap-5 p-4 pt-0">
-      <!-- 统计信息：Docker 拉取和镜像大小 -->
+       <!-- 统计信息：Docker 拉取和镜像大小 -->
       <div class="flex flex-wrap items-center gap-2">
         <LazyImage
           :src="pullsImageUrl"
