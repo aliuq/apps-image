@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useDateFormat } from '@vueuse/core'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { useDateFormat } from '@vueuse/core'
 import { computed } from 'vue'
 import LucideBookOpen from '~icons/lucide/book-open'
 import LucideGithub from '~icons/lucide/github'
@@ -24,18 +24,18 @@ const enabledVariants = computed(() => {
     .map(([key]) => key)
 })
 
-const pullsImageUrl = computed(
-  () => {
-    const url = new URL(`${DOCKER.SHIELDS_API}/pulls/${DOCKER.REGISTRY}/${props.item.name}`)
-    url.searchParams.set('label', 'Pulls')
-    url.searchParams.set('logo', 'docker')
-    url.searchParams.set('logoColor', 'white')
-    return url.toString()
-  }
-)
+const pullsImageUrl = computed(() => {
+  const url = new URL(`${DOCKER.SHIELDS_API}/pulls/${DOCKER.REGISTRY}/${props.item.name}`)
+  url.searchParams.set('label', 'Pulls')
+  url.searchParams.set('logo', 'docker')
+  url.searchParams.set('logoColor', 'white')
+  return url.toString()
+})
 
 const getVariantImageUrl = (variant: string) => {
-  const url = new URL(`${DOCKER.SHIELDS_API}/image-size/${DOCKER.REGISTRY}/${props.item.name}/${variant}`)
+  const url = new URL(
+    `${DOCKER.SHIELDS_API}/image-size/${DOCKER.REGISTRY}/${props.item.name}/${variant}`,
+  )
   url.searchParams.set('label', variant)
   url.searchParams.set('logo', 'docker')
   url.searchParams.set('logoColor', 'white')
@@ -43,8 +43,7 @@ const getVariantImageUrl = (variant: string) => {
 }
 
 const formatDate = (dateString?: string) => {
-  if (!dateString)
-    return null
+  if (!dateString) return null
 
   return useDateFormat(new Date(dateString), 'YYYY-MM-DD HH:mm:ss').value
 }

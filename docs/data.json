@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-18T17:01:03.917Z",
+  "generated": "2026-01-20T11:59:50.070Z",
   "total": 22,
   "apps": [
     {
@@ -16,8 +16,7 @@
             "type": "tag",
             "repo": "OpenAISpace/ai-trend-publish",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
@@ -27,116 +26,8 @@
       "readme": "README.md",
       "category": "app",
       "readmePath": "apps/ai-trend-publish",
-      "hasReadme": false
-    },
-    {
-      "name": "alpine",
-      "type": "base",
-      "description": "Alpine Linux 3.20",
-      "variants": {
-        "latest": {
-          "version": "3.22.1",
-          "sha": "a274bcf3c7710d34df2b38ae6ac4ab5684d8f72d",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/alpine",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/alpine",
-      "hasReadme": false
-    },
-    {
-      "name": "cobalt",
-      "type": "app",
-      "title": "Cobalt",
-      "slogan": "媒体下载器，支持多平台视频/音频下载",
-      "description": "best way to save what you love",
-      "license": "AGPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "11.3",
-          "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/imputnet/cobalt",
-            "file": "web/package.json",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{major}}"
-            ],
-            "file": "Dockerfile",
-            "images": ["aliuq/cobalt", "ghcr.io/aliuq/cobalt"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "55.3 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/cobalt",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/cobalt",
-      "hasReadme": true
-    },
-    {
-      "name": "haitang",
-      "type": "app",
-      "title": "海棠诗社",
-      "description": "海棠诗社，古诗词的数字桃源",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "3d5ff9c",
-          "sha": "3d5ff9c222ee76e6635fad44b9df6bd57f3805fb",
-          "checkver": {
-            "type": "sha",
-            "repo": "javayhu/haitang",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "labels": {
-              "author": "javayhu"
-            },
-            "file": "Dockerfile",
-            "images": ["aliuq/haitang", "ghcr.io/aliuq/haitang"],
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{sha}}"
-            ],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "330.9 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/haitang",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/haitang",
-      "hasReadme": true
+      "hasReadme": false,
+      "updatedAt": "2026-01-18T17:00:28.338Z"
     },
     {
       "name": "icones",
@@ -153,8 +44,7 @@
             "type": "sha",
             "repo": "https://github.com/antfu-collective/icones",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
@@ -164,7 +54,8 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/icones",
-      "hasReadme": true
+      "hasReadme": true,
+      "updatedAt": "2026-01-18T10:23:48.486Z"
     },
     {
       "name": "inpaint-web",
@@ -181,8 +72,7 @@
             "type": "sha",
             "repo": "https://github.com/lxfater/inpaint-web",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
@@ -192,261 +82,8 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/inpaint-web",
-      "hasReadme": true
-    },
-    {
-      "name": "jsonhero-web",
-      "type": "app",
-      "title": "Jsonhero Web",
-      "slogan": "Web JSON 浏览器，快速浏览和搜索 JSON",
-      "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "1515705",
-          "sha": "15157053174ba7a0a79c77b2925fbde7e05a6334",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/triggerdotdev/jsonhero-web",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/jsonhero-web",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/jsonhero-web",
-      "hasReadme": true
-    },
-    {
-      "name": "lsky",
-      "type": "app",
-      "title": "兰空图床",
-      "slogan": "兰空图床，轻量级图片云存储系统",
-      "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
-      "license": "GPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "2.1",
-          "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/lsky-org/lsky-pro",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
-            "file": "Dockerfile",
-            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "82.0 MB"
-          },
-          "enabled": true
-        },
-        "dev": {
-          "version": "38d52c4",
-          "sha": "38d52c4609eb85236b45ac75acac2ced55174953",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/lsky-org/lsky-pro",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=dev", "type=raw,value=dev-{{sha}}"],
-            "file": "Dockerfile",
-            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "82.0 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/lsky",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/lsky",
-      "hasReadme": true
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.3.0",
-          "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true
-    },
-    {
-      "name": "n8n-workflows",
-      "type": "app",
-      "slogan": "n8n 工作流模板",
-      "description": "all of the workflows of n8n i could find (also from the site itself)",
-      "variants": {
-        "latest": {
-          "version": "61bc7a4",
-          "sha": "61bc7a4455c49d47b0e288848e72ccd5778a7470",
-          "checkver": {
-            "type": "sha",
-            "repo": "Zie619/n8n-workflows",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "labels": {
-              "author": "Zie619"
-            },
-            "file": "Dockerfile",
-            "images": ["aliuq/n8n-workflows", "ghcr.io/aliuq/n8n-workflows"],
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{sha}}"
-            ],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "116.7 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/n8n-workflows",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/n8n-workflows",
-      "hasReadme": true
-    },
-    {
-      "name": "nginx",
-      "type": "base",
-      "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
-      "variants": {
-        "latest": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
-            "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "21.4 MB"
-          },
-          "enabled": true
-        },
-        "vue": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=vue", "type=raw,value={{version}}-vue"],
-            "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "21.4 MB"
-          },
-          "enabled": true
-        },
-        "svelte": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=svelte", "type=raw,value={{version}}-svelte"],
-            "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "21.4 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/nginx",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/nginx",
-      "hasReadme": false
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": false
+      "hasReadme": true,
+      "updatedAt": "2026-01-18T10:23:48.486Z"
     },
     {
       "name": "readest",
@@ -463,8 +100,7 @@
             "type": "tag",
             "repo": "https://github.com/readest/readest",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         },
@@ -476,8 +112,7 @@
             "type": "tag",
             "repo": "readest/readest",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
             "file": "Dockerfile",
@@ -494,145 +129,224 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/readest",
-      "hasReadme": true
+      "hasReadme": true,
+      "updatedAt": "2026-01-18T10:23:48.486Z"
     },
     {
-      "name": "self",
+      "name": "vscode",
       "type": "base",
-      "title": "Personal Development Environment",
-      "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
+      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "0.1.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
+          "version": "1.108.0",
+          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
           "checkver": {
-            "type": "manual",
+            "type": "tag",
+            "repo": "microsoft/vscode",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value=alpine",
-              "type=raw,value={{version}}"
-            ],
+            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
             "file": "Dockerfile",
-            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
+            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "121.0 MB"
+            "load": false
           },
           "enabled": true
         },
-        "ubuntu": {
-          "version": "0.1.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-          "enabled": false,
+        "stable": {
+          "version": "1.108.0",
+          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
           "checkver": {
-            "type": "manual",
+            "type": "tag",
+            "repo": "microsoft/vscode",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
-            "tags": ["type=raw,value=ubuntu", "type=raw,value={{version}}-ubuntu"],
+            "tags": ["type=raw,value=stable", "type=raw,value={{version}}-stable"],
             "file": "Dockerfile",
-            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
+            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "121.0 MB"
-          }
+            "load": false
+          },
+          "enabled": true
         }
       },
-      "context": "base/self",
+      "context": "base/vscode",
       "readme": "README.md",
       "skip": false,
       "category": "base",
-      "readmePath": "base/self",
-      "hasReadme": false
+      "readmePath": "base/vscode",
+      "hasReadme": true,
+      "updatedAt": "2026-01-18T10:23:48.486Z"
     },
     {
-      "name": "srcbook",
+      "name": "rayso",
       "type": "app",
-      "title": "SrcBook",
-      "slogan": "TypeScript 笔记本，浏览器中运行 TS",
-      "description": "TypeScript-centric app development platform: notebook and AI app builder",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "0.0.19",
-          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/srcbookdev/srcbook",
-            "file": "srcbook/package.json",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "enabled": true
-        },
-        "tls": {
-          "version": "0.0.19",
-          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/srcbookdev/srcbook",
-            "file": "srcbook/package.json",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=tls", "type=raw,value={{version}}-tls"],
-            "file": "Dockerfile",
-            "images": ["aliuq/srcbook", "ghcr.io/aliuq/srcbook"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "68.3 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/srcbook",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/srcbook",
-      "hasReadme": true
-    },
-    {
-      "name": "telegram-upload",
-      "type": "app",
-      "title": "Telegram Upload",
-      "slogan": "Telegram 文件上传工具，支持大文件分片",
-      "description": "Upload and download files from Telegram up to 4 GiB using your account",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "c700f86",
-          "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
           "checkver": {
             "type": "sha",
-            "repo": "https://github.com/Nekmo/telegram-upload",
+            "repo": "raycast/ray-so",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
       },
-      "context": "apps/telegram-upload",
+      "context": "apps/rayso",
       "readme": "README.md",
       "skip": false,
       "category": "app",
-      "readmePath": "apps/telegram-upload",
-      "hasReadme": true
+      "readmePath": "apps/rayso",
+      "hasReadme": false,
+      "updatedAt": "2026-01-16T10:15:12.089Z"
+    },
+    {
+      "name": "n8n-workflows",
+      "type": "app",
+      "slogan": "n8n 工作流模板",
+      "description": "all of the workflows of n8n i could find (also from the site itself)",
+      "variants": {
+        "latest": {
+          "version": "61bc7a4",
+          "sha": "61bc7a4455c49d47b0e288848e72ccd5778a7470",
+          "checkver": {
+            "type": "sha",
+            "repo": "Zie619/n8n-workflows",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "labels": {
+              "author": "Zie619"
+            },
+            "file": "Dockerfile",
+            "images": ["aliuq/n8n-workflows", "ghcr.io/aliuq/n8n-workflows"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{sha}}"
+            ],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/n8n-workflows",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/n8n-workflows",
+      "hasReadme": true,
+      "updatedAt": "2026-01-16T10:15:12.085Z"
+    },
+    {
+      "name": "haitang",
+      "type": "app",
+      "title": "海棠诗社",
+      "description": "海棠诗社，古诗词的数字桃源",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "3d5ff9c",
+          "sha": "3d5ff9c222ee76e6635fad44b9df6bd57f3805fb",
+          "checkver": {
+            "type": "sha",
+            "repo": "javayhu/haitang",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "labels": {
+              "author": "javayhu"
+            },
+            "file": "Dockerfile",
+            "images": ["aliuq/haitang", "ghcr.io/aliuq/haitang"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{sha}}"
+            ],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/haitang",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/haitang",
+      "hasReadme": true,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
+    },
+    {
+      "name": "lsky",
+      "type": "app",
+      "title": "兰空图床",
+      "slogan": "兰空图床，轻量级图片云存储系统",
+      "description": "兰空图床(Lsky Pro) - Your photo album on the cloud.",
+      "license": "GPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "2.1",
+          "sha": "923f567e0a93c7291c4c9fc5279da9847ed39f7e",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/lsky-org/lsky-pro",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
+            "file": "Dockerfile",
+            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "dev": {
+          "version": "38d52c4",
+          "sha": "38d52c4609eb85236b45ac75acac2ced55174953",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/lsky-org/lsky-pro",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=dev", "type=raw,value=dev-{{sha}}"],
+            "file": "Dockerfile",
+            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/lsky",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/lsky",
+      "hasReadme": true,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
     },
     {
       "name": "telemirror",
@@ -649,8 +363,7 @@
             "type": "sha",
             "repo": "khoben/telemirror",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
             "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
@@ -658,8 +371,7 @@
             "images": ["aliuq/telemirror", "ghcr.io/aliuq/telemirror"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "66.3 MB"
+            "load": false
           },
           "enabled": true
         },
@@ -669,8 +381,7 @@
             "type": "tag",
             "repo": "khoben/telemirror",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
             "tags": [
@@ -682,8 +393,7 @@
             "images": ["aliuq/telemirror", "ghcr.io/aliuq/telemirror"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "66.3 MB"
+            "load": false
           }
         }
       },
@@ -692,88 +402,157 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/telemirror",
-      "hasReadme": true
+      "hasReadme": true,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
     },
     {
-      "name": "tg-session",
-      "type": "base",
-      "description": "A Telegram session string generator with QR code login support. This tool helps you generate session strings for Telegram applications.",
-      "license": "MIT",
+      "name": "weserv",
+      "type": "app",
+      "slogan": "wsrv.nl",
+      "description": "weserv 是一个用于快速生成图像的 API",
       "variants": {
         "latest": {
-          "version": "0.1.1",
-          "sha": "d2b131980136ab125a170a534f29cd7a9e1b5b81",
+          "version": "0f029b4",
+          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
           "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=latest", "type=raw,value=5.x", "type=raw,value={{version}}"],
+            "file": "Dockerfile",
+            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "alpine": {
+          "version": "0f029b4",
+          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=alpine",
+              "type=raw,value=5.x-alpine",
+              "type=raw,value={{version}}-alpine"
+            ],
+            "file": "Dockerfile",
+            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
           },
           "enabled": true
         }
       },
-      "context": "base/tg-session",
+      "context": "apps/weserv",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/weserv",
+      "hasReadme": true,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
+    },
+    {
+      "name": "alpine",
+      "type": "base",
+      "description": "Alpine Linux 3.20",
+      "variants": {
+        "latest": {
+          "version": "3.22.1",
+          "sha": "a274bcf3c7710d34df2b38ae6ac4ab5684d8f72d",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/alpine",
       "readme": "README.md",
       "skip": false,
       "category": "base",
-      "readmePath": "base/tg-session",
-      "hasReadme": true
+      "readmePath": "base/alpine",
+      "hasReadme": false,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
     },
     {
-      "name": "vscode",
+      "name": "nginx",
       "type": "base",
-      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
-      "license": "MIT",
+      "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
       "variants": {
         "latest": {
-          "version": "1.108.0",
-          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
+          "version": "0.1.0",
+          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
           "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
+            "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
             "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
             "file": "Dockerfile",
-            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
+            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "224.3 MB"
+            "load": false
           },
           "enabled": true
         },
-        "stable": {
-          "version": "1.108.0",
-          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
+        "vue": {
+          "version": "0.1.0",
+          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
           "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
+            "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "docker": {
-            "tags": ["type=raw,value=stable", "type=raw,value={{version}}-stable"],
+            "tags": ["type=raw,value=vue", "type=raw,value={{version}}-vue"],
             "file": "Dockerfile",
-            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
+            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
             "platforms": ["linux/amd64", "linux/arm64"],
             "push": true,
-            "load": false,
-            "imageSize": "224.3 MB"
+            "load": false
+          },
+          "enabled": true
+        },
+        "svelte": {
+          "version": "0.1.0",
+          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=svelte", "type=raw,value={{version}}-svelte"],
+            "file": "Dockerfile",
+            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
           },
           "enabled": true
         }
       },
-      "context": "base/vscode",
+      "context": "base/nginx",
       "readme": "README.md",
       "skip": false,
       "category": "base",
-      "readmePath": "base/vscode",
-      "hasReadme": true
+      "readmePath": "base/nginx",
+      "hasReadme": false,
+      "updatedAt": "2025-12-19T15:33:29.069Z"
     },
     {
       "name": "weektodo",
@@ -791,8 +570,7 @@
             "repo": "https://github.com/manuelernestog/weektodo",
             "file": "package.json",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
@@ -802,67 +580,8 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/weektodo",
-      "hasReadme": true
-    },
-    {
-      "name": "weserv",
-      "type": "app",
-      "slogan": "wsrv.nl",
-      "description": "weserv 是一个用于快速生成图像的 API",
-      "variants": {
-        "latest": {
-          "version": "0f029b4",
-          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value=5.x", "type=raw,value={{version}}"],
-            "file": "Dockerfile",
-            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "344.0 MB"
-          },
-          "enabled": true
-        },
-        "alpine": {
-          "version": "0f029b4",
-          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=alpine",
-              "type=raw,value=5.x-alpine",
-              "type=raw,value={{version}}-alpine"
-            ],
-            "file": "Dockerfile",
-            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false,
-            "imageSize": "344.0 MB"
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/weserv",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/weserv",
-      "hasReadme": true
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.344Z"
     },
     {
       "name": "yulegeyu",
@@ -878,8 +597,7 @@
             "type": "sha",
             "repo": "https://github.com/liyupi/yulegeyu",
             "branch": "main",
-            "processFiles": ["Dockerfile"],
-            "checkFrequency": "always"
+            "processFiles": ["Dockerfile"]
           },
           "enabled": true
         }
@@ -889,7 +607,263 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/yulegeyu",
-      "hasReadme": true
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.344Z"
+    },
+    {
+      "name": "self",
+      "type": "base",
+      "title": "Personal Development Environment",
+      "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "0.1.0",
+          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=alpine",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "ubuntu": {
+          "version": "0.1.0",
+          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
+          "enabled": false,
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=ubuntu", "type=raw,value={{version}}-ubuntu"],
+            "file": "Dockerfile",
+            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "base/self",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/self",
+      "hasReadme": false,
+      "updatedAt": "2025-12-18T17:55:54.344Z"
+    },
+    {
+      "name": "tg-session",
+      "type": "base",
+      "description": "A Telegram session string generator with QR code login support. This tool helps you generate session strings for Telegram applications.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "0.1.1",
+          "sha": "d2b131980136ab125a170a534f29cd7a9e1b5b81",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/tg-session",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/tg-session",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.344Z"
+    },
+    {
+      "name": "cobalt",
+      "type": "app",
+      "title": "Cobalt",
+      "slogan": "媒体下载器，支持多平台视频/音频下载",
+      "description": "best way to save what you love",
+      "license": "AGPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "11.3",
+          "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/imputnet/cobalt",
+            "file": "web/package.json",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{major}}"
+            ],
+            "file": "Dockerfile",
+            "images": ["aliuq/cobalt", "ghcr.io/aliuq/cobalt"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/cobalt",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/cobalt",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.334Z"
+    },
+    {
+      "name": "jsonhero-web",
+      "type": "app",
+      "title": "Jsonhero Web",
+      "slogan": "Web JSON 浏览器，快速浏览和搜索 JSON",
+      "description": "JSON Hero is an open-source, beautiful JSON explorer for the web that lets you browse, search and navigate your JSON files at speed. 🚀. Built with 💜 by the Trigger.dev team.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "1515705",
+          "sha": "15157053174ba7a0a79c77b2925fbde7e05a6334",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/triggerdotdev/jsonhero-web",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/jsonhero-web",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/jsonhero-web",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.334Z"
+    },
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.3.0",
+          "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.334Z"
+    },
+    {
+      "name": "srcbook",
+      "type": "app",
+      "title": "SrcBook",
+      "slogan": "TypeScript 笔记本，浏览器中运行 TS",
+      "description": "TypeScript-centric app development platform: notebook and AI app builder",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "0.0.19",
+          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/srcbookdev/srcbook",
+            "file": "srcbook/package.json",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        },
+        "tls": {
+          "version": "0.0.19",
+          "sha": "0ba24b1ea83b0dd20137236ce9aebc3ff86bff37",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/srcbookdev/srcbook",
+            "file": "srcbook/package.json",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "docker": {
+            "tags": ["type=raw,value=tls", "type=raw,value={{version}}-tls"],
+            "file": "Dockerfile",
+            "images": ["aliuq/srcbook", "ghcr.io/aliuq/srcbook"],
+            "platforms": ["linux/amd64", "linux/arm64"],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/srcbook",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/srcbook",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.334Z"
+    },
+    {
+      "name": "telegram-upload",
+      "type": "app",
+      "title": "Telegram Upload",
+      "slogan": "Telegram 文件上传工具，支持大文件分片",
+      "description": "Upload and download files from Telegram up to 4 GiB using your account",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "c700f86",
+          "sha": "c700f86dd72ec97d0ca782b8d504e7eb502f04dc",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/Nekmo/telegram-upload",
+            "branch": "main",
+            "processFiles": ["Dockerfile"]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/telegram-upload",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/telegram-upload",
+      "hasReadme": true,
+      "updatedAt": "2025-12-18T17:55:54.334Z"
     }
   ]
 }

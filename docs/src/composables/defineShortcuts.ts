@@ -1,9 +1,9 @@
 /**
  * ref: https://github.com/nuxt/ui/blob/v4/src/runtime/composables/defineShortcuts.ts
-*/
-import { useActiveElement, useDebounceFn, useEventListener } from '@vueuse/core'
+ */
 /* eslint-disable regexp/no-useless-quantifier */
 /* eslint-disable regexp/no-super-linear-backtracking */
+import { useActiveElement, useDebounceFn, useEventListener } from '@vueuse/core'
 import type { MaybeRef } from 'vue'
 import { computed, ref, toValue } from 'vue'
 import { useKbd } from './useKbd'
