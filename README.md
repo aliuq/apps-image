@@ -1,35 +1,81 @@
 # Apps Image
 
 <p>
-  <a href="https://github.com/aliuq/apps-image/actions/workflows/check-version.yaml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/check-version.yaml?label=Check%20Version"></a>
-  <a href="https://github.com/aliuq/apps-image/actions/workflows/build-image.yaml"><img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml?label=Build%20Image"></a>
-  <a href="https://hub.docker.com/u/aliuq"><img alt="Docker Hub" src="https://img.shields.io/badge/Docker%20Hub-aliuq-blue"></a>
+  <a href="https://github.com/aliuq/apps-image/actions/workflows/check-version.yaml">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/check-version.yaml?label=Check%20Version">
+  </a>
+  <a href="https://github.com/aliuq/apps-image/actions/workflows/build-image.yaml">
+    <img alt="Build Status" src="https://img.shields.io/github/actions/workflow/status/aliuq/apps-image/build-image.yaml?label=Build%20Image">
+  </a>
+  <a href="https://hub.docker.com/u/aliuq">
+    <img alt="Docker Hub" src="https://img.shields.io/badge/Docker%20Hub-aliuq-blue">
+  </a>
+  <a href="https://aliuq.github.io/apps-image">
+    <img alt="GitHub Pages" src="https://img.shields.io/badge/GitHub%20Pages-https://aliuq.github.io/apps--image-blue">
+  </a>
 </p>
 
-<!-- AppList Start -->
-<h2>应用列表 (20)</h2>
-<table><tr><th>Name</th><th>Description</th><th>Version</th><th>Stats</th><th>URL</th></tr><tr><td><a href="https://github.com/imputnet/cobalt">cobalt</a></td><td>媒体下载器，支持多平台视频/<br>音频下载</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-11.3-blue"></td><td><a href="https://hub.docker.com/r/aliuq/cobalt"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/cobalt?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/cobalt"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/cobalt?label=image"></a></td><td><a href="apps/cobalt"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/javayhu/haitang">haitang</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-3d5ff9c-blue"></td><td><a href="https://hub.docker.com/r/aliuq/haitang"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/haitang?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/haitang"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/haitang?label=image"></a></td><td><a href="apps/haitang"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/antfu-collective/icones">icones</a></td><td>开源图标浏览器，搜索浏览 15<br>0,000+ 图标</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-f65e6db-blue"></td><td><a href="https://hub.docker.com/r/aliuq/icones"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/icones?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/icones"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/icones?label=image"></a></td><td><a href="apps/icones"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/lxfater/inpaint-web">inpaint-web</a></td><td>AI 图像修复工具，智能去除图<br>片对象</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-f7ff41f-blue"></td><td><a href="https://hub.docker.com/r/aliuq/inpaint-web"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/inpaint-web?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/inpaint-web"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/inpaint-web?label=image"></a></td><td><a href="apps/inpaint-web"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/triggerdotdev/jsonhero-web">jsonhero-web</a></td><td>Web JSON 浏览器，快速浏览和<br>搜索 JSON</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-1515705-blue"></td><td><a href="https://hub.docker.com/r/aliuq/jsonhero-web"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/jsonhero-web?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/jsonhero-web"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/jsonhero-web?label=image"></a></td><td><a href="apps/jsonhero-web"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/lsky-org/lsky-pro">lsky</a></td><td>兰空图床，轻量级图片云存储<br>系统</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-2.1-blue"></td><td><a href="https://hub.docker.com/r/aliuq/lsky"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/lsky?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/lsky"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/lsky?label=image"></a></td><td><a href="apps/lsky"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/usememos/telegram-integration">memogram</a></td><td>Memos 的 Telegram 机器人集<br>成</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.3.0-blue"></td><td><a href="https://hub.docker.com/r/aliuq/memogram"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/memogram?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/memogram"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/memogram?label=image"></a></td><td><a href="apps/memogram"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/Zie619/n8n-workflows">n8n-workflows</a></td><td>n8n 工作流模板</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-07ddbb9-blue"></td><td><a href="https://hub.docker.com/r/aliuq/n8n-workflows"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/n8n-workflows?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/n8n-workflows"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/n8n-workflows?label=image"></a></td><td><a href="apps/n8n-workflows"><img alt="Static Badge" src="https://img.shields.io/badge/README-gray"></a></td></tr><tr><td><a href="https://github.com/readest/readest">readest</a></td><td>现代化的电子书阅读器，优雅<br>的阅读体验</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.9.76-blue"></td><td><a href="https://hub.docker.com/r/aliuq/readest"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/readest?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/readest"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/readest?label=image"></a></td><td><a href="apps/readest"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/srcbookdev/srcbook">srcbook</a></td><td>TypeScript 笔记本，浏览器中<br>运行 TS</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.0.19-blue"></td><td><a href="https://hub.docker.com/r/aliuq/srcbook"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/srcbook?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/srcbook"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/srcbook?label=image"></a></td><td><a href="apps/srcbook"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/Nekmo/telegram-upload">telegram-upload</a></td><td>Telegram 文件上传工具，支持<br>大文件分片</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-c700f86-blue"></td><td><a href="https://hub.docker.com/r/aliuq/telegram-upload"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/telegram-upload?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/telegram-upload"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/telegram-upload?label=image"></a></td><td><a href="apps/telegram-upload"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/khoben/telemirror">telemirror</a></td><td>Telegram 消息镜像转发工具</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-90c52b1-blue"></td><td><a href="https://hub.docker.com/r/aliuq/telemirror"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/telemirror?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/telemirror"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/telemirror?label=image"></a></td><td><a href="apps/telemirror"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/manuelernestog/weektodo">weektodo</a></td><td>每周任务管理工具，高效规划<br>待办事项</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-2.2.0-blue"></td><td><a href="https://hub.docker.com/r/aliuq/weektodo"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/weektodo?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/weektodo"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/weektodo?label=image"></a></td><td><a href="apps/weektodo"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/weserv/images">weserv</a></td><td>wsrv.nl</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-dcb8d29-blue"></td><td><a href="https://hub.docker.com/r/aliuq/weserv"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/weserv?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/weserv"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/weserv?label=image"></a></td><td><a href="apps/weserv"><img alt="Static Badge" src="https://img.shields.io/badge/README-gray"></a></td></tr><tr><td><a href="https://github.com/liyupi/yulegeyu">yulegeyu</a></td><td>羊了个羊纯前端实现版，休闲<br>益智游戏</td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-4b9de83-blue"></td><td><a href="https://hub.docker.com/r/aliuq/yulegeyu"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/yulegeyu?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/yulegeyu"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/yulegeyu?label=image"></a></td><td><a href="apps/yulegeyu"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/">alpine</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-3.22.1-blue"></td><td><a href="https://hub.docker.com/r/aliuq/alpine"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/alpine?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/alpine"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/alpine?label=image"></a></td><td><a href="base/alpine"><img alt="Static Badge" src="https://img.shields.io/badge/README-gray"></a></td></tr><tr><td><a href="https://github.com/">nginx</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.1.0-blue"></td><td><a href="https://hub.docker.com/r/aliuq/nginx"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/nginx?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/nginx"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/nginx?label=image"></a></td><td><a href="base/nginx"><img alt="Static Badge" src="https://img.shields.io/badge/README-gray"></a></td></tr><tr><td><a href="https://github.com/">self</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.1.0-blue"></td><td><a href="https://hub.docker.com/r/aliuq/self"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/self?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/self"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/self?label=image"></a></td><td><a href="base/self"><img alt="Static Badge" src="https://img.shields.io/badge/README-gray"></a></td></tr><tr><td><a href="https://github.com/">tg-session</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-0.1.1-blue"></td><td><a href="https://hub.docker.com/r/aliuq/tg-session"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/tg-session?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/tg-session"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/tg-session?label=image"></a></td><td><a href="base/tg-session"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr><tr><td><a href="https://github.com/microsoft/vscode">vscode</a></td><td><td><img alt="Static Badge" src="https://img.shields.io/badge/latest-1.103.2-blue"></td><td><a href="https://hub.docker.com/r/aliuq/vscode"><img alt="Static Badge" src="https://img.shields.io/docker/pulls/aliuq/vscode?label=docker"></a> <a href="https://hub.docker.com/r/aliuq/vscode"><img alt="Static Badge" src="https://img.shields.io/docker/image-size/aliuq/vscode?label=image"></a></td><td><a href="base/vscode"><img alt="Static Badge" src="https://img.shields.io/badge/README-blue"></a></td></tr></table>
+A collection of Docker images for various applications, automatically built and published with version tracking and multi-variant support.
 
-<!-- AppList End -->
+> 🌐 **Documentation**: Visit [https://aliuq.github.io/apps-image](https://aliuq.github.io/apps-image) for the full image catalog
+>
+> 🐳 **Docker Hub**: Find all images at [hub.docker.com/u/aliuq](https://hub.docker.com/u/aliuq)
 
-## 本地测试
+## Local Testing with act
+
+### Check Version
+
+Test version checking for applications:
 
 ```bash
-# 检查单个应用
-act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=base/nginx
-# 检查多个应用
-act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=base/nginx,base/self
-# 检查所有应用
-act workflow_dispatch -W .github/workflows/check-version.yaml --input debug=true --input context=all
+# Check single application
+act workflow_dispatch -W .github/workflows/check-version.yaml \
+  --input debug=true \
+  --input context=base/nginx
 
-# 模拟构建流程，仅查看 docker metadata
-act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones --input build=false --input notify=false
-# 模拟构建流程，包括构建镜像、消息推送
-act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones
-# 模拟构建流程，latest、dev 变体
-act workflow_dispatch -W .github/workflows/build-test.yaml --input debug=true --input context=apps/icones --input build=false --input notify=false --input variants=latest,dev
+# Check multiple applications
+act workflow_dispatch -W .github/workflows/check-version.yaml \
+  --input debug=true \
+  --input context=base/nginx,base/self
+
+# Check all applications
+act workflow_dispatch -W .github/workflows/check-version.yaml \
+  --input debug=true \
+  --input context=all
 ```
 
-## LICENSE
+### Build Image
 
-本项目基于 [MIT License](./LICENSE) 开源
+Test image building locally:
+
+```bash
+# Dry run: view docker metadata only
+act workflow_dispatch -W .github/workflows/build-test.yaml \
+  --input debug=true \
+  --input context=apps/icones \
+  --input build=false \
+  --input notify=false
+
+# Full build: includes image building and notifications
+act workflow_dispatch -W .github/workflows/build-test.yaml \
+  --input debug=true \
+  --input context=apps/icones
+
+# Build with specific variants (latest, dev)
+act workflow_dispatch -W .github/workflows/build-test.yaml \
+  --input debug=true \
+  --input context=apps/icones \
+  --input build=false \
+  --input notify=false \
+  --input variants=latest,dev
+```
+
+## Related Projects
+
+- [act](https://github.com/nektos/act) - Run GitHub Actions locally
+- [Docker](https://www.docker.com/) - Container platform
+- [@actions/toolkit](https://github.com/actions/toolkit) - GitHub Actions Toolkit
+
+---
+
+Made with ❤️ by [aliuq](https://github.com/aliuq)

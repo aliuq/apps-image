@@ -1,4 +1,5 @@
 {
   "no-emphasis-as-heading": false,
+  "no-inline-html": false,
   "line-length": false
 }
