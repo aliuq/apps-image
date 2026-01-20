@@ -1,89 +1,159 @@
 {
-  "generated": "2026-01-20T11:59:50.070Z",
+  "generated": "2026-01-20T13:52:45.593Z",
   "total": 22,
   "apps": [
     {
-      "name": "ai-trend-publish",
-      "type": "app",
-      "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
-      "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
+      "name": "vscode",
+      "type": "base",
+      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.0.6",
-          "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
+          "version": "1.108.1",
+          "sha": "585eba7c0c34fd6b30faac7c62a42050bfbc0086",
           "checkver": {
             "type": "tag",
-            "repo": "OpenAISpace/ai-trend-publish",
+            "repo": "microsoft/vscode",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "stable": {
+          "version": "1.108.1",
+          "sha": "585eba7c0c34fd6b30faac7c62a42050bfbc0086",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=stable",
+              "type=raw,value={{version}}-stable"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
           },
           "enabled": true
         }
       },
-      "skip": true,
-      "context": "apps/ai-trend-publish",
+      "context": "base/vscode",
       "readme": "README.md",
-      "category": "app",
-      "readmePath": "apps/ai-trend-publish",
-      "hasReadme": false,
-      "updatedAt": "2026-01-18T17:00:28.338Z"
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/vscode",
+      "hasReadme": true,
+      "updatedAt": "2026-01-20T12:36:01.858Z"
     },
     {
-      "name": "icones",
+      "name": "rayso",
       "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "5debe32",
-          "sha": "5debe320d9ebf04a34c651e81adf0523237f3e64",
+          "version": "198e40d",
+          "sha": "198e40db288407d8e667aa55d060512b7715652b",
           "checkver": {
             "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
+            "repo": "raycast/ray-so",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
       },
-      "context": "apps/icones",
+      "context": "apps/rayso",
       "readme": "README.md",
       "skip": false,
       "category": "app",
-      "readmePath": "apps/icones",
+      "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-01-18T10:23:48.486Z"
+      "updatedAt": "2026-01-20T12:36:01.854Z"
     },
     {
-      "name": "inpaint-web",
+      "name": "n8n-workflows",
       "type": "app",
-      "title": "Inpaint Web",
-      "slogan": "AI 图像修复工具，智能去除图片对象",
-      "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
-      "license": "GPL-3.0",
+      "slogan": "n8n 工作流模板",
+      "description": "all of the workflows of n8n i could find (also from the site itself)",
       "variants": {
         "latest": {
-          "version": "d1b6cfd",
-          "sha": "d1b6cfd334dbc53d30675635a80366841c0239f9",
+          "version": "0426fd7",
+          "sha": "0426fd7d42b5831d50eb17b143a2802164817cdc",
           "checkver": {
             "type": "sha",
-            "repo": "https://github.com/lxfater/inpaint-web",
+            "repo": "Zie619/n8n-workflows",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "labels": {
+              "author": "Zie619"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/n8n-workflows",
+              "ghcr.io/aliuq/n8n-workflows"
+            ],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{sha}}"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
           },
           "enabled": true
         }
       },
-      "context": "apps/inpaint-web",
+      "context": "apps/n8n-workflows",
       "readme": "README.md",
       "skip": false,
       "category": "app",
-      "readmePath": "apps/inpaint-web",
+      "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
-      "updatedAt": "2026-01-18T10:23:48.486Z"
+      "updatedAt": "2026-01-20T12:35:57.932Z"
     },
     {
       "name": "readest",
@@ -100,7 +170,9 @@
             "type": "tag",
             "repo": "https://github.com/readest/readest",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         },
@@ -112,13 +184,21 @@
             "type": "tag",
             "repo": "readest/readest",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "file": "Dockerfile",
-            "images": ["aliuq/{name}"],
-            "tags": ["type=raw,value=test"],
-            "platforms": ["linux/amd64"],
+            "images": [
+              "aliuq/{name}"
+            ],
+            "tags": [
+              "type=raw,value=test"
+            ],
+            "platforms": [
+              "linux/amd64"
+            ],
             "push": true,
             "load": false
           }
@@ -130,126 +210,96 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-01-18T10:23:48.486Z"
+      "updatedAt": "2026-01-20T12:00:43.496Z"
     },
     {
-      "name": "vscode",
-      "type": "base",
-      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.108.0",
-          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": ["Dockerfile"]
-          },
-          "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
-            "file": "Dockerfile",
-            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "stable": {
-          "version": "1.108.0",
-          "sha": "94e8ae2b28cb5cc932b86e1070569c4463565c37",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": ["Dockerfile"]
-          },
-          "docker": {
-            "tags": ["type=raw,value=stable", "type=raw,value={{version}}-stable"],
-            "file": "Dockerfile",
-            "images": ["aliuq/vscode", "ghcr.io/aliuq/vscode"],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/vscode",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/vscode",
-      "hasReadme": true,
-      "updatedAt": "2026-01-18T10:23:48.486Z"
-    },
-    {
-      "name": "rayso",
+      "name": "inpaint-web",
       "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
+      "title": "Inpaint Web",
+      "slogan": "AI 图像修复工具，智能去除图片对象",
+      "description": "基于 Webgpu 技术和 wasm 技术的免费开源 inpainting & image-upscaling 工具, 纯浏览器端实现",
+      "license": "GPL-3.0",
       "variants": {
         "latest": {
+          "version": "d1b6cfd",
+          "sha": "d1b6cfd334dbc53d30675635a80366841c0239f9",
           "checkver": {
             "type": "sha",
-            "repo": "raycast/ray-so",
+            "repo": "https://github.com/lxfater/inpaint-web",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
       },
-      "context": "apps/rayso",
+      "context": "apps/inpaint-web",
       "readme": "README.md",
       "skip": false,
       "category": "app",
-      "readmePath": "apps/rayso",
+      "readmePath": "apps/inpaint-web",
+      "hasReadme": true,
+      "updatedAt": "2026-01-20T12:00:40.162Z"
+    },
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "5debe32",
+          "sha": "5debe320d9ebf04a34c651e81adf0523237f3e64",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-01-20T12:00:36.485Z"
+    },
+    {
+      "name": "ai-trend-publish",
+      "type": "app",
+      "slogan": "TrendPublish: 全自动 AI 内容生成与发布系统",
+      "description": "微信公众号自动化、多源数据抓取 (Twitter/X、网站)、DeepseekAI、千问、讯飞模型、智能内容分析排序、定时发布、多模板支持、Node.js、TypeScript、AI 技术趋势跟踪工具",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.0.6",
+          "sha": "eac01aff76d3ca03894346734a2e3d49512c67c9",
+          "checkver": {
+            "type": "tag",
+            "repo": "OpenAISpace/ai-trend-publish",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "skip": true,
+      "context": "apps/ai-trend-publish",
+      "readme": "README.md",
+      "category": "app",
+      "readmePath": "apps/ai-trend-publish",
       "hasReadme": false,
-      "updatedAt": "2026-01-16T10:15:12.089Z"
-    },
-    {
-      "name": "n8n-workflows",
-      "type": "app",
-      "slogan": "n8n 工作流模板",
-      "description": "all of the workflows of n8n i could find (also from the site itself)",
-      "variants": {
-        "latest": {
-          "version": "61bc7a4",
-          "sha": "61bc7a4455c49d47b0e288848e72ccd5778a7470",
-          "checkver": {
-            "type": "sha",
-            "repo": "Zie619/n8n-workflows",
-            "branch": "main",
-            "processFiles": ["Dockerfile"]
-          },
-          "docker": {
-            "labels": {
-              "author": "Zie619"
-            },
-            "file": "Dockerfile",
-            "images": ["aliuq/n8n-workflows", "ghcr.io/aliuq/n8n-workflows"],
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{sha}}"
-            ],
-            "platforms": ["linux/amd64", "linux/arm64"],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/n8n-workflows",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/n8n-workflows",
-      "hasReadme": true,
-      "updatedAt": "2026-01-16T10:15:12.085Z"
+      "updatedAt": "2026-01-18T17:00:28.338Z"
     },
     {
       "name": "haitang",
@@ -265,20 +315,28 @@
             "type": "sha",
             "repo": "javayhu/haitang",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "labels": {
               "author": "javayhu"
             },
             "file": "Dockerfile",
-            "images": ["aliuq/haitang", "ghcr.io/aliuq/haitang"],
+            "images": [
+              "aliuq/haitang",
+              "ghcr.io/aliuq/haitang"
+            ],
             "tags": [
               "type=raw,value=latest",
               "type=raw,value={{version}}",
               "type=raw,value={{sha}}"
             ],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -308,13 +366,24 @@
             "type": "tag",
             "repo": "https://github.com/lsky-org/lsky-pro",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/lsky",
+              "ghcr.io/aliuq/lsky"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -327,13 +396,24 @@
             "type": "sha",
             "repo": "https://github.com/lsky-org/lsky-pro",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=dev", "type=raw,value=dev-{{sha}}"],
+            "tags": [
+              "type=raw,value=dev",
+              "type=raw,value=dev-{{sha}}"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/lsky", "ghcr.io/aliuq/lsky"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/lsky",
+              "ghcr.io/aliuq/lsky"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -363,13 +443,24 @@
             "type": "sha",
             "repo": "khoben/telemirror",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/telemirror", "ghcr.io/aliuq/telemirror"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/telemirror",
+              "ghcr.io/aliuq/telemirror"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -381,7 +472,9 @@
             "type": "tag",
             "repo": "khoben/telemirror",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "tags": [
@@ -390,8 +483,14 @@
               "type=raw,value=stable-{{sha}}"
             ],
             "file": "Dockerfile",
-            "images": ["aliuq/telemirror", "ghcr.io/aliuq/telemirror"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/telemirror",
+              "ghcr.io/aliuq/telemirror"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           }
@@ -418,13 +517,25 @@
             "type": "sha",
             "repo": "weserv/images",
             "branch": "5.x",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value=5.x", "type=raw,value={{version}}"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=5.x",
+              "type=raw,value={{version}}"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -437,7 +548,9 @@
             "type": "sha",
             "repo": "weserv/images",
             "branch": "5.x",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "tags": [
@@ -446,8 +559,14 @@
               "type=raw,value={{version}}-alpine"
             ],
             "file": "Dockerfile",
-            "images": ["aliuq/weserv", "ghcr.io/aliuq/weserv"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -473,7 +592,9 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -497,13 +618,24 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=latest", "type=raw,value={{version}}"],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -515,13 +647,24 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=vue", "type=raw,value={{version}}-vue"],
+            "tags": [
+              "type=raw,value=vue",
+              "type=raw,value={{version}}-vue"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -533,13 +676,24 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=svelte", "type=raw,value={{version}}-svelte"],
+            "tags": [
+              "type=raw,value=svelte",
+              "type=raw,value={{version}}-svelte"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/nginx", "ghcr.io/aliuq/nginx"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -570,7 +724,9 @@
             "repo": "https://github.com/manuelernestog/weektodo",
             "file": "package.json",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -597,7 +753,9 @@
             "type": "sha",
             "repo": "https://github.com/liyupi/yulegeyu",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -623,7 +781,9 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "tags": [
@@ -632,8 +792,14 @@
               "type=raw,value={{version}}"
             ],
             "file": "Dockerfile",
-            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/self",
+              "ghcr.io/aliuq/self"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -646,13 +812,24 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=ubuntu", "type=raw,value={{version}}-ubuntu"],
+            "tags": [
+              "type=raw,value=ubuntu",
+              "type=raw,value={{version}}-ubuntu"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/self", "ghcr.io/aliuq/self"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/self",
+              "ghcr.io/aliuq/self"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           }
@@ -678,7 +855,9 @@
           "checkver": {
             "type": "manual",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -707,7 +886,9 @@
             "repo": "https://github.com/imputnet/cobalt",
             "file": "web/package.json",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
             "tags": [
@@ -716,8 +897,14 @@
               "type=raw,value={{major}}"
             ],
             "file": "Dockerfile",
-            "images": ["aliuq/cobalt", "ghcr.io/aliuq/cobalt"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/cobalt",
+              "ghcr.io/aliuq/cobalt"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -747,7 +934,9 @@
             "type": "sha",
             "repo": "https://github.com/triggerdotdev/jsonhero-web",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -775,7 +964,9 @@
             "type": "tag",
             "repo": "https://github.com/usememos/telegram-integration",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
@@ -804,7 +995,9 @@
             "repo": "https://github.com/srcbookdev/srcbook",
             "file": "srcbook/package.json",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         },
@@ -816,13 +1009,24 @@
             "repo": "https://github.com/srcbookdev/srcbook",
             "file": "srcbook/package.json",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "docker": {
-            "tags": ["type=raw,value=tls", "type=raw,value={{version}}-tls"],
+            "tags": [
+              "type=raw,value=tls",
+              "type=raw,value={{version}}-tls"
+            ],
             "file": "Dockerfile",
-            "images": ["aliuq/srcbook", "ghcr.io/aliuq/srcbook"],
-            "platforms": ["linux/amd64", "linux/arm64"],
+            "images": [
+              "aliuq/srcbook",
+              "ghcr.io/aliuq/srcbook"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
             "push": true,
             "load": false
           },
@@ -852,7 +1056,9 @@
             "type": "sha",
             "repo": "https://github.com/Nekmo/telegram-upload",
             "branch": "main",
-            "processFiles": ["Dockerfile"]
+            "processFiles": [
+              "Dockerfile"
+            ]
           },
           "enabled": true
         }
