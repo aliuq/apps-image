@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=1dbf951
+ARG VERSION=f0b5462
 RUN git clone --depth=1 https://github.com/raycast/ray-so . && \
     git checkout ${VERSION} && \
     rm -rf .git
