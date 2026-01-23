@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-21T17:19:25.795Z",
+  "generated": "2026-01-23T11:26:19.837Z",
   "total": 21,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "2535145",
-          "sha": "2535145260af6a77e970010eb0c3fc0be4023650",
+          "version": "1dbf951",
+          "sha": "1dbf95149f6c60841e302691ca2e7deac95d5fc2",
           "checkver": {
             "type": "sha",
             "repo": "raycast/ray-so",
@@ -29,7 +29,7 @@
       "category": "app",
       "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-01-21T16:13:07.000Z"
+      "updatedAt": "2026-01-23T10:08:34.000Z"
     },
     {
       "name": "readest",
