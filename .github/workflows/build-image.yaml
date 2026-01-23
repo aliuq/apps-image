@@ -224,18 +224,19 @@ jobs:
     needs: [metadata, docker-build]
     permissions:
       contents: write
+    outputs:
+      data_updated: ${{ steps.commit.outputs.data_updated }}
     steps:
       - uses: actions/checkout@v6
         with:
           # Fetch full history for proper git operations
           fetch-depth: 0
-          # Use PAT to trigger subsequent workflows
-          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run script
+      - name: Run script and commit
+        id: commit
         run: |
           set -euo pipefail
 
@@ -245,8 +246,11 @@ jobs:
           echo "🔍 Checking for changes..."
           if git diff --exit-code docs/data.json > /dev/null 2>&1; then
             echo "✅ No changes detected in docs/data.json"
+            echo "data_updated=false" >> $GITHUB_OUTPUT
             exit 0
           fi
+
+          echo "data_updated=true" >> $GITHUB_OUTPUT
 
           echo "📦 Changes detected, preparing commit..."
           git config --global user.name "github-actions[bot]"
@@ -283,3 +287,54 @@ jobs:
 
             sleep 2
           done
+
+  deploy-pages:
+    name: Deploy GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-app-data
+    if: needs.build-app-data.outputs.data_updated == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: true
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            docs/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('docs/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install
+        working-directory: docs
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        working-directory: docs
+        run: bun run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/dist
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        id: deployment
