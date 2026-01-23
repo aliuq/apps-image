@@ -229,6 +229,8 @@ jobs:
         with:
           # Fetch full history for proper git operations
           fetch-depth: 0
+          # Use PAT to trigger subsequent workflows
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
