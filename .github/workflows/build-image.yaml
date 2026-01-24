@@ -224,8 +224,6 @@ jobs:
     needs: [metadata, docker-build]
     permissions:
       contents: write
-    outputs:
-      data_updated: ${{ steps.commit.outputs.data_updated }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -288,53 +286,14 @@ jobs:
             sleep 2
           done
 
-  deploy-pages:
-    name: Deploy GitHub Pages
-    runs-on: ubuntu-latest
-    needs: build-app-data
-    if: needs.build-app-data.outputs.data_updated == 'true'
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: pages
-      cancel-in-progress: true
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: master
+      - name: Trigger Deploy Pages Workflow
+        if: steps.commit.outputs.data_updated == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🚀 Triggering deploy-pages workflow..."
+          gh workflow run deploy-pages.yaml \
+            --repo ${{ github.repository }} \
+            --ref master
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.bun/install/cache
-            docs/node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('docs/bun.lockb') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
-      - name: Install
-        working-directory: docs
-        run: bun install --frozen-lockfile
-
-      - name: Build
-        working-directory: docs
-        run: bun run build
-
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs/dist
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-        id: deployment
+          echo "✅ Deploy workflow triggered successfully"
