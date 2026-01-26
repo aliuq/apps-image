@@ -129,7 +129,7 @@ export class CheckAppContext {
           meta.variants[name].sha = result.sha
         }
 
-        let processFiles = checkver?.processFiles || (name === 'latest' ? ['Dockerfile'] : [`Dockerfile.${name}`])
+        let processFiles = checkver?.processFiles || [name === 'latest' ? 'Dockerfile' : `Dockerfile.${name}`, 'pre.sh', 'post.sh']
 
         if (!processFiles?.length) {
           this.logger.debug(`No processFiles defined for variant ${name}, skipping file processing`)

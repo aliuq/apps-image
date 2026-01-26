@@ -23,6 +23,15 @@ export class MetaAppContext {
   }
 
   /**
+   * 获取基于 context 的应用路径
+   * @param p - 文件路径
+   * @returns
+   */
+  private getPath(p: string) {
+    return path.join(this.context, p)
+  }
+
+  /**
    * 获取元数据（只读）
    */
   public getMeta(): Readonly<Meta> {
@@ -100,7 +109,7 @@ export class MetaAppContext {
 
       // Dockerfile
       const file = variant.docker?.file || (isLatest ? 'Dockerfile' : `Dockerfile.${variantName}`)
-      const dockerfile = path.join(this.context, file)
+      const dockerfile = this.getPath(file)
       const exist = await pathExists(dockerfile)
       if (!exist) {
         this.logger.warn(`${yellow(file)} not found for variant ${cyan(variantName)}, skipping!`)
@@ -154,8 +163,11 @@ export class MetaAppContext {
       // 是否推送镜像
       const shouldPush = (isTest || isAct) ? false : (variant?.docker?.push ?? true)
       // 是否推送 README
-      const readmePath = path.join(this.context, 'README.md')
+      const readmePath = this.getPath('README.md')
       const hasReadme = await pathExists(readmePath)
+      // 是否存在 pre.sh 或 post.sh 脚本
+      const hasPreScript = await pathExists(this.getPath('pre.sh'))
+      const hasPostScript = await pathExists(this.getPath('post.sh'))
 
       matrixData.add({
         name: this.name,
@@ -184,6 +196,8 @@ export class MetaAppContext {
         pushDocker,
         pushGhcr,
         pushAli,
+        hasPreScript,
+        hasPostScript,
       })
     }
 
