@@ -307,7 +307,7 @@ jobs:
       - name: Trigger Deploy Pages Workflow
         if: steps.commit.outputs.data_updated == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_WORKFLOW_PAT }}
         run: |
           echo "🚀 Triggering deploy-pages workflow..."
           gh workflow run deploy-pages.yaml \
