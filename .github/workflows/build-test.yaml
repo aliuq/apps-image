@@ -132,7 +132,8 @@ jobs:
           context: ${{ matrix.build.context }}
           file: ${{ matrix.build.file }}
           platforms: ${{ matrix.build.platformLines }}
-          push: ${{ matrix.build.push }}
+          # push: ${{ matrix.build.push }}
+          push: false # Disable automatic push on test environment
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
@@ -152,7 +153,8 @@ jobs:
           mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
 
       - name: Push README
-        if: ${{ matrix.readme.push }}
+        # if: ${{ matrix.readme.push }}
+        if: false # Disable automatic README push on test environment
         uses: peter-evans/dockerhub-description@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
