@@ -24,3 +24,7 @@ bun install
 
 # Build the application
 bun run build
+
+# Clean unused files to avoid trigger github actions dist size limit
+# System.IO.IOException: No space left on device
+rm -rf node_modules .next/server
