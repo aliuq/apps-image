@@ -135,6 +135,7 @@ jobs:
         run: bash pre.sh
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push
         uses: docker/build-push-action@v6
@@ -154,6 +155,7 @@ jobs:
         run: bash post.sh
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push README
         if: ${{ matrix.readme.push }}

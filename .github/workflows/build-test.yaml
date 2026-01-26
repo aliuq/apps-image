@@ -124,6 +124,7 @@ jobs:
         run: bash pre.sh
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push
         if: inputs.build
@@ -145,6 +146,7 @@ jobs:
         run: bash post.sh
         env:
           NODE_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Move cache
         if: inputs.build
