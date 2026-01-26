@@ -20,8 +20,7 @@ awk -F= '/^NEXT_PUBLIC_/ && $1 != "" { printf "%s=\$%s\n", $1, $1 }' $env_source
 sed -i 's|^NEXT_PUBLIC_SUPABASE_URL=.*$|NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.com|' $env_target
 
 # Install pnpm
-mise use node@lts -g
-corepack enable && corepack prepare pnpm@latest-10 --activate
+mise use node@lts pnpm@10 -g
 
 # Install dependencies and build the application
 pnpm install --frozen-lockfile
