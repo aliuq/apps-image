@@ -6,7 +6,7 @@ VERSION="e405c77"
 
 # Clone the repository
 mkdir -p app && cd app
-# git clone --depth=1 https://github.com/homarr-labs/dashboard-icons . && git checkout $VERSION
+git clone --depth=1 https://github.com/homarr-labs/dashboard-icons . && git checkout $VERSION
 
 # Set up environment variables
 export NEXT_PUBLIC_DISABLE_POSTHOG="true"
