@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-26T18:19:33.293Z",
+  "generated": "2026-01-26T18:30:26.815Z",
   "total": 22,
   "apps": [
     {
@@ -60,6 +60,8 @@
       "license": "Apache-2.0",
       "variants": {
         "latest": {
+          "version": "e405c77",
+          "sha": "e405c77660985d56c0852e566f560dcb5873bc4d",
           "checkver": {
             "type": "sha",
             "repo": "homarr-labs/dashboard-icons",
@@ -77,7 +79,7 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-01-26T17:55:21.000Z"
+      "updatedAt": "2026-01-26T17:56:41.000Z"
     },
     {
       "name": "vscode",
