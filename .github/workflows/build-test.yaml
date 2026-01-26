@@ -114,6 +114,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - uses: jdx/mise-action@v3
+        with:
+          working_directory: ${{ matrix.build.context }}
+
+      - name: Excute Pre-Build Commands
+        if: inputs.build && matrix.hasPreScript
+        working-directory: ${{ matrix.build.context }}
+        run: bash pre.sh
+        env:
+          NODE_ENV: production
+
       - name: Build & Push
         if: inputs.build
         uses: docker/build-push-action@v6
@@ -126,6 +137,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
           cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache-new,mode=max
+
+      - name: Excute Post-Build Commands
+        if: inputs.build && matrix.hasPostScript
+        working-directory: ${{ matrix.build.context }}
+        run: bash post.sh
+        env:
+          NODE_ENV: production
 
       - name: Move cache
         if: inputs.build
