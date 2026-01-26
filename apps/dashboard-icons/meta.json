@@ -1,0 +1,16 @@
+{
+  "name": "dashboard-icons",
+  "type": "app",
+  "title": "Dashboard Icons",
+  "slogan": "Your definitive source for dashboard icons.",
+  "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+  "license": "Apache-2.0",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "sha",
+        "repo": "homarr-labs/dashboard-icons"
+      }
+    }
+  }
+}
