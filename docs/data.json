@@ -1,7 +1,37 @@
 {
-  "generated": "2026-01-26T18:30:26.815Z",
+  "generated": "2026-01-29T14:29:49.739Z",
   "total": 22,
   "apps": [
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.3.1",
+          "sha": "d0b45b70f07d4a71541f40c4ea44157b83826734",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2026-01-29T14:20:02.000Z"
+    },
     {
       "name": "n8n-workflows",
       "type": "app",
@@ -798,36 +828,6 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/jsonhero-web",
-      "hasReadme": true,
-      "updatedAt": "2025-08-19T18:38:11.000Z"
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.3.0",
-          "sha": "316ea40c31bd83e7acdaafd80507e8e4e086f686",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
       "hasReadme": true,
       "updatedAt": "2025-08-19T18:38:11.000Z"
     },
