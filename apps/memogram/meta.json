@@ -7,8 +7,8 @@
   "license": "Custom properties",
   "variants": {
     "latest": {
-      "version": "0.4.0",
-      "sha": "dd7310451ace3467ad38a5169db2ca20d32a019d",
+      "version": "0.4.1",
+      "sha": "18f268ab364c3ab338cadd98622e23ea552a7805",
       "checkver": {
         "type": "tag",
         "repo": "https://github.com/usememos/telegram-integration"
