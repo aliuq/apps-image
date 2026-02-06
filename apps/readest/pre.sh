@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-VERSION="v0.9.98"
+VERSION="v0.9.99"
 
 # Clone the repository
 mkdir -p app && cd app
@@ -31,7 +31,10 @@ pnpm --filter=@readest/readest-app setup-pdfjs
 pnpm --filter=@readest/readest-app build-web
 
 # Replace `https://your-supabase-url.com` in `.next` js files with environment variable
-find ./apps/readest-app/.next -name "*.js" -exec sed -i "s|https://your-supabase-url.com|\$NEXT_PUBLIC_SUPABASE_URL|g" {} +
+find ./apps/readest-app/.next \
+  -path "*/node_modules/*" -prune -o \
+  -name "*.js" \
+  -exec sed -i "s|https://your-supabase-url.com|\$NEXT_PUBLIC_SUPABASE_URL|g" {} +
 
 # Remove Next.js cache to reduce image size
 rm -rf ./apps/readest-app/.next/cache
