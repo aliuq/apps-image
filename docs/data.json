@@ -1,7 +1,64 @@
 {
-  "generated": "2026-02-06T16:23:37.741Z",
+  "generated": "2026-02-06T20:46:44.310Z",
   "total": 22,
   "apps": [
+    {
+      "name": "readest",
+      "type": "app",
+      "title": "Readest",
+      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
+      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
+      "license": "AGPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "0.9.99",
+          "sha": "83f0d135c5311e229099fccfb3619c647ff8ef25",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/readest/readest",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        },
+        "test": {
+          "version": "0.9.88",
+          "sha": "05e9549410bb3ba8e26b5dee3a1472b3a8fcd1b0",
+          "enabled": false,
+          "checkver": {
+            "type": "tag",
+            "repo": "readest/readest",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/{name}"
+            ],
+            "tags": [
+              "type=raw,value=test"
+            ],
+            "platforms": [
+              "linux/amd64"
+            ],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "apps/readest",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/readest",
+      "hasReadme": true,
+      "updatedAt": "2026-02-06T18:20:44.000Z"
+    },
     {
       "name": "rayso",
       "type": "app",
@@ -214,63 +271,6 @@
       "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
       "updatedAt": "2026-01-26T18:12:24.000Z"
-    },
-    {
-      "name": "readest",
-      "type": "app",
-      "title": "Readest",
-      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
-      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
-      "license": "AGPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "0.9.98",
-          "sha": "0c25b85a8aa14b683a69f7b199b61c97210c9a31",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/readest/readest",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        },
-        "test": {
-          "version": "0.9.88",
-          "sha": "05e9549410bb3ba8e26b5dee3a1472b3a8fcd1b0",
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "readest/readest",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/{name}"
-            ],
-            "tags": [
-              "type=raw,value=test"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "apps/readest",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/readest",
-      "hasReadme": true,
-      "updatedAt": "2026-01-20T18:12:27.000Z"
     },
     {
       "name": "icones",
