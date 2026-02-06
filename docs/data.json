@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-06T08:23:22.711Z",
+  "generated": "2026-02-06T14:25:08.936Z",
   "total": 22,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "e7a6c7a",
-          "sha": "e7a6c7af3c6aa5390393322041e00c42c2c8cd64",
+          "version": "3e0f3ee",
+          "sha": "3e0f3ee1a0e98163150c230d6f0418ae93e05ed9",
           "checkver": {
             "type": "sha",
             "repo": "raycast/ray-so",
@@ -29,7 +29,7 @@
       "category": "app",
       "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-02-06T08:18:40.000Z"
+      "updatedAt": "2026-02-06T14:20:56.000Z"
     },
     {
       "name": "memogram",
