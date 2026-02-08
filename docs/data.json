@@ -1,7 +1,56 @@
 {
-  "generated": "2026-02-07T08:21:22.240Z",
+  "generated": "2026-02-08T10:16:54.084Z",
   "total": 22,
   "apps": [
+    {
+      "name": "n8n-workflows",
+      "type": "app",
+      "slogan": "n8n 工作流模板",
+      "description": "all of the workflows of n8n i could find (also from the site itself)",
+      "variants": {
+        "latest": {
+          "version": "46ef8c4",
+          "sha": "46ef8c441818b5f7f9df26f64099af58b002f1d8",
+          "checkver": {
+            "type": "sha",
+            "repo": "Zie619/n8n-workflows",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "labels": {
+              "author": "Zie619"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/n8n-workflows",
+              "ghcr.io/aliuq/n8n-workflows"
+            ],
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{sha}}"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/n8n-workflows",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/n8n-workflows",
+      "hasReadme": true,
+      "updatedAt": "2026-02-08T10:09:12.000Z"
+    },
     {
       "name": "icones",
       "type": "app",
@@ -252,55 +301,6 @@
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
       "updatedAt": "2026-02-02T12:17:57.000Z"
-    },
-    {
-      "name": "n8n-workflows",
-      "type": "app",
-      "slogan": "n8n 工作流模板",
-      "description": "all of the workflows of n8n i could find (also from the site itself)",
-      "variants": {
-        "latest": {
-          "version": "f002bf2",
-          "sha": "f002bf25e29a834a0325366901eccf294430af5f",
-          "checkver": {
-            "type": "sha",
-            "repo": "Zie619/n8n-workflows",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "labels": {
-              "author": "Zie619"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/n8n-workflows",
-              "ghcr.io/aliuq/n8n-workflows"
-            ],
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{sha}}"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/n8n-workflows",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/n8n-workflows",
-      "hasReadme": true,
-      "updatedAt": "2026-01-26T18:12:24.000Z"
     },
     {
       "name": "inpaint-web",
