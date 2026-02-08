@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-08T10:16:54.084Z",
+  "generated": "2026-02-08T22:16:16.915Z",
   "total": 22,
   "apps": [
     {
@@ -9,8 +9,8 @@
       "description": "all of the workflows of n8n i could find (also from the site itself)",
       "variants": {
         "latest": {
-          "version": "46ef8c4",
-          "sha": "46ef8c441818b5f7f9df26f64099af58b002f1d8",
+          "version": "9fc2f9f",
+          "sha": "9fc2f9f897087f691ae8c0df2449756e717e82c5",
           "checkver": {
             "type": "sha",
             "repo": "Zie619/n8n-workflows",
@@ -49,7 +49,7 @@
       "category": "app",
       "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
-      "updatedAt": "2026-02-08T10:09:12.000Z"
+      "updatedAt": "2026-02-08T22:09:26.000Z"
     },
     {
       "name": "icones",
