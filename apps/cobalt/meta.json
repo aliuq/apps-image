@@ -21,6 +21,19 @@
           "type=raw,value={{major}}"
         ]
       }
+    },
+    "dev": {
+      "checkver": {
+        "type": "sha",
+        "repo": "https://github.com/imputnet/cobalt",
+        "path": "web"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=dev",
+          "type=raw,value=dev-{{sha}}"
+        ]
+      }
     }
   }
 }
