@@ -23,6 +23,8 @@
       }
     },
     "dev": {
+      "version": "8d9bccc",
+      "sha": "8d9bccc4fedabb6842fab71bd14e805f1ea21336",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/imputnet/cobalt",
