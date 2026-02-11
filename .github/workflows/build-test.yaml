@@ -123,7 +123,6 @@ jobs:
         working-directory: ${{ matrix.build.context }}
         run: bash pre.sh
         env:
-          NODE_ENV: production
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push
@@ -145,7 +144,6 @@ jobs:
         working-directory: ${{ matrix.build.context }}
         run: bash post.sh
         env:
-          NODE_ENV: production
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Move cache
