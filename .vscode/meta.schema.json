@@ -111,6 +111,10 @@
           "type": "string",
           "description": "版本文件路径（用于 version 类型）"
         },
+        "path": {
+          "type": "string",
+          "description": "版本路径（用于 sha 类型），相对于仓库根目录（可选）"
+        },
         "regex": {
           "type": "string",
           "description": "版本匹配正则表达式"

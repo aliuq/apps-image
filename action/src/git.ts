@@ -182,6 +182,15 @@ export class Git {
   }
 
   /**
+   * 获取指定路径的最新 SHA
+   */
+  public async getPathSha(repoPath: string, filePath: string) {
+    const command = `git log -1 --format=%H -- ${filePath}`
+    const { stdout } = await this.exec(command, { cwd: repoPath })
+    return stdout.trim()
+  }
+
+  /**
    * 获取指定标签的最新 SHA
    */
   public async getTagSha(repoPath: string, tag: string) {

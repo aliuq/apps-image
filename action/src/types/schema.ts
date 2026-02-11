@@ -77,6 +77,8 @@ export interface VersionCheck {
   branch?: string
   /** 版本文件路径（用于 version 类型） */
   file?: string
+  /** 版本路径（用于 sha 类型） */
+  path?: string
   /** 版本匹配正则表达式 */
   regex?: string
   /** 标签匹配模式（用于 tag 类型） */

@@ -219,13 +219,23 @@ export class VariantContext {
    */
   private async getVersionFromSha(repoPath: string) {
     const git = this.git!
+    const checkver = this.variant.checkver
     const targetVersion = this.variant.checkver?.targetVersion
     if (targetVersion) {
       this.logger.debug(`Get version from SHA, targetVersion: ${cyan(targetVersion)}`)
     }
-    const sha = targetVersion
-      ? await git.getShaFromShortSha(repoPath, targetVersion)
-      : await git.getSha(repoPath)
+
+    let sha: string | undefined
+    if (targetVersion) {
+      sha = await git.getShaFromShortSha(repoPath, targetVersion)
+    }
+    else if (checkver?.path) {
+      sha = await git.getPathSha(repoPath, checkver.path)
+    }
+    else {
+      sha = await git.getSha(repoPath)
+    }
+
     const cleanSha = sha.trim()
     const version = cleanSha.slice(0, 7)
 
