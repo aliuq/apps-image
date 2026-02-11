@@ -10,9 +10,5 @@
       ]
     }
   },
-  "features": {
-    "ghcr.io/aliuq/devcontainer-features/common:0": {
-      "misePackages": "act"
-    }
-  }
+  "postCreateCommand": "mise use act"
 }
