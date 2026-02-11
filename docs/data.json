@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-11T04:10:09.807Z",
+  "generated": "2026-02-11T04:56:42.937Z",
   "total": 22,
   "apps": [
     {
@@ -9,8 +9,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.109.1",
-          "sha": "6534f6ba7604bf324f94cc9a590727f39a4af040",
+          "version": "1.109.2",
+          "sha": "591199df409fbf59b4b52d5ad4ee0470152a9b31",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -39,8 +39,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.109.1",
-          "sha": "6534f6ba7604bf324f94cc9a590727f39a4af040",
+          "version": "1.109.2",
+          "sha": "591199df409fbf59b4b52d5ad4ee0470152a9b31",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -75,7 +75,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-02-10T20:19:01.000Z"
+      "updatedAt": "2026-02-11T04:49:26.000Z"
     },
     {
       "name": "dashboard-icons",
