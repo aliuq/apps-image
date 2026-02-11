@@ -1,2 +1,11 @@
 [tools]
 act = "latest"
+
+[tasks.clean]
+description = "Clean image and builder cache"
+run = '''
+echo "Cleaning image and builder cache..."
+docker image prune -af
+echo "\n"
+docker builder prune -af
+'''
