@@ -1,0 +1,133 @@
+#!/usr/bin/env bun
+//MISE description="Run build-test workflow via act"
+
+/**
+ * build-test 任务
+ *
+ * 通过交互式提示收集参数，然后使用 act 执行 .github/workflows/build-test.yaml
+ *
+ * 功能：
+ * - 支持搜索选择上下文（autocomplete）
+ * - 支持从历史记录中复用之前执行过的命令
+ * - 可选保存执行日志到 .mise-logs/ 目录
+ */
+
+import { intro, outro, log, autocomplete, text, select } from '@clack/prompts'
+import {
+  assertNotCancel,
+  confirmAndRun,
+  ensureActAvailable,
+  getContextOptions,
+  promptHistory,
+  promptSaveLog,
+} from './lib/utils.mjs'
+
+const TASK_NAME = 'build-test'
+const WORKFLOW = '.github/workflows/build-test.yaml'
+
+async function main() {
+  intro(TASK_NAME)
+  ensureActAvailable()
+
+  // ── 1. 尝试复用历史命令 ───────────────────────────────────────────────
+  const historyArgs = await promptHistory(TASK_NAME)
+  if (historyArgs) {
+    const saveLog = await promptSaveLog()
+    const ctxArg = historyArgs.find((a, i) => i > 0 && historyArgs[i - 1] === '--input' && a.startsWith('context='))
+    const context = ctxArg ? ctxArg.replace('context=', '') : 'unknown'
+
+    await confirmAndRun({
+      task: TASK_NAME,
+      args: historyArgs,
+      label: `[history] context=${context}`,
+      context,
+      saveLog,
+    })
+    outro('Done!')
+    return
+  }
+
+  // ── 2. 全新配置流程 ───────────────────────────────────────────────────
+
+  // 2a. 选择构建上下文（单选，支持搜索）
+  const options = getContextOptions()
+  if (options.length === 0) {
+    log.error('No context directories found (apps/, base/, test/)')
+    process.exit(1)
+  }
+
+  const context = assertNotCancel(await autocomplete({
+    message: 'Select context to build',
+    options,
+    placeholder: 'Type to search...',
+  }))
+
+  // 2b. 构建变体
+  const variants = assertNotCancel(await text({
+    message: 'Build variants (comma-separated)',
+    placeholder: 'latest',
+    defaultValue: 'latest',
+    validate: (value) => {
+      // 允许空值（会使用 defaultValue），但不允许含有空格
+      if (value && /\s/.test(value)) return 'Variants should not contain spaces'
+    },
+  }))
+
+  // 2c. Debug 模式
+  const debug = assertNotCancel(await select({
+    message: 'Enable debug mode?',
+    options: [
+      { value: 'false', label: 'No' },
+      { value: 'true', label: 'Yes' },
+    ],
+  }))
+
+  // 2d. 是否构建镜像
+  const build = assertNotCancel(await select({
+    message: 'Enable build image?',
+    options: [
+      { value: 'true', label: 'Yes', hint: 'Build and push Docker image' },
+      { value: 'false', label: 'No', hint: 'Skip build step' },
+    ],
+  }))
+
+  // 2e. 是否发送通知
+  const notify = assertNotCancel(await select({
+    message: 'Enable notification?',
+    options: [
+      { value: 'true', label: 'Yes' },
+      { value: 'false', label: 'No' },
+    ],
+  }))
+
+  // 2f. 日志保存
+  const saveLog = await promptSaveLog()
+
+  // ── 3. 构建 act 参数 ──────────────────────────────────────────────────
+  const variantsValue = variants || 'latest'
+  const args = ['workflow_dispatch', '-W', WORKFLOW]
+  args.push('--input', `context=${context}`)
+  args.push('--input', `variants=${variantsValue}`)
+  args.push('--input', `debug=${debug}`)
+  args.push('--input', `build=${build}`)
+  args.push('--input', `notify=${notify}`)
+
+  // 可读摘要
+  const label = `context=${context} variants=${variantsValue} debug=${debug} build=${build}`
+
+  // ── 4. 确认并执行 ─────────────────────────────────────────────────────
+  await confirmAndRun({
+    task: TASK_NAME,
+    args,
+    label,
+    context,
+    saveLog,
+  })
+
+  outro('Done!')
+}
+
+main().catch((err) => {
+  log.error(err.message)
+  process.exit(1)
+})

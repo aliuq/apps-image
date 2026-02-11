@@ -5,6 +5,9 @@ node_modules
 .pnpm-store
 .env
 *.bak
+.mise-logs
 
 bak
 apps/**/app
+
+.*/skills
