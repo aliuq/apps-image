@@ -132,7 +132,7 @@ jobs:
       - name: Excute Pre-Build Commands
         if: matrix.hasPreScript
         working-directory: ${{ matrix.build.context }}
-        run: bash pre.sh
+        run: bash ${{ matrix.variant && format('pre.{0}.sh', matrix.variant) || 'pre.sh' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -151,7 +151,7 @@ jobs:
       - name: Excute Post-Build Commands
         if: matrix.hasPostScript
         working-directory: ${{ matrix.build.context }}
-        run: bash post.sh
+        run: bash ${{ matrix.variant && format('post.{0}.sh', matrix.variant) || 'post.sh' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

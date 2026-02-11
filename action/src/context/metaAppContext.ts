@@ -166,8 +166,8 @@ export class MetaAppContext {
       const readmePath = this.getPath('README.md')
       const hasReadme = await pathExists(readmePath)
       // 是否存在 pre.sh 或 post.sh 脚本
-      const hasPreScript = await pathExists(this.getPath('pre.sh'))
-      const hasPostScript = await pathExists(this.getPath('post.sh'))
+      const hasPreScript = await pathExists(this.getPath(isLatest ? 'pre.sh' : `pre.${variantName}.sh`))
+      const hasPostScript = await pathExists(this.getPath(isLatest ? 'post.sh' : `post.${variantName}.sh`))
 
       matrixData.add({
         name: this.name,
