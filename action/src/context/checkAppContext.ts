@@ -129,7 +129,10 @@ export class CheckAppContext {
           meta.variants[name].sha = result.sha
         }
 
-        let processFiles = checkver?.processFiles || [name === 'latest' ? 'Dockerfile' : `Dockerfile.${name}`, 'pre.sh', 'post.sh']
+        let processFiles = checkver?.processFiles || (name === 'latest'
+          ? ['Dockerfile', 'pre.sh', 'post.sh']
+          : [`Dockerfile.${name}`, `pre.${name}.sh`, `post.${name}.sh`]
+        )
 
         if (!processFiles?.length) {
           this.logger.debug(`No processFiles defined for variant ${name}, skipping file processing`)
@@ -146,7 +149,7 @@ export class CheckAppContext {
           const filePath = path.join(this.context, file)
           const content = await readFile(filePath)
           if (!content) {
-            this.logger.warn(`File ${file} not found in ${this.context}, skipping`)
+            this.logger.info(`File ${file} not found in ${this.context}, skipping`)
             continue
           }
 
