@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-10T20:25:48.225Z",
+  "generated": "2026-02-11T00:18:54.072Z",
   "total": 22,
   "apps": [
     {
@@ -86,8 +86,8 @@
       "license": "Apache-2.0",
       "variants": {
         "latest": {
-          "version": "f73014b",
-          "sha": "f73014bfaa213f691e407036785b47bc5243db7c",
+          "version": "aceacf5",
+          "sha": "aceacf59ad1d963257a0c0436abef6aaee26e26f",
           "checkver": {
             "type": "sha",
             "repo": "homarr-labs/dashboard-icons",
@@ -105,7 +105,7 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-02-09T12:23:20.000Z"
+      "updatedAt": "2026-02-10T20:18:57.000Z"
     },
     {
       "name": "n8n-workflows",
