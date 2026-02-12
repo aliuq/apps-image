@@ -1,7 +1,36 @@
 {
-  "generated": "2026-02-11T16:37:05.251Z",
+  "generated": "2026-02-12T07:36:58.550Z",
   "total": 22,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "f5e5fd3",
+          "sha": "f5e5fd3e750cbec0b790b4f0f774718b8742c31d",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-02-12T04:45:05.000Z"
+    },
     {
       "name": "n8n-workflows",
       "type": "app",
@@ -322,35 +351,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-02-06T18:20:44.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "cfe4a28",
-          "sha": "cfe4a283cf968975c362d82c81ebe41bd1b640c6",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-02-06T16:18:52.000Z"
     },
     {
       "name": "memogram",
