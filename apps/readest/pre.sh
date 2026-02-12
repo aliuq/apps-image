@@ -8,10 +8,12 @@ VERSION="v0.9.99"
 old_pwd=$(pwd)
 # Use the top-level directory for avoid standalone output issues with Next.js,
 # and copy the built files to the correct location in the Dockerfile
-sudo mkdir -p /readest && cd /readest
+sudo mkdir -p /readest
+sudo chown -R $USER:$USER /readest
+cd /readest
 # Clone the repository
 git clone -b $VERSION --recurse-submodules https://github.com/readest/readest .
-sudo rm -rf .git
+rm -rf .git
 
 # Copy the variables starting with `NEXT_PUBLIC_` from
 # `/app/apps/readest-app/.env.local.example` to /app/apps/readest-app/.env.local,
@@ -58,6 +60,6 @@ rm -rf ./apps/readest-app/.next/cache
 # Copy the built files to the correct location for the Dockerfile
 cd $old_pwd
 mkdir -p app
-sudo cp -r /readest/apps/readest-app/.next ./app/.next
-sudo cp -r /readest/apps/readest-app/public ./app/public
-sudo rm -rf /readest
+cp -r /readest/apps/readest-app/.next ./app/.next
+cp -r /readest/apps/readest-app/public ./app/public
+rm -rf /readest
