@@ -62,4 +62,4 @@ cd $old_pwd
 mkdir -p app
 cp -r /readest/apps/readest-app/.next ./app/.next
 cp -r /readest/apps/readest-app/public ./app/public
-rm -rf /readest
+sudo rm -rf /readest
