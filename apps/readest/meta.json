@@ -15,8 +15,8 @@
       }
     },
     "test": {
-      "version": "0.9.88",
-      "sha": "05e9549410bb3ba8e26b5dee3a1472b3a8fcd1b0",
+      "version": "0.9.99",
+      "sha": "83f0d135c5311e229099fccfb3619c647ff8ef25",
       "checkver": {
         "type": "tag",
         "repo": "readest/readest"
