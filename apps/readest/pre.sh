@@ -20,7 +20,8 @@ rm -rf .git
 # and set their values as environment variable placeholders in the format `KEY=\$KEY`.
 env_source=./apps/readest-app/.env.local.example
 env_target=./apps/readest-app/.env.local
-awk -F= '/^NEXT_PUBLIC_/ && $1 != "" { printf "%s=\$%s\n", $1, $1 }' $env_source >> $env_target
+# awk: cmd. line:1: warning: escape sequence `\$' treated as plain `$'
+awk -F= '/^NEXT_PUBLIC_/ && $1 != "" { printf "%s=\\$%s\n", $1, $1 }' $env_source >> $env_target
 
 # Replace `NEXT_PUBLIC_SUPABASE_URL` to `https://your-supabase-url.com` placeholder for
 # avoid `Invalid URL` error during build
