@@ -10,3 +10,7 @@ services:
     environment:
       - NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key # 设置为任意不为空的值以禁用数据收集
       - NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.com # 禁用官方 supabase 实例
+      # Or set to your own Supabase instance URL if you have one
+      # - SUPABASE_ADMIN_KEY=
+      # - NEXT_PUBLIC_SUPABASE_URL=
+      # - NEXT_PUBLIC_SUPABASE_ANON_KEY=

@@ -15,7 +15,7 @@ entrypoint_log() {
 get_env_decoded() {
   local key="$1"
   local value
-  local env_path="/app/.env"
+  local env_path=".env"
 
   # Extract value from .env file
   value=$(grep -E "^[[:space:]]*$key=" "$env_path" 2>/dev/null | grep -v '^#' | tail -n1 | cut -d'=' -f2- | tr -d '"' | tr -d "'")
@@ -59,7 +59,7 @@ auto_envsubst() {
 
   entrypoint_log "$ME: Replacing environment variables..."
 
-  find "/app/.next" -follow -type f -name "*.js" -print | while read -r template; do
+  find ".next" -follow -type f -name "*.js" -print | while read -r template; do
     envsubst "$defined_envs" <"$template" >"$template.1"
     mv "$template.1" "$template"
   done
@@ -69,4 +69,4 @@ auto_envsubst() {
 
 auto_envsubst
 
-npm run start-web
+node server.js
