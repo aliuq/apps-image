@@ -1,7 +1,37 @@
 {
-  "generated": "2026-02-12T18:29:23.659Z",
+  "generated": "2026-02-16T08:29:35.406Z",
   "total": 22,
   "apps": [
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "2e004c5",
+          "sha": "2e004c5481613709694783875be95b0fadd2547f",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-02-16T08:19:41.000Z"
+    },
     {
       "name": "readest",
       "type": "app",
@@ -67,8 +97,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "f5e5fd3",
-          "sha": "f5e5fd3e750cbec0b790b4f0f774718b8742c31d",
+          "version": "531975d",
+          "sha": "531975d5568c3d8af5087077adb7771e733e4c7e",
           "checkver": {
             "type": "sha",
             "repo": "raycast/ray-so",
@@ -86,7 +116,7 @@
       "category": "app",
       "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-02-12T04:45:05.000Z"
+      "updatedAt": "2026-02-12T18:25:17.000Z"
     },
     {
       "name": "n8n-workflows",
@@ -291,36 +321,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-02-11T04:49:26.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "aceacf5",
-          "sha": "aceacf59ad1d963257a0c0436abef6aaee26e26f",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-02-10T20:18:57.000Z"
     },
     {
       "name": "icones",
