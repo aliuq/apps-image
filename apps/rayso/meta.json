@@ -6,8 +6,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "531975d",
-      "sha": "531975d5568c3d8af5087077adb7771e733e4c7e",
+      "version": "9cb7e97",
+      "sha": "9cb7e973c4b2e57e6e5f4c42d22386ee229369da",
       "checkver": {
         "type": "sha",
         "repo": "raycast/ray-so"
