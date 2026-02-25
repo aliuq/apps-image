@@ -1,7 +1,37 @@
 {
-  "generated": "2026-02-25T12:30:09.728Z",
+  "generated": "2026-02-25T14:36:11.333Z",
   "total": 22,
   "apps": [
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.4.2",
+          "sha": "ae833095b8006e7bf9636e7ed4517df9943812e9",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2026-02-25T14:26:15.000Z"
+    },
     {
       "name": "dashboard-icons",
       "type": "app",
@@ -351,36 +381,6 @@
       "readmePath": "apps/icones",
       "hasReadme": true,
       "updatedAt": "2026-02-07T08:11:34.000Z"
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.4.1",
-          "sha": "18f268ab364c3ab338cadd98622e23ea552a7805",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true,
-      "updatedAt": "2026-02-05T13:33:48.000Z"
     },
     {
       "name": "inpaint-web",
