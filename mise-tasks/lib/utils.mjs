@@ -82,6 +82,53 @@ export function getContextOptions() {
   return options
 }
 
+/**
+ * 从指定 context 的 meta.json 中读取 variants 选项
+ *
+ * - 默认预选 latest
+ * - disabled 的 variants 会被单独返回，供调用方提示
+ *
+ * @param {string} context
+ */
+export function getVariantOptions(context) {
+  const metaPath = join(context, 'meta.json')
+  if (!existsSync(metaPath)) {
+    return { options: [], initialValues: [], disabledVariants: [] }
+  }
+
+  try {
+    const raw = readFileSync(metaPath, 'utf-8')
+    const meta = JSON.parse(raw)
+    const variants = meta?.variants
+    if (!variants || typeof variants !== 'object') {
+      return { options: [], initialValues: [], disabledVariants: [] }
+    }
+
+    const entries = Object.entries(variants)
+    const selectableVariants = entries
+      .filter(([, variant]) => variant?.enabled !== false)
+      .map(([name]) => name)
+
+    const disabledVariants = entries
+      .filter(([, variant]) => variant?.enabled === false)
+      .map(([name]) => name)
+
+    const options = selectableVariants.map(name => ({
+      value: name,
+      label: name,
+    }))
+
+    const initialValues = selectableVariants.includes('latest')
+      ? ['latest']
+      : selectableVariants.slice(0, 1)
+
+    return { options, initialValues, disabledVariants }
+  }
+  catch {
+    return { options: [], initialValues: [], disabledVariants: [] }
+  }
+}
+
 // ─── 历史记录 ────────────────────────────────────────────────────────────────
 
 /** 确保 DATA_DIR 存在 */

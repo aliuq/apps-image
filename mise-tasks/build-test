@@ -12,12 +12,13 @@
  * - 可选保存执行日志到 .mise-logs/ 目录
  */
 
-import { intro, outro, log, autocomplete, text, select } from '@clack/prompts'
+import { intro, outro, log, autocomplete, autocompleteMultiselect, select } from '@clack/prompts'
 import {
   assertNotCancel,
   confirmAndRun,
   ensureActAvailable,
   getContextOptions,
+  getVariantOptions,
   promptHistory,
   promptSaveLog,
 } from './lib/utils.mjs'
@@ -63,15 +64,33 @@ async function main() {
   }))
 
   // 2b. 构建变体
-  const variants = assertNotCancel(await text({
-    message: 'Build variants (comma-separated)',
-    placeholder: 'latest',
-    defaultValue: 'latest',
-    validate: (value) => {
-      // 允许空值（会使用 defaultValue），但不允许含有空格
-      if (value && /\s/.test(value)) return 'Variants should not contain spaces'
-    },
-  }))
+  const { options: variantOptions, initialValues, disabledVariants } = getVariantOptions(context)
+  let variantsValue = 'latest'
+
+  if (disabledVariants.length > 0) {
+    log.info(`Skipped disabled variants: ${disabledVariants.join(', ')}`)
+  }
+
+  if (variantOptions.length === 0) {
+    log.warn(`No variants found in ${context}/meta.json, falling back to latest`)
+  }
+  else {
+    const variants = assertNotCancel(await autocompleteMultiselect({
+      message: 'Search and select build variants',
+      options: variantOptions,
+      placeholder: 'Type to search variants...',
+      maxItems: 10,
+      initialValues,
+      required: false,
+    }))
+
+    if (variants.length === 0) {
+      log.warn('No variants selected, falling back to latest')
+    }
+    else {
+      variantsValue = variants.join(',')
+    }
+  }
 
   // 2c. Debug 模式
   const debug = assertNotCancel(await select({
@@ -94,6 +113,7 @@ async function main() {
   // 2e. 是否发送通知
   const notify = assertNotCancel(await select({
     message: 'Enable notification?',
+    initialValue: 'false',
     options: [
       { value: 'true', label: 'Yes' },
       { value: 'false', label: 'No' },
@@ -104,7 +124,6 @@ async function main() {
   const saveLog = await promptSaveLog()
 
   // ── 3. 构建 act 参数 ──────────────────────────────────────────────────
-  const variantsValue = variants || 'latest'
   const args = ['workflow_dispatch', '-W', WORKFLOW]
   args.push('--input', `context=${context}`)
   args.push('--input', `variants=${variantsValue}`)
