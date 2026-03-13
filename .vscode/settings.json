@@ -129,7 +129,7 @@
     ".git/{index,*refs,*HEAD}",
     ".vscode",
     ".vscode-insiders",
-    "apps/weserv/Dockerfile*"
+    "**/Dockerfile*"
   ],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "en",
