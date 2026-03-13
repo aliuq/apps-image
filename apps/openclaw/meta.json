@@ -1,0 +1,59 @@
+{
+  "name": "openclaw",
+  "type": "app",
+  "title": "Openclaw",
+  "slogan": "小龙虾🦞",
+  "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "tag",
+        "repo": "openclaw/openclaw",
+        "tagPattern": "^v[\\d.]+$"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}"
+        ],
+        "platforms": [
+          "linux/amd64"
+        ]
+      }
+    },
+    "dev": {
+      "enabled": false,
+      "checkver": {
+        "type": "tag",
+        "repo": "openclaw/openclaw",
+        "tagPattern": "^v[\\d.]+-dev$"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=dev",
+          "type=raw,value=dev-{{version}}"
+        ],
+        "platforms": [
+          "linux/amd64"
+        ]
+      }
+    },
+    "codebase": {
+      "enabled": false,
+      "checkver": {
+        "type": "tag",
+        "repo": "openclaw/openclaw",
+        "tagPattern": "^v[\\d.]+$"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=codebase",
+          "type=raw,value=codebase-{{version}}"
+        ],
+        "platforms": [
+          "linux/amd64"
+        ]
+      }
+    }
+  }
+}
