@@ -13,6 +13,7 @@ on:
           - all
           # ContextStart
           - apps/cobalt
+          - apps/dashboard-icons
           - apps/haitang
           - apps/icones
           - apps/inpaint-web
@@ -20,6 +21,7 @@ on:
           - apps/lsky
           - apps/memogram
           - apps/n8n-workflows
+          - apps/openclaw
           - apps/rayso
           - apps/readest
           - apps/srcbook
