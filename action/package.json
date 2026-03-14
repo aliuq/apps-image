@@ -17,14 +17,14 @@
     "build:metadata": "bun build ./src/metadata.ts --outdir dist --target node --minify"
   },
   "devDependencies": {
-    "@actions/core": "^2.0.3",
+    "@actions/core": "^3.0.0",
     "@actions/exec": "^3.0.0",
     "@actions/github": "^9.0.0",
-    "@actions/glob": "^0.5.1",
+    "@actions/glob": "^0.6.1",
     "@octokit/core": "^7.0.6",
     "@octokit/webhooks-definitions": "^3.67.3",
     "@types/semver": "^7.7.1",
-    "ajv": "^8.17.1",
+    "ajv": "^8.18.0",
     "ajv-formats": "^3.0.1",
     "concurrently": "^9.2.1",
     "dayjs": "^1.11.20",

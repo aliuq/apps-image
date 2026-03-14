@@ -5,7 +5,7 @@
 import type { PushEvent } from '@octokit/webhooks-definitions/schema.js'
 import type { CheckVersionInputs, ResolveMetadataInputs } from './types/input.js'
 import process from 'node:process'
-import core from '@actions/core'
+import * as core from '@actions/core'
 import { getOctokit, context as ghContext } from '@actions/github'
 
 type EventName = 'push' | 'pull_request' | 'workflow_dispatch' | 'schedule'

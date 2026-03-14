@@ -2,7 +2,7 @@
  * 解析数据的入口
  */
 import process from 'node:process'
-import core from '@actions/core'
+import * as core from '@actions/core'
 import { yellow } from 'kolorist'
 import { resolveMetadataConfig as config, isAct } from './config.js'
 import { MetaAppsManager } from './context/metaAppsManager.js'

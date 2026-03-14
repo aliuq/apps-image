@@ -1,13 +1,12 @@
 /**
  * 检查更新的应用管理类
  */
-import type { SummaryTableRow } from '@actions/core/lib/summary.js'
 import type { CheckVariantResult, CreatePullRequestOptions } from '../types/index.js'
 import type { Meta } from '../types/schema.js'
 import path from 'node:path'
 import process from 'node:process'
-import core from '@actions/core'
-import glob from '@actions/glob'
+import * as core from '@actions/core'
+import * as glob from '@actions/glob'
 import { cyan, green, yellow } from 'kolorist'
 import { createPullRequest } from 'octokit-plugin-create-pull-request'
 import { checkVersionConfig, eventName, getOctokit, ghContext, ghContextPayload } from '../config.js'
@@ -16,6 +15,8 @@ import { validateAppMeta } from '../lib/validator.js'
 import { createLogger, getRandomColor, logger } from '../logger.js'
 import { chunkArray } from '../utils.js'
 import { CheckAppContext } from './checkAppContext.js'
+
+type SummaryTableRows = Parameters<(typeof core.summary)['addTable']>[0]
 
 export class CheckAppsManager {
   private readonly logger = createLogger()
@@ -91,6 +92,7 @@ export class CheckAppsManager {
 
         // 以 meta.json、Dockerfile、Dockerfile.<variant> 结尾的文件作为过滤条件
         // 会在外层作判断，所以这里一定有值
+        // eslint-disable-next-line e18e/prefer-static-regex
         const filterFiles = files.filter(file => file.match(/(\/meta\.json$)|(\/Dockerfile(\.[^.]+)?$)/))
 
         // 添加调试日志
@@ -103,7 +105,7 @@ export class CheckAppsManager {
           process.exit(0) // 正常退出，不报错
         }
 
-        return Array.from(new Set(filterFiles.map(file => path.relative(process.cwd(), path.dirname(file)))))
+        return [...new Set(filterFiles.map(file => path.relative(process.cwd(), path.dirname(file))))]
       }
 
       throw new Error(`Unsupported event: ${eventName}`)
@@ -174,7 +176,7 @@ export class CheckAppsManager {
    * - 存在并发处理
    */
   public async checkAllVersions() {
-    const apps = Array.from(this.apps.values())
+    const apps = [...this.apps.values()]
     const results = new Map<string, CheckVariantResult[]>()
     const outdatedApps = new Map<string, CheckVariantResult[]>()
 
@@ -304,9 +306,9 @@ export class CheckAppsManager {
       return
     }
 
-    const tableRows: SummaryTableRow[] = []
+    const tableRows: SummaryTableRows = []
 
-    const headers: SummaryTableRow = [
+    const headers: SummaryTableRows[0] = [
       { data: 'Application', header: true },
       { data: 'Variant', header: true },
       { data: 'Current Version', header: true },
@@ -324,7 +326,7 @@ export class CheckAppsManager {
         const status = isOutdated ? '🔄 需要更新' : '✅ 最新'
         const currentVersion = result.variant?.version || 'N/A'
 
-        const rows: SummaryTableRow = []
+        const rows: SummaryTableRows[0] = []
         if (index === 0) {
           rows.push({ data: `<strong>${appContext}</strong>`, rowspan: String(variantResults.length) })
         }
@@ -341,8 +343,8 @@ export class CheckAppsManager {
     }
 
     // 添加统计信息
-    const totalVariants = Array.from(allApps.values()).reduce((sum, variants) => sum + variants.length, 0)
-    const outdatedVariants = Array.from(outdatedApps.values()).reduce((sum, variants) => sum + variants.length, 0)
+    const totalVariants = [...allApps.values()].reduce((sum, variants) => sum + variants.length, 0)
+    const outdatedVariants = [...outdatedApps.values()].reduce((sum, variants) => sum + variants.length, 0)
 
     core.summary.addRaw(`\n**统计信息**: 共检查 ${allApps.size} 个应用包含 ${totalVariants} 个变体，其中 ${outdatedVariants} 个变体需要更新\n`)
 

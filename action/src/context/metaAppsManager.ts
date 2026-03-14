@@ -4,7 +4,7 @@
 import type { Meta } from '../types/schema.js'
 import path from 'node:path'
 import process from 'node:process'
-import core from '@actions/core'
+import * as core from '@actions/core'
 import { yellow } from 'kolorist'
 import { eventName, ghContext, resolveMetadataConfig } from '../config.js'
 import { pathExists, readJson } from '../file.js'
@@ -35,7 +35,9 @@ export class MetaAppsManager {
       }
       else if (eventName === 'pull_request') {
         const message = ghContext.payload.pull_request?.title || ''
+        // eslint-disable-next-line e18e/prefer-static-regex
         const regContext = /^update\((.*?)\):/
+        // eslint-disable-next-line e18e/prefer-static-regex
         const regVariant = /update (\w+) version to/g
 
         const context = message.match(regContext)?.[1]?.trim()
@@ -44,7 +46,8 @@ export class MetaAppsManager {
           return
         }
 
-        const variants = [...message.matchAll(regVariant)].map(m => m?.[1]?.trim()).filter(Boolean)
+        // @ts-expect-error ignore
+        const variants = Array.from(message.matchAll(regVariant), m => m?.[1]?.trim()).filter(Boolean)
 
         return { context, variants }
       }
