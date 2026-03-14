@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ARG OPENCLAW_VERSION="2026.3.12"
+ARG OPENCLAW_VERSION="{{version}}"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
@@ -23,12 +23,14 @@ RUN apt-get update && \
         unzip \
         tar \
         xz-utils \
-        ca-certificates && \
+        ca-certificates \
+        zsh \
+        vim && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Creating the user and usergroup
 RUN groupadd --gid $USER_GID $USERNAME && \
-    useradd --uid $USER_UID --gid $USERNAME -m -s /bin/bash $USERNAME && \
+    useradd --uid $USER_UID --gid $USERNAME -m -s /bin/zsh $USERNAME && \
     echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
@@ -46,31 +48,64 @@ RUN set -eux; \
 USER $USERNAME
 WORKDIR $HOME/.openclaw
 
+# For development
+RUN set -eux; \
+    # ohmyzsh
+    sh -c "$(curl -fsSL https://install.ohmyz.sh/)" "" --unattended && \
+    zsh_repo="https://github.com/zsh-users" && \
+    git clone --depth=1 $zsh_repo/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions && \
+    git clone --depth=1 $zsh_repo/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting && \
+    \
+    # starship
+    curl -sS https://starship.rs/install.sh | sh -s -- -y && \
+    \
+    # ohmyzsh config
+    plugins="git zsh-autosuggestions zsh-syntax-highlighting starship extract mise bun uv" && \
+    sed -i "s/plugins=(git)/plugins=($plugins)/" $HOME/.zshrc && \
+    \
+    # clean
+    rm -rf $HOME/.cache /tmp/* /var/tmp/*
+
 # For agent
 RUN set -eux; \
-    # mise apps
-    mise use -g -y usage bun node@lts python@3 pipx uv && \
-    \
-    # python
+    mise use -g -y usage bun node@lts yarn@1 pnpm python@3 pipx uv && \
+    mise cache clear
+
+# Python tools
+RUN set -eux; \
     python3 -m pip install --no-cache-dir --upgrade pip && \
     for pkg in \
+        black \
+        flake8 \
+        autopep8 \
+        yapf \
+        mypy \
+        pydocstyle \
+        pycodestyle \
+        bandit \
+        pipenv \
+        virtualenv \
+        pytest \
         yt-dlp \
         playwright; \
     do \
         uv tool install --no-cache $pkg; \
     done && \
-    \
-    # Openclaw
+    uv cache clean
+
+# OpenClaw
+RUN set -eux; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
-    \
-    # clean
-    mise cache clear && bun pm cache rm -g && uv cache clean
+    openclaw completion -y --shell zsh --write-state --install && \
+    bun pm cache rm -g
 
+# Copy files
+COPY --chown=$USERNAME:$USERNAME ./starship.toml /usr/local/starship.toml
 COPY --chown=$USERNAME:$USERNAME ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN sudo chmod +x /docker-entrypoint.sh
-
 COPY ./update_config.mjs /root/update_config.mjs
 
-SHELL ["/bin/bash", "-c"]
+RUN sudo chmod +x /docker-entrypoint.sh
+
+SHELL ["/bin/zsh", "-c"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

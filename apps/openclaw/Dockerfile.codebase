@@ -1,0 +1,40 @@
+FROM ghcr.io/aliuq/devcontainer:me
+
+ARG OPENCLAW_VERSION="{{version}}"
+
+ENV TERM=xterm-256color \
+    PATH="$MISE_DATA_DIR/shims:$PATH"
+
+WORKDIR /root/.openclaw
+
+# ffmpeg
+RUN set -eux; \
+    wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
+    tar xf ffmpeg-release-amd64-static.tar.xz && \
+    cd ffmpeg-*-static && \
+    cp ffmpeg ffprobe /usr/local/bin/ && \
+    cd .. && \
+    rm -rf ffmpeg-*
+
+# Python tools
+RUN set -eux; \
+    for pkg in yt-dlp playwright; \
+    do \
+        uv tool install --no-cache $pkg; \
+    done && \
+    uv cache clean
+
+# OpenClaw
+RUN set -eux; \
+    bun add -g openclaw@${OPENCLAW_VERSION} && \
+    openclaw completion -y --shell zsh --write-state --install && \
+    bun pm cache rm -g
+
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+COPY ./update_config.mjs /root/update_config.mjs
+
+RUN sudo chmod +x /docker-entrypoint.sh
+
+SHELL ["/bin/zsh", "-c"]
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
