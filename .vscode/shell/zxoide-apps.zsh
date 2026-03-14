@@ -22,3 +22,5 @@ if command -v zoxide >/dev/null 2>&1; then
     done
   done
 fi
+
+zoxide add "${ROOT}/action"
