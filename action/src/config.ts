@@ -6,15 +6,15 @@ import type { PushEvent } from '@octokit/webhooks-definitions/schema.js'
 import type { CheckVersionInputs, ResolveMetadataInputs } from './types/input.js'
 import process from 'node:process'
 import core from '@actions/core'
-import gh from '@actions/github'
+import { getOctokit, context as ghContext } from '@actions/github'
 
 type EventName = 'push' | 'pull_request' | 'workflow_dispatch' | 'schedule'
 
 let _checkVersionConfig: CheckVersionInputs | undefined
 let _resolveMetadataConfig: ResolveMetadataInputs | undefined
 
+export { getOctokit, ghContext }
 export const isAct = process.env.ACT === 'true'
-export const ghContext = gh.context
 export const eventName = ghContext.eventName as EventName
 export const ghContextPayload = ghContext.payload as PushEvent
 /**
@@ -77,8 +77,6 @@ export function getResolveMetadataConfig(): ResolveMetadataInputs {
  * 获取当前分支名称
  */
 export function getCurrentBranch() {
-  const ghContext = gh.context
-
   // 从不同的事件类型中获取分支信息
   let branch = 'master' // 默认值
 

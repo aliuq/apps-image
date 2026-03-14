@@ -1,17 +1,16 @@
-import type { SummaryTableRow } from '@actions/core/lib/summary.js'
 /**
  * 检查更新的应用管理类
  */
+import type { SummaryTableRow } from '@actions/core/lib/summary.js'
 import type { CheckVariantResult, CreatePullRequestOptions } from '../types/index.js'
 import type { Meta } from '../types/schema.js'
 import path from 'node:path'
 import process from 'node:process'
 import core from '@actions/core'
-import gh from '@actions/github'
 import glob from '@actions/glob'
 import { cyan, green, yellow } from 'kolorist'
 import { createPullRequest } from 'octokit-plugin-create-pull-request'
-import { checkVersionConfig, eventName, ghContext, ghContextPayload } from '../config.js'
+import { checkVersionConfig, eventName, getOctokit, ghContext, ghContextPayload } from '../config.js'
 import { pathExists, readJson } from '../file.js'
 import { validateAppMeta } from '../lib/validator.js'
 import { createLogger, getRandomColor, logger } from '../logger.js'
@@ -82,7 +81,7 @@ export class CheckAppsManager {
         this.logger.debug(`All changed files from gh context: ${files.join(', ')}`)
 
         if (!files?.length) {
-          const octokit = gh.getOctokit(checkVersionConfig.token!)
+          const octokit = getOctokit(checkVersionConfig.token!)
           const { before: base, after: head } = ghContextPayload
           const { owner, repo } = ghContext.repo
           // 调 GitHub API 获取改动文件列表
@@ -260,7 +259,7 @@ export class CheckAppsManager {
       return
     }
 
-    const octokit = gh.getOctokit(token, {}, createPullRequest as any)
+    const octokit = getOctokit(token, {}, createPullRequest as any)
 
     // @ts-expect-error ignore
     const createPR = octokit?.createPullRequest as ReturnType<typeof createPullRequest>['createPullRequest']

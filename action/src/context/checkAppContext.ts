@@ -1,18 +1,11 @@
 /**
  * 应用上下文 - 管理单个应用的完整生命周期
  */
-import type {
-  CheckVariantResult,
-  CreatePullRequestOptions,
-  Meta,
-  PlaceholderData,
-  ProcessedFile,
-} from '../types/index.js'
+import type { CheckVariantResult, CreatePullRequestOptions, Meta, PlaceholderData, ProcessedFile } from '../types/index.js'
 import path from 'node:path'
-import gh from '@actions/github'
 import dayjs from 'dayjs'
 import { cyan, yellow } from 'kolorist'
-import { getCheckVersionConfig, getCurrentBranch } from '../config.js'
+import { getCheckVersionConfig, getCurrentBranch, ghContext } from '../config.js'
 import { readFile } from '../file.js'
 import { createLogger, getRandomColor } from '../logger.js'
 import { detectRepo, detectRepoName, escapeHtml, escapeRegex } from '../utils.js'
@@ -76,7 +69,6 @@ export class CheckAppContext {
    */
   public async buildPrData(checkVariantResults: CheckVariantResult[]): Promise<CreatePullRequestOptions> {
     const config = getCheckVersionConfig()
-    const ghContext = gh.context
 
     // 1. 处理文件占位符替换
     const { files } = await this.processFiles(checkVariantResults)

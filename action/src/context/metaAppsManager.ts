@@ -5,9 +5,8 @@ import type { Meta } from '../types/schema.js'
 import path from 'node:path'
 import process from 'node:process'
 import core from '@actions/core'
-import gh from '@actions/github'
 import { yellow } from 'kolorist'
-import { eventName, resolveMetadataConfig } from '../config.js'
+import { eventName, ghContext, resolveMetadataConfig } from '../config.js'
 import { pathExists, readJson } from '../file.js'
 import { validateAppMeta } from '../lib/validator.js'
 import { createLogger } from '../logger.js'
@@ -35,7 +34,7 @@ export class MetaAppsManager {
         return { context: config.context, variants }
       }
       else if (eventName === 'pull_request') {
-        const message = gh.context.payload.pull_request?.title || ''
+        const message = ghContext.payload.pull_request?.title || ''
         const regContext = /^update\((.*?)\):/
         const regVariant = /update (\w+) version to/g
 
