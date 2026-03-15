@@ -32,10 +32,6 @@ on:
           - base/self
           - base/tg-session
           - base/vscode
-          - test/icones
-          - test/self
-          - test/weektodo
-          - test/weektodo-mul
           # ContextEnd
       variants:
         description: Build variants, e.g. latest,stable

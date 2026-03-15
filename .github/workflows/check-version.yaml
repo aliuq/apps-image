@@ -35,10 +35,6 @@ on:
           - base/self
           - base/tg-session
           - base/vscode
-          - test/icones
-          - test/self
-          - test/weektodo
-          - test/weektodo-mul
           # ContextEnd
       create_pr:
         description: 是否创建 PR
