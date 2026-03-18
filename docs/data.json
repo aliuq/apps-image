@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-17T10:27:19.566Z",
+  "generated": "2026-03-18T08:25:32.080Z",
   "total": 23,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "f0c35bc",
-          "sha": "f0c35bc3fe76a158d14a3d81100ce6ce2524991f",
+          "version": "ba5d9dd",
+          "sha": "ba5d9dd8ee5d49d37b8a689f2ddd5cc3d41e07a9",
           "checkver": {
             "type": "sha",
             "repo": "raycast/ray-so",
@@ -29,7 +29,7 @@
       "category": "app",
       "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-03-17T10:22:14.000Z"
+      "updatedAt": "2026-03-18T08:21:18.000Z"
     },
     {
       "name": "dashboard-icons",
