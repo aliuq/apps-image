@@ -71,12 +71,12 @@ jobs:
       contents: read
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # 0 = 完整历史
 
       - name: Cache Git repositories
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .git-cache
           key: git-repos-${{ hashFiles('**/meta.json') }}

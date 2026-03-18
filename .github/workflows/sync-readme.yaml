@@ -15,7 +15,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0 # 获取完整历史记录
 
@@ -80,7 +80,7 @@ jobs:
             outputJson(data)
 
       - name: Sync README
-        uses: peter-evans/dockerhub-description@v4
+        uses: peter-evans/dockerhub-description@v5
         if: steps.prepare.outputs.repo != '' && steps.prepare.outputs.readme_path != ''
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}

@@ -12,8 +12,7 @@ if command -v zoxide >/dev/null 2>&1; then
 
   for app_dir in "${dirs[@]}"; do
     # 仅遍历一级目录且仅限目录（zsh glob 資格：(/)）
-    for dir in ${ROOT}/${app_dir}/*(/); do
-      [[ -d $dir ]] || continue
+    for dir in ${ROOT}/${app_dir}/*(/N); do
       if zoxide add "$dir"; then
         ((count++))
       else
