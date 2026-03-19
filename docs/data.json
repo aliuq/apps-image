@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-19T20:25:23.722Z",
+  "generated": "2026-03-19T22:19:23.679Z",
   "total": 23,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "Apache-2.0",
       "variants": {
         "latest": {
-          "version": "93d53f9",
-          "sha": "93d53f9aba34130c50fd106fe296db1619152b5f",
+          "version": "e70493f",
+          "sha": "e70493fe9ed216bdb5050c29043400febc0df07b",
           "checkver": {
             "type": "sha",
             "repo": "homarr-labs/dashboard-icons",
@@ -30,7 +30,7 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-03-19T20:15:54.000Z"
+      "updatedAt": "2026-03-19T22:09:17.000Z"
     },
     {
       "name": "rayso",
