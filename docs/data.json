@@ -1,7 +1,37 @@
 {
-  "generated": "2026-03-19T08:23:38.208Z",
+  "generated": "2026-03-19T20:25:23.722Z",
   "total": 23,
   "apps": [
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "93d53f9",
+          "sha": "93d53f9aba34130c50fd106fe296db1619152b5f",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-03-19T20:15:54.000Z"
+    },
     {
       "name": "rayso",
       "type": "app",
@@ -105,36 +135,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-03-18T14:34:42.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "64f7ecc",
-          "sha": "64f7eccb7b37af269adf5d9fe392a460df9f0874",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-03-15T14:13:39.000Z"
     },
     {
       "name": "openclaw",
