@@ -104,8 +104,7 @@
         },
         "branch": {
           "type": "string",
-          "description": "检查的分支",
-          "default": "main"
+          "description": "检查的分支"
         },
         "file": {
           "type": "string",

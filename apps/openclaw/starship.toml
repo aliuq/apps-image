@@ -1,0 +1,74 @@
+# 设置配置范例，开启编辑器的自动补全
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Use the color palette
+palette = "dracula"
+
+[character]
+error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold green)"
+
+[cmd_duration]
+style = "bold yellow"
+show_milliseconds = true
+show_notifications = true
+
+[directory]
+style = "bold green"
+
+[git_branch]
+style = "bold pink"
+
+[git_status]
+style = "bold red"
+
+[localip]
+ssh_only = false
+disabled = false
+
+[memory_usage]
+disabled = false
+threshold = -1
+format = "[${ram}( | ${swap})]($style) "
+style = "bold dimmed white"
+
+[time]
+disabled = false
+format = '[\[ $time \]]($style) '
+time_format = "%T"
+utc_time_offset = "+8"
+style = "bold dimmed blue"
+
+[hostname]
+ssh_only = false
+style = "bold purple"
+format = '[$ssh_symbol$hostname]($style) '
+disabled = false
+
+[username]
+style_user = "bold cyan"
+show_always = true
+disabled = false
+
+[shell]
+style = 'bold cyan'
+format = '[$indicator]($style) '
+fish_indicator = '󰈺 '
+disabled = false
+
+[container]
+disabled = true
+
+# Define Dracula color palette
+[palettes.dracula]
+background = "#282a36"
+current_line = "#44475a"
+foreground = "#f8f8f2"
+comment = "#6272a4"
+cyan = "#8be9fd"
+green = "#50fa7b"
+orange = "#ffb86c"
+pink = "#ff79c6"
+purple = "#bd93f9"
+red = "#ff5555"
+yellow = "#f1fa8c"

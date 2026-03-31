@@ -7,6 +7,7 @@ import process from 'node:process'
 import { cyan, yellow } from 'kolorist'
 import { getCurrentBranch, ghContext, isAct } from '../config.js'
 import { pathExists } from '../file.js'
+import { resolveMetaDefaults } from '../lib/meta-defaults.js'
 import { createLogger } from '../logger.js'
 import { detectRepo, escapeRegex, parseVersionLoose } from '../utils.js'
 
@@ -25,7 +26,7 @@ export class MetaAppContext {
   /**
    * 获取基于 context 的应用路径
    * @param p - 文件路径
-   * @returns
+   * @returns {string} 返回拼接后的文件路径。
    */
   private getPath(p: string) {
     return path.join(this.context, p)
@@ -36,6 +37,19 @@ export class MetaAppContext {
    */
   public getMeta(): Readonly<Meta> {
     return this.meta
+  }
+
+  /**
+   * 获取补全 action 默认值后的完整 meta
+   * @returns {Meta} 返回带默认值的完整元数据对象。
+   */
+  public getResolvedMeta() {
+    return resolveMetaDefaults(this.context, this.meta, {
+      dockerUser: process.env.DOCKERHUB_USERNAME,
+      ghcrUser: process.env.GHCR_USERNAME,
+      acrRegistry: process.env.ALI_ACR_REGISTRY,
+      acrUser: process.env.ALI_ACR_USERNAME,
+    })
   }
 
   /**
@@ -84,6 +98,7 @@ export class MetaAppContext {
    */
   public async buildMatrixData(variants: Meta['variants'] = {}) {
     const matrixData = new Set()
+    const resolvedMeta = this.getResolvedMeta()
 
     const { repo, owner } = ghContext.repo
     const defaultBranch = getCurrentBranch()
@@ -95,6 +110,7 @@ export class MetaAppContext {
     const acrUser = process.env.ALI_ACR_USERNAME
 
     for await (const [variantName, variant] of Object.entries(variants)) {
+      const resolvedVariant = resolvedMeta.variants[variantName]
       const isManual = ['manual'].includes(variant.checkver.type)
       const cord1 = ['version', 'tag', 'sha'].includes(variant.checkver.type) && (!variant?.version || !variant?.sha)
       const cord2 = isManual && (isAct ? !variant?.version : (!variant?.version || !variant?.sha))
@@ -108,7 +124,7 @@ export class MetaAppContext {
       const isLatest = variantName === 'latest'
 
       // Dockerfile
-      const file = variant.docker?.file || (isLatest ? 'Dockerfile' : `Dockerfile.${variantName}`)
+      const file = resolvedVariant.docker?.file || (isLatest ? 'Dockerfile' : `Dockerfile.${variantName}`)
       const dockerfile = this.getPath(file)
       const exist = await pathExists(dockerfile)
       if (!exist) {
@@ -122,12 +138,13 @@ export class MetaAppContext {
         ghcrUser ? `ghcr.io/${ghcrUser}/{{name}}` : undefined,
         acrRegistry && acrUser ? `${acrRegistry}/${acrUser}/{{name}}` : undefined,
       ].filter(Boolean)
-      const imagesContent = (variant.docker?.images || defaultImages).join('\n')
+      const imagesContent = (resolvedVariant.docker?.images || defaultImages)
+        .join('\n')
       const newImages = this.resolveTemplate(imagesContent, { name: [this.name] }).split('\n')
       const uniqueImages = Array.from(new Set(newImages))
       // Tags
       const defaultTags = [`type=raw,value=${variantName}`, 'type=raw,value={{version}}']
-      const tagContent = (variant.docker?.tags || defaultTags).join('\n')
+      const tagContent = (resolvedVariant.docker?.tags || defaultTags).join('\n')
       // semver
       const match = (version && version.includes('.')) ? parseVersionLoose(version) : undefined
       const newTags = this.resolveTemplate(tagContent, {
@@ -157,7 +174,7 @@ export class MetaAppContext {
       const pushGhcr = ghcrUser && uniqueImages.some(im => im.match(/^ghcr\.io\//))
       const pushAli = acrRegistry && acrUser && uniqueImages.some(im => im.match(/^registry\..*?\.aliyuncs\.com/))
       // platforms
-      const platforms = variant.docker?.platforms || ['linux/amd64', 'linux/arm64']
+      const platforms = resolvedVariant.docker?.platforms || ['linux/amd64', 'linux/arm64']
       // 测试应用
       const isTest = this.context.startsWith('test/')
       // 是否推送镜像

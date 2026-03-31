@@ -4,7 +4,7 @@ import type { GitCommitInfo } from './types/index.js'
  */
 import { Buffer } from 'node:buffer'
 import path from 'node:path'
-import exec from '@actions/exec'
+import * as exec from '@actions/exec'
 import { cyan, gray, red, yellow } from 'kolorist'
 import { CaCheDir } from './config.js'
 import { pathExists, readFile, readJson } from './file.js'

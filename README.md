@@ -15,6 +15,25 @@ A collection of Docker images for various applications, automatically built and 
 
 ## Local Testing with act
 
+You can also run the interactive local tasks via `mise`:
+
+```bash
+# Interactive act workflow runner
+mise run build:workflow
+
+# Reuse the latest history entry, but keep the final confirmation prompt
+mise run build:workflow -F
+
+# Reuse and execute the latest history entry directly
+mise run build:workflow -FF
+
+# Inspect a resolved meta.json with action defaults applied
+mise run meta:show
+
+# Reuse the latest meta:show history entry and skip the final confirmation
+mise run meta:show -FF
+```
+
 ### Check Version
 
 Test version checking for applications:
@@ -60,6 +79,21 @@ act workflow_dispatch -W .github/workflows/build-test.yaml \
   --input build=false \
   --input notify=false \
   --input variants=latest,dev
+```
+
+### Local Docker Build
+
+Build a local image without `act`:
+
+```bash
+# Interactive docker buildx runner
+mise run build:docker
+
+# Force plain progress output without waiting for the prompt
+mise run build:docker --plain-progress
+
+# Example generated command
+cd apps/openclaw && docker buildx build --progress=plain -f ./Dockerfile.codebase -t openclaw:local-codebase --load .
 ```
 
 ## Add New Application

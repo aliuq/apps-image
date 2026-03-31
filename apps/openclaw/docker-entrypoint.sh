@@ -4,64 +4,154 @@ set -e
 
 ME=$(basename "$0")
 
-# Allow the default gateway listener to be overridden without replacing the entrypoint.
+# Supported modes:
+# - gateway: start the OpenClaw gateway (default)
+# - cli: run the OpenClaw CLI
+# - other values: forward the original container command unchanged
+RUN_MODE=${RUN_MODE:-gateway}
+
+# Allow the built-in gateway listener to be overridden without replacing the entrypoint.
 OPENCLAW_GATEWAY_BIND=${OPENCLAW_GATEWAY_BIND:-lan}
 OPENCLAW_GATEWAY_PORT=${OPENCLAW_GATEWAY_PORT:-18789}
 
-# Control UI requests usually originate from localhost in the browser, so allow those
-# origins by default unless the caller provides a stricter explicit override.
+# Control UI requests usually come from a local browser, so allow localhost by default
+# unless the caller provides a stricter override.
 DEFAULT_ORIGINS="[\"http://localhost:$OPENCLAW_GATEWAY_PORT\",\"http://127.0.0.1:$OPENCLAW_GATEWAY_PORT\"]"
-# Specify `ALLOWED_ORIGINS` to override the default allowed origins for the Control UI.
+# same as `OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS`
 ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-$DEFAULT_ORIGINS}
+# same as `OC_GATEWAY__CONTROL_UI__ALLOW_INSECURE_AUTH`
+INSECURE_AUTH=${INSECURE_AUTH:-false}
+# same as `OC_GATEWAY__CONTROL_UI__DANGEROUSLY_DISABLE_DEVICE_AUTH`
+DISABLE_DEVICE_AUTH=${DISABLE_DEVICE_AUTH:-false}
 
 get_date() {
   date +"%Y-%m-%dT%H:%M:%S.%3N%:z"
 }
 
 entrypoint_log() {
-  if [ -z "${NGINX_ENTRYPOINT_QUIET_LOGS:-}" ]; then
-    echo "$(get_date) $@"
+  if [ -n "${NGINX_ENTRYPOINT_QUIET_LOGS:-}" ]; then
+    return
   fi
+
+  printf "$(get_date) $ME: $1$3$2\n";
 }
 
-current_user() {
-  whoami
+entrypoint_warn() {
+  entrypoint_log "\033[33m" "\033[39m" "$1";
 }
 
-# Update Openclaw config using the provided script
+# Common environment variables for both gateway and CLI modes
+export_openclaw_env() {
+  export OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS="${OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS:-$ALLOWED_ORIGINS}"
+  export OC_GATEWAY__MODE="${OC_GATEWAY__MODE:-local}"
+  export OC_GATEWAY__CONTROL_UI__ALLOW_INSECURE_AUTH="${OC_GATEWAY__CONTROL_UI__ALLOW_INSECURE_AUTH:-$INSECURE_AUTH}"
+  export OC_GATEWAY__CONTROL_UI__DANGEROUSLY_DISABLE_DEVICE_AUTH="${OC_GATEWAY__CONTROL_UI__DANGEROUSLY_DISABLE_DEVICE_AUTH:-$DISABLE_DEVICE_AUTH}"
+}
+
+update_starship() {
+  mkdir -p "$HOME/.config"
+
+  if [ -f "$HOME/.config/starship.toml" ]; then
+    entrypoint_log "Starship config exists; skip update."
+    return
+  fi
+
+  if [ -z "${STARSHIP_CONFIG:-}" ]; then
+    if [ -f /usr/local/starship.toml ]; then
+      cp /usr/local/starship.toml "$HOME/.config/starship.toml"
+      entrypoint_log "Installed default Starship config."
+    fi
+    return
+  fi
+
+  if printf '%s' "$STARSHIP_CONFIG" | grep -qE '^https?://'; then
+    entrypoint_log "Download Starship config from URL."
+    wget -O "$HOME/.config/starship.toml" "$STARSHIP_CONFIG"
+    entrypoint_log "Installed Starship config from URL."
+    return
+  fi
+
+  if [ -f "$STARSHIP_CONFIG" ]; then
+    cp "$STARSHIP_CONFIG" "$HOME/.config/starship.toml"
+    entrypoint_log "Installed Starship config from file."
+    return
+  fi
+
+  entrypoint_warn "STARSHIP_CONFIG not found: $STARSHIP_CONFIG"
+}
+
 update_openclaw_config() {
-  entrypoint_log "$ME: Updating Openclaw config..."
-  username=$(current_user)
+  username=$(whoami)
+  # Use radom filename to avoid security issues.
   tempfile=$(mktemp /tmp/XXXXXX.mjs)
-  # Non-root users cannot traverse `/root`; copy the script to a temporary file
-  # so the config generation step can run without switching the whole entrypoint to root.
+
+  entrypoint_log "Generating OpenClaw config from runtime environment."
+
+  # Non-root users cannot traverse `/root`, so copy the generator to a temporary
+  # readable location before running it as the current user.
+  trap 'rm -f "$tempfile"' EXIT HUP INT TERM
   sudo cp /root/update_config.mjs "$tempfile"
   sudo chmod 644 "$tempfile"
-  sudo chown $username:$username "$tempfile"
+  sudo chown "$username:$username" "$tempfile"
   node "$tempfile"
   rm -f "$tempfile"
+  trap - EXIT HUP INT TERM
 }
 
-start_openclaw() {
-  entrypoint_log "$ME: Starting Openclaw..."
-  exec openclaw gateway --allow-unconfigured --bind "$OPENCLAW_GATEWAY_BIND" --port "$OPENCLAW_GATEWAY_PORT"
-}
-
-# By default, generate the config first and then start the built-in Openclaw gateway.
-# When `openclaw ...` is passed explicitly, generate the config first and then forward
-# the original arguments to `openclaw` unchanged.
-# Any other command is executed as-is so callers can debug or override the default entrypoint behavior.
-if [ "$#" -eq 0 ]; then
-  # Seed the Control UI allowed origins when the caller does not provide an
-  # explicit `OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS` value.
-  if [ -z "${OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS:-}" ]; then
-    export OC_GATEWAY__CONTROL_UI__ALLOWED_ORIGINS="$ALLOWED_ORIGINS"
+ensure_gateway_token() {
+  if [ -n "${OPENCLAW_GATEWAY_TOKEN:-}" ]; then
+    entrypoint_log "Using the provided OpenClaw gateway token."
+    return
   fi
+
+  export OC_GATEWAY__AUTH__MODE="${OC_GATEWAY__AUTH__MODE:-token}"
+  if [ "$OC_GATEWAY__AUTH__MODE" != "token" ]; then
+    entrypoint_log "OpenClaw gateway auth mode is set to '$OC_GATEWAY__AUTH__MODE'; skipping token generation."
+    return
+  fi
+
+  export OC_GATEWAY__AUTH__TOKEN=${OC_GATEWAY__AUTH__TOKEN:-$(openssl rand -hex 32)}
+  entrypoint_log "Generated a new OpenClaw gateway token for this container process."
+}
+
+run_gateway() {
+  ensure_gateway_token
+  export_openclaw_env
   update_openclaw_config
-  start_openclaw
-elif [ "$1" = "openclaw" ]; then
+
+  entrypoint_log "Start gateway on $OPENCLAW_GATEWAY_BIND:$OPENCLAW_GATEWAY_PORT."
+
+  gateway_token=${OPENCLAW_GATEWAY_TOKEN:-$OC_GATEWAY__AUTH__TOKEN}
+  if [ -n "$gateway_token" ]; then
+    entrypoint_log "Gateway Token: $gateway_token"
+  fi
+
+  entrypoint_warn "⚠️  OC_* variables are only used when creating openclaw.json."
+  entrypoint_warn "If the file already exists, edit it directly or remove it before restart."
+
+  exec openclaw gateway --allow-unconfigured --bind "$OPENCLAW_GATEWAY_BIND" --port "$OPENCLAW_GATEWAY_PORT" "$@"
+}
+
+run_cli() {
+  export_openclaw_env
   update_openclaw_config
-  exec "$@"
-else
-  exec "$@"
-fi
+  exec openclaw "$@"
+}
+
+run() {
+  case "$RUN_MODE" in
+    gateway)
+      run_gateway "$@"
+      ;;
+    cli)
+      run_cli "$@"
+      ;;
+    *)
+      entrypoint_log "RUN_MODE=$RUN_MODE; exec original command."
+      exec "$@"
+      ;;
+  esac
+}
+
+update_starship
+run "$@"

@@ -7,7 +7,7 @@
  * 2 计划任务: 通过 GitHub Actions 定时任务自动触发检查，默认为每小时检查一次
  * 3 Push 推送: 包含有 meta.json 或者 Dockerfile 提交记录的推送会触发检查
  */
-import core from '@actions/core'
+import * as core from '@actions/core'
 import { green, yellow } from 'kolorist'
 import { checkVersionConfig as config, isAct } from './config.js'
 import { CheckAppsManager } from './context/checkAppsManager.js'

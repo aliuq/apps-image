@@ -1,5 +1,7 @@
 #!/usr/bin/env bun
-//MISE description="Run check-version workflow via act"
+// [MISE] description="Run check-version workflow via act"
+// [MISE] interactive=true
+// [USAGE] flag "-F --force-history" count=#true help="Reuse the latest history entry; repeat twice to skip final confirmation"
 
 /**
  * check-version 任务
@@ -12,11 +14,15 @@
  * - 可选保存执行日志到 .mise-logs/ 目录
  */
 
-import { intro, outro, log, select, autocompleteMultiselect } from '@clack/prompts'
+import process from 'node:process'
+import { autocompleteMultiselect, intro, log, outro, select } from '@clack/prompts'
+import { t } from './lib/i18n.mjs'
 import {
   assertNotCancel,
   confirmAndRun,
   ensureActAvailable,
+  ensureInteractiveTerminal,
+  extractInputArg,
   getContextOptions,
   promptHistory,
   promptSaveLog,
@@ -26,25 +32,31 @@ const TASK_NAME = 'check-version'
 const WORKFLOW = '.github/workflows/check-version.yaml'
 
 async function main() {
+  const reuseLatestCount = Number(process.env.usage_force_history || 0)
+  if (reuseLatestCount <= 1)
+    ensureInteractiveTerminal()
+
   intro(TASK_NAME)
   ensureActAvailable()
 
   // ── 1. 尝试复用历史命令 ───────────────────────────────────────────────
-  const historyArgs = await promptHistory(TASK_NAME)
-  if (historyArgs) {
-    const saveLog = await promptSaveLog()
+  const historyEntry = await promptHistory(TASK_NAME, { useLatest: reuseLatestCount > 0 })
+  if (historyEntry) {
+    const saveLog = reuseLatestCount > 0 ? false : await promptSaveLog()
     // 从历史参数中提取 context 用于日志文件名
-    const ctxArg = historyArgs.find((a, i) => i > 0 && historyArgs[i - 1] === '--input' && a.startsWith('context='))
-    const context = ctxArg ? ctxArg.replace('context=', '') : 'unknown'
+    const context = historyEntry.context || extractInputArg(historyEntry.args, 'context') || 'unknown'
 
     await confirmAndRun({
       task: TASK_NAME,
-      args: historyArgs,
-      label: `[history] context=${context}`,
+      cmd: historyEntry.cmd,
+      args: historyEntry.args,
+      label: historyEntry.label,
       context,
+      cwd: historyEntry.cwd,
       saveLog,
+      skipConfirm: reuseLatestCount > 1,
     })
-    outro('Done!')
+    outro(t('task.done'))
     return
   }
 
@@ -52,10 +64,10 @@ async function main() {
 
   // 2a. 选择检查范围
   const mode = assertNotCancel(await select({
-    message: 'Select check scope',
+    message: t('check.scope'),
     options: [
-      { value: 'all', label: 'All contexts', hint: 'Check all contexts' },
-      { value: 'specific', label: 'Specific contexts', hint: 'Search and select' },
+      { value: 'all', label: t('check.scopeAll'), hint: t('check.scopeAllHint') },
+      { value: 'specific', label: t('check.scopeSpecific'), hint: t('check.scopeSpecificHint') },
     ],
   }))
 
@@ -63,40 +75,36 @@ async function main() {
   if (mode === 'specific') {
     const options = getContextOptions()
     if (options.length === 0) {
-      log.error('No context directories found (apps/, base/, test/)')
+      log.error(t('task.noContexts'))
       process.exit(1)
     }
 
     // 使用 autocompleteMultiselect 支持搜索，解决大量选项时的高度溢出问题
     const contexts = assertNotCancel(await autocompleteMultiselect({
-      message: 'Search and select contexts',
+      message: t('check.contexts'),
       options,
-      placeholder: 'Type to search...',
+      placeholder: t('check.contextsPlaceholder'),
       maxItems: 15,
+      required: true,
+      validate: value => Array.isArray(value) && value.length > 0 ? undefined : t('check.contextsRequired'),
     }))
 
-    if (contexts.length === 0) {
-      log.warn('No contexts selected, falling back to all')
-      contextValue = 'all'
-    }
-    else {
-      contextValue = contexts.join(',')
-    }
+    contextValue = contexts.join(',')
   }
 
   // 2b. 是否创建 PR
   const createPr = assertNotCancel(await select({
-    message: 'Create PR?',
+    message: t('check.createPr'),
     options: [
-      { value: 'false', label: 'No', hint: 'Do not create PR, just check' },
-      { value: 'true', label: 'Yes', hint: 'Create PR, and trigger build-image workflow' },
-      { value: 'development', label: 'Development', hint: 'Create PR, but skip build-image workflow' },
+      { value: 'false', label: 'No', hint: t('check.createPrNoHint') },
+      { value: 'true', label: 'Yes', hint: t('check.createPrYesHint') },
+      { value: 'development', label: 'Development', hint: t('check.createPrDevHint') },
     ],
   }))
 
   // 2c. Debug 模式
   const debug = assertNotCancel(await select({
-    message: 'Enable debug mode?',
+    message: t('check.debug'),
     options: [
       { value: 'false', label: 'No' },
       { value: 'true', label: 'Yes' },
@@ -124,7 +132,7 @@ async function main() {
     saveLog,
   })
 
-  outro('Done!')
+  outro(t('task.done'))
 }
 
 main().catch((err) => {
