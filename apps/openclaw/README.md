@@ -3,7 +3,8 @@
 > 一个运行在你自己设备上的个人 AI assistant。该镜像预装了 OpenClaw、ffmpeg、yt-dlp 以及常用 CLI 运行环境，默认启动 Gateway，也可以切换到 CLI 模式进行配置和排障
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/aliuq/openclaw)](https://hub.docker.com/r/aliuq/openclaw)
-[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/openclaw)](https://hub.docker.com/r/aliuq/openclaw)
+[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/openclaw/latest?label=latest)](https://hub.docker.com/r/aliuq/openclaw)
+[![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/openclaw/codebase?label=codebase)](https://hub.docker.com/r/aliuq/openclaw)
 
 ## 项目信息
 
@@ -204,7 +205,7 @@ openclaw devices list
 openclaw devices approve <Request ID>
 ```
 
-![device-list](./screenshots/device-approve.png)
+![device-list](https://raw.githubusercontent.com/aliuq/apps-image/refs/heads/master/apps/openclaw/screenshots/device-approve.png)
 
 ### Gateway 启动时提示安全警告
 
