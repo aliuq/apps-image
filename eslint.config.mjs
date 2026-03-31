@@ -10,6 +10,12 @@ export default antfu(
     ignores: ['dist', 'node_modules', '.history'],
   },
   {
+    rules: {
+      'e18e/prefer-static-regex': 'off',
+      'e18e/prefer-array-at': 'off',
+    },
+  },
+  {
     files: ['action/**/*.ts'],
     rules: {
       'ts/explicit-function-return-type': 'off',
