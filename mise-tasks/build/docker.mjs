@@ -12,7 +12,7 @@
 
 import { readdirSync } from 'node:fs'
 import process from 'node:process'
-import { autocomplete, intro, log, outro, select, text } from '@clack/prompts'
+import { autocomplete, intro, log, outro, select, text, note } from '@clack/prompts'
 import { t } from '../lib/i18n.mjs'
 import {
   assertNotCancel,
@@ -92,6 +92,11 @@ async function main() {
       saveLog: reuseLatestCount > 0 ? false : await promptSaveLog(),
       skipConfirm: reuseLatestCount > 1,
     })
+    const name = context.split('/').at(-1)
+    const tag = historyEntry.label.match(/tag=([^ ]+)/)?.[1]
+    if (tag) {
+      note(`docker run --rm --name ${name} ${tag}`, 'Next step')
+    }
     outro(t('task.done'))
     return
   }
@@ -152,6 +157,9 @@ async function main() {
     cwd: context,
     saveLog,
   })
+
+  const name = context.split('/').at(-1)
+  note(`docker run --rm --name ${name} ${trimmedTag}`, 'docker run')
 
   outro(t('task.done'))
 }
