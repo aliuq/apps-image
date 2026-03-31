@@ -1,7 +1,85 @@
 {
-  "generated": "2026-03-30T14:48:03.687Z",
+  "generated": "2026-03-31T21:41:53.998Z",
   "total": 23,
   "apps": [
+    {
+      "name": "openclaw",
+      "type": "app",
+      "title": "OpenClaw",
+      "slogan": "The AI that actually does things.",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
+      "variants": {
+        "latest": {
+          "version": "2026.3.31",
+          "sha": "213a704b71f4996dc82a583288ee53785215f627",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "codebase": {
+          "version": "2026.3.31",
+          "sha": "213a704b71f4996dc82a583288ee53785215f627",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=codebase",
+              "type=raw,value=codebase-{{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/openclaw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/openclaw",
+      "hasReadme": true,
+      "updatedAt": "2026-03-31T21:04:41.000Z"
+    },
     {
       "name": "dashboard-icons",
       "type": "app",
@@ -106,108 +184,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-03-25T12:23:17.000Z"
-    },
-    {
-      "name": "openclaw",
-      "type": "app",
-      "title": "Openclaw",
-      "slogan": "小龙虾🦞",
-      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
-      "variants": {
-        "latest": {
-          "version": "2026.3.23",
-          "sha": "ccfeecb6887cd97937e33a71877ad512741e82b2",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "dev": {
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+-dev$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=dev",
-              "type=raw,value=dev-{{version}}"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "push": true,
-            "load": false
-          }
-        },
-        "codebase": {
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=codebase",
-              "type=raw,value=codebase-{{version}}"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "apps/openclaw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/openclaw",
-      "hasReadme": false,
-      "updatedAt": "2026-03-24T00:35:06.000Z"
     },
     {
       "name": "readest",
