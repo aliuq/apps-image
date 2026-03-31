@@ -1,8 +1,8 @@
 {
   "name": "openclaw",
   "type": "app",
-  "title": "Openclaw",
-  "slogan": "小龙虾🦞",
+  "title": "OpenClaw",
+  "slogan": "The AI that actually does things.",
   "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
   "variants": {
     "latest": {
@@ -19,7 +19,6 @@
       }
     },
     "codebase": {
-      "enabled": false,
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
@@ -29,9 +28,6 @@
         "tags": [
           "type=raw,value=codebase",
           "type=raw,value=codebase-{{version}}"
-        ],
-        "platforms": [
-          "linux/amd64"
         ]
       }
     }

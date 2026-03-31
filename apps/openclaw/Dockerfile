@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ARG OPENCLAW_VERSION="2026.3.23"
+ARG OPENCLAW_VERSION="{{version}}"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
@@ -86,8 +86,7 @@ RUN set -eux; \
         pipenv \
         virtualenv \
         pytest \
-        yt-dlp \
-        playwright; \
+        yt-dlp; \
     do \
         uv tool install --no-cache $pkg; \
     done && \
@@ -109,3 +108,5 @@ RUN sudo chmod +x /docker-entrypoint.sh
 SHELL ["/bin/zsh", "-c"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+EXPOSE 18789
