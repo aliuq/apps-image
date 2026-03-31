@@ -1,7 +1,112 @@
 {
-  "generated": "2026-03-13T20:35:01.717Z",
+  "generated": "2026-03-30T14:48:03.687Z",
   "total": 23,
   "apps": [
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "93e6d89",
+          "sha": "93e6d8959b23a761ff82a76fa54ed90238f91c6f",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-03-30T14:38:00.000Z"
+    },
+    {
+      "name": "vscode",
+      "type": "base",
+      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.113.0",
+          "sha": "cfbea10c5ffb233ea9177d34726e6056e89913dc",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "stable": {
+          "version": "1.113.0",
+          "sha": "cfbea10c5ffb233ea9177d34726e6056e89913dc",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=stable",
+              "type=raw,value={{version}}-stable"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/vscode",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/vscode",
+      "hasReadme": true,
+      "updatedAt": "2026-03-25T12:23:17.000Z"
+    },
     {
       "name": "openclaw",
       "type": "app",
@@ -10,8 +115,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.3.12",
-          "sha": "70d7a0854c54c489eaefd56bb406ad885f2b3ea2",
+          "version": "2026.3.23",
+          "sha": "ccfeecb6887cd97937e33a71877ad512741e82b2",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -102,112 +207,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": false,
-      "updatedAt": "2026-03-13T20:29:30.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "bde2ad3",
-          "sha": "bde2ad3fba12e6049c828bae24a2da5f85d1c865",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-03-13T03:03:21.000Z"
-    },
-    {
-      "name": "vscode",
-      "type": "base",
-      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.111.0",
-          "sha": "ce099c1ed25d9eb3076c11e4a280f3eb52b4fbeb",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "stable": {
-          "version": "1.111.0",
-          "sha": "ce099c1ed25d9eb3076c11e4a280f3eb52b4fbeb",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=stable",
-              "type=raw,value={{version}}-stable"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/vscode",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/vscode",
-      "hasReadme": true,
-      "updatedAt": "2026-03-09T12:18:59.000Z"
+      "updatedAt": "2026-03-24T00:35:06.000Z"
     },
     {
       "name": "readest",
@@ -218,8 +218,8 @@
       "license": "AGPL-3.0",
       "variants": {
         "latest": {
-          "version": "0.9.101",
-          "sha": "66d2fdf999581c979ee5f19ca8b993cecaf83626",
+          "version": "0.10.1",
+          "sha": "c11f79e843280e1b684397fd9f8b4666f0d3eb17",
           "checkver": {
             "type": "tag",
             "repo": "https://github.com/readest/readest",
@@ -231,8 +231,8 @@
           "enabled": true
         },
         "test": {
-          "version": "0.9.101",
-          "sha": "66d2fdf999581c979ee5f19ca8b993cecaf83626",
+          "version": "0.10.1",
+          "sha": "c11f79e843280e1b684397fd9f8b4666f0d3eb17",
           "checkver": {
             "type": "tag",
             "repo": "readest/readest",
@@ -264,7 +264,84 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-02-28T10:08:08.000Z"
+      "updatedAt": "2026-03-22T14:12:02.000Z"
+    },
+    {
+      "name": "weserv",
+      "type": "app",
+      "slogan": "wsrv.nl",
+      "description": "weserv 是一个用于快速生成图像的 API",
+      "variants": {
+        "latest": {
+          "version": "e334ec7",
+          "sha": "e334ec75fc6cde91aeddabfcae6369b14b933582",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=5.x",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "alpine": {
+          "version": "e334ec7",
+          "sha": "e334ec75fc6cde91aeddabfcae6369b14b933582",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=alpine",
+              "type=raw,value=5.x-alpine",
+              "type=raw,value={{version}}-alpine"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/weserv",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/weserv",
+      "hasReadme": true,
+      "updatedAt": "2026-03-21T12:13:58.000Z"
     },
     {
       "name": "rayso",
@@ -274,8 +351,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "73fac26",
-          "sha": "73fac26b0f184b57ebacd37da95721210a49e1dc",
+          "version": "4eed5c5",
+          "sha": "4eed5c543cb93dbc62d053b57ce2512027de7712",
           "checkver": {
             "type": "sha",
             "repo": "raycast/ray-so",
@@ -293,7 +370,7 @@
       "category": "app",
       "readmePath": "apps/rayso",
       "hasReadme": true,
-      "updatedAt": "2026-02-26T10:21:40.000Z"
+      "updatedAt": "2026-03-19T08:19:24.000Z"
     },
     {
       "name": "memogram",
@@ -714,83 +791,6 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/telemirror",
-      "hasReadme": true,
-      "updatedAt": "2025-12-19T15:27:41.000Z"
-    },
-    {
-      "name": "weserv",
-      "type": "app",
-      "slogan": "wsrv.nl",
-      "description": "weserv 是一个用于快速生成图像的 API",
-      "variants": {
-        "latest": {
-          "version": "0f029b4",
-          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value=5.x",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "alpine": {
-          "version": "0f029b4",
-          "sha": "0f029b475c0ace517205ff88a967449aea0b2c41",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=alpine",
-              "type=raw,value=5.x-alpine",
-              "type=raw,value={{version}}-alpine"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/weserv",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/weserv",
       "hasReadme": true,
       "updatedAt": "2025-12-19T15:27:41.000Z"
     },
