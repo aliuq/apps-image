@@ -18,7 +18,7 @@ RUN set -eux; \
 
 # Python tools
 RUN set -eux; \
-    for pkg in yt-dlp playwright; \
+    for pkg in yt-dlp; \
     do \
         uv tool install --no-cache $pkg; \
     done && \
@@ -38,3 +38,5 @@ RUN sudo chmod +x /docker-entrypoint.sh
 SHELL ["/bin/zsh", "-c"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+EXPOSE 18789
