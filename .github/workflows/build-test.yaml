@@ -204,12 +204,14 @@ jobs:
             core.setOutput("buttons", buttons)
 
       - name: Notification
-        uses: aliuq/telegram-action@v1
+        uses: aliuq/telegram-action@v2
         if: inputs.notify
+        env:
+          TZ: Asia/Shanghai
+          TELEGRAM_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.CHAT_ID }}
+          TELEGRAM_REPLY_TO_MESSAGE_ID: ${{ secrets.REPLY_TO_MESSAGE_ID }}
         with:
-          bot_token: ${{ secrets.BOT_TOKEN }}
-          chat_id: ${{ secrets.CHAT_ID }}
-          reply_to_message_id: ${{ secrets.REPLY_TO_MESSAGE_ID }}
           message: |
             🎉 ${{ steps.pre-notify.outputs.name }} has new image builds
 

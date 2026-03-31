@@ -21,7 +21,7 @@ jobs:
 
       - name: Prepare
         id: prepare
-        uses: aliuq/script-action@v1
+        uses: aliuq/script-action@v2
         with:
           auto_install: true
           script: |
