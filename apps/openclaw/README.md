@@ -217,6 +217,22 @@ openclaw devices approve <Request ID>
 
 这表示你关闭了设备认证，适合本地临时调试，但不适合长期使用或暴露到公网
 
+### 控制台日志提示缺少相关包
+
+```bash
+[gateway-http] stage "slack" threw — skipping: Error: Cannot find module '@slack/web-api'
+
+Error: Cannot find module '@aws-sdk/client-bedrock'
+```
+
+因为每次 OpenClaw 都会根据实际使用的功能按需安装依赖，所以如果你在 Gateway UI 中启用了某个集成但没有安装对应的包，就会看到类似的错误提示
+
+解决方法：
+
+1. 进入容器的 shell
+2. 直接使用 `bun install` 安装缺失的包，例如 `bun install @slack/web-api` 或 `bun install @aws-sdk/client-bedrock`
+3. 重启 Gateway 服务，或者直接在 CLI 模式下测试对应功能是否正常
+
 ## 开发
 
 ### 本地构建
