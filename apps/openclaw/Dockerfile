@@ -1,5 +1,13 @@
 FROM ubuntu:24.04
 
+# Remove the default 'ubuntu' user if it exists to avoid conflicts with the new user we will create later.
+# This is important to ensure that the container runs with the correct user permissions.
+RUN if id "ubuntu" &>/dev/null; then \
+        echo "Deleting user 'ubuntu'" && userdel -f -r ubuntu || echo "Failed to delete ubuntu user"; \
+    else \
+        echo "User 'ubuntu' does not exist"; \
+    fi;
+
 ARG OPENCLAW_VERSION="2026.3.31"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
