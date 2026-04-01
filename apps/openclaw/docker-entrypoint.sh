@@ -13,6 +13,7 @@ RUN_MODE=${RUN_MODE:-gateway}
 # Allow the built-in gateway listener to be overridden without replacing the entrypoint.
 OPENCLAW_GATEWAY_BIND=${OPENCLAW_GATEWAY_BIND:-lan}
 OPENCLAW_GATEWAY_PORT=${OPENCLAW_GATEWAY_PORT:-18789}
+OPENCLAW_STATE_DIR=${OPENCLAW_STATE_DIR:-$HOME/.openclaw}
 
 # Control UI requests usually come from a local browser, so allow localhost by default
 # unless the caller provides a stricter override.
@@ -38,6 +39,29 @@ entrypoint_log() {
 
 entrypoint_warn() {
   entrypoint_log "\033[33m" "\033[39m" "$1";
+}
+
+# If `$OPENCLAW_STATE_DIR` is volume-mounted from the host,
+# it may be owned by a different user than the one running inside the container.
+# change its ownership to avoid permission issues.
+fix_permissions() {
+  mkdir -p "$OPENCLAW_STATE_DIR"
+  if [ -d "$OPENCLAW_STATE_DIR" ] && [ ! -w "$OPENCLAW_STATE_DIR" ]; then
+    entrypoint_log "Fixing permissions for $OPENCLAW_STATE_DIR"
+    sudo chown -R "$(id -u):$(id -g)" "$OPENCLAW_STATE_DIR"
+  fi
+}
+
+# if `$OPENCLAW_STATE_DIR/completions` directory not exists, rerun completion install command to generate it.
+ensure_openclaw_completion() {
+  if [ ! -d "$OPENCLAW_STATE_DIR/completions" ]; then
+    entrypoint_log "OpenClaw completions not found; installing..."
+    if openclaw completion -y --shell zsh --write-state --install 2>/dev/null; then
+      entrypoint_log "OpenClaw completions installed."
+    else
+      entrypoint_warn "Failed to install OpenClaw completions."
+    fi
+  fi
 }
 
 # Common environment variables for both gateway and CLI modes
@@ -154,4 +178,6 @@ run() {
 }
 
 update_starship
+fix_permissions
+ensure_openclaw_completion
 run "$@"
