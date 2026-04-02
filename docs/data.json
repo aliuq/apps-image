@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-01T19:25:55.910Z",
+  "generated": "2026-04-02T21:41:18.890Z",
   "total": 23,
   "apps": [
     {
@@ -10,13 +10,12 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.1",
-          "sha": "da64a978e5814567f7797cc34fbe29b61b7eae7a",
+          "version": "2026.4.2",
+          "sha": "d74a12264aa5fb0598605e8f04e1864b7239ddd5",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
             "tagPattern": "^v[\\d.]+$",
-            "targetVersion": "v2026.4.1",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -27,6 +26,14 @@
               "type=raw,value=latest",
               "type=raw,value={{version}}"
             ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
             "file": "Dockerfile",
             "images": [
               "aliuq/openclaw",
@@ -42,13 +49,12 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.1",
-          "sha": "da64a978e5814567f7797cc34fbe29b61b7eae7a",
+          "version": "2026.4.2",
+          "sha": "d74a12264aa5fb0598605e8f04e1864b7239ddd5",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
             "tagPattern": "^v[\\d.]+$",
-            "targetVersion": "v2026.4.1",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -59,6 +65,14 @@
               "type=raw,value=codebase",
               "type=raw,value=codebase-{{version}}"
             ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
             "file": "Dockerfile",
             "images": [
               "aliuq/openclaw",
@@ -80,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-04-01T19:16:53.000Z"
+      "updatedAt": "2026-04-02T21:32:40.000Z"
     },
     {
       "name": "vscode",
