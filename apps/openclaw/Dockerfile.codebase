@@ -28,6 +28,11 @@ RUN set -eux; \
 RUN set -eux; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     openclaw completion -y --shell zsh --write-state --install && \
+    # Add alias `oc` for openclaw when current shell rc not contain alias `oc` and `oc` is not a command,
+    # to avoid conflict with existing `oc` command if any
+    if ! command -v oc >/dev/null 2>&1 && ! grep -qF "alias oc=" "$HOME/.zshrc"; then \
+        echo "alias oc='openclaw'" >> "$HOME/.zshrc"; \
+    fi && \
     bun pm cache rm -g
 
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh

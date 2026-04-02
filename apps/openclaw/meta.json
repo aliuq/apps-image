@@ -11,14 +11,21 @@
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
-        "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.4.1"
+        "tagPattern": "^v[\\d.]+$"
       },
       "docker": {
         "tags": [
           "type=raw,value=latest",
           "type=raw,value={{version}}"
-        ]
+        ],
+        "labels": {
+          "source": "https://github.com/openclaw/openclaw",
+          "url": "https://openclaw.ai",
+          "documentation": "https://docs.openclaw.ai/install/docker",
+          "licenses": "MIT",
+          "title": "OpenClaw",
+          "description": "OpenClaw gateway and CLI runtime container image"
+        }
       }
     },
     "codebase": {
@@ -27,14 +34,21 @@
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
-        "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.4.1"
+        "tagPattern": "^v[\\d.]+$"
       },
       "docker": {
         "tags": [
           "type=raw,value=codebase",
           "type=raw,value=codebase-{{version}}"
-        ]
+        ],
+        "labels": {
+          "source": "https://github.com/openclaw/openclaw",
+          "url": "https://openclaw.ai",
+          "documentation": "https://docs.openclaw.ai/install/docker",
+          "licenses": "MIT",
+          "title": "OpenClaw",
+          "description": "OpenClaw gateway and CLI runtime container image"
+        }
       }
     }
   }

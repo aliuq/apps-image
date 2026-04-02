@@ -72,11 +72,16 @@ RUN set -eux; \
     sed -i "s/plugins=(git)/plugins=($plugins)/" $HOME/.zshrc && \
     \
     # clean
-    rm -rf $HOME/.cache /tmp/* /var/tmp/*
+    rm -rf $HOME/.cache /tmp/* /var/tmp/* && \
+    \
+    # Bindkey '^H' to backward-delete-char in zsh
+    echo "bindkey '^H' backward-delete-char" >> $HOME/.zshrc; \
+    # Add alias cls for clear in zsh
+    echo "alias cls='clear'" >> $HOME/.zshrc;
 
 # For agent
 RUN set -eux; \
-    mise use -g -y usage bun node@lts yarn@1 pnpm python@3 pipx uv && \
+    mise use -g -y usage bun node@lts yarn@1 pnpm python@3 pipx uv rg && \
     mise cache clear
 
 # Python tools
@@ -104,6 +109,11 @@ RUN set -eux; \
 RUN set -eux; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     openclaw completion -y --shell zsh --write-state --install && \
+    # Add alias `oc` for openclaw when current shell rc not contain alias `oc` and `oc` is not a command,
+    # to avoid conflict with existing `oc` command if any
+    if ! command -v oc >/dev/null 2>&1 && ! grep -qF "alias oc=" "$HOME/.zshrc"; then \
+        echo "alias oc='openclaw'" >> "$HOME/.zshrc"; \
+    fi && \
     bun pm cache rm -g
 
 # Copy files

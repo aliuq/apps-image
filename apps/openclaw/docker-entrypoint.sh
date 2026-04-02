@@ -139,10 +139,6 @@ ensure_gateway_token() {
 }
 
 run_gateway() {
-  ensure_gateway_token
-  export_openclaw_env
-  update_openclaw_config
-
   entrypoint_log "Start gateway on $OPENCLAW_GATEWAY_BIND:$OPENCLAW_GATEWAY_PORT."
 
   gateway_token=${OPENCLAW_GATEWAY_TOKEN:-$OC_GATEWAY__AUTH__TOKEN}
@@ -157,8 +153,6 @@ run_gateway() {
 }
 
 run_cli() {
-  export_openclaw_env
-  update_openclaw_config
   exec openclaw "$@"
 }
 
@@ -180,4 +174,7 @@ run() {
 update_starship
 fix_permissions
 ensure_openclaw_completion
+[ "$RUN_MODE" = "gateway" ] && ensure_gateway_token
+export_openclaw_env
+update_openclaw_config
 run "$@"
