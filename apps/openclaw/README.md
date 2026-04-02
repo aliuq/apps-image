@@ -6,6 +6,10 @@
 [![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/openclaw/latest?label=latest)](https://hub.docker.com/r/aliuq/openclaw)
 [![Docker Image Size](https://img.shields.io/docker/image-size/aliuq/openclaw/codebase?label=codebase)](https://hub.docker.com/r/aliuq/openclaw)
 
+> [!WARNING]\
+> 镜像目前会自动同步官方版本，而由于 OpenClaw 处于**日更**状态，请尽量不要使用 latest/codebase 标签 \
+> 而是改成指定具体版本号以避免不兼容的突发更新导致服务中断
+
 ## 项目信息
 
 - **上游仓库**: [openclaw/openclaw](https://github.com/openclaw/openclaw)
@@ -76,8 +80,9 @@ docker-compose up -d
 
 两者都预装了以下核心组件：
 
-- Openclaw
+- OpenClaw
 - Python
+- Node
 - mise
 - ffmpeg
 - yt-dlp
