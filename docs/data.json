@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-04T20:16:02.572Z",
+  "generated": "2026-04-05T18:20:45.691Z",
   "total": 23,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "AGPL-3.0",
       "variants": {
         "latest": {
-          "version": "0.10.2",
-          "sha": "531dbe5f16bbf1a0d8e4198ded6de70d06a05ab9",
+          "version": "0.10.4",
+          "sha": "3174e341a3c2886d827ef8a8a0ea16cef6311c06",
           "checkver": {
             "type": "tag",
             "repo": "https://github.com/readest/readest",
@@ -24,8 +24,8 @@
           "enabled": true
         },
         "test": {
-          "version": "0.10.2",
-          "sha": "531dbe5f16bbf1a0d8e4198ded6de70d06a05ab9",
+          "version": "0.10.4",
+          "sha": "3174e341a3c2886d827ef8a8a0ea16cef6311c06",
           "checkver": {
             "type": "tag",
             "repo": "readest/readest",
@@ -57,7 +57,7 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-04-04T20:11:28.000Z"
+      "updatedAt": "2026-04-05T18:16:31.000Z"
     },
     {
       "name": "openclaw",
