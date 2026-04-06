@@ -141,5 +141,9 @@
   "i18n-ally.localesPaths": ["docs/src/locales"],
   "[shellscript]": {
     "editor.formatOnSave": true
+  },
+  "material-icon-theme.files.associations": {
+    "Dockerfile.vue": "docker",
+    "Dockerfile.svelte": "docker"
   }
 }
