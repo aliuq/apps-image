@@ -1,43 +1,61 @@
-FROM alpine:3.19.1
+FROM alpine:3.23
 
-# For nghttp2-dev, we need this respository.
-# RUN echo https://dl-cdn.alpinelinux.org/alpine/edge/testing >>/etc/apk/repositories
-# RUN echo https://dl-cdn.alpinelinux.org/alpine/v3.19/main >>/etc/apk/repositories
-#
-
-LABEL version="0.0.2"
-LABEL maintainer="AliuQ <aliuq@bilishare.com>"
-
-RUN apk update && apk --no-cache add \
-    bash git curl zsh starship shadow \
-    ca-certificates openssl python3 make gcc g++ libgcc linux-headers grep \
-    ncurses coreutils util-linux binutils findutils
+RUN apk add --no-cache \
+    bash \
+    git \
+    curl \
+    zsh \
+    starship \
+    shadow \
+    ca-certificates \
+    openssl \
+    python3 \
+    libgcc \
+    grep \
+    ncurses \
+    coreutils \
+    util-linux \
+    findutils
 
 SHELL ["bash", "-c"]
 
-ENV NVM_VERSION=0.39.7
+ARG HOME=/root
 
-# install nvm
-RUN touch ~/.bashrc && \
-    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash && \
-    chmod +x $HOME/.nvm/nvm.sh
+ENV TERM=xterm-256color \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    HOME=${HOME} \
+    ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom \
+    PATH="${HOME}/.local/share/fnm:$PATH" \
+    FNM_ARCH=x64-musl \
+    FNM_NODE_DIST_MIRROR=https://unofficial-builds.nodejs.org/download/release
 
-# install oh-my-zsh
-RUN chsh -s /bin/zsh && \
-    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash && \
-    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
+COPY ./scripts /tmp/scripts
+
+# zsh / oh-my-zsh
+RUN set -eux; \
+    chsh -s /bin/zsh && \
+    git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh && \
+    cp ${HOME}/.oh-my-zsh/templates/zshrc.zsh-template ${HOME}/.zshrc && \
+    zsh_user="https://github.com/zsh-users" && \
+    git clone --depth=1 ${zsh_user}/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions && \
+    git clone --depth=1 ${zsh_user}/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting && \
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc && \
-    echo "export USER=\$(whoami)" >> ~/.zshrc
+    \
+    # add theme
+    mv /tmp/scripts/devcontainers.zsh-theme ${ZSH_CUSTOM}/themes/devcontainers.zsh-theme && \
+    cat /tmp/scripts/bash_theme_snippet.sh >> /root/.bashrc && \
+    rm -rf ${HOME}/.oh-my-zsh/.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions/.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting/.git
 
-# other
-RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash && \
-    echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc && \
-    curl -fs -S --create-dirs -o ~/.config/starship.toml https://raw.githubusercontent.com/aliuq/config/master/starship.toml
-
-RUN apk cache clean && \
-    rm -rf /var/cache/apk/* && \
-    rm -rf /tmp/* && \
-    rm -rf /var/log/*
-
-ENTRYPOINT [ "/bin/zsh" ]
+# Install fnm
+RUN set -eux; \
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && \
+    ln -sf ${HOME}/.local/share/fnm/fnm /usr/local/bin/fnm && \
+    source /tmp/scripts/helper.sh && _add_omz_plugin fnm && \
+    \
+    # add fnm to bashrc and zshrc
+    echo "# fnm" >> ~/.bashrc && \
+    echo "eval \"\$(fnm env --use-on-cd --shell bash)\"" >> ~/.bashrc && \
+    echo "# fnm" >> ~/.zshrc && \
+    echo "eval \"\$(fnm env --use-on-cd --shell zsh)\"" >> ~/.zshrc && \
+    rm -rf /tmp/scripts ${HOME}/.cache

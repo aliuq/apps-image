@@ -1,47 +1,54 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-# 修改 archive.ubuntu.com 为阿里云镜像
-RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
-    sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
-    apt clean && \
-    apt update
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    curl \
+    git \
+    zsh \
+    unzip \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt install --no-install-recommends -y curl wget zip unzip vim make gcc libncurses5-dev libncursesw5-dev
-RUN apt install -y software-properties-common
+SHELL ["bash", "-c"]
 
-# Git
-RUN add-apt-repository -y ppa:git-core/ppa && \
-    apt update && \
-    apt install --no-install-recommends -y git
+ARG HOME=/root
 
-# Zsh
-RUN curl -fsSL https://raw.githubusercontent.com/aliuq/shs/main/zsh/ubuntu.sh | bash -s 5.9
+ENV TERM=xterm-256color \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    HOME=${HOME} \
+    ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom \
+    PATH="${HOME}/.local/share/fnm:$PATH"
 
-# NVM
-ENV NVM_VERSION=0.39.7
-RUN curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+COPY ./scripts /tmp/scripts
 
-# Oh-my-zsh
-RUN chsh -s /bin/zsh && \
-    curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash && \
-    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
+# starship
+RUN set -eux; \
+    curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir /usr/local/bin -y
+
+# zsh / oh-my-zsh
+RUN set -eux; \
+    chsh -s /bin/zsh && \
+    git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ${HOME}/.oh-my-zsh && \
+    cp ${HOME}/.oh-my-zsh/templates/zshrc.zsh-template ${HOME}/.zshrc && \
+    zsh_user="https://github.com/zsh-users" && \
+    git clone --depth=1 ${zsh_user}/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions && \
+    git clone --depth=1 ${zsh_user}/zsh-syntax-highlighting ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting && \
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc && \
-    echo "export USER=\$(whoami)" >> ~/.zshrc && \
-    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+    \
+    # add theme
+    mv /tmp/scripts/devcontainers.zsh-theme ${ZSH_CUSTOM}/themes/devcontainers.zsh-theme && \
+    cat /tmp/scripts/bash_theme_snippet.sh >> /root/.bashrc && \
+    rm -rf ${HOME}/.oh-my-zsh/.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions/.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting/.git
 
-# Starship
-RUN curl -sS https://starship.rs/install.sh | sh -s -- -y && \
-    echo "eval \"\$(starship init zsh)\"" >> ~/.zshrc && \
-    curl -fs -S --create-dirs -o ~/.config/starship.toml https://raw.githubusercontent.com/aliuq/config/master/starship.toml
-
-# Remove
-RUN apt remove -y ca-certificates gcc-11-base gcc-11 gcc make openssl libncurses5-dev libncursesw5-dev
-
-# Clean
-RUN apt clean -y && apt autoclean -y && apt autoremove -y && \
-    rm -rf /var/lib/apt/lists && \
-    rm -rf /tmp && \
-    rm -rf /var/log
-
-ENTRYPOINT [ "/bin/zsh" ]
+# fnm
+RUN set -eux; \
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell && \
+    ln -sf ${HOME}/.local/share/fnm/fnm /usr/local/bin/fnm && \
+    source /tmp/scripts/helper.sh && _add_omz_plugin fnm && \
+    \
+    # add fnm to bashrc and zshrc
+    echo "# fnm" >> ~/.bashrc && \
+    echo "eval \"\$(fnm env --use-on-cd --shell bash)\"" >> ~/.bashrc && \
+    echo "# fnm" >> ~/.zshrc && \
+    echo "eval \"\$(fnm env --use-on-cd --shell zsh)\"" >> ~/.zshrc && \
+    rm -rf /tmp/scripts ${HOME}/.cache
