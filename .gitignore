@@ -11,3 +11,5 @@ bak
 apps/**/app
 
 .*/skills
+
+__pycache__

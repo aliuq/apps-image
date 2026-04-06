@@ -15,7 +15,7 @@ A Telegram session string generator with QR code login support. This tool helps 
 
 ```bash
 # Basic usage
-docker run -it --rm --name tg-session -v $(pwd):/app/session aliuq/tg-session
+docker run -it --rm --name tg-session -v "$(pwd)":/app/session aliuq/tg-session
 
 # Debug mode (displays session string in console)
 docker run -it --rm --name tg-session -e DEBUG=true aliuq/tg-session
@@ -23,13 +23,15 @@ docker run -it --rm --name tg-session -e DEBUG=true aliuq/tg-session
 # With API credentials
 docker run -it --rm \
   --name tg-session \
-  -v $(pwd):/app/session \
+  -v "$(pwd)":/app/session \
   -e API_ID=your_api_id \
   -e API_HASH=your_api_hash \
   aliuq/tg-session
 ```
 
 The generated session string will be saved in `./.session` file.
+If your Telegram account has 2FA enabled, the tool will prompt for the password after the QR code is scanned.
+The QR code now shows a live countdown in the terminal and will automatically refresh when Telegram marks it as expired.
 
 ## Environment Variables
 
@@ -48,6 +50,21 @@ docker buildx build -t tg-session --load .
 
 # Build with detailed progress
 docker buildx build --progress=plain -t tg-session --load .
+```
+
+## Validation
+
+```bash
+# Rebuild the image
+docker build -t tg-session .
+
+# Run the local smoke test inside the container image
+docker run --rm \
+  --entrypoint python \
+  -v "$(pwd)":/workspace \
+  -w /workspace \
+  tg-session \
+  smoke_test.py
 ```
 
 ## Security Note
