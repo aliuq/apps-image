@@ -7,7 +7,7 @@
   "variants": {
     "latest": {
       "version": "1.0.1",
-      "sha": "f1be460968252d846bdc21ef618356fa7865ffe1",
+      "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
       "checkver": {
         "type": "manual"
       },
@@ -21,7 +21,7 @@
     },
     "ubuntu": {
       "version": "1.0.1",
-      "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
+      "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
       "checkver": {
         "type": "manual"
       },
