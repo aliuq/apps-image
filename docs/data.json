@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-06T18:50:44.713Z",
+  "generated": "2026-04-06T19:13:19.505Z",
   "total": 23,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.0.0",
-          "sha": "f1be460968252d846bdc21ef618356fa7865ffe1",
+          "version": "1.0.1",
+          "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
           "checkver": {
             "type": "manual",
             "branch": "main",
@@ -40,9 +40,8 @@
           "enabled": true
         },
         "ubuntu": {
-          "version": "1.0.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-          "enabled": false,
+          "version": "1.0.1",
+          "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
           "checkver": {
             "type": "manual",
             "branch": "main",
@@ -66,7 +65,8 @@
             ],
             "push": true,
             "load": false
-          }
+          },
+          "enabled": true
         }
       },
       "context": "base/self",
@@ -75,7 +75,87 @@
       "category": "base",
       "readmePath": "base/self",
       "hasReadme": false,
-      "updatedAt": "2026-04-06T18:48:49.000Z"
+      "updatedAt": "2026-04-06T18:59:46.000Z"
+    },
+    {
+      "name": "cobalt",
+      "type": "app",
+      "title": "Cobalt",
+      "slogan": "媒体下载器，支持多平台视频/音频下载",
+      "description": "best way to save what you love",
+      "license": "AGPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "11.7",
+          "sha": "54655720bf6d7c229c91e02c065ed1c1fd9f54f4",
+          "checkver": {
+            "type": "version",
+            "repo": "https://github.com/imputnet/cobalt",
+            "file": "web/package.json",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}",
+              "type=raw,value={{major}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/cobalt",
+              "ghcr.io/aliuq/cobalt"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "dev": {
+          "version": "5465572",
+          "sha": "54655720bf6d7c229c91e02c065ed1c1fd9f54f4",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/imputnet/cobalt",
+            "path": "web",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=dev",
+              "type=raw,value=dev-{{sha}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/cobalt",
+              "ghcr.io/aliuq/cobalt"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/cobalt",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/cobalt",
+      "hasReadme": true,
+      "updatedAt": "2026-04-06T12:25:09.000Z"
     },
     {
       "name": "openclaw",
@@ -517,86 +597,6 @@
       "readmePath": "apps/n8n-workflows",
       "hasReadme": true,
       "updatedAt": "2026-02-11T16:28:25.000Z"
-    },
-    {
-      "name": "cobalt",
-      "type": "app",
-      "title": "Cobalt",
-      "slogan": "媒体下载器，支持多平台视频/音频下载",
-      "description": "best way to save what you love",
-      "license": "AGPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "11.3",
-          "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
-          "checkver": {
-            "type": "version",
-            "repo": "https://github.com/imputnet/cobalt",
-            "file": "web/package.json",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}",
-              "type=raw,value={{major}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/cobalt",
-              "ghcr.io/aliuq/cobalt"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "dev": {
-          "version": "8d9bccc",
-          "sha": "8d9bccc4fedabb6842fab71bd14e805f1ea21336",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/imputnet/cobalt",
-            "path": "web",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=dev",
-              "type=raw,value=dev-{{sha}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/cobalt",
-              "ghcr.io/aliuq/cobalt"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/cobalt",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/cobalt",
-      "hasReadme": true,
-      "updatedAt": "2026-02-11T10:25:25.000Z"
     },
     {
       "name": "icones",

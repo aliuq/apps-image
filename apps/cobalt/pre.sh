@@ -2,14 +2,14 @@
 
 set -euxo pipefail
 
-VERSION="e4b5388"
+VERSION="5465572"
 
 # Clone the repository
 mkdir -p app && cd app
 git clone https://github.com/imputnet/cobalt . && git checkout $VERSION
 rm -rf .git
 
-mise use pnpm -g
+mise use pnpm node@lts -g
 corepack enable && corepack prepare --activate
 pnpm install --frozen-lockfile
 WEB_DEFAULT_API=\$BASE_API pnpm -C web build
