@@ -7,8 +7,8 @@
   "license": "AGPL-3.0",
   "variants": {
     "latest": {
-      "version": "11.3",
-      "sha": "e4b53880af4026b8be6a870ae7d8133f744a6181",
+      "version": "11.7",
+      "sha": "54655720bf6d7c229c91e02c065ed1c1fd9f54f4",
       "checkver": {
         "type": "version",
         "repo": "https://github.com/imputnet/cobalt",
@@ -23,8 +23,8 @@
       }
     },
     "dev": {
-      "version": "8d9bccc",
-      "sha": "8d9bccc4fedabb6842fab71bd14e805f1ea21336",
+      "version": "5465572",
+      "sha": "54655720bf6d7c229c91e02c065ed1c1fd9f54f4",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/imputnet/cobalt",
