@@ -22,7 +22,6 @@
     "ubuntu": {
       "version": "1.0.0",
       "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-      "enabled": false,
       "checkver": {
         "type": "manual"
       },
