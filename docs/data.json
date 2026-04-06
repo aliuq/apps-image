@@ -1,7 +1,108 @@
 {
-  "generated": "2026-04-06T19:13:19.505Z",
+  "generated": "2026-04-06T19:28:40.771Z",
   "total": 23,
   "apps": [
+    {
+      "name": "nginx",
+      "type": "base",
+      "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
+      "variants": {
+        "latest": {
+          "version": "1.0.0",
+          "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "vue": {
+          "version": "1.0.0",
+          "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=vue",
+              "type=raw,value={{version}}-vue"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "svelte": {
+          "version": "1.0.0",
+          "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=svelte",
+              "type=raw,value={{version}}-svelte"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/nginx",
+              "ghcr.io/aliuq/nginx"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/nginx",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/nginx",
+      "hasReadme": false,
+      "updatedAt": "2026-04-06T19:27:10.000Z"
+    },
     {
       "name": "self",
       "type": "base",
@@ -884,107 +985,6 @@
       "skip": false,
       "category": "base",
       "readmePath": "base/alpine",
-      "hasReadme": false,
-      "updatedAt": "2025-12-19T15:27:41.000Z"
-    },
-    {
-      "name": "nginx",
-      "type": "base",
-      "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
-      "variants": {
-        "latest": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/nginx",
-              "ghcr.io/aliuq/nginx"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "vue": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=vue",
-              "type=raw,value={{version}}-vue"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/nginx",
-              "ghcr.io/aliuq/nginx"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "svelte": {
-          "version": "0.1.0",
-          "sha": "363f047cd6f9f160cb6bb142afb8d14191aac07e",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=svelte",
-              "type=raw,value={{version}}-svelte"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/nginx",
-              "ghcr.io/aliuq/nginx"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/nginx",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/nginx",
       "hasReadme": false,
       "updatedAt": "2025-12-19T15:27:41.000Z"
     },
