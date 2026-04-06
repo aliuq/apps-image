@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-06T18:50:44.713Z",
+  "generated": "2026-04-06T19:03:45.158Z",
   "total": 23,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.0.0",
-          "sha": "f1be460968252d846bdc21ef618356fa7865ffe1",
+          "version": "1.0.1",
+          "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
           "checkver": {
             "type": "manual",
             "branch": "main",
@@ -40,9 +40,8 @@
           "enabled": true
         },
         "ubuntu": {
-          "version": "1.0.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-          "enabled": false,
+          "version": "1.0.1",
+          "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
           "checkver": {
             "type": "manual",
             "branch": "main",
@@ -66,7 +65,8 @@
             ],
             "push": true,
             "load": false
-          }
+          },
+          "enabled": true
         }
       },
       "context": "base/self",
@@ -75,7 +75,7 @@
       "category": "base",
       "readmePath": "base/self",
       "hasReadme": false,
-      "updatedAt": "2026-04-06T18:48:49.000Z"
+      "updatedAt": "2026-04-06T18:59:46.000Z"
     },
     {
       "name": "openclaw",
