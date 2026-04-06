@@ -1,7 +1,176 @@
 {
-  "generated": "2026-04-05T18:20:45.691Z",
+  "generated": "2026-04-06T18:50:44.713Z",
   "total": 23,
   "apps": [
+    {
+      "name": "self",
+      "type": "base",
+      "title": "Personal Development Environment",
+      "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.0.0",
+          "sha": "f1be460968252d846bdc21ef618356fa7865ffe1",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=alpine",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/self",
+              "ghcr.io/aliuq/self"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "ubuntu": {
+          "version": "1.0.0",
+          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
+          "enabled": false,
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=ubuntu",
+              "type=raw,value={{version}}-ubuntu"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/self",
+              "ghcr.io/aliuq/self"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "base/self",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/self",
+      "hasReadme": false,
+      "updatedAt": "2026-04-06T18:48:49.000Z"
+    },
+    {
+      "name": "openclaw",
+      "type": "app",
+      "title": "OpenClaw",
+      "slogan": "The AI that actually does things.",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
+      "variants": {
+        "latest": {
+          "version": "2026.4.5",
+          "sha": "3e72c0352dde84a0bcb3aabafa99c2d4b12d1c46",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "codebase": {
+          "version": "2026.4.5",
+          "sha": "3e72c0352dde84a0bcb3aabafa99c2d4b12d1c46",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=codebase",
+              "type=raw,value=codebase-{{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/openclaw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/openclaw",
+      "hasReadme": true,
+      "updatedAt": "2026-04-06T03:12:13.000Z"
+    },
     {
       "name": "readest",
       "type": "app",
@@ -58,100 +227,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-04-05T18:16:31.000Z"
-    },
-    {
-      "name": "openclaw",
-      "type": "app",
-      "title": "OpenClaw",
-      "slogan": "The AI that actually does things.",
-      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
-      "variants": {
-        "latest": {
-          "version": "2026.4.2",
-          "sha": "d74a12264aa5fb0598605e8f04e1864b7239ddd5",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "codebase": {
-          "version": "2026.4.2",
-          "sha": "d74a12264aa5fb0598605e8f04e1864b7239ddd5",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=codebase",
-              "type=raw,value=codebase-{{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/openclaw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/openclaw",
-      "hasReadme": true,
-      "updatedAt": "2026-04-02T21:32:40.000Z"
     },
     {
       "name": "vscode",
@@ -1093,81 +1168,6 @@
       "category": "app",
       "readmePath": "apps/yulegeyu",
       "hasReadme": true,
-      "updatedAt": "2025-08-19T18:38:11.000Z"
-    },
-    {
-      "name": "self",
-      "type": "base",
-      "title": "Personal Development Environment",
-      "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "0.1.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value=alpine",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/self",
-              "ghcr.io/aliuq/self"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "ubuntu": {
-          "version": "0.1.0",
-          "sha": "162984856e9b0390bfda8b5e20edeea665582b1b",
-          "enabled": false,
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=ubuntu",
-              "type=raw,value={{version}}-ubuntu"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/self",
-              "ghcr.io/aliuq/self"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "base/self",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/self",
-      "hasReadme": false,
       "updatedAt": "2025-08-19T18:38:11.000Z"
     },
     {
