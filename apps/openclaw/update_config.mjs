@@ -24,19 +24,19 @@
  * The script is a no-op when no OC_ variables are set or the config file already exists.
  */
 
-import { spawnSync } from "node:child_process";
-import { mkdir, open } from "node:fs/promises";
-import os from "node:os";
-import path from "node:path";
-import process from "node:process";
+import { spawnSync } from 'node:child_process'
+import { mkdir, open } from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
+import process from 'node:process'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const ENV_PREFIX = "OC_";
-const CONFIG_FILE_NAME = "openclaw.json";
+const ENV_PREFIX = 'OC_'
+const CONFIG_FILE_NAME = 'openclaw.json'
 
 /** Upper bound for array indices to avoid sparse-array memory/disk exhaustion. */
-const MAX_ARRAY_INDEX = 10_000;
+const MAX_ARRAY_INDEX = 10_000
 
 // ─── Utilities ───────────────────────────────────────────────────────────────
 
@@ -44,15 +44,15 @@ const MAX_ARRAY_INDEX = 10_000;
  * Throws a formatted error with optional detail text on a new line.
  */
 function fail(message, details) {
-  const suffix = details ? `\n${details}` : "";
-  throw new Error(`${message}${suffix}`);
+  const suffix = details ? `\n${details}` : ''
+  throw new Error(`${message}${suffix}`)
 }
 
 /**
  * Returns whether a path segment is a numeric array index.
  */
 function isIndexSegment(segment) {
-  return /^\d+$/.test(segment);
+  return /^\d+$/.test(segment)
 }
 
 /**
@@ -60,11 +60,11 @@ function isIndexSegment(segment) {
  * Throws if the index exceeds MAX_ARRAY_INDEX to prevent sparse-array memory exhaustion.
  */
 function parseArrayIndex(segment, envName) {
-  const index = Number.parseInt(segment, 10);
+  const index = Number.parseInt(segment, 10)
   if (index > MAX_ARRAY_INDEX) {
-    fail(`Array index ${index} exceeds maximum allowed (${MAX_ARRAY_INDEX}) in: ${envName}`);
+    fail(`Array index ${index} exceeds maximum allowed (${MAX_ARRAY_INDEX}) in: ${envName}`)
   }
-  return index;
+  return index
 }
 
 /**
@@ -72,15 +72,16 @@ function parseArrayIndex(segment, envName) {
  * Falls back to the original string on parse failure or empty input.
  */
 function parseEnvValue(rawValue) {
-  const trimmed = rawValue.trim();
+  const trimmed = rawValue.trim()
   if (!trimmed) {
-    return rawValue;
+    return rawValue
   }
 
   try {
-    return JSON.parse(trimmed);
-  } catch {
-    return rawValue;
+    return JSON.parse(trimmed)
+  }
+  catch {
+    return rawValue
   }
 }
 
@@ -91,7 +92,7 @@ function parseEnvValue(rawValue) {
  * e.g. "server__host_name" → ["server", "host_name"]
  */
 function splitPathSegments(rawName) {
-  return rawName.split("__").map(segment => segment.trim()).filter(Boolean);
+  return rawName.split('__').map(segment => segment.trim()).filter(Boolean)
 }
 
 /**
@@ -100,13 +101,15 @@ function splitPathSegments(rawName) {
  * e.g. "host_name" → "hostName", "0" → "0"
  */
 function toCamelCase(segment) {
-  if (isIndexSegment(segment)) return segment;
+  if (isIndexSegment(segment))
+    return segment
 
-  const parts = segment.toLowerCase().split("_").map(part => part.trim()).filter(Boolean);
-  if (parts.length === 0) return "";
+  const parts = segment.toLowerCase().split('_').map(part => part.trim()).filter(Boolean)
+  if (parts.length === 0)
+    return ''
 
-  const [head, ...tail] = parts;
-  return head + tail.map(part => part[0].toUpperCase() + part.slice(1)).join("");
+  const [head, ...tail] = parts
+  return head + tail.map(part => part[0].toUpperCase() + part.slice(1)).join('')
 }
 
 /**
@@ -117,56 +120,56 @@ function formatConfigPath(segments, envName) {
   return segments.reduce((accumulator, segment, index) => {
     if (isIndexSegment(segment)) {
       if (index === 0) {
-        fail(`Array index cannot be the first path segment: ${envName}`);
+        fail(`Array index cannot be the first path segment: ${envName}`)
       }
-      return `${accumulator}[${segment}]`;
+      return `${accumulator}[${segment}]`
     }
 
-    return accumulator ? `${accumulator}.${segment}` : segment;
-  }, "");
+    return accumulator ? `${accumulator}.${segment}` : segment
+  }, '')
 }
 
 /**
  * Parses a full env variable name into a structured config-path descriptor.
  */
 function parseEnvName(envName) {
-  const rawName = envName.slice(ENV_PREFIX.length);
-  const segments = splitPathSegments(rawName).map(toCamelCase).filter(Boolean);
+  const rawName = envName.slice(ENV_PREFIX.length)
+  const segments = splitPathSegments(rawName).map(toCamelCase).filter(Boolean)
 
   if (segments.length === 0) {
-    fail(`Invalid config env name: ${envName}`);
+    fail(`Invalid config env name: ${envName}`)
   }
 
   return {
     envName,
     segments,
     path: formatConfigPath(segments, envName),
-  };
+  }
 }
 
 /**
  * Converts one `OC_*` environment variable entry into an update descriptor.
  */
 function parseEnvUpdate([envName, rawValue]) {
-  const parsed = parseEnvName(envName);
+  const parsed = parseEnvName(envName)
   return {
     envName,
     path: parsed.path,
     segments: parsed.segments,
-    rawValue: rawValue ?? "",
-  };
+    rawValue: rawValue ?? '',
+  }
 }
 
 /**
  * Sorts shallower paths first so parent containers are created before children.
  */
 function compareUpdates(left, right) {
-  const depthDiff = left.segments.length - right.segments.length;
+  const depthDiff = left.segments.length - right.segments.length
   if (depthDiff !== 0) {
-    return depthDiff;
+    return depthDiff
   }
 
-  return left.path.localeCompare(right.path);
+  return left.path.localeCompare(right.path)
 }
 
 /**
@@ -176,7 +179,7 @@ function collectUpdates() {
   return Object.entries(process.env)
     .filter(([envName]) => envName.startsWith(ENV_PREFIX))
     .map(parseEnvUpdate)
-    .sort(compareUpdates);
+    .sort(compareUpdates)
 }
 
 // ─── Config file path resolution ─────────────────────────────────────────────
@@ -192,23 +195,23 @@ function collectUpdates() {
  *   4. ~/.openclaw/openclaw.json                    (default)
  */
 function resolveConfigPath() {
-  const explicit = process.env.OPENCLAW_CONFIG_PATH?.trim() || process.env.CLAWDBOT_CONFIG_PATH?.trim();
+  const explicit = process.env.OPENCLAW_CONFIG_PATH?.trim() || process.env.CLAWDBOT_CONFIG_PATH?.trim()
   if (explicit) {
-    return explicit;
+    return explicit
   }
 
-  const stateDir = process.env.OPENCLAW_STATE_DIR?.trim();
+  const stateDir = process.env.OPENCLAW_STATE_DIR?.trim()
   if (stateDir) {
-    return path.join(stateDir, CONFIG_FILE_NAME);
+    return path.join(stateDir, CONFIG_FILE_NAME)
   }
 
-  const openclawHome = process.env.OPENCLAW_HOME?.trim();
+  const openclawHome = process.env.OPENCLAW_HOME?.trim()
   if (openclawHome) {
-    return path.join(openclawHome, ".openclaw", CONFIG_FILE_NAME);
+    return path.join(openclawHome, '.openclaw', CONFIG_FILE_NAME)
   }
 
-  const homeDir = process.env.HOME?.trim() || os.homedir();
-  return path.join(homeDir, ".openclaw", CONFIG_FILE_NAME);
+  const homeDir = process.env.HOME?.trim() || os.homedir()
+  return path.join(homeDir, '.openclaw', CONFIG_FILE_NAME)
 }
 
 // ─── Config object building ───────────────────────────────────────────────────
@@ -217,86 +220,87 @@ function resolveConfigPath() {
  * Returns a new intermediate container inferred from the next path segment.
  */
 function createContainer(nextSegment) {
-  return isIndexSegment(nextSegment) ? [] : {};
+  return isIndexSegment(nextSegment) ? [] : {}
 }
 
 /**
  * Ensures an intermediate container exists for the current segment and returns it.
  */
 function ensureContainer(parent, segment, nextSegment, envName) {
-  const arrayIndex = Array.isArray(parent) ? parseArrayIndex(segment, envName) : null;
+  const arrayIndex = Array.isArray(parent) ? parseArrayIndex(segment, envName) : null
   const existing = Array.isArray(parent)
     ? parent[arrayIndex]
-    : parent[segment];
+    : parent[segment]
 
-  if (existing !== undefined && existing !== null && typeof existing === "object") {
-    return existing;
+  if (existing !== undefined && existing !== null && typeof existing === 'object') {
+    return existing
   }
 
-  const container = createContainer(nextSegment);
+  const container = createContainer(nextSegment)
   if (Array.isArray(parent)) {
-    parent[arrayIndex] = container;
-  } else {
-    parent[segment] = container;
+    parent[arrayIndex] = container
+  }
+  else {
+    parent[segment] = container
   }
 
-  return container;
+  return container
 }
 
 /**
  * Writes one parsed update into the target config object.
  */
 function applyUpdate(root, update) {
-  const { envName, segments } = update;
-  let current = root;
+  const { envName, segments } = update
+  let current = root
 
   for (let index = 0; index < segments.length - 1; index += 1) {
-    const segment = segments[index];
-    const nextSegment = segments[index + 1];
+    const segment = segments[index]
+    const nextSegment = segments[index + 1]
 
     if (Array.isArray(current)) {
       if (!isIndexSegment(segment)) {
-        fail(`Invalid array index segment: ${segment}`);
+        fail(`Invalid array index segment: ${segment}`)
       }
-      parseArrayIndex(segment, envName);
+      parseArrayIndex(segment, envName)
     }
 
-    current = ensureContainer(current, segment, nextSegment, envName);
+    current = ensureContainer(current, segment, nextSegment, envName)
   }
 
-  const leaf = segments[segments.length - 1];
-  const value = parseEnvValue(update.rawValue);
+  const leaf = segments[segments.length - 1]
+  const value = parseEnvValue(update.rawValue)
 
   if (Array.isArray(current)) {
     if (!isIndexSegment(leaf)) {
-      fail(`Invalid array index segment: ${leaf}`);
+      fail(`Invalid array index segment: ${leaf}`)
     }
 
-    current[parseArrayIndex(leaf, envName)] = value;
-    return;
+    current[parseArrayIndex(leaf, envName)] = value
+    return
   }
 
-  current[leaf] = value;
+  current[leaf] = value
 }
 
 /**
  * Builds a fresh config object from the provided updates.
  */
 function buildConfig(updates) {
-  const config = {};
+  const config = {}
 
   for (const update of updates) {
-    applyUpdate(config, update);
+    applyUpdate(config, update)
   }
 
-  return config;
+  return config
 }
 
 /**
  * Serialises the config object as pretty-printed JSON with a trailing newline.
  */
 function serializeConfig(config) {
-  return `${JSON.stringify(config, null, 2)}\n`;
+  return `${JSON.stringify(config, null, 2)}\n`
 }
 
 // ─── File creation and validation ────────────────────────────────────────────
@@ -305,7 +309,7 @@ function serializeConfig(config) {
  * Ensures the parent directory for the target config file exists.
  */
 async function ensureConfigDirectory(configPath) {
-  await mkdir(path.dirname(configPath), { recursive: true });
+  await mkdir(path.dirname(configPath), { recursive: true })
 }
 
 /**
@@ -313,24 +317,26 @@ async function ensureConfigDirectory(configPath) {
  * Returns false when another process already created the file.
  */
 async function createInitialConfigFile(configPath, config) {
-  let handle;
+  let handle
 
   try {
-    handle = await open(configPath, "wx");
-  } catch (error) {
-    if (error?.code === "EEXIST") {
-      return false;
+    handle = await open(configPath, 'wx')
+  }
+  catch (error) {
+    if (error?.code === 'EEXIST') {
+      return false
     }
-    throw error;
+    throw error
   }
 
   try {
-    await handle.writeFile(serializeConfig(config), "utf8");
-  } finally {
-    await handle.close();
+    await handle.writeFile(serializeConfig(config), 'utf8')
+  }
+  finally {
+    await handle.close()
   }
 
-  return true;
+  return true
 }
 
 /**
@@ -338,14 +344,16 @@ async function createInitialConfigFile(configPath, config) {
  * or returns a non-zero exit code.
  */
 function validateConfigFile() {
-  const validationResult = spawnSync("openclaw", ["config", "validate"], { stdio: "inherit" });
+  const validationResult = spawnSync('openclaw', ['config', 'validate'], {
+    stdio: ['ignore', 'ignore', 'inherit'],
+  })
 
   if (validationResult.error) {
-    fail("Failed to execute 'openclaw config validate'", validationResult.error.message);
+    fail('Failed to execute \'openclaw config validate\'', validationResult.error.message)
   }
 
   if (validationResult.status !== 0) {
-    fail(`Config validation failed with exit code: ${validationResult.status}`);
+    fail(`Config validation failed with exit code: ${validationResult.status}`)
   }
 }
 
@@ -356,22 +364,24 @@ function validateConfigFile() {
  * Returns early when there is nothing to write or another process already created the file.
  */
 async function main() {
-  const updates = collectUpdates();
-  if (updates.length === 0) return;
+  const updates = collectUpdates()
+  if (updates.length === 0)
+    return
 
-  const configPath = resolveConfigPath();
-  const config = buildConfig(updates);
+  const configPath = resolveConfigPath()
+  const config = buildConfig(updates)
 
-  await ensureConfigDirectory(configPath);
+  await ensureConfigDirectory(configPath)
 
-  const created = await createInitialConfigFile(configPath, config);
-  if (!created) return;
+  const created = await createInitialConfigFile(configPath, config)
+  if (!created)
+    return
 
-  validateConfigFile();
+  validateConfigFile()
 }
 
 main().catch((error) => {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error(`[update-config] ${message}`);
-  process.exit(1);
-});
+  const message = error instanceof Error ? error.message : String(error)
+  console.error(`[update-config] ${message}`)
+  process.exit(1)
+})

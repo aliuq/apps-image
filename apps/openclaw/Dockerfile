@@ -8,7 +8,7 @@ RUN if id "ubuntu" &>/dev/null; then \
         echo "User 'ubuntu' does not exist"; \
     fi;
 
-ARG OPENCLAW_VERSION="2026.4.2"
+ARG OPENCLAW_VERSION="2026.4.5"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
@@ -108,13 +108,22 @@ RUN set -eux; \
 # OpenClaw
 RUN set -eux; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
+    # Trust the openclaw package globally to run postinstall scripts.
+    # Download bundled  plugins to avoid error `Error: Cannot find module *`
+    bun pm trust openclaw -g && \
     openclaw completion -y --shell zsh --write-state --install && \
     # Add alias `oc` for openclaw when current shell rc not contain alias `oc` and `oc` is not a command,
     # to avoid conflict with existing `oc` command if any
     if ! command -v oc >/dev/null 2>&1 && ! grep -qF "alias oc=" "$HOME/.zshrc"; then \
         echo "alias oc='openclaw'" >> "$HOME/.zshrc"; \
     fi && \
-    bun pm cache rm -g
+    bun pm cache rm -g && \
+    \
+    # Archive global bun packages to avoid re-downloading them when container restarts
+    cd $HOME/.bun/install/global && \
+    tar -czf /tmp/node_modules.tar.gz node_modules && \
+    rm -rf node_modules && \
+    cd $HOME/.openclaw
 
 # Copy files
 COPY --chown=$USERNAME:$USERNAME ./starship.toml /usr/local/starship.toml
@@ -124,6 +133,14 @@ COPY ./update_config.mjs /root/update_config.mjs
 RUN sudo chmod +x /docker-entrypoint.sh
 
 SHELL ["/bin/zsh", "-c"]
+
+# Renference: https://github.com/openclaw/openclaw/blob/main/Dockerfile
+# Built-in probe endpoints for container health checks:
+#   - GET /healthz (liveness) and GET /readyz (readiness)
+#   - aliases: /health and /ready
+# For external access from host/ingress, override bind to "lan" and set auth.
+HEALTHCHECK --interval=3m --timeout=10s --start-period=15s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:18789/healthz').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
