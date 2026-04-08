@@ -226,8 +226,10 @@ async function main() {
     fs.mkdirSync(outputDir, { recursive: true })
   }
 
+  const generatedAt = apps.find(app => app.updatedAt)?.updatedAt || '1970-01-01T00:00:00.000Z'
+
   const data = {
-    generated: new Date().toISOString(),
+    generated: generatedAt,
     total: apps.length,
     apps,
   }
