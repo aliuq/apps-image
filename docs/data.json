@@ -1,7 +1,36 @@
 {
-  "generated": "2026-04-06T20:41:53.098Z",
+  "generated": "2026-04-08T12:34:00.787Z",
   "total": 23,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "860ee46",
+          "sha": "860ee468bdfccffe88f2fbbd29249139b4138d75",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-04-08T12:28:40.000Z"
+    },
     {
       "name": "tg-session",
       "type": "base",
@@ -617,35 +646,6 @@
       "readmePath": "apps/weserv",
       "hasReadme": true,
       "updatedAt": "2026-03-21T12:13:58.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "4eed5c5",
-          "sha": "4eed5c543cb93dbc62d053b57ce2512027de7712",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-03-19T08:19:24.000Z"
     },
     {
       "name": "memogram",
