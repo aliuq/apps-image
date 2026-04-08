@@ -1,7 +1,176 @@
 {
-  "generated": "2026-04-08T12:34:00.787Z",
+  "generated": "2026-04-08T12:28:47.000Z",
   "total": 23,
   "apps": [
+    {
+      "name": "vscode",
+      "type": "base",
+      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.115.0",
+          "sha": "41dd792b5e652393e7787322889ed5fdc58bd75b",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "stable": {
+          "version": "1.115.0",
+          "sha": "41dd792b5e652393e7787322889ed5fdc58bd75b",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=stable",
+              "type=raw,value={{version}}-stable"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/vscode",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/vscode",
+      "hasReadme": true,
+      "updatedAt": "2026-04-08T12:28:47.000Z"
+    },
+    {
+      "name": "openclaw",
+      "type": "app",
+      "title": "OpenClaw",
+      "slogan": "The AI that actually does things.",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
+      "variants": {
+        "latest": {
+          "version": "2026.4.8",
+          "sha": "abe7b2c49da95a47fc0fc01661cec9bfed6941fc",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "codebase": {
+          "version": "2026.4.8",
+          "sha": "abe7b2c49da95a47fc0fc01661cec9bfed6941fc",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=codebase",
+              "type=raw,value=codebase-{{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/openclaw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/openclaw",
+      "hasReadme": true,
+      "updatedAt": "2026-04-08T12:28:43.000Z"
+    },
     {
       "name": "rayso",
       "type": "app",
@@ -315,100 +484,6 @@
       "updatedAt": "2026-04-06T12:25:09.000Z"
     },
     {
-      "name": "openclaw",
-      "type": "app",
-      "title": "OpenClaw",
-      "slogan": "The AI that actually does things.",
-      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
-      "variants": {
-        "latest": {
-          "version": "2026.4.5",
-          "sha": "3e72c0352dde84a0bcb3aabafa99c2d4b12d1c46",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "codebase": {
-          "version": "2026.4.5",
-          "sha": "3e72c0352dde84a0bcb3aabafa99c2d4b12d1c46",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=codebase",
-              "type=raw,value=codebase-{{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/openclaw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/openclaw",
-      "hasReadme": true,
-      "updatedAt": "2026-04-06T03:12:13.000Z"
-    },
-    {
       "name": "readest",
       "type": "app",
       "title": "Readest",
@@ -464,81 +539,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-04-05T18:16:31.000Z"
-    },
-    {
-      "name": "vscode",
-      "type": "base",
-      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.114.0",
-          "sha": "e7fb5e96c0730b9deb70b33781f98e2f35975036",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "stable": {
-          "version": "1.114.0",
-          "sha": "e7fb5e96c0730b9deb70b33781f98e2f35975036",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=stable",
-              "type=raw,value={{version}}-stable"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/vscode",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/vscode",
-      "hasReadme": true,
-      "updatedAt": "2026-04-01T12:28:54.000Z"
     },
     {
       "name": "dashboard-icons",
