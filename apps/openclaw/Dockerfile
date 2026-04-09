@@ -111,7 +111,11 @@ RUN set -eux; \
     # Trust the openclaw package globally to run postinstall scripts.
     # Download bundled  plugins to avoid error `Error: Cannot find module *`
     bun pm trust openclaw -g && \
-    openclaw completion -y --shell zsh --write-state --install && \
+    if openclaw completion -y --shell zsh --write-state --install; then \
+        echo "OpenClaw completions installed"; \
+    else \
+        echo "Warning: OpenClaw completion install failed; continuing without shell completions" >&2; \
+    fi && \
     # Add alias `oc` for openclaw when current shell rc not contain alias `oc` and `oc` is not a command,
     # to avoid conflict with existing `oc` command if any
     if ! command -v oc >/dev/null 2>&1 && ! grep -qF "alias oc=" "$HOME/.zshrc"; then \
