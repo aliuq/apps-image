@@ -1,6 +1,6 @@
 FROM ghcr.io/aliuq/devcontainer:me
 
-ARG OPENCLAW_VERSION="2026.4.10"
+ARG OPENCLAW_VERSION="2026.4.11"
 
 ENV TERM=xterm-256color \
     PATH="$MISE_DATA_DIR/shims:$PATH"
