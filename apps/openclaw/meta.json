@@ -7,7 +7,7 @@
   "variants": {
     "latest": {
       "version": "2026.4.12",
-      "sha": "72e56097ecd40d6d4d3ad2e0c138cff3cda7000b",
+      "sha": "1c0672b74f66038fd4ee76fbf1c21715887149d8",
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
@@ -30,7 +30,7 @@
     },
     "codebase": {
       "version": "2026.4.12",
-      "sha": "72e56097ecd40d6d4d3ad2e0c138cff3cda7000b",
+      "sha": "1c0672b74f66038fd4ee76fbf1c21715887149d8",
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
