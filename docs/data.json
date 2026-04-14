@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-13T14:41:57.000Z",
+  "generated": "2026-04-14T13:45:35.000Z",
   "total": 23,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.12",
-          "sha": "1c0672b74f66038fd4ee76fbf1c21715887149d8",
+          "version": "2026.4.14",
+          "sha": "323493fa1b6adc1e10b9954a68d5eaa5a6ef1170",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -49,8 +49,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.12",
-          "sha": "1c0672b74f66038fd4ee76fbf1c21715887149d8",
+          "version": "2026.4.14",
+          "sha": "323493fa1b6adc1e10b9954a68d5eaa5a6ef1170",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -94,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-04-13T14:41:57.000Z"
+      "updatedAt": "2026-04-14T13:45:35.000Z"
     },
     {
       "name": "readest",
