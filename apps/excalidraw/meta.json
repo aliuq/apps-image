@@ -6,6 +6,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
+      "version": "0.18.0",
+      "sha": "817d8c553c3389650f8b4503984a6d4a5d2f0c11",
       "checkver": {
         "type": "tag",
         "repo": "excalidraw/excalidraw",
@@ -19,6 +21,8 @@
       }
     },
     "dev": {
+      "version": "1caec99",
+      "sha": "1caec99b290c75cda05385e637138998807a65ae",
       "checkver": {
         "type": "sha",
         "repo": "excalidraw/excalidraw"
