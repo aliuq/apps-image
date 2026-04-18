@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-VERSION="{{version}}"
+VERSION="0.18.0"
 
 # Clone the repository
 mkdir -p app && cd app
