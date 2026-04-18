@@ -1,7 +1,7 @@
 {
   "name": "excalidraw",
   "type": "app",
-  "title": "Excaldraw",
+  "title": "Excalidraw",
   "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
   "license": "MIT",
   "variants": {

@@ -8,12 +8,14 @@ VERSION="{{version}}"
 mkdir -p app && cd app
 git clone https://github.com/excalidraw/excalidraw . && git checkout $VERSION
 
-# Install Bun and Node.js
+# Install Node.js and Yarn
 mise use node@22 yarn@1 -g
 
-yarn --network-timeout 600000 install
+yarn install --frozen-lockfile --network-timeout 600000
 
 NODE_ENV=production yarn build:app:docker
 
-# Clear
-rm .git -rf
+# Clear files that are not needed in the Docker build context
+rm -rf .git
+rm -rf node_modules
+yarn cache clean || true
