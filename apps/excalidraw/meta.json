@@ -1,0 +1,35 @@
+{
+  "name": "excalidraw",
+  "type": "app",
+  "title": "Excalidraw",
+  "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
+  "license": "MIT",
+  "variants": {
+    "latest": {
+      "checkver": {
+        "type": "tag",
+        "repo": "excalidraw/excalidraw",
+        "tagPattern": "^v[\\d.]+$"
+      },
+      "docker": {
+        "tags": [
+          "type=raw,value=latest",
+          "type=raw,value={{version}}"
+        ]
+      }
+    },
+    "dev": {
+      "checkver": {
+        "type": "sha",
+        "repo": "excalidraw/excalidraw"
+      },
+      "docker": {
+        "file": "Dockerfile",
+        "tags": [
+          "type=raw,value=dev",
+          "type=raw,value={{version}}-dev"
+        ]
+      }
+    }
+  }
+}
