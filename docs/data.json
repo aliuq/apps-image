@@ -1,7 +1,37 @@
 {
-  "generated": "2026-04-18T15:08:57.000Z",
+  "generated": "2026-04-19T16:15:49.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.5.0",
+          "sha": "ea70bc8d8f8468dc86c446504dfa1000ea11a3ef",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2026-04-19T16:15:49.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -725,36 +755,6 @@
       "readmePath": "apps/cobalt",
       "hasReadme": true,
       "updatedAt": "2026-04-06T12:25:09.000Z"
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.4.2",
-          "sha": "ae833095b8006e7bf9636e7ed4517df9943812e9",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true,
-      "updatedAt": "2026-02-25T14:26:15.000Z"
     },
     {
       "name": "n8n-workflows",
