@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=v0.4.2
+ARG VERSION=v0.5.0
 RUN git clone --branch ${VERSION} https://github.com/usememos/telegram-integration .
 
 # Build stage
