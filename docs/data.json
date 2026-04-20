@@ -1,37 +1,7 @@
 {
-  "generated": "2026-04-19T16:15:49.000Z",
+  "generated": "2026-04-20T20:19:56.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.5.0",
-          "sha": "ea70bc8d8f8468dc86c446504dfa1000ea11a3ef",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true,
-      "updatedAt": "2026-04-19T16:15:49.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -71,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "1caec99",
-          "sha": "1caec99b290c75cda05385e637138998807a65ae",
+          "version": "b1c6bfc",
+          "sha": "b1c6bfcf40cba255d208d8d525060684b10cb3cc",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -107,7 +77,37 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-04-18T15:08:57.000Z"
+      "updatedAt": "2026-04-20T20:19:56.000Z"
+    },
+    {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "0.5.0",
+          "sha": "ea70bc8d8f8468dc86c446504dfa1000ea11a3ef",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2026-04-19T16:15:49.000Z"
     },
     {
       "name": "openclaw",
