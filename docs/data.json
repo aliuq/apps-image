@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-20T20:19:56.000Z",
+  "generated": "2026-04-21T08:44:45.000Z",
   "total": 24,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "0.18.0",
-          "sha": "817d8c553c3389650f8b4503984a6d4a5d2f0c11",
+          "version": "0.18.1",
+          "sha": "a2ec2889babf7d2295469c6d90ebe77fae57df84",
           "checkver": {
             "type": "tag",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-04-20T20:19:56.000Z"
+      "updatedAt": "2026-04-21T08:44:45.000Z"
     },
     {
       "name": "memogram",
