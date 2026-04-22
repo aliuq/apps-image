@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-21T20:23:30.000Z",
+  "generated": "2026-04-22T03:11:50.000Z",
   "total": 24,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.20",
-          "sha": "115f05d5952adeaa8043311c24c4b8a3803481ba",
+          "version": "2026.4.21",
+          "sha": "f788c88b4c508c335336fb292afed8c900656d6d",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -49,8 +49,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.20",
-          "sha": "115f05d5952adeaa8043311c24c4b8a3803481ba",
+          "version": "2026.4.21",
+          "sha": "f788c88b4c508c335336fb292afed8c900656d6d",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -94,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-04-21T20:23:30.000Z"
+      "updatedAt": "2026-04-22T03:11:50.000Z"
     },
     {
       "name": "excalidraw",
