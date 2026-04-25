@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-23T14:51:59.000Z",
+  "generated": "2026-04-24T16:26:30.000Z",
   "total": 24,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.22",
-          "sha": "00bd2cf7a376f1fba26291c6c4766f1f15cbdfa5",
+          "version": "2026.4.23",
+          "sha": "a9797214338ba31c52c796adbb75afb16e0684a9",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -49,8 +49,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.22",
-          "sha": "00bd2cf7a376f1fba26291c6c4766f1f15cbdfa5",
+          "version": "2026.4.23",
+          "sha": "a9797214338ba31c52c796adbb75afb16e0684a9",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -94,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-04-23T14:51:59.000Z"
+      "updatedAt": "2026-04-24T16:26:30.000Z"
     },
     {
       "name": "rayso",
