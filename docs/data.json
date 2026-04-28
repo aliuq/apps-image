@@ -1,37 +1,7 @@
 {
-  "generated": "2026-04-27T16:38:30.000Z",
+  "generated": "2026-04-28T03:16:45.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "da5bfe6",
-          "sha": "da5bfe6dfc4386997d3b56eff9aa61661f2eb68d",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-04-27T16:38:30.000Z"
-    },
     {
       "name": "openclaw",
       "type": "app",
@@ -40,8 +10,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.25",
-          "sha": "aa36ee670b76211426a2e89a84e9096453c01ee7",
+          "version": "2026.4.26",
+          "sha": "be8c24633aaa7ef0425ae1178f096ee8dd6226c0",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -79,8 +49,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.25",
-          "sha": "aa36ee670b76211426a2e89a84e9096453c01ee7",
+          "version": "2026.4.26",
+          "sha": "be8c24633aaa7ef0425ae1178f096ee8dd6226c0",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -124,7 +94,37 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-04-27T12:41:50.000Z"
+      "updatedAt": "2026-04-28T03:16:45.000Z"
+    },
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "da5bfe6",
+          "sha": "da5bfe6dfc4386997d3b56eff9aa61661f2eb68d",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-04-27T16:38:30.000Z"
     },
     {
       "name": "excalidraw",
