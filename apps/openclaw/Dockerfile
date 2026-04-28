@@ -81,7 +81,7 @@ RUN set -eux; \
 
 # For agent
 RUN set -eux; \
-    mise use -g -y usage bun node@lts yarn@1 pnpm python@3 pipx uv rg && \
+    mise use -g -y usage bun@1.3.13 node@lts yarn@1 pnpm python@3 pipx uv rg && \
     mise cache clear
 
 # Python tools
@@ -107,6 +107,7 @@ RUN set -eux; \
 
 # OpenClaw
 RUN set -eux; \
+    bun upgrade && \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     # Trust the openclaw package globally to run postinstall scripts.
     # Download bundled  plugins to avoid error `Error: Cannot find module *`
