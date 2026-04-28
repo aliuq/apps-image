@@ -8,7 +8,7 @@ RUN if id "ubuntu" &>/dev/null; then \
         echo "User 'ubuntu' does not exist"; \
     fi;
 
-ARG OPENCLAW_VERSION="2026.4.25"
+ARG OPENCLAW_VERSION="2026.4.26"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
@@ -81,7 +81,7 @@ RUN set -eux; \
 
 # For agent
 RUN set -eux; \
-    mise use -g -y usage bun node@lts yarn@1 pnpm python@3 pipx uv rg && \
+    mise use -g -y usage bun@1.3.13 node@lts yarn@1 pnpm python@3 pipx uv rg && \
     mise cache clear
 
 # Python tools
@@ -107,6 +107,7 @@ RUN set -eux; \
 
 # OpenClaw
 RUN set -eux; \
+    bun upgrade && \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     # Trust the openclaw package globally to run postinstall scripts.
     # Download bundled  plugins to avoid error `Error: Cannot find module *`
