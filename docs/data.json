@@ -1,7 +1,37 @@
 {
-  "generated": "2026-04-29T10:41:40.000Z",
+  "generated": "2026-04-29T16:38:38.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "a860007",
+          "sha": "a860007cccaa663971b17c1760defa169292c428",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-04-29T16:38:38.000Z"
+    },
     {
       "name": "vscode",
       "type": "base",
@@ -249,36 +279,6 @@
       "readmePath": "apps/openclaw",
       "hasReadme": true,
       "updatedAt": "2026-04-28T03:16:45.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "da5bfe6",
-          "sha": "da5bfe6dfc4386997d3b56eff9aa61661f2eb68d",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-04-27T16:38:30.000Z"
     },
     {
       "name": "rayso",
