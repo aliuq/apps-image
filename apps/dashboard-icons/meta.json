@@ -7,8 +7,8 @@
   "license": "Apache-2.0",
   "variants": {
     "latest": {
-      "version": "695eca1",
-      "sha": "695eca128436d64094d22b339b38d8c523969a25",
+      "version": "842ef7c",
+      "sha": "842ef7c1b475361741334161d8f54e42fc90e20d",
       "checkver": {
         "type": "sha",
         "repo": "homarr-labs/dashboard-icons"
