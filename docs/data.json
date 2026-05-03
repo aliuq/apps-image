@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-03T22:47:47.000Z",
+  "generated": "2026-05-03T23:18:42.000Z",
   "total": 24,
   "apps": [
     {
@@ -10,13 +10,12 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.4.29",
-          "sha": "a448042c2edd94a4e8ee86d5ed90a5ed9fe8e4cd",
+          "version": "2026.5.2",
+          "sha": "8b2a6e57fef6c582ec6d27b85150616f9e3a7ba4",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
             "tagPattern": "^v[\\d.]+$",
-            "targetVersion": "v2026.4.29",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -50,13 +49,12 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.4.29",
-          "sha": "a448042c2edd94a4e8ee86d5ed90a5ed9fe8e4cd",
+          "version": "2026.5.2",
+          "sha": "8b2a6e57fef6c582ec6d27b85150616f9e3a7ba4",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
             "tagPattern": "^v[\\d.]+$",
-            "targetVersion": "v2026.4.29",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -96,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-05-03T22:47:47.000Z"
+      "updatedAt": "2026-05-03T23:18:42.000Z"
     },
     {
       "name": "haitang",
