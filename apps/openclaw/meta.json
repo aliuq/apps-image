@@ -11,8 +11,7 @@
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
-        "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.4.29"
+        "tagPattern": "^v[\\d.]+$"
       },
       "docker": {
         "tags": [
@@ -35,8 +34,7 @@
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
-        "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.4.29"
+        "tagPattern": "^v[\\d.]+$"
       },
       "docker": {
         "tags": [
