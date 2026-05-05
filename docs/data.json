@@ -87,8 +87,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.5.3",
-          "sha": "06d46f7cf638a31c4852c068aeeaa76f5e949941",
+          "version": "2026.5.4",
+          "sha": "325df3efefe9c0887d9357732e68fc8556e78d79",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -126,8 +126,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.5.3",
-          "sha": "06d46f7cf638a31c4852c068aeeaa76f5e949941",
+          "version": "2026.5.4",
+          "sha": "325df3efefe9c0887d9357732e68fc8556e78d79",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -171,7 +171,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-05-04T10:46:05.000Z"
+      "updatedAt": "2026-05-05T14:26:56.000Z"
     },
     {
       "name": "haitang",
