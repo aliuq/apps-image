@@ -117,8 +117,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.5.5",
-          "sha": "b1abf9d8ae4410c6a6e08f7dfd2d617f4550281c",
+          "version": "2026.5.6",
+          "sha": "c97b9f79ec43b531a3472c3219ca51efbf7695a3",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -156,8 +156,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.5.5",
-          "sha": "b1abf9d8ae4410c6a6e08f7dfd2d617f4550281c",
+          "version": "2026.5.6",
+          "sha": "c97b9f79ec43b531a3472c3219ca51efbf7695a3",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -201,7 +201,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-05-06T08:56:43.000Z"
+      "updatedAt": "2026-05-06T18:41:39.000Z"
     },
     {
       "name": "vscode",
