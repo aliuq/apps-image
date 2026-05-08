@@ -1,7 +1,36 @@
 {
-  "generated": "2026-05-07T20:32:49.000Z",
+  "generated": "2026-05-08T16:37:03.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "b6ed81f",
+          "sha": "b6ed81f377edf3ca42de83ecef6f228980ac5457",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-05-08T16:37:03.000Z"
+    },
     {
       "name": "openclaw",
       "type": "app",
@@ -329,35 +358,6 @@
       "readmePath": "apps/haitang",
       "hasReadme": true,
       "updatedAt": "2026-05-03T22:39:45.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "0d30434",
-          "sha": "0d3043401445b95dda1e96eda2a544d41febd881",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-04-30T16:37:24.000Z"
     },
     {
       "name": "memogram",
