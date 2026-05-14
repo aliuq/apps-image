@@ -1,7 +1,84 @@
 {
-  "generated": "2026-05-14T12:46:54.000Z",
+  "generated": "2026-05-14T22:29:39.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "excalidraw",
+      "type": "app",
+      "title": "Excalidraw",
+      "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "0.18.1",
+          "sha": "a2ec2889babf7d2295469c6d90ebe77fae57df84",
+          "checkver": {
+            "type": "tag",
+            "repo": "excalidraw/excalidraw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/excalidraw",
+              "ghcr.io/aliuq/excalidraw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "dev": {
+          "version": "f6d85bc",
+          "sha": "f6d85bc80fe328e8f472636eb0d541f7bb891aa0",
+          "checkver": {
+            "type": "sha",
+            "repo": "excalidraw/excalidraw",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "file": "Dockerfile",
+            "tags": [
+              "type=raw,value=dev",
+              "type=raw,value={{version}}-dev"
+            ],
+            "images": [
+              "aliuq/excalidraw",
+              "ghcr.io/aliuq/excalidraw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/excalidraw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/excalidraw",
+      "hasReadme": false,
+      "updatedAt": "2026-05-14T22:29:39.000Z"
+    },
     {
       "name": "rayso",
       "type": "app",
@@ -107,83 +184,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-05-13T09:09:57.000Z"
-    },
-    {
-      "name": "excalidraw",
-      "type": "app",
-      "title": "Excalidraw",
-      "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "0.18.1",
-          "sha": "a2ec2889babf7d2295469c6d90ebe77fae57df84",
-          "checkver": {
-            "type": "tag",
-            "repo": "excalidraw/excalidraw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/excalidraw",
-              "ghcr.io/aliuq/excalidraw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "dev": {
-          "version": "0457ac9",
-          "sha": "0457ac90634b8556feaa9c0e56be94d3f13fd9bd",
-          "checkver": {
-            "type": "sha",
-            "repo": "excalidraw/excalidraw",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "file": "Dockerfile",
-            "tags": [
-              "type=raw,value=dev",
-              "type=raw,value={{version}}-dev"
-            ],
-            "images": [
-              "aliuq/excalidraw",
-              "ghcr.io/aliuq/excalidraw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/excalidraw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/excalidraw",
-      "hasReadme": false,
-      "updatedAt": "2026-05-12T16:50:19.000Z"
     },
     {
       "name": "readest",
