@@ -8,7 +8,7 @@ RUN if id "ubuntu" &>/dev/null; then \
         echo "User 'ubuntu' does not exist"; \
     fi;
 
-ARG OPENCLAW_VERSION="2026.5.18"
+ARG OPENCLAW_VERSION="2026.5.19"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
