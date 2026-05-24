@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-22T03:18:21.000Z",
+  "generated": "2026-05-24T01:02:33.000Z",
   "total": 24,
   "apps": [
     {
@@ -10,8 +10,8 @@
       "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
       "variants": {
         "latest": {
-          "version": "2026.5.20",
-          "sha": "e510042870cf248c0e0461b6f8d427326266141d",
+          "version": "2026.5.22",
+          "sha": "89c69c42646b5165552a164cb8bcdbdbe3e53f12",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -49,8 +49,8 @@
           "enabled": true
         },
         "codebase": {
-          "version": "2026.5.20",
-          "sha": "e510042870cf248c0e0461b6f8d427326266141d",
+          "version": "2026.5.22",
+          "sha": "89c69c42646b5165552a164cb8bcdbdbe3e53f12",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -94,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-05-22T03:18:21.000Z"
+      "updatedAt": "2026-05-24T01:02:33.000Z"
     },
     {
       "name": "dashboard-icons",
