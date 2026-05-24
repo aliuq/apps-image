@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-24T01:02:33.000Z",
+  "generated": "2026-05-24T07:16:20.000Z",
   "total": 24,
   "apps": [
     {
@@ -11,7 +11,7 @@
       "variants": {
         "latest": {
           "version": "2026.5.22",
-          "sha": "89c69c42646b5165552a164cb8bcdbdbe3e53f12",
+          "sha": "a374c3a5bfd5225ce319bce3865aab6216309c4f",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -50,7 +50,7 @@
         },
         "codebase": {
           "version": "2026.5.22",
-          "sha": "89c69c42646b5165552a164cb8bcdbdbe3e53f12",
+          "sha": "a374c3a5bfd5225ce319bce3865aab6216309c4f",
           "checkver": {
             "type": "tag",
             "repo": "openclaw/openclaw",
@@ -94,7 +94,7 @@
       "category": "app",
       "readmePath": "apps/openclaw",
       "hasReadme": true,
-      "updatedAt": "2026-05-24T01:02:33.000Z"
+      "updatedAt": "2026-05-24T07:16:20.000Z"
     },
     {
       "name": "dashboard-icons",
