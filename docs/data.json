@@ -1,5 +1,5 @@
 {
-  "generated": "2026-05-24T14:37:17.000Z",
+  "generated": "2026-05-25T13:20:12.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "b42b1a1",
-          "sha": "b42b1a193d5311d319861cd925ba89ca073ab2d4",
+          "version": "c08be69",
+          "sha": "c08be69618dcac9386817bced03d2d79883e50b6",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-05-24T14:37:17.000Z"
+      "updatedAt": "2026-05-25T13:20:12.000Z"
     },
     {
       "name": "openclaw",
