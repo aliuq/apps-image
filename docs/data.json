@@ -1,7 +1,36 @@
 {
-  "generated": "2026-06-01T14:13:29.000Z",
+  "generated": "2026-06-02T09:37:14.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "6700cd3",
+          "sha": "6700cd324d1f1ccea249d7bf9d34b74a0274ee1f",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-06-02T09:37:14.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -155,35 +184,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-05-29T13:18:23.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "36f4512",
-          "sha": "36f451266be631494ecf7e565e6480d1c4a92e38",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-05-29T13:18:18.000Z"
     },
     {
       "name": "openclaw",
