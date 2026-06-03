@@ -6,8 +6,8 @@
   "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
   "variants": {
     "latest": {
-      "version": "2026.5.28",
-      "sha": "e93216080aa1f425d3ab127014603eba8e365b2d",
+      "version": "2026.6.1",
+      "sha": "709b98fcffb680c5198d4997a66d2a62ab47e0a0",
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
@@ -29,8 +29,8 @@
       }
     },
     "codebase": {
-      "version": "2026.5.28",
-      "sha": "e93216080aa1f425d3ab127014603eba8e365b2d",
+      "version": "2026.6.1",
+      "sha": "709b98fcffb680c5198d4997a66d2a62ab47e0a0",
       "checkver": {
         "type": "tag",
         "repo": "openclaw/openclaw",
