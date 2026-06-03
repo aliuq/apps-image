@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-03T01:15:10.000Z",
+  "generated": "2026-06-03T05:46:40.000Z",
   "total": 24,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "e966a00",
-          "sha": "e966a00cdfc22face83e5207029c3e0ff9becf98",
+          "version": "bcdd9d7",
+          "sha": "bcdd9d7e4d250347b453f93f395981576ff38eef",
           "checkver": {
             "type": "sha",
             "repo": "https://github.com/antfu-collective/icones",
@@ -30,7 +30,7 @@
       "category": "app",
       "readmePath": "apps/icones",
       "hasReadme": true,
-      "updatedAt": "2026-06-03T01:15:10.000Z"
+      "updatedAt": "2026-06-03T05:46:40.000Z"
     },
     {
       "name": "rayso",
