@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-11T08:24:48.000Z",
+  "generated": "2026-06-11T09:20:55.000Z",
   "total": 24,
   "apps": [
     {
@@ -9,13 +9,12 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.123.2",
-          "sha": "73b30e61dd53c0223a1f112031f2fec0267b4dff",
+          "version": "1.124.0",
+          "sha": "1b50d58d73426c9171299ec4037d01365d995b78",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
             "tagPattern": "^[\\d.]+$",
-            "targetVersion": "1.123.2",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -41,13 +40,12 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.123.2",
-          "sha": "73b30e61dd53c0223a1f112031f2fec0267b4dff",
+          "version": "1.124.0",
+          "sha": "1b50d58d73426c9171299ec4037d01365d995b78",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
             "tagPattern": "^[\\d.]+$",
-            "targetVersion": "1.123.2",
             "branch": "main",
             "processFiles": [
               "Dockerfile"
@@ -79,7 +77,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-06-11T08:24:48.000Z"
+      "updatedAt": "2026-06-11T09:20:55.000Z"
     },
     {
       "name": "excalidraw",
