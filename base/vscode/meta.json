@@ -10,8 +10,7 @@
       "checkver": {
         "type": "tag",
         "repo": "microsoft/vscode",
-        "tagPattern": "^[\\d.]+$",
-        "targetVersion": "1.123.2"
+        "tagPattern": "^[\\d.]+$"
       },
       "docker": {
         "tags": [
@@ -26,8 +25,7 @@
       "checkver": {
         "type": "tag",
         "repo": "microsoft/vscode",
-        "tagPattern": "^[\\d.]+$",
-        "targetVersion": "1.123.2"
+        "tagPattern": "^[\\d.]+$"
       },
       "docker": {
         "tags": [
