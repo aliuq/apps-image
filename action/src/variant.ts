@@ -7,7 +7,7 @@ import type { CheckVersionType, ImageVariant, Meta } from './types/schema.js'
 import path from 'node:path'
 import process from 'node:process'
 import { cyan, green, red, yellow } from 'kolorist'
-import { coerce, valid as semverValid } from 'semver'
+import { coerce, compare, valid as semverValid } from 'semver'
 import { CaCheDir, isAct } from './config.js'
 import { Git } from './git.js'
 import { createLogger } from './logger.js'
@@ -188,7 +188,7 @@ export class VariantContext {
     }
     else if (!checkver.tagPattern) {
       this.logger.debug('No tag pattern specified, will using semver to find a valid tag')
-      tag = tags.find(tag => semverValid(coerce(tag)))
+      tag = this.selectLatestTag(tags)
       this.logger.debug(`Found tag: ${tag}`)
       if (!tag) {
         this.logger.warn(yellow('No valid semver tag found, returning empty version'))
@@ -196,7 +196,8 @@ export class VariantContext {
     }
     else {
       const pattern = new RegExp(checkver.tagPattern)
-      tag = tags.find(t => pattern.test(t))
+      const matchedTags = tags.filter(t => pattern.test(t))
+      tag = this.selectLatestTag(matchedTags)
       if (!tag) {
         this.logger.warn(yellow(`No tags matching pattern "${checkver.tagPattern}" found in repository: ${this.repoName}`))
       }
@@ -212,6 +213,26 @@ export class VariantContext {
     this.logger.debug(`Tag Result: ${green(cleanTag)}, sha: ${green(tagSha)}`)
 
     return result
+  }
+
+  /**
+   * 从标签列表中选出最新的语义化版本标签
+   */
+  private selectLatestTag(tags: string[]) {
+    const semverCandidates = tags
+      .map(tag => ({ tag, version: coerce(tag) }))
+      .filter((item): item is { tag: string, version: NonNullable<ReturnType<typeof coerce>> } =>
+        item.version !== null && semverValid(item.version) !== null)
+
+    if (!semverCandidates.length) {
+      return tags[0]
+    }
+
+    const latest = semverCandidates.reduce((current, candidate) => {
+      return compare(candidate.version, current.version) > 0 ? candidate : current
+    }, semverCandidates[0])
+
+    return latest.tag
   }
 
   /**
