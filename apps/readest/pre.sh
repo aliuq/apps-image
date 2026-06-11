@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-VERSION="v0.11.1"
+VERSION="v0.11.2"
 
 # Store the current working directory to return back later
 old_pwd=$(pwd)
@@ -21,7 +21,7 @@ rm -rf .git
 env_source=./apps/readest-app/.env.local.example
 env_target=./apps/readest-app/.env.local
 # awk: cmd. line:1: warning: escape sequence `\$' treated as plain `$'
-awk -F= '/^NEXT_PUBLIC_/ && $1 != "" { printf "%s=\\$%s\n", $1, $1 }' $env_source >> $env_target
+awk -F= '/^NEXT_PUBLIC_/ && $1 != "" { printf "%s=\\$%s\n", $1, $1 }' $env_source >>$env_target
 
 # Replace `NEXT_PUBLIC_SUPABASE_URL` to `https://your-supabase-url.com` placeholder for
 # avoid `Invalid URL` error during build
@@ -33,9 +33,9 @@ export NODE_ENV=production
 # Configure Next.js for standalone output
 next_config=./apps/readest-app/next.config.mjs
 if ! grep -q 'output:' $next_config; then
-  sed -i '/const nextConfig = {/a\  output: "standalone",' $next_config;
+  sed -i '/const nextConfig = {/a\  output: "standalone",' $next_config
 else
-  sed -i 's/output: .*/output: "standalone",/' $next_config;
+  sed -i 's/output: .*/output: "standalone",/' $next_config
 fi
 
 # Install pnpm
@@ -50,10 +50,10 @@ pnpm --filter=@readest/readest-app setup-pdfjs
 pnpm --filter=@readest/readest-app build-web
 
 # Replace `https://your-supabase-url.com` in `.next` js files with environment variable
-find ./apps/readest-app/.next \
-  -path "*/node_modules/*" -prune -o \
-  -name "*.js" \
-  -exec sed -i "s|https://your-supabase-url.com|\$NEXT_PUBLIC_SUPABASE_URL|g" {} +
+find -L ./apps/readest-app/.next \
+  -path '*/node_modules/*' -prune -o \
+  -type f -name '*.js' -print0 |
+  xargs -0r sed -i "s|https://your-supabase-url.com|\$NEXT_PUBLIC_SUPABASE_URL|g"
 
 # Clean up build artifacts to reduce image size
 rm -rf ./apps/readest-app/.next/cache
