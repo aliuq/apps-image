@@ -17,7 +17,11 @@ RUN set -eux; \
     code_url=https://update.code.visualstudio.com; \
     code_target=$([ "$arch" = "amd64" ] && echo "cli-linux-x64" || ([ "$arch" = "arm64" ] && echo "cli-linux-arm64" )); \
     if [ -z "$code_target" ]; then echo "Unsupported architecture: $arch" && exit 1; fi; \
-    wget -qO- ${code_url}/${VERSION}/${code_target}/stable | tar xvz -C /usr/bin/ && \
+    # 处理版本号，如果只有 major 和 minor，则补全 patch 版本为 0，例如 1.123 -> 1.123.0
+    if expr "$VERSION" : '^[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then VERSION="${VERSION}.0"; fi; \
+    download_url="${code_url}/${VERSION}/${code_target}/stable"; \
+    echo "Downloading code from $download_url"; \
+    wget -qO- $download_url | tar xvz -C /usr/bin/ && \
     # eza
     \
     eza_url=https://github.com/eza-community/eza/releases/latest/download; \
