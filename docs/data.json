@@ -310,44 +310,14 @@
       "updatedAt": "2026-06-03T17:53:00.000Z"
     },
     {
-      "name": "icones",
-      "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "bcdd9d7",
-          "sha": "bcdd9d7e4d250347b453f93f395981576ff38eef",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/icones",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/icones",
-      "hasReadme": true,
-      "updatedAt": "2026-06-03T05:46:40.000Z"
-    },
-    {
       "name": "vscode",
       "type": "base",
       "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.122.1",
-          "sha": "8761a5560cfd65fdd19ce7e2bd18dab5c0a4d84e",
+          "version": "1.123",
+          "sha": "6a44c352bd24569c417e530095901b649960f9f8",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -377,8 +347,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.122.1",
-          "sha": "8761a5560cfd65fdd19ce7e2bd18dab5c0a4d84e",
+          "version": "1.123",
+          "sha": "6a44c352bd24569c417e530095901b649960f9f8",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -414,7 +384,37 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-05-29T13:18:23.000Z"
+      "updatedAt": "2026-06-03T15:42:53.000Z"
+    },
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "bcdd9d7",
+          "sha": "bcdd9d7e4d250347b453f93f395981576ff38eef",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-06-03T05:46:40.000Z"
     },
     {
       "name": "readest",
