@@ -11,7 +11,7 @@
         "type": "tag",
         "repo": "microsoft/vscode",
         "tagPattern": "^[\\d.]+$",
-        "targetVersion": "1.123.1"
+        "targetVersion": "1.123.2"
       },
       "docker": {
         "tags": [
@@ -27,7 +27,7 @@
         "type": "tag",
         "repo": "microsoft/vscode",
         "tagPattern": "^[\\d.]+$",
-        "targetVersion": "1.123.1"
+        "targetVersion": "1.123.2"
       },
       "docker": {
         "tags": [
