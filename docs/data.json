@@ -425,8 +425,8 @@
       "license": "AGPL-3.0",
       "variants": {
         "latest": {
-          "version": "0.11.1",
-          "sha": "56d6aceb0da379b4581290da6cac3ea4f04aaafc",
+          "version": "0.11.2",
+          "sha": "97e2aa279716212a41c87aeb038e744d0b10e504",
           "checkver": {
             "type": "tag",
             "repo": "https://github.com/readest/readest",
@@ -438,8 +438,8 @@
           "enabled": true
         },
         "test": {
-          "version": "0.11.1",
-          "sha": "56d6aceb0da379b4581290da6cac3ea4f04aaafc",
+          "version": "0.11.2",
+          "sha": "97e2aa279716212a41c87aeb038e744d0b10e504",
           "checkver": {
             "type": "tag",
             "repo": "readest/readest",
@@ -471,7 +471,7 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-05-11T05:26:31.000Z"
+      "updatedAt": "2026-05-30T20:29:06.000Z"
     },
     {
       "name": "haitang",
