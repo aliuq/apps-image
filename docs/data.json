@@ -1,7 +1,103 @@
 {
-  "generated": "2026-06-15T19:26:04.000Z",
+  "generated": "2026-06-16T13:30:37.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "openclaw",
+      "type": "app",
+      "title": "OpenClaw",
+      "slogan": "The AI that actually does things.",
+      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
+      "variants": {
+        "latest": {
+          "version": "2026.6.5",
+          "sha": "5181e4f7c82bd373cb215a5619b0fa03c13862b7",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "targetVersion": "v2026.6.5",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "codebase": {
+          "version": "2026.6.5",
+          "sha": "5181e4f7c82bd373cb215a5619b0fa03c13862b7",
+          "checkver": {
+            "type": "tag",
+            "repo": "openclaw/openclaw",
+            "tagPattern": "^v[\\d.]+$",
+            "targetVersion": "v2026.6.5",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=codebase",
+              "type=raw,value=codebase-{{version}}"
+            ],
+            "labels": {
+              "source": "https://github.com/openclaw/openclaw",
+              "url": "https://openclaw.ai",
+              "documentation": "https://docs.openclaw.ai/install/docker",
+              "licenses": "MIT",
+              "title": "OpenClaw",
+              "description": "OpenClaw gateway and CLI runtime container image"
+            },
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/openclaw",
+              "ghcr.io/aliuq/openclaw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/openclaw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/openclaw",
+      "hasReadme": true,
+      "updatedAt": "2026-06-16T13:30:37.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -348,100 +444,6 @@
       "readmePath": "apps/rayso",
       "hasReadme": true,
       "updatedAt": "2026-06-04T17:09:41.000Z"
-    },
-    {
-      "name": "openclaw",
-      "type": "app",
-      "title": "OpenClaw",
-      "slogan": "The AI that actually does things.",
-      "description": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞",
-      "variants": {
-        "latest": {
-          "version": "2026.6.1",
-          "sha": "709b98fcffb680c5198d4997a66d2a62ab47e0a0",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "codebase": {
-          "version": "2026.6.1",
-          "sha": "709b98fcffb680c5198d4997a66d2a62ab47e0a0",
-          "checkver": {
-            "type": "tag",
-            "repo": "openclaw/openclaw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=codebase",
-              "type=raw,value=codebase-{{version}}"
-            ],
-            "labels": {
-              "source": "https://github.com/openclaw/openclaw",
-              "url": "https://openclaw.ai",
-              "documentation": "https://docs.openclaw.ai/install/docker",
-              "licenses": "MIT",
-              "title": "OpenClaw",
-              "description": "OpenClaw gateway and CLI runtime container image"
-            },
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/openclaw",
-              "ghcr.io/aliuq/openclaw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/openclaw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/openclaw",
-      "hasReadme": true,
-      "updatedAt": "2026-06-03T17:53:00.000Z"
     },
     {
       "name": "icones",
