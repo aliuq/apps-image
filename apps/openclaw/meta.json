@@ -12,7 +12,7 @@
         "type": "tag",
         "repo": "openclaw/openclaw",
         "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.6.5"
+        "targetVersion": "v2026.6.6"
       },
       "docker": {
         "tags": [
@@ -36,7 +36,7 @@
         "type": "tag",
         "repo": "openclaw/openclaw",
         "tagPattern": "^v[\\d.]+$",
-        "targetVersion": "v2026.6.5"
+        "targetVersion": "v2026.6.6"
       },
       "docker": {
         "tags": [
