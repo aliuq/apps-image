@@ -3,6 +3,7 @@ import type { GitCommitInfo } from './types/index.js'
  * Git 仓库相关操作
  */
 import { Buffer } from 'node:buffer'
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import * as exec from '@actions/exec'
 import { cyan, gray, red, yellow } from 'kolorist'
@@ -36,8 +37,22 @@ export class Git {
       const exists = await pathExists(repoPath)
       this.logger.debug(`Checking if repository ${cyan(repoPath)} exists: ${exists}`)
       if (exists) {
-        this.logger.debug(`Repository ${dirName} exists, updating...`)
-        await this.updateRepo(repoUrl, repoPath, options)
+        const isReusable = await this.isReusableRepo(repoPath, repoUrl)
+
+        if (!isReusable) {
+          this.logger.debug(yellow(`Repository ${dirName} cache is invalid, recreating...`))
+          await this.rebuildRepo(repoUrl, repoPath, options)
+        }
+        else {
+          this.logger.debug(`Repository ${dirName} exists, updating...`)
+          try {
+            await this.updateRepo(repoPath, options)
+          }
+          catch (error) {
+            this.logger.debug(yellow(`Git update failed in cached repository ${repoPath}, recreating cache: ${error}`))
+            await this.rebuildRepo(repoUrl, repoPath, options)
+          }
+        }
       }
       else {
         this.logger.debug(`Cloning repository ${repoUrl} to ${dirName}...`)
@@ -88,30 +103,15 @@ export class Git {
   /**
    * 更新仓库
    */
-  public async updateRepo(repoUrl: string, repoPath: string, options: CloneOptions = {}): Promise<void> {
+  public async updateRepo(repoPath: string, options: CloneOptions = {}): Promise<void> {
     const { branch, targetVersion } = options
 
     try {
       // 获取最新代码
-      await this.exec('git fetch --all --tags', { cwd: repoPath })
+      await this.exec('git fetch --all --tags --prune', { cwd: repoPath })
 
-      // 如果指定了分支，切换到该分支
-      if (branch) {
-        await this.exec(`git checkout ${branch}`, { cwd: repoPath })
-        await this.exec(`git pull origin ${branch}`, { cwd: repoPath })
-      }
-      else {
-        // 没有指定分支时，更新当前分支
-        try {
-          await this.exec('git pull', { cwd: repoPath })
-        }
-        catch (error) {
-          this.logger.debug(yellow(`Git pull failed in ${repoPath}, possibly detached HEAD: ${error}`))
-          await this.exec(`rm -rf ${repoPath}`)
-          await this.cloneRepo(repoUrl, repoPath, options)
-          return
-        }
-      }
+      const updateBranch = await this.resolveUpdateBranch(repoPath, branch)
+      await this.exec(`git checkout -B ${updateBranch} origin/${updateBranch}`, { cwd: repoPath })
 
       // 如果指定了目标版本，检出到该版本
       if (targetVersion && targetVersion !== branch) {
@@ -119,9 +119,76 @@ export class Git {
       }
     }
     catch (error) {
-      this.logger.error(red(`Git update failed in ${repoPath}: ${error}`))
       throw new Error(`Failed to update repository: ${error}`)
     }
+  }
+
+  private async isReusableRepo(repoPath: string, repoUrl: string): Promise<boolean> {
+    try {
+      const { stdout: isWorkTree } = await this.exec('git rev-parse --is-inside-work-tree', { cwd: repoPath })
+      if (isWorkTree.trim() !== 'true') {
+        this.logger.debug(yellow(`Cached path is not a git work tree: ${repoPath}`))
+        return false
+      }
+
+      const { stdout: remoteUrl } = await this.exec('git remote get-url origin', { cwd: repoPath })
+      const expectedRepo = this.normalizeRepoRef(repoUrl)
+      const actualRepo = this.normalizeRepoRef(remoteUrl)
+
+      if (expectedRepo !== actualRepo) {
+        this.logger.debug(yellow(`Cached repository origin mismatch: expected ${expectedRepo}, got ${actualRepo}`))
+        return false
+      }
+
+      return true
+    }
+    catch (error) {
+      this.logger.debug(yellow(`Failed to validate cached repository ${repoPath}: ${error}`))
+      return false
+    }
+  }
+
+  private async rebuildRepo(repoUrl: string, repoPath: string, options: CloneOptions = {}) {
+    await fs.rm(repoPath, { recursive: true, force: true })
+    await this.cloneRepo(repoUrl, repoPath, options)
+  }
+
+  private async resolveUpdateBranch(repoPath: string, branch?: string) {
+    if (branch) {
+      return branch
+    }
+
+    const branchCandidates = [
+      'git rev-parse --abbrev-ref origin/HEAD',
+      'git branch --show-current',
+    ]
+
+    for (const command of branchCandidates) {
+      try {
+        const { stdout } = await this.exec(command, { cwd: repoPath })
+        const resolvedBranch = stdout.trim().replace(/^origin\//, '')
+
+        if (resolvedBranch && resolvedBranch !== 'HEAD') {
+          return resolvedBranch
+        }
+      }
+      catch {
+        continue
+      }
+    }
+
+    throw new Error(`Failed to resolve update branch for cached repository: ${repoPath}`)
+  }
+
+  private normalizeRepoRef(repo: string) {
+    const normalizedRepo = repo.trim().replace(/\/$/, '').replace(/\.git$/, '')
+    const detectedRepo = this.detectRepoName(normalizedRepo)
+
+    if (/^[^/]+\/[^/]+$/.test(detectedRepo)) {
+      return detectedRepo.toLowerCase()
+    }
+
+    return normalizedRepo
   }
 
   /**
