@@ -20,9 +20,9 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 USER nextjs
 
-COPY --chown=nextjs:nodejs ./app/web/public ./public
-COPY --chown=nextjs:nodejs ./app/web/.next/standalone/apps/dashboard-icons/app/web ./
-COPY --chown=nextjs:nodejs ./app/web/.next/static ./.next/static
+COPY --chown=nextjs:nodejs ./app/public ./public
+COPY --chown=nextjs:nodejs ./app/.next/standalone/web ./
+COPY --chown=nextjs:nodejs ./app/.next/static ./.next/static
 
 EXPOSE 3000
 

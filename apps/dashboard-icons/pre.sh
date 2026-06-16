@@ -4,8 +4,14 @@ set -euxo pipefail
 
 VERSION="00c43aa"
 
+# Store the current working directory to return back later
+old_pwd=$(pwd)
+# Use the top-level directory for avoid standalone output issues with Next.js,
+# and copy the built files to the correct location in the Dockerfile
+sudo mkdir -p /dashboard-icons
+sudo chown -R $USER:$USER /dashboard-icons
+cd /dashboard-icons
 # Clone the repository
-mkdir -p app && cd app
 git clone --depth=1 https://github.com/homarr-labs/dashboard-icons . && git checkout $VERSION
 rm -rf .git
 
@@ -17,11 +23,11 @@ export NODE_ENV=production
 
 cd web
 mise trust .
-mise install
 mise use bun@latest -g
 
 # Install dependencies
 bun install
+bun add @swc/helpers -D
 
 # Build the application
 bun run build
@@ -30,3 +36,10 @@ bun run build
 # System.IO.IOException: No space left on device
 mise cache clear
 rm -rf node_modules .next/server
+
+# Copy the built files to the correct location for the Dockerfile
+cd $old_pwd
+mkdir -p app
+cp -r /dashboard-icons/web/.next ./app/.next
+cp -r /dashboard-icons/web/public ./app/public
+sudo rm -rf /dashboard-icons
