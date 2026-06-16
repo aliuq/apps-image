@@ -107,7 +107,7 @@ RUN set -eux; \
 
 # OpenClaw
 RUN set -eux; \
-    bun upgrade && \
+    bun upgrade || echo "Bun upgrade failed"; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     # Trust the openclaw package globally to run postinstall scripts.
     # Download bundled  plugins to avoid error `Error: Cannot find module *`
