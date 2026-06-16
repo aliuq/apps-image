@@ -8,7 +8,7 @@ RUN if id "ubuntu" &>/dev/null; then \
         echo "User 'ubuntu' does not exist"; \
     fi;
 
-ARG OPENCLAW_VERSION="2026.6.1"
+ARG OPENCLAW_VERSION="2026.6.5"
 ARG USERNAME=openclaw
 ARG USER_UID=1009
 ARG USER_GID=1009
@@ -107,7 +107,7 @@ RUN set -eux; \
 
 # OpenClaw
 RUN set -eux; \
-    bun upgrade && \
+    bun upgrade || echo "Bun upgrade failed"; \
     bun add -g openclaw@${OPENCLAW_VERSION} && \
     # Trust the openclaw package globally to run postinstall scripts.
     # Download bundled  plugins to avoid error `Error: Cannot find module *`
