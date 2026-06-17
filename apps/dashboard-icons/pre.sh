@@ -15,6 +15,10 @@ cd /dashboard-icons
 git clone --depth=1 https://github.com/homarr-labs/dashboard-icons . && git checkout $VERSION
 rm -rf .git
 
+# 允许 Docker 默认的 0.0.0.0 主机名走本地 HTTP，避免被 upstream middleware 强制跳转到 HTTPS
+# https://github.com/homarr-labs/dashboard-icons/blob/main/web/src/middleware.ts
+perl -0pi -e 's/host === "127\.0\.0\.1"/host === "127.0.0.1" || host === "0.0.0.0" || host.startsWith("0.0.0.0:")/' web/src/middleware.ts
+
 # Set up environment variables
 export NEXT_PUBLIC_DISABLE_POSTHOG="true"
 export NEXT_TELEMETRY_DISABLED=1
@@ -40,6 +44,7 @@ rm -rf node_modules .next/server
 # Copy the built files to the correct location for the Dockerfile
 cd $old_pwd
 mkdir -p app
+rm -rf ./app/.next ./app/public
 cp -r /dashboard-icons/web/.next ./app/.next
 cp -r /dashboard-icons/web/public ./app/public
 sudo rm -rf /dashboard-icons
