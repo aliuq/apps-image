@@ -2,7 +2,8 @@ FROM node:20-alpine AS runner
 
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
 # to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat gettext-envsubst && \
+    rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
@@ -20,10 +21,14 @@ RUN addgroup --system --gid 1001 nodejs && \
 
 USER nextjs
 
+COPY --chown=nextjs:nodejs ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY --chown=nextjs:nodejs ./app/public ./public
 COPY --chown=nextjs:nodejs ./app/.next/standalone/web ./
 COPY --chown=nextjs:nodejs ./app/.next/static ./.next/static
 
+RUN chmod +x /docker-entrypoint.sh
+
 EXPOSE 3000
 
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["node", "server.js"]
