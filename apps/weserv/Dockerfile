@@ -1,7 +1,7 @@
 FROM alpine/git AS source
 WORKDIR /app
 ARG BRANCH=5.x
-ARG VERSION=8df2528
+ARG VERSION=3fc989c
 ARG NGINX_VERSION=1.29.4
 RUN git clone -b ${BRANCH} --recurse-submodules https://github.com/weserv/images . && git checkout ${VERSION}
 # Download NGINX source, because of rockylinux(arm64) can't extract it during build
