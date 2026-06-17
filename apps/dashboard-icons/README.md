@@ -99,7 +99,6 @@ docker buildx build --progress=plain -f ./Dockerfile -t dashboard-icons:debug --
 | `NODE_ENV` | `production` | 运行环境 |
 | `NEXT_TELEMETRY_DISABLED` | `1` | 禁用 Next.js 遥测 |
 | `NEXT_PUBLIC_DISABLE_POSTHOG` | `true` | 禁用 PostHog 分析 |
-| `WEB_URL` | 未设置时回退到 `https://dashboardicons.com` | 外部访问 URL |
 
 ## 相关链接
 
