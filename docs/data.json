@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-19T15:07:03.000Z",
+  "generated": "2026-06-20T05:36:19.000Z",
   "total": 24,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "AGPL-3.0",
       "variants": {
         "latest": {
-          "version": "0.11.10",
-          "sha": "d8953353cf1d3bac8e37e80fe2f43193d3def281",
+          "version": "0.11.12",
+          "sha": "54d54791b0873d29f5b5850a46340aa3a74cb51b",
           "checkver": {
             "type": "tag",
             "repo": "https://github.com/readest/readest",
@@ -24,8 +24,8 @@
           "enabled": true
         },
         "test": {
-          "version": "0.11.10",
-          "sha": "d8953353cf1d3bac8e37e80fe2f43193d3def281",
+          "version": "0.11.12",
+          "sha": "54d54791b0873d29f5b5850a46340aa3a74cb51b",
           "checkver": {
             "type": "tag",
             "repo": "readest/readest",
@@ -57,7 +57,7 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-06-19T15:07:03.000Z"
+      "updatedAt": "2026-06-20T05:36:19.000Z"
     },
     {
       "name": "weserv",
