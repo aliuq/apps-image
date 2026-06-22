@@ -1,7 +1,7 @@
 FROM alpine/git AS source
 WORKDIR /app
 ARG BRANCH=5.x
-ARG VERSION=3fc989c
+ARG VERSION=82c0144
 RUN git clone -b ${BRANCH} --recurse-submodules https://github.com/weserv/images . && git checkout ${VERSION}
 
 # Based on:
