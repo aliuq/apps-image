@@ -7,16 +7,16 @@
   "license": "AGPL-3.0",
   "variants": {
     "latest": {
-      "version": "0.11.16",
-      "sha": "5358d85c0ba89bc440a5b9469b9932fcc69e318c",
+      "version": "0.11.17",
+      "sha": "01bc0159853ad5470cf9a40ae6fa1d7d0dad1d2a",
       "checkver": {
         "type": "tag",
         "repo": "https://github.com/readest/readest"
       }
     },
     "test": {
-      "version": "0.11.16",
-      "sha": "5358d85c0ba89bc440a5b9469b9932fcc69e318c",
+      "version": "0.11.17",
+      "sha": "01bc0159853ad5470cf9a40ae6fa1d7d0dad1d2a",
       "checkver": {
         "type": "tag",
         "repo": "readest/readest"
