@@ -1,36 +1,7 @@
 {
-  "generated": "2026-07-04T14:35:12.000Z",
+  "generated": "2026-07-05T09:07:19.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "5273217",
-          "sha": "5273217cf4dd7873bdfd4e93cc92cb23b143cbfc",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-07-04T14:35:12.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -70,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "51ca8ab",
-          "sha": "51ca8abde450e44f8f0db1b2708e0408915c7ab1",
+          "version": "5b0f5a4",
+          "sha": "5b0f5a4c2da21e62c6b8cc8ed3da0d3715f11d82",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -106,7 +77,36 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-07-03T22:26:45.000Z"
+      "updatedAt": "2026-07-05T09:07:19.000Z"
+    },
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "5273217",
+          "sha": "5273217cf4dd7873bdfd4e93cc92cb23b143cbfc",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-07-04T14:35:12.000Z"
     },
     {
       "name": "vscode",
