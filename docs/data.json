@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-07T12:56:13.000Z",
+  "generated": "2026-07-07T15:06:25.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "b2a729c",
-          "sha": "b2a729c400573768c9da323674c732f8668b805d",
+          "version": "dd8296a",
+          "sha": "dd8296af1802d4920a645591e0de88b9272745fa",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-07-07T12:56:13.000Z"
+      "updatedAt": "2026-07-07T15:06:25.000Z"
     },
     {
       "name": "rayso",
