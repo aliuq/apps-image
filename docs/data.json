@@ -1,7 +1,36 @@
 {
-  "generated": "2026-07-13T18:38:45.000Z",
+  "generated": "2026-07-14T12:33:50.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "eb2ebf9",
+          "sha": "eb2ebf93dc7995dd6ebeb040982dcc98b8f66c47",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-07-14T12:33:50.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -41,8 +70,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "e9c856d",
-          "sha": "e9c856d262a14c12bd0bdc3f4ac55c7a86a71577",
+          "version": "5776e1c",
+          "sha": "5776e1cc66842ca229c79fbbf3d2ccf208c24ab0",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +106,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-07-13T18:38:45.000Z"
+      "updatedAt": "2026-07-14T12:33:47.000Z"
     },
     {
       "name": "openclaw",
@@ -336,35 +365,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-07-07T18:46:33.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "5273217",
-          "sha": "5273217cf4dd7873bdfd4e93cc92cb23b143cbfc",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-07-04T14:35:12.000Z"
     },
     {
       "name": "n8n-workflows",
