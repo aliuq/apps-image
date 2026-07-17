@@ -2,7 +2,7 @@ FROM debian:12 AS base
 
 FROM base AS deps
 
-ARG VERSION=1.129.0
+ARG VERSION=1.129.1
 
 # deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -17,7 +17,7 @@ RUN set -eux; \
     code_url=https://update.code.visualstudio.com; \
     code_target=$([ "$arch" = "amd64" ] && echo "cli-linux-x64" || ([ "$arch" = "arm64" ] && echo "cli-linux-arm64" )); \
     if [ -z "$code_target" ]; then echo "Unsupported architecture: $arch" && exit 1; fi; \
-    # 处理版本号，如果只有 major 和 minor，则补全 patch 版本为 0，例如 1.129.0 -> 1.129.0.0
+    # 处理版本号，如果只有 major 和 minor，则补全 patch 版本为 0，例如 1.129.1 -> 1.129.1.0
     if expr "$VERSION" : '^[0-9][0-9]*\.[0-9][0-9]*$' >/dev/null; then VERSION="${VERSION}.0"; fi; \
     download_url="${code_url}/${VERSION}/${code_target}/stable"; \
     echo "Downloading code from $download_url"; \
