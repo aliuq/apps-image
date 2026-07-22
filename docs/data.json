@@ -1,37 +1,7 @@
 {
-  "generated": "2026-07-22T05:08:31.000Z",
+  "generated": "2026-07-22T12:39:13.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "icones",
-      "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "993eadf",
-          "sha": "993eadfd54a392776126dc1465ad748f8220ea84",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/icones",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/icones",
-      "hasReadme": true,
-      "updatedAt": "2026-07-22T05:08:31.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -71,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "53732f0",
-          "sha": "53732f08f430ded353121c64c230b448282be37a",
+          "version": "a3b9089",
+          "sha": "a3b90897b5d770a27d53773db670ddfda983ae85",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -107,7 +77,37 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-07-21T22:23:00.000Z"
+      "updatedAt": "2026-07-22T12:39:13.000Z"
+    },
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "993eadf",
+          "sha": "993eadfd54a392776126dc1465ad748f8220ea84",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-07-22T05:08:31.000Z"
     },
     {
       "name": "readest",
