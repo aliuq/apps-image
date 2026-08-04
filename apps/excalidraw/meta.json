@@ -21,8 +21,8 @@
       }
     },
     "dev": {
-      "version": "1da120e",
-      "sha": "1da120e914e87ae2f308ff6eb41c365401e8f583",
+      "version": "85270fc",
+      "sha": "85270fcc8db26f98d119e2d2752b0c0139e86e16",
       "checkver": {
         "type": "sha",
         "repo": "excalidraw/excalidraw"
