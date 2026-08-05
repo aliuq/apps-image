@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-04T22:27:07.000Z",
+  "generated": "2026-08-05T09:00:27.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "85270fc",
-          "sha": "85270fcc8db26f98d119e2d2752b0c0139e86e16",
+          "version": "5e375b4",
+          "sha": "5e375b4331febad8dd7d1adf4e3d78df0fbeeb17",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-08-04T22:27:07.000Z"
+      "updatedAt": "2026-08-05T09:00:27.000Z"
     },
     {
       "name": "weserv",
