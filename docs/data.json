@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-09T10:41:22.000Z",
+  "generated": "2026-08-10T11:11:32.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "cf212b2",
-          "sha": "cf212b2f3354c09bd6f960b53a9cfb0a3ecbfa58",
+          "version": "c5a50d2",
+          "sha": "c5a50d223feb5fceaebc916ad75f2dcecb399467",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-08-09T10:41:22.000Z"
+      "updatedAt": "2026-08-10T11:11:32.000Z"
     },
     {
       "name": "readest",
