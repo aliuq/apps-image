@@ -1,7 +1,84 @@
 {
-  "generated": "2026-08-11T15:01:35.000Z",
+  "generated": "2026-08-11T22:47:10.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "vscode",
+      "type": "base",
+      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.132.1",
+          "sha": "c2d1b13fdc4a77628e5f3bb70173351c8f2fbad1",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "tagPattern": "^[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "stable": {
+          "version": "1.132.1",
+          "sha": "c2d1b13fdc4a77628e5f3bb70173351c8f2fbad1",
+          "checkver": {
+            "type": "tag",
+            "repo": "microsoft/vscode",
+            "tagPattern": "^[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=stable",
+              "type=raw,value={{version}}-stable"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/vscode",
+              "ghcr.io/aliuq/vscode"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/vscode",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/vscode",
+      "hasReadme": true,
+      "updatedAt": "2026-08-11T22:47:10.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -135,83 +212,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-08-08T18:42:11.000Z"
-    },
-    {
-      "name": "vscode",
-      "type": "base",
-      "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.132.0",
-          "sha": "df53daabb18cd157bdb08c7f01c34df936cf12f4",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "tagPattern": "^[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "stable": {
-          "version": "1.132.0",
-          "sha": "df53daabb18cd157bdb08c7f01c34df936cf12f4",
-          "checkver": {
-            "type": "tag",
-            "repo": "microsoft/vscode",
-            "tagPattern": "^[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=stable",
-              "type=raw,value={{version}}-stable"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/vscode",
-              "ghcr.io/aliuq/vscode"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/vscode",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/vscode",
-      "hasReadme": true,
-      "updatedAt": "2026-08-05T10:54:28.000Z"
     },
     {
       "name": "weserv",
