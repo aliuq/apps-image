@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-11T22:47:10.000Z",
+  "generated": "2026-08-12T11:02:18.000Z",
   "total": 24,
   "apps": [
     {
@@ -9,8 +9,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.132.1",
-          "sha": "c2d1b13fdc4a77628e5f3bb70173351c8f2fbad1",
+          "version": "1.133.0",
+          "sha": "a5b500951314efd502d07465bd138dfbd714a960",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -40,8 +40,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.132.1",
-          "sha": "c2d1b13fdc4a77628e5f3bb70173351c8f2fbad1",
+          "version": "1.133.0",
+          "sha": "a5b500951314efd502d07465bd138dfbd714a960",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -77,7 +77,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-08-11T22:47:10.000Z"
+      "updatedAt": "2026-08-12T11:02:18.000Z"
     },
     {
       "name": "excalidraw",
