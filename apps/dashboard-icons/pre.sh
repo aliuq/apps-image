@@ -19,6 +19,9 @@ rm -rf .git
 # 跳过 middleware
 # https://github.com/homarr-labs/dashboard-icons/blob/main/web/src/middleware.ts
 perl -0pi -e 's/middleware\(request: NextRequest\) \{/middleware(request: NextRequest) {\n  return NextResponse.next()/' web/src/middleware.ts
+# 跳过 proxy
+# https://github.com/homarr-labs/dashboard-icons/blob/main/web/src/proxy.ts
+perl -0pi -e 's/proxy\(request: NextRequest\) \{/proxy(request: NextRequest) {\n  return NextResponse.next()/' web/src/proxy.ts
 
 # Set up environment variables
 export NEXT_PUBLIC_DISABLE_POSTHOG="true"
