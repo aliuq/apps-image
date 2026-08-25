@@ -11,6 +11,7 @@ on:
           # ContextStart
           - apps/cobalt
           - apps/dashboard-icons
+          - apps/excalidraw
           - apps/haitang
           - apps/icones
           - apps/inpaint-web
