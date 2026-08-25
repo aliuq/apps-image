@@ -1,7 +1,113 @@
 {
-  "generated": "2026-08-12T11:02:18.000Z",
+  "generated": "2026-08-25T18:44:19.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "a4aa727",
+          "sha": "a4aa727780c12cae99a08a860a80fa7ead6f88ff",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-08-25T18:44:19.000Z"
+    },
+    {
+      "name": "excalidraw",
+      "type": "app",
+      "title": "Excalidraw",
+      "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "0.18.1",
+          "sha": "a2ec2889babf7d2295469c6d90ebe77fae57df84",
+          "checkver": {
+            "type": "tag",
+            "repo": "excalidraw/excalidraw",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/excalidraw",
+              "ghcr.io/aliuq/excalidraw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "dev": {
+          "version": "4a6f4e7",
+          "sha": "4a6f4e7a32ce3d3360d4d209d14105acc144d8c7",
+          "checkver": {
+            "type": "sha",
+            "repo": "excalidraw/excalidraw",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "file": "Dockerfile",
+            "tags": [
+              "type=raw,value=dev",
+              "type=raw,value={{version}}-dev"
+            ],
+            "images": [
+              "aliuq/excalidraw",
+              "ghcr.io/aliuq/excalidraw"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/excalidraw",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/excalidraw",
+      "hasReadme": false,
+      "updatedAt": "2026-08-25T18:44:05.000Z"
+    },
     {
       "name": "vscode",
       "type": "base",
@@ -78,83 +184,6 @@
       "readmePath": "base/vscode",
       "hasReadme": true,
       "updatedAt": "2026-08-12T11:02:18.000Z"
-    },
-    {
-      "name": "excalidraw",
-      "type": "app",
-      "title": "Excalidraw",
-      "description": "An open source virtual hand-drawn style whiteboard. Collaborative and end-to-end encrypted.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "0.18.1",
-          "sha": "a2ec2889babf7d2295469c6d90ebe77fae57df84",
-          "checkver": {
-            "type": "tag",
-            "repo": "excalidraw/excalidraw",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/excalidraw",
-              "ghcr.io/aliuq/excalidraw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "dev": {
-          "version": "abeeaeb",
-          "sha": "abeeaeba217ab3b5193b78c8d8d63c373b518ced",
-          "checkver": {
-            "type": "sha",
-            "repo": "excalidraw/excalidraw",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "file": "Dockerfile",
-            "tags": [
-              "type=raw,value=dev",
-              "type=raw,value={{version}}-dev"
-            ],
-            "images": [
-              "aliuq/excalidraw",
-              "ghcr.io/aliuq/excalidraw"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/excalidraw",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/excalidraw",
-      "hasReadme": false,
-      "updatedAt": "2026-08-11T15:01:35.000Z"
     },
     {
       "name": "readest",
@@ -349,35 +378,6 @@
       "readmePath": "apps/icones",
       "hasReadme": true,
       "updatedAt": "2026-07-22T05:08:31.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "51c5ddd",
-          "sha": "51c5ddd84864d67d140300f49f1ff3f1ee63f185",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-07-14T20:29:53.000Z"
     },
     {
       "name": "openclaw",
