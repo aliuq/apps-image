@@ -14,7 +14,8 @@
     "dev:metadata": "bun build ./src/metadata.ts --outdir dist --target node --watch",
     "build": "bun build ./src/check.ts ./src/metadata.ts --outdir dist --target node --minify",
     "build:check": "bun build ./src/check.ts --outdir dist --target node --minify",
-    "build:metadata": "bun build ./src/metadata.ts --outdir dist --target node --minify"
+    "build:metadata": "bun build ./src/metadata.ts --outdir dist --target node --minify",
+    "typecheck": "bunx tsc --noEmit"
   },
   "devDependencies": {
     "@actions/core": "^3.0.1",

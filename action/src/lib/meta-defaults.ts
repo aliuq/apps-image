@@ -8,19 +8,13 @@ export interface MetaDefaultEnv {
 }
 
 const DEFAULT_PLATFORMS: Platform[] = ['linux/amd64', 'linux/arm64']
-const DEFAULT_META_ENV: Required<MetaDefaultEnv> = {
-  dockerUser: 'aliuq',
-  ghcrUser: 'aliuq',
-  acrRegistry: 'registry.cn-hangzhou.aliyuncs.com',
-  acrUser: 'aliuq',
-}
 
-function resolveMetaEnv(env: MetaDefaultEnv = {}): Required<MetaDefaultEnv> {
+function resolveMetaEnv(env: MetaDefaultEnv = {}): MetaDefaultEnv {
   return {
-    dockerUser: env.dockerUser || DEFAULT_META_ENV.dockerUser,
-    ghcrUser: env.ghcrUser || DEFAULT_META_ENV.ghcrUser,
-    acrRegistry: env.acrRegistry || DEFAULT_META_ENV.acrRegistry,
-    acrUser: env.acrUser || DEFAULT_META_ENV.acrUser,
+    dockerUser: env.dockerUser,
+    ghcrUser: env.ghcrUser,
+    acrRegistry: env.acrRegistry,
+    acrUser: env.acrUser,
   }
 }
 
