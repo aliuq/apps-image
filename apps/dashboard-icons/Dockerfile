@@ -21,7 +21,7 @@ RUN addgroup --system --gid 1001 nodejs && \
 USER nextjs
 
 COPY --chown=nextjs:nodejs ./app/public ./public
-COPY --chown=nextjs:nodejs ./app/.next/standalone/web ./
+COPY --chown=nextjs:nodejs ./app/.next/standalone ./
 COPY --chown=nextjs:nodejs ./app/.next/static ./.next/static
 
 EXPOSE 3000
