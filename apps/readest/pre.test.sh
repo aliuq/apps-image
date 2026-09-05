@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-VERSION="v0.12.6"
+VERSION="vcef-preview-20260906"
 
 # Store the current working directory to return back later
 old_pwd=$(pwd)
