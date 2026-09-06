@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-06T13:30:04.000Z",
+  "generated": "2026-09-06T16:47:09.000Z",
   "total": 24,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "Apache-2.0",
       "variants": {
         "latest": {
-          "version": "8ea8a9b",
-          "sha": "8ea8a9bbf93cb2e264251e97ba496b9d0cb53e41",
+          "version": "f651f57",
+          "sha": "f651f5798c7d58bff3cff4d3a9c4645d87657bbd",
           "checkver": {
             "type": "sha",
             "repo": "homarr-labs/dashboard-icons",
@@ -30,7 +30,7 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-09-06T13:30:04.000Z"
+      "updatedAt": "2026-09-06T16:47:09.000Z"
     },
     {
       "name": "telemirror",
