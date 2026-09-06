@@ -1,7 +1,83 @@
 {
-  "generated": "2026-09-03T19:12:46.000Z",
+  "generated": "2026-09-06T08:30:09.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "telemirror",
+      "type": "app",
+      "title": "Telemirror",
+      "slogan": "Telegram 消息镜像转发工具",
+      "description": "Telegram message forwarder (client API)",
+      "license": "GPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "19cf3ac",
+          "sha": "19cf3acee1003191b7a30e337ee6cab95e59c2f9",
+          "checkver": {
+            "type": "sha",
+            "repo": "khoben/telemirror",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/telemirror",
+              "ghcr.io/aliuq/telemirror"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "stable": {
+          "enabled": false,
+          "checkver": {
+            "type": "tag",
+            "repo": "khoben/telemirror",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=stable",
+              "type=raw,value={{version}}",
+              "type=raw,value=stable-{{sha}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/telemirror",
+              "ghcr.io/aliuq/telemirror"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "apps/telemirror",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/telemirror",
+      "hasReadme": true,
+      "updatedAt": "2026-09-06T08:30:09.000Z"
+    },
     {
       "name": "vscode",
       "type": "base",
@@ -989,82 +1065,6 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/lsky",
-      "hasReadme": true,
-      "updatedAt": "2025-12-19T15:27:41.000Z"
-    },
-    {
-      "name": "telemirror",
-      "type": "app",
-      "title": "Telemirror",
-      "slogan": "Telegram 消息镜像转发工具",
-      "description": "Telegram message forwarder (client API)",
-      "license": "GPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "21930b5",
-          "sha": "21930b5a7f13c563051391d4a327155961885ddd",
-          "checkver": {
-            "type": "sha",
-            "repo": "khoben/telemirror",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/telemirror",
-              "ghcr.io/aliuq/telemirror"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "stable": {
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "khoben/telemirror",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=stable",
-              "type=raw,value={{version}}",
-              "type=raw,value=stable-{{sha}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/telemirror",
-              "ghcr.io/aliuq/telemirror"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "apps/telemirror",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/telemirror",
       "hasReadme": true,
       "updatedAt": "2025-12-19T15:27:41.000Z"
     },
