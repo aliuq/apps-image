@@ -7,8 +7,8 @@
   "license": "GPL-3.0",
   "variants": {
     "latest": {
-      "version": "21930b5",
-      "sha": "21930b5a7f13c563051391d4a327155961885ddd",
+      "version": "19cf3ac",
+      "sha": "19cf3acee1003191b7a30e337ee6cab95e59c2f9",
       "checkver": {
         "type": "sha",
         "repo": "khoben/telemirror"
