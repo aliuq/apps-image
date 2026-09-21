@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-21T04:03:47.000Z",
+  "generated": "2026-09-21T12:23:24.000Z",
   "total": 24,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "Apache-2.0",
       "variants": {
         "latest": {
-          "version": "6a5783c",
-          "sha": "6a5783cb262bcaca91c2520db9538cddfd6ab921",
+          "version": "642fccd",
+          "sha": "642fccdd75ecdba1c485dc79f9369152bc8c1a95",
           "checkver": {
             "type": "sha",
             "repo": "homarr-labs/dashboard-icons",
@@ -30,7 +30,7 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-09-21T04:03:47.000Z"
+      "updatedAt": "2026-09-21T12:23:24.000Z"
     },
     {
       "name": "excalidraw",
