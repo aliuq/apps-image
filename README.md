@@ -135,6 +135,16 @@ Create a `meta.json` file to define application metadata and version checking st
 }
 ```
 
+Validate all `meta.json` files against `.vscode/meta.schema.json` from the terminal, or pass one or more file paths to check only those files:
+
+```bash
+pnpm run meta:check
+pnpm run meta:check -- apps/readest/meta.json
+pnpm run meta:check -- --no-fix
+```
+
+The command skips `deprecated/` during a full check. It checks the schema and automatically fixes JSON field order using `eslint.config.mjs`. Use `--no-fix` for a read-only check. Any remaining errors are printed and cause a non-zero exit status. You can still validate an archived file by passing its path explicitly.
+
 **Docker Configuration (default):**
 
 ```json

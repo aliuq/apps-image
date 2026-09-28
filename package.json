@@ -10,7 +10,8 @@
   "scripts": {
     "lint": "eslint .",
     "eslint:inspect": "bunx @eslint/config-inspector --config eslint.config.mjs",
-    "manifest": "bun run --cwd=action src/manifest.ts"
+    "manifest": "bun run --cwd=action src/manifest.ts",
+    "meta:check": "node action/scripts/check-meta.mjs"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^9.0.0",
