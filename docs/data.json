@@ -1,36 +1,7 @@
 {
-  "generated": "2026-09-28T20:33:41.000Z",
+  "generated": "2026-09-29T01:41:46.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "f3b6448",
-          "sha": "f3b64488542b902c98c0bb0a2dd88f91d2da5b1b",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-09-28T20:33:41.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -70,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "3947883",
-          "sha": "39478830637a8f234ec6032bcaa1616ed730a5de",
+          "version": "5a406e5",
+          "sha": "5a406e51875157bece389b9bc92d41ff241d5f3d",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -106,7 +77,36 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-09-28T20:33:37.000Z"
+      "updatedAt": "2026-09-29T01:41:46.000Z"
+    },
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "f3b6448",
+          "sha": "f3b64488542b902c98c0bb0a2dd88f91d2da5b1b",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-09-28T20:33:41.000Z"
     },
     {
       "name": "readest",
