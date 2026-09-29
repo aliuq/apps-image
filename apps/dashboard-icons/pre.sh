@@ -2,7 +2,7 @@
 
 set -euxo pipefail
 
-VERSION="ec64754"
+VERSION="c716eb6"
 
 # Store the current working directory to return back later
 old_pwd=$(pwd)
