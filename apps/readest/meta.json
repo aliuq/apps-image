@@ -7,8 +7,8 @@
   "license": "AGPL-3.0",
   "variants": {
     "latest": {
-      "version": "0.12.10",
-      "sha": "8a56831af61841175b49cc2740bffcde57b470b0",
+      "version": "0.12.12",
+      "sha": "fd9f0c0645b8350ed83bc02ddefbbfc598115d33",
       "checkver": {
         "type": "tag",
         "repo": "https://github.com/readest/readest",
