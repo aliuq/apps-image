@@ -5,8 +5,8 @@
   "description": "weserv 是一个用于快速生成图像的 API",
   "variants": {
     "latest": {
-      "version": "3163368",
-      "sha": "3163368075b716599b75fb50505307232d1c6a35",
+      "version": "45714c4",
+      "sha": "45714c4479cc26a1818dbca27cb3786ae8877dfe",
       "checkver": {
         "type": "sha",
         "repo": "weserv/images",
@@ -21,8 +21,8 @@
       }
     },
     "alpine": {
-      "version": "3163368",
-      "sha": "3163368075b716599b75fb50505307232d1c6a35",
+      "version": "45714c4",
+      "sha": "45714c4479cc26a1818dbca27cb3786ae8877dfe",
       "checkver": {
         "type": "sha",
         "repo": "weserv/images",
