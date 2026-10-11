@@ -1,37 +1,7 @@
 {
-  "generated": "2026-10-11T12:24:08.000Z",
+  "generated": "2026-10-11T18:46:58.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "104a791",
-          "sha": "104a791794ef68b31bfecac676ddace8c223fd27",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-10-11T12:24:08.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -71,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "e65eca9",
-          "sha": "e65eca999e071503efb893d3379a29fb96ff37c4",
+          "version": "2df993f",
+          "sha": "2df993fb397dd6d64625908c9c10337727617f6f",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -107,7 +77,37 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-10-10T23:22:32.000Z"
+      "updatedAt": "2026-10-11T18:46:58.000Z"
+    },
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "104a791",
+          "sha": "104a791794ef68b31bfecac676ddace8c223fd27",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-10-11T12:24:08.000Z"
     },
     {
       "name": "weserv",
