@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T19:26:43.000Z",
+  "generated": "2026-10-11T18:46:58.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "ed10ac7",
-          "sha": "ed10ac7dca7e40f3f4a31269b4bfba980d0db41e",
+          "version": "2df993f",
+          "sha": "2df993fb397dd6d64625908c9c10337727617f6f",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,37 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-10-01T19:26:43.000Z"
+      "updatedAt": "2026-10-11T18:46:58.000Z"
+    },
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "104a791",
+          "sha": "104a791794ef68b31bfecac676ddace8c223fd27",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-10-11T12:24:08.000Z"
     },
     {
       "name": "weserv",
@@ -86,8 +116,8 @@
       "description": "weserv 是一个用于快速生成图像的 API",
       "variants": {
         "latest": {
-          "version": "3163368",
-          "sha": "3163368075b716599b75fb50505307232d1c6a35",
+          "version": "45714c4",
+          "sha": "45714c4479cc26a1818dbca27cb3786ae8877dfe",
           "checkver": {
             "type": "sha",
             "repo": "weserv/images",
@@ -117,8 +147,8 @@
           "enabled": true
         },
         "alpine": {
-          "version": "3163368",
-          "sha": "3163368075b716599b75fb50505307232d1c6a35",
+          "version": "45714c4",
+          "sha": "45714c4479cc26a1818dbca27cb3786ae8877dfe",
           "checkver": {
             "type": "sha",
             "repo": "weserv/images",
@@ -154,37 +184,7 @@
       "category": "app",
       "readmePath": "apps/weserv",
       "hasReadme": true,
-      "updatedAt": "2026-10-01T12:45:48.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "f1d048d",
-          "sha": "f1d048d9885b97a7319e0a51e508217459f212df",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-10-01T12:45:41.000Z"
+      "updatedAt": "2026-10-10T12:11:13.000Z"
     },
     {
       "name": "vscode",
@@ -193,8 +193,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.140.0",
-          "sha": "07f806f999227108933c2e30515b26eecc1fda74",
+          "version": "1.141.0",
+          "sha": "2a59476c9bfcb90b3ddc372c36762471b7dfad1c",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -224,8 +224,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.140.0",
-          "sha": "07f806f999227108933c2e30515b26eecc1fda74",
+          "version": "1.141.0",
+          "sha": "2a59476c9bfcb90b3ddc372c36762471b7dfad1c",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -261,36 +261,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-09-30T23:41:04.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "f3b6448",
-          "sha": "f3b64488542b902c98c0bb0a2dd88f91d2da5b1b",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-09-28T20:33:41.000Z"
+      "updatedAt": "2026-10-07T12:56:29.000Z"
     },
     {
       "name": "readest",
@@ -301,8 +272,8 @@
       "license": "AGPL-3.0",
       "variants": {
         "latest": {
-          "version": "0.12.10",
-          "sha": "8a56831af61841175b49cc2740bffcde57b470b0",
+          "version": "0.12.12",
+          "sha": "fd9f0c0645b8350ed83bc02ddefbbfc598115d33",
           "checkver": {
             "type": "tag",
             "repo": "https://github.com/readest/readest",
@@ -349,7 +320,36 @@
       "category": "app",
       "readmePath": "apps/readest",
       "hasReadme": true,
-      "updatedAt": "2026-09-28T19:47:12.000Z"
+      "updatedAt": "2026-10-05T00:35:12.000Z"
+    },
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "f3b6448",
+          "sha": "f3b64488542b902c98c0bb0a2dd88f91d2da5b1b",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-09-28T20:33:41.000Z"
     },
     {
       "name": "telemirror",
