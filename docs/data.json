@@ -1,84 +1,7 @@
 {
-  "generated": "2026-10-12T14:57:10.000Z",
+  "generated": "2026-10-13T03:53:18.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "weserv",
-      "type": "app",
-      "slogan": "wsrv.nl",
-      "description": "weserv 是一个用于快速生成图像的 API",
-      "variants": {
-        "latest": {
-          "version": "4a57b01",
-          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value=5.x",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "alpine": {
-          "version": "4a57b01",
-          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=alpine",
-              "type=raw,value=5.x-alpine",
-              "type=raw,value={{version}}-alpine"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/weserv",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/weserv",
-      "hasReadme": true,
-      "updatedAt": "2026-10-12T14:57:10.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -154,7 +77,84 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-10-12T14:57:00.000Z"
+      "updatedAt": "2026-10-13T03:53:18.000Z"
+    },
+    {
+      "name": "weserv",
+      "type": "app",
+      "slogan": "wsrv.nl",
+      "description": "weserv 是一个用于快速生成图像的 API",
+      "variants": {
+        "latest": {
+          "version": "4a57b01",
+          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=5.x",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "alpine": {
+          "version": "4a57b01",
+          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=alpine",
+              "type=raw,value=5.x-alpine",
+              "type=raw,value={{version}}-alpine"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/weserv",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/weserv",
+      "hasReadme": true,
+      "updatedAt": "2026-10-13T03:53:18.000Z"
     },
     {
       "name": "dashboard-icons",
@@ -184,7 +184,95 @@
       "category": "app",
       "readmePath": "apps/dashboard-icons",
       "hasReadme": true,
-      "updatedAt": "2026-10-11T12:24:08.000Z"
+      "updatedAt": "2026-10-13T02:13:22.000Z"
+    },
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "2e6a328",
+          "sha": "2e6a32808fb13a9246cac153e53e729def5ea7e8",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-10-13T02:13:22.000Z"
+    },
+    {
+      "name": "readest",
+      "type": "app",
+      "title": "Readest",
+      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
+      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
+      "license": "AGPL-3.0",
+      "variants": {
+        "latest": {
+          "version": "0.12.12",
+          "sha": "fd9f0c0645b8350ed83bc02ddefbbfc598115d33",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/readest/readest",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        },
+        "test": {
+          "version": "0.12.6",
+          "sha": "f6146c217fa69d14b4982f640a5af9ee69c813a4",
+          "enabled": false,
+          "checkver": {
+            "type": "tag",
+            "repo": "readest/readest",
+            "tagPattern": "^v[\\d.]+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/{name}"
+            ],
+            "tags": [
+              "type=raw,value=test"
+            ],
+            "platforms": [
+              "linux/amd64"
+            ],
+            "push": true,
+            "load": false
+          }
+        }
+      },
+      "context": "apps/readest",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/readest",
+      "hasReadme": true,
+      "updatedAt": "2026-10-13T02:13:22.000Z"
     },
     {
       "name": "vscode",
@@ -261,95 +349,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-10-07T12:56:29.000Z"
-    },
-    {
-      "name": "readest",
-      "type": "app",
-      "title": "Readest",
-      "slogan": "现代化的电子书阅读器，优雅的阅读体验",
-      "description": "Readest 是一款现代化、功能丰富的电子书阅读器",
-      "license": "AGPL-3.0",
-      "variants": {
-        "latest": {
-          "version": "0.12.12",
-          "sha": "fd9f0c0645b8350ed83bc02ddefbbfc598115d33",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/readest/readest",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        },
-        "test": {
-          "version": "0.12.6",
-          "sha": "f6146c217fa69d14b4982f640a5af9ee69c813a4",
-          "enabled": false,
-          "checkver": {
-            "type": "tag",
-            "repo": "readest/readest",
-            "tagPattern": "^v[\\d.]+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/{name}"
-            ],
-            "tags": [
-              "type=raw,value=test"
-            ],
-            "platforms": [
-              "linux/amd64"
-            ],
-            "push": true,
-            "load": false
-          }
-        }
-      },
-      "context": "apps/readest",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/readest",
-      "hasReadme": true,
-      "updatedAt": "2026-10-05T00:35:12.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "f3b6448",
-          "sha": "f3b64488542b902c98c0bb0a2dd88f91d2da5b1b",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-09-28T20:33:41.000Z"
+      "updatedAt": "2026-10-13T02:13:22.000Z"
     },
     {
       "name": "telemirror",
