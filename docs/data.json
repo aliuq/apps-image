@@ -1,37 +1,7 @@
 {
-  "generated": "2026-10-14T23:11:03.000Z",
+  "generated": "2026-10-14T23:11:09.000Z",
   "total": 24,
   "apps": [
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "519c583",
-          "sha": "519c5834ec021db50db5a0db16a510f5679ae887",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-10-14T23:11:03.000Z"
-    },
     {
       "name": "vscode",
       "type": "base",
@@ -39,8 +9,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.141.2",
-          "sha": "16507d91be0dc1ce4f94c04d4d0430210b8685d9",
+          "version": "1.142.0",
+          "sha": "d956e8a6ac5d904486557eea07e1d6bd62a4d36f",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -70,8 +40,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.141.2",
-          "sha": "16507d91be0dc1ce4f94c04d4d0430210b8685d9",
+          "version": "1.142.0",
+          "sha": "d956e8a6ac5d904486557eea07e1d6bd62a4d36f",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -107,7 +77,37 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-10-14T18:27:15.000Z"
+      "updatedAt": "2026-10-14T23:11:09.000Z"
+    },
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "519c583",
+          "sha": "519c5834ec021db50db5a0db16a510f5679ae887",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-10-14T23:11:03.000Z"
     },
     {
       "name": "excalidraw",
