@@ -1,7 +1,37 @@
 {
-  "generated": "2026-10-14T18:27:15.000Z",
+  "generated": "2026-10-14T23:11:03.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "dashboard-icons",
+      "type": "app",
+      "title": "Dashboard Icons",
+      "slogan": "Your definitive source for dashboard icons.",
+      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
+      "license": "Apache-2.0",
+      "variants": {
+        "latest": {
+          "version": "519c583",
+          "sha": "519c5834ec021db50db5a0db16a510f5679ae887",
+          "checkver": {
+            "type": "sha",
+            "repo": "homarr-labs/dashboard-icons",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/dashboard-icons",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/dashboard-icons",
+      "hasReadme": true,
+      "updatedAt": "2026-10-14T23:11:03.000Z"
+    },
     {
       "name": "vscode",
       "type": "base",
@@ -214,36 +244,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-10-14T01:03:00.000Z"
-    },
-    {
-      "name": "dashboard-icons",
-      "type": "app",
-      "title": "Dashboard Icons",
-      "slogan": "Your definitive source for dashboard icons.",
-      "description": "A collection of over 1800 curated icons for services, applications and tools, designed specifically for dashboards and app directories.",
-      "license": "Apache-2.0",
-      "variants": {
-        "latest": {
-          "version": "2ade7af",
-          "sha": "2ade7af6c86f0bf7de0b29cd62af99b3458b7af1",
-          "checkver": {
-            "type": "sha",
-            "repo": "homarr-labs/dashboard-icons",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/dashboard-icons",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/dashboard-icons",
-      "hasReadme": true,
-      "updatedAt": "2026-10-13T21:06:47.000Z"
     },
     {
       "name": "weserv",
