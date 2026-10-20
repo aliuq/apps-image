@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-20T04:11:17.000Z",
+  "generated": "2026-10-20T11:12:23.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "d3a9c2a",
-          "sha": "d3a9c2a195182bf65b526ccb7a19de96f4bdfdb3",
+          "version": "bee01e3",
+          "sha": "bee01e3a12812c930109aa91242658709480bbf3",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-10-20T04:11:17.000Z"
+      "updatedAt": "2026-10-20T11:12:23.000Z"
     },
     {
       "name": "dashboard-icons",
