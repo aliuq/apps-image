@@ -110,6 +110,36 @@
       "updatedAt": "2026-10-20T11:12:29.000Z"
     },
     {
+      "name": "memogram",
+      "type": "app",
+      "title": "Memogram",
+      "slogan": "Memos 的 Telegram 机器人集成",
+      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
+      "license": "Custom properties",
+      "variants": {
+        "latest": {
+          "version": "26.10.0",
+          "sha": "a23fab50b7347cd73817f829a786cee1e9f121f8",
+          "checkver": {
+            "type": "tag",
+            "repo": "https://github.com/usememos/telegram-integration",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/memogram",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/memogram",
+      "hasReadme": true,
+      "updatedAt": "2026-10-15T14:48:34.000Z"
+    },
+    {
       "name": "vscode",
       "type": "base",
       "description": "Visual Studio Code is a free source-code editor made by Microsoft for Windows, Linux and macOS.",
@@ -649,36 +679,6 @@
       "readmePath": "apps/haitang",
       "hasReadme": true,
       "updatedAt": "2026-05-03T22:39:45.000Z"
-    },
-    {
-      "name": "memogram",
-      "type": "app",
-      "title": "Memogram",
-      "slogan": "Memos 的 Telegram 机器人集成",
-      "description": "Memogram is an easy to use integration service for syncing messages and images from a Telegram bot into your Memos.",
-      "license": "Custom properties",
-      "variants": {
-        "latest": {
-          "version": "0.5.0",
-          "sha": "ea70bc8d8f8468dc86c446504dfa1000ea11a3ef",
-          "checkver": {
-            "type": "tag",
-            "repo": "https://github.com/usememos/telegram-integration",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/memogram",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/memogram",
-      "hasReadme": true,
-      "updatedAt": "2026-04-19T16:15:49.000Z"
     },
     {
       "name": "tg-session",
