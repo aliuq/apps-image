@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-22T15:02:53.000Z",
+  "generated": "2026-10-22T23:13:32.000Z",
   "total": 24,
   "apps": [
     {
@@ -9,8 +9,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.143.0",
-          "sha": "2d0b7506a36c1d6db9a466440131a8e01eab2289",
+          "version": "1.143.1",
+          "sha": "e646868227c3e3a9e3f24277c8c7220be42c0be7",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -40,8 +40,8 @@
           "enabled": true
         },
         "stable": {
-          "version": "1.143.0",
-          "sha": "2d0b7506a36c1d6db9a466440131a8e01eab2289",
+          "version": "1.143.1",
+          "sha": "e646868227c3e3a9e3f24277c8c7220be42c0be7",
           "checkver": {
             "type": "tag",
             "repo": "microsoft/vscode",
@@ -77,7 +77,7 @@
       "category": "base",
       "readmePath": "base/vscode",
       "hasReadme": true,
-      "updatedAt": "2026-10-22T15:02:53.000Z"
+      "updatedAt": "2026-10-22T23:13:32.000Z"
     },
     {
       "name": "tg-session",
