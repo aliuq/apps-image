@@ -33,7 +33,8 @@ COPY --from=nginx /docker-entrypoint.d /docker-entrypoint.d
 COPY --from=builder /tmp/app.tar.gz /tmp/app.tar.gz
 COPY --from=builder /usr/local/bin/install-php-extensions /usr/local/bin/install-php-extensions
 
-COPY ./docker-entrypoint.sh /docker-entrypoint.d/00-entrypoint.sh
+COPY ./docker-entrypoint.sh /docker-entrypoint.d/90-lsky-entrypoint.sh
+COPY --chmod=0755 ./nginx-entrypoint.sh /usr/local/bin/lsky-entrypoint
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 RUN install-php-extensions @composer ftp pdo_mysql pdo_pgsql pdo_sqlsrv bcmath imagick redis && \
@@ -44,7 +45,7 @@ RUN install-php-extensions @composer ftp pdo_mysql pdo_pgsql pdo_sqlsrv bcmath i
     rm -rf /var/cache/apk/* && \
     tar -czf /tmp/nginx.tar.gz /etc/nginx
 
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/usr/local/bin/lsky-entrypoint" ]
 CMD [ "nginx", "-g", "daemon off;"]
 
 EXPOSE 80

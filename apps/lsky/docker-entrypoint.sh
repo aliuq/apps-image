@@ -25,13 +25,40 @@ if [ ! -d "/etc/nginx" ] || [ -z "$(ls -A /etc/nginx)" ]; then
     echo "$ME: Extracted /tmp/nginx.tar.gz to /etc/nginx"
 fi
 
-# 与 PHP-FPM 使用同一用户，确保可读取应用创建的 0700 上传目录
-sed -i 's/^[[:space:]]*user[[:space:]][^;]*;/user www-data;/' /etc/nginx/nginx.conf
-# Alpine 的请求体与上游响应临时目录父级也必须允许该用户进入
-chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp
+# 使用独立的可写配置，不改写只读目录或单文件挂载中的用户配置。
+runtime_dir=/tmp/lsky-nginx
+rm -rf "$runtime_dir"
+mkdir -p "$runtime_dir/conf.d"
+for config in /etc/nginx/*; do
+    name=${config##*/}
+    case "$name" in
+        nginx.conf|conf.d) continue ;;
+    esac
+    ln -s "$config" "$runtime_dir/$name"
+done
+if [ -d /etc/nginx/conf.d ]; then
+    cp -a /etc/nginx/conf.d/. "$runtime_dir/conf.d/"
+fi
+# 忽略旧入口生成的全局限制，避免与已有 http 级配置重复。
+rm -f "$runtime_dir/conf.d/00-upload-limit.conf"
+sed \
+    -e 's/^[[:space:]]*user[[:space:]][^;]*;/user www-data;/' \
+    -e "/^[[:space:]]*include[[:space:]]/s@/etc/nginx/conf.d/@$runtime_dir/conf.d/@g" \
+    /etc/nginx/nginx.conf > "$runtime_dir/nginx.conf"
 
-# 从 PHP 的实际配置同步请求体上限，同时兼容已有的 nginx 数据卷
+# 仅为镜像自带的 server 同步限制，自定义 server 的指令和 include 保持原样。
 post_max_size=$(php -r 'echo ini_get("post_max_size");')
-printf 'client_max_body_size %s;\n' "$post_max_size" > /etc/nginx/conf.d/00-upload-limit.conf
+tar -xOzf /tmp/nginx.tar.gz etc/nginx/conf.d/default.conf > "$runtime_dir/default.conf"
+if cmp -s /etc/nginx/conf.d/default.conf "$runtime_dir/default.conf"; then
+    rm -f "$runtime_dir/conf.d/default.conf"
+    sed "/^[[:space:]]*server[[:space:]]*{/a\\    client_max_body_size $post_max_size;" \
+        "$runtime_dir/default.conf" > "$runtime_dir/conf.d/default.conf"
+else
+    echo "$ME: Custom nginx server configuration detected; its request body limits are preserved"
+fi
+rm "$runtime_dir/default.conf"
+
+# Alpine 的请求体与上游响应临时目录父级也必须允许 www-data 进入。
+chown www-data:www-data /var/lib/nginx /var/lib/nginx/tmp
 
 php-fpm -D
