@@ -41,7 +41,7 @@ services:
       - '8080:80'
     environment:
       - UPLOAD_MAX_FILESIZE=20M
-      - POST_MAX_SIZE=20M
+      - POST_MAX_SIZE=25M
     volumes:
       - ./data:/app
     depends_on:
@@ -83,7 +83,9 @@ docker-compose up -d
 | 变量名 | 默认值 | 描述 |
 |--------|--------|------|
 | `UPLOAD_MAX_FILESIZE` | `10M` | 单个文件上传大小限制 |
-| `POST_MAX_SIZE` | `10M` | POST 数据最大限制 |
+| `POST_MAX_SIZE` | `15M` | 整个 POST 请求的大小限制；启动时同步为 nginx 的 `client_max_body_size` |
+
+`POST_MAX_SIZE` 应大于 `UPLOAD_MAX_FILESIZE`，为 multipart 表单字段和封装开销留出空间。例如，单文件上限为 `20M` 时，可将请求总量上限设为 `25M`
 
 ### 数据持久化
 
