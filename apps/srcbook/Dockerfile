@@ -1,4 +1,4 @@
-FROM node:22.7.0-alpine3.20 AS builder
+FROM node:22.23.4-alpine3.24 AS builder
 WORKDIR /app
 
 RUN yarn add srcbook@0.0.19 && \
@@ -13,7 +13,7 @@ RUN echo "#!/usr/bin/env node" > /srcbook && \
   echo "import program from '/app/dist/src/cli.mjs';" >> /srcbook && \
   echo "program();" >> /srcbook
 
-FROM node:22.7.0-alpine3.20
+FROM node:22.23.4-alpine3.24
 
 WORKDIR /app
 COPY --from=builder /app .
