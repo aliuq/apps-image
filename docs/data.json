@@ -1,7 +1,33 @@
 {
-  "generated": "2026-10-21T13:49:03.000Z",
+  "generated": "2026-10-22T09:08:12.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "alpine",
+      "type": "base",
+      "description": "Alpine Linux 3.24",
+      "variants": {
+        "latest": {
+          "version": "3.24.3",
+          "sha": "b70ea779fcd2280cc1a5d1b9952a1975a35ca216",
+          "checkver": {
+            "type": "manual",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "base/alpine",
+      "readme": "README.md",
+      "skip": false,
+      "category": "base",
+      "readmePath": "base/alpine",
+      "hasReadme": false,
+      "updatedAt": "2026-10-22T09:08:12.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -1068,32 +1094,6 @@
       "category": "app",
       "readmePath": "apps/lsky",
       "hasReadme": true,
-      "updatedAt": "2025-12-19T15:27:41.000Z"
-    },
-    {
-      "name": "alpine",
-      "type": "base",
-      "description": "Alpine Linux 3.20",
-      "variants": {
-        "latest": {
-          "version": "3.22.1",
-          "sha": "a274bcf3c7710d34df2b38ae6ac4ab5684d8f72d",
-          "checkver": {
-            "type": "manual",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "base/alpine",
-      "readme": "README.md",
-      "skip": false,
-      "category": "base",
-      "readmePath": "base/alpine",
-      "hasReadme": false,
       "updatedAt": "2025-12-19T15:27:41.000Z"
     },
     {
