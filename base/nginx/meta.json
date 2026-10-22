@@ -5,7 +5,7 @@
   "variants": {
     "latest": {
       "version": "1.0.1",
-      "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+      "sha": "bd1ee7247f92e0dba6834fdb316cf3fd44387ee0",
       "checkver": {
         "type": "manual"
       },
@@ -18,7 +18,7 @@
     },
     "vue": {
       "version": "1.0.1",
-      "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+      "sha": "bd1ee7247f92e0dba6834fdb316cf3fd44387ee0",
       "checkver": {
         "type": "manual"
       },
@@ -31,7 +31,7 @@
     },
     "svelte": {
       "version": "1.0.1",
-      "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
+      "sha": "bd1ee7247f92e0dba6834fdb316cf3fd44387ee0",
       "checkver": {
         "type": "manual"
       },
