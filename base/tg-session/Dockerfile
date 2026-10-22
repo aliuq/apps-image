@@ -1,4 +1,4 @@
-FROM python:3.12.13-alpine3.23 AS build
+FROM python:3.12.15-alpine3.24 AS build
 
 ENV PIP_NO_CACHE_DIR=1
 WORKDIR /app

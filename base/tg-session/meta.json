@@ -5,7 +5,7 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "sha": "2888c03e80a1c60c92d4156fea6efe6bde8e986d",
       "checkver": {
         "type": "manual"
