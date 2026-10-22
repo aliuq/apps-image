@@ -1,4 +1,4 @@
-FROM php:8.0.2-alpine3.13 AS builder
+FROM php:8.2.35-alpine3.24 AS builder
 
 WORKDIR /app
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
@@ -12,7 +12,7 @@ RUN curl -fsSL ${REPO_URL} -o lsky-pro.zip && \
 
 FROM nginx:alpine AS nginx
 
-FROM php:8.0.2-fpm-alpine3.12
+FROM php:8.2.35-fpm-alpine3.24
 
 WORKDIR /app
 
@@ -26,7 +26,7 @@ COPY --from=builder /usr/local/bin/install-php-extensions /usr/local/bin/install
 COPY ./docker-entrypoint.sh /docker-entrypoint.d/00-entrypoint.sh
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
-RUN install-php-extensions @composer pdo_mysql pdo_pgsql pdo_sqlsrv bcmath imagick redis && \
+RUN install-php-extensions @composer ftp pdo_mysql pdo_pgsql pdo_sqlsrv bcmath imagick redis && \
     mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
     apk update && apk add --no-cache nginx && \
     chmod +x /docker-entrypoint.sh && \
