@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-22T09:41:30.000Z",
+  "generated": "2026-10-22T09:49:18.000Z",
   "total": 24,
   "apps": [
     {
@@ -40,7 +40,7 @@
           "enabled": true
         },
         "ubuntu": {
-          "version": "1.0.1",
+          "version": "1.0.2",
           "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
           "checkver": {
             "type": "manual",
@@ -75,7 +75,7 @@
       "category": "base",
       "readmePath": "base/self",
       "hasReadme": false,
-      "updatedAt": "2026-10-22T09:41:30.000Z"
+      "updatedAt": "2026-10-22T09:49:18.000Z"
     },
     {
       "name": "nginx",
