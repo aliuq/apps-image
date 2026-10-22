@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:1.31.8-alpine3.24
 
 WORKDIR /app
 COPY ./conf/default.svelte.conf /etc/nginx/conf.d/default.conf

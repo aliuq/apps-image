@@ -1,10 +1,10 @@
 {
   "name": "nginx",
   "type": "base",
-  "description": "Nginx with custom configuration, based on alpine. The root path is /app.",
+  "description": "Nginx 1.31.8 with custom configuration, based on Alpine Linux 3.24. The root path is /app.",
   "variants": {
     "latest": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
       "checkver": {
         "type": "manual"
@@ -17,7 +17,7 @@
       }
     },
     "vue": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
       "checkver": {
         "type": "manual"
@@ -30,7 +30,7 @@
       }
     },
     "svelte": {
-      "version": "1.0.0",
+      "version": "1.0.1",
       "sha": "b942ae5b466bacb9ba3561173589750ecd1ffe07",
       "checkver": {
         "type": "manual"
