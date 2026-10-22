@@ -3,7 +3,7 @@ WORKDIR /app
 ARG VERSION=4b9de83
 RUN git clone https://github.com/liyupi/yulegeyu . && git checkout ${VERSION}
 
-FROM node:20.10.0-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
 
 COPY --from=source /app .
