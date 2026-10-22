@@ -2,11 +2,11 @@
   "name": "self",
   "type": "base",
   "title": "Personal Development Environment",
-  "description": "个人开发环境基础镜像，集成 Node.js、Python、Zsh、Oh-my-zsh、Starship 等开发工具",
+  "description": "Personal development environment based on Alpine Linux 3.24 or Ubuntu 24.04 LTS, with Zsh, Oh My Zsh, Starship and fnm.",
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "1.0.1",
+      "version": "1.0.2",
       "sha": "d79cb9ae3714b725ecb2e0a88b50f7d3c9011580",
       "checkver": {
         "type": "manual"
