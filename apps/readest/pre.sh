@@ -38,8 +38,8 @@ else
   sed -i 's/output: .*/output: "standalone",/' $next_config
 fi
 
-# Install pnpm
-mise use node@lts pnpm@10 -g
+# 与运行时保持同一 Node 主版本，并使用上游声明的 pnpm 版本
+mise use node@24 pnpm@11.1.1 -g
 
 # Install dependencies and build the application
 pnpm install --frozen-lockfile
