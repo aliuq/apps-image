@@ -1,4 +1,4 @@
-FROM nginx:1.30.0-alpine3.23
+FROM nginx:1.30.6-alpine3.24
 
 ENV MODE=production
 
