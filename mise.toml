@@ -9,3 +9,7 @@ docker image prune -af
 echo "\n"
 docker builder prune -af
 '''
+
+[tasks.clean-cache-all]
+description = "Clean all cacheed layers on aliuq/apps-image"
+run = "gh cache delete --repo aliuq/apps-image --all"
