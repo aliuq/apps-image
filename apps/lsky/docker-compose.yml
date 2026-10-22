@@ -1,14 +1,15 @@
 services:
   lsky:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: lsky:local
     restart: always
     ports:
       - 8089:80
     environment:
       - UPLOAD_MAX_FILESIZE=20M
-      - POST_MAX_SIZE=15M
+      - POST_MAX_SIZE=25M
     depends_on:
       - lsky-db
   lsky-db:
