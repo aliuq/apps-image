@@ -1,7 +1,84 @@
 {
-  "generated": "2026-11-01T05:15:57.000Z",
+  "generated": "2026-11-01T16:42:02.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "weserv",
+      "type": "app",
+      "slogan": "wsrv.nl",
+      "description": "weserv 是一个用于快速生成图像的 API",
+      "variants": {
+        "latest": {
+          "version": "59fa7bd",
+          "sha": "59fa7bd315a354b1f8e92845f4eadd83bc5f8bf2",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=latest",
+              "type=raw,value=5.x",
+              "type=raw,value={{version}}"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        },
+        "alpine": {
+          "version": "59fa7bd",
+          "sha": "59fa7bd315a354b1f8e92845f4eadd83bc5f8bf2",
+          "checkver": {
+            "type": "sha",
+            "repo": "weserv/images",
+            "branch": "5.x",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "docker": {
+            "tags": [
+              "type=raw,value=alpine",
+              "type=raw,value=5.x-alpine",
+              "type=raw,value={{version}}-alpine"
+            ],
+            "file": "Dockerfile",
+            "images": [
+              "aliuq/weserv",
+              "ghcr.io/aliuq/weserv"
+            ],
+            "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+            ],
+            "push": true,
+            "load": false
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/weserv",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/weserv",
+      "hasReadme": true,
+      "updatedAt": "2026-11-01T16:42:02.000Z"
+    },
     {
       "name": "dashboard-icons",
       "type": "app",
@@ -503,83 +580,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-10-14T01:03:00.000Z"
-    },
-    {
-      "name": "weserv",
-      "type": "app",
-      "slogan": "wsrv.nl",
-      "description": "weserv 是一个用于快速生成图像的 API",
-      "variants": {
-        "latest": {
-          "version": "4a57b01",
-          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=latest",
-              "type=raw,value=5.x",
-              "type=raw,value={{version}}"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        },
-        "alpine": {
-          "version": "4a57b01",
-          "sha": "4a57b01f44e53ec6704782532dd5eb1e72be6404",
-          "checkver": {
-            "type": "sha",
-            "repo": "weserv/images",
-            "branch": "5.x",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "docker": {
-            "tags": [
-              "type=raw,value=alpine",
-              "type=raw,value=5.x-alpine",
-              "type=raw,value={{version}}-alpine"
-            ],
-            "file": "Dockerfile",
-            "images": [
-              "aliuq/weserv",
-              "ghcr.io/aliuq/weserv"
-            ],
-            "platforms": [
-              "linux/amd64",
-              "linux/arm64"
-            ],
-            "push": true,
-            "load": false
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/weserv",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/weserv",
-      "hasReadme": true,
-      "updatedAt": "2026-10-13T03:53:18.000Z"
     },
     {
       "name": "rayso",
