@@ -1,7 +1,36 @@
 {
-  "generated": "2026-11-01T16:42:02.000Z",
+  "generated": "2026-11-01T21:58:50.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "rayso",
+      "type": "app",
+      "title": "ray.so",
+      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "54a5a0d",
+          "sha": "54a5a0d9523c36d61a3e4c9d39dc5168706e1820",
+          "checkver": {
+            "type": "sha",
+            "repo": "raycast/ray-so",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/rayso",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/rayso",
+      "hasReadme": true,
+      "updatedAt": "2026-11-01T21:58:50.000Z"
+    },
     {
       "name": "weserv",
       "type": "app",
@@ -580,35 +609,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-10-14T01:03:00.000Z"
-    },
-    {
-      "name": "rayso",
-      "type": "app",
-      "title": "ray.so",
-      "description": "Create code snippets, browse AI prompts, create extension icons and more.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "2e6a328",
-          "sha": "2e6a32808fb13a9246cac153e53e729def5ea7e8",
-          "checkver": {
-            "type": "sha",
-            "repo": "raycast/ray-so",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/rayso",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/rayso",
-      "hasReadme": true,
-      "updatedAt": "2026-10-13T02:13:22.000Z"
     },
     {
       "name": "telemirror",
