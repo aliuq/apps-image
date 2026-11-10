@@ -5,8 +5,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "1.145.2",
-      "sha": "c4453f8ea430795f941c1b2ff6c9321135a74a02",
+      "version": "1.145.3",
+      "sha": "dcd3ad6e368fbe19d03f37054a40dbaf40d676f4",
       "checkver": {
         "type": "tag",
         "repo": "microsoft/vscode",
@@ -20,8 +20,8 @@
       }
     },
     "stable": {
-      "version": "1.145.2",
-      "sha": "c4453f8ea430795f941c1b2ff6c9321135a74a02",
+      "version": "1.145.3",
+      "sha": "dcd3ad6e368fbe19d03f37054a40dbaf40d676f4",
       "checkver": {
         "type": "tag",
         "repo": "microsoft/vscode",
