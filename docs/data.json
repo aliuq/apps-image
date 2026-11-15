@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-14T16:30:33.000Z",
+  "generated": "2026-11-15T13:43:27.000Z",
   "total": 24,
   "apps": [
     {
@@ -41,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "3a317b5",
-          "sha": "3a317b55f508815d10a4c12acca99df30f026521",
+          "version": "9e9621b",
+          "sha": "9e9621b873c695e08d87ad7e1358306496d11aaf",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -77,7 +77,7 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-11-14T16:30:33.000Z"
+      "updatedAt": "2026-11-15T13:43:27.000Z"
     },
     {
       "name": "vscode",
