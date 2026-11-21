@@ -1,7 +1,37 @@
 {
-  "generated": "2026-11-19T22:06:22.000Z",
+  "generated": "2026-11-21T03:07:55.000Z",
   "total": 24,
   "apps": [
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "ecda947",
+          "sha": "ecda94715b6a37517cadd9d20d33c3f5a4daa48e",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-11-21T03:07:55.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -685,36 +715,6 @@
       "readmePath": "apps/telemirror",
       "hasReadme": true,
       "updatedAt": "2026-09-06T08:30:09.000Z"
-    },
-    {
-      "name": "icones",
-      "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1b7f2ba",
-          "sha": "1b7f2ba7a7f88cac09bb9da093921612060abd03",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/icones",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/icones",
-      "hasReadme": true,
-      "updatedAt": "2026-08-25T18:44:15.000Z"
     },
     {
       "name": "openclaw",
