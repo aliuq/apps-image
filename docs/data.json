@@ -1,7 +1,37 @@
 {
-  "generated": "2026-11-21T20:35:34.000Z",
-  "total": 24,
+  "generated": "2026-11-22T19:13:55.000Z",
+  "total": 25,
   "apps": [
+    {
+      "name": "posewear",
+      "type": "app",
+      "title": "衣姿 PoseWear",
+      "slogan": "姿势、服装、人像参考图库，附中英文提示词，可在浏览器里 AI 试穿",
+      "description": "PoseWear 是一个纯静态参考图站点：姿势、深度姿势、服装、动画服装与人像库，附中英文提示词，可在浏览器中用自备 API Key 进行 AI 试穿。镜像内置约 8GB 素材（深度姿势仍热链原站），AI 试穿需要联网。",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "41f3dc3",
+          "sha": "41f3dc3a8d107fb3498f8d40443c615239fbf4de",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/atuizz/posewear",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/posewear",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/posewear",
+      "hasReadme": true,
+      "updatedAt": "2026-11-22T19:13:55.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
