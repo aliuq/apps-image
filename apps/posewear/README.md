@@ -71,13 +71,12 @@ docker compose up -d
 ```bash
 git clone https://github.com/aliuq/apps-image.git
 cd apps-image/apps/posewear
-mise install   # 固定 Python 3.12（见 mise.toml）
 bash pre.sh
 docker build -t posewear:local .
 docker run --rm -p 8080:80 posewear:local
 ```
 
-构建依赖 [mise](https://mise.jdx.dev/)：`mise.toml` 固定 Python 3.12，因为上游 `build.py` 在模块顶层创建进程池，依赖 3.14 之前的 `fork` 启动方式；`pre.sh` 通过 `mise exec` 选用该版本。
+构建依赖 [mise](https://mise.jdx.dev/)：`pre.sh` 会执行 `mise use python@3.12 -g`，在构建机的全局配置中固定 Python 3.12。上游 `build.py` 在模块顶层创建进程池，依赖 3.14 之前的 `fork` 启动方式；随即用 `mise exec` 选用该版本。
 
 `pre.sh` 会下载约 7.2GB 素材并生成 `dist/`，建议至少准备 30GB 磁盘。重复构建可加 `POSEWEAR_KEEP_RAW=1` 保留 `assets-raw`：
 

@@ -35,9 +35,11 @@ cd app
 git checkout "$VERSION"
 
 # build.py requires Pillow. Use a throwaway venv so the system Python can stay
-# externally managed. mise.toml pins Python 3.12 (installed by mise-action in
-# CI); mise exec also selects it in shells without mise activation. 3.12 keeps
-# the fork start method that upstream's module-level ProcessPoolExecutor needs.
+# externally managed. Pin Python 3.12 globally, like the other pre.sh scripts:
+# upstream's module-level ProcessPoolExecutor needs the pre-3.14 default `fork`
+# start method (3.14 defaults to forkserver). mise exec then picks 3.12 up
+# immediately, without waiting for a shell activation refresh.
+mise use python@3.12 -g
 mise exec -- python3 -m venv .venv
 .venv/bin/pip install --no-cache-dir pillow
 
