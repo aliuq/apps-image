@@ -9,6 +9,7 @@ node_modules
 
 bak
 apps/**/app
+apps/**/assets-raw
 
 .*/skills
 

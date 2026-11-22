@@ -1,0 +1,9 @@
+# Keep local raw assets and transient build files out of the Docker context.
+# assets-raw is the default POSEWEAR_KEEP_RAW=1 cache at apps/posewear/assets-raw.
+assets-raw
+app/assets-raw
+app/dist-assets
+app/.git
+app/.venv
+**/__pycache__
+**/*.pyc
