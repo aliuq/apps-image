@@ -5,7 +5,7 @@ set -euxo pipefail
 # Run from the app directory regardless of the caller's cwd.
 cd "$(dirname "$0")"
 
-VERSION="{{version}}"
+VERSION="41f3dc3"
 
 # Cache raw assets outside the transient app/ clone. The upstream build uses
 # hardlinks for originals, so the cache must be on the same filesystem as
@@ -34,18 +34,11 @@ git clone https://github.com/atuizz/posewear app
 cd app
 git checkout "$VERSION"
 
-# build.py requires Pillow. Use a throwaway venv so the runner's system Python
-# can stay externally managed. Prefer 3.12/3.13: Python 3.14+ defaults to the
-# forkserver start method, which breaks this upstream script's top-level
-# ProcessPoolExecutor. GitHub-hosted runners provide python3.12.
-PYTHON=python3
-for candidate in python3.12 python3.13; do
-  if command -v "$candidate" >/dev/null 2>&1; then
-    PYTHON="$candidate"
-    break
-  fi
-done
-"$PYTHON" -m venv .venv
+# build.py requires Pillow. Use a throwaway venv so the system Python can stay
+# externally managed. mise.toml pins Python 3.12 (installed by mise-action in
+# CI); mise exec also selects it in shells without mise activation. 3.12 keeps
+# the fork start method that upstream's module-level ProcessPoolExecutor needs.
+mise exec -- python3 -m venv .venv
 .venv/bin/pip install --no-cache-dir pillow
 
 # Upstream's documented build: fetch the full asset set, then build dist/.

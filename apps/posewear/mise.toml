@@ -1,0 +1,6 @@
+# Upstream build.py creates a module-level ProcessPoolExecutor without an
+# `if __name__ == "__main__"` guard. Python 3.14 changed the Linux default
+# start method from fork to forkserver, which cannot bootstrap such a script,
+# so pin the interpreter that still defaults to fork.
+[tools]
+python = "3.12"
