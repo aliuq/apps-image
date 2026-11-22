@@ -5,7 +5,7 @@ set -euxo pipefail
 # Run from the app directory regardless of the caller's cwd.
 cd "$(dirname "$0")"
 
-VERSION="41f3dc3"
+VERSION="{{version}}"
 
 # Cache raw assets outside the transient app/ clone. The upstream build uses
 # hardlinks for originals, so the cache must be on the same filesystem as
