@@ -35,22 +35,15 @@ cd app
 git checkout "$VERSION"
 
 # build.py requires Pillow. Use a throwaway venv so the runner's system Python
-# can stay externally managed. Prefer 3.12/3.13: Python 3.14+ defaults to the
-# forkserver start method, which breaks this upstream script's top-level
-# ProcessPoolExecutor. GitHub-hosted runners provide python3.12.
-PYTHON=python3
-for candidate in python3.12 python3.13; do
-  if command -v "$candidate" >/dev/null 2>&1; then
-    PYTHON="$candidate"
-    break
-  fi
-done
-"$PYTHON" -m venv .venv
+# can stay externally managed.
+python3 -m venv .venv
 .venv/bin/pip install --no-cache-dir pillow
 
 # Upstream's documented build: fetch the full asset set, then build dist/.
+# build.py must run through run_build.py: Python 3.14 defaults to the forkserver
+# start method, which cannot bootstrap its top-level ProcessPoolExecutor.
 POSEWEAR_RAW="$RAW_DIR" .venv/bin/python scripts/fetch-assets.py
-POSEWEAR_RAW="$RAW_DIR" .venv/bin/python build.py
+POSEWEAR_RAW="$RAW_DIR" .venv/bin/python ../run_build.py build.py
 
 # Keep only the static site in app/; raw assets live outside the clone.
 find . -mindepth 1 -maxdepth 1 ! -name dist -exec rm -rf {} +
