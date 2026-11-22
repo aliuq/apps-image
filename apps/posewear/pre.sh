@@ -34,16 +34,16 @@ git clone https://github.com/atuizz/posewear app
 cd app
 git checkout "$VERSION"
 
-# build.py requires Pillow. Use a throwaway venv so the runner's system Python
-# can stay externally managed.
-python3 -m venv .venv
+# build.py requires Pillow. Use a throwaway venv so the system Python can stay
+# externally managed. mise.toml pins Python 3.12 (installed by mise-action in
+# CI); mise exec also selects it in shells without mise activation. 3.12 keeps
+# the fork start method that upstream's module-level ProcessPoolExecutor needs.
+mise exec -- python3 -m venv .venv
 .venv/bin/pip install --no-cache-dir pillow
 
 # Upstream's documented build: fetch the full asset set, then build dist/.
-# build.py must run through run_build.py: Python 3.14 defaults to the forkserver
-# start method, which cannot bootstrap its top-level ProcessPoolExecutor.
 POSEWEAR_RAW="$RAW_DIR" .venv/bin/python scripts/fetch-assets.py
-POSEWEAR_RAW="$RAW_DIR" .venv/bin/python ../run_build.py build.py
+POSEWEAR_RAW="$RAW_DIR" .venv/bin/python build.py
 
 # Keep only the static site in app/; raw assets live outside the clone.
 find . -mindepth 1 -maxdepth 1 ! -name dist -exec rm -rf {} +
