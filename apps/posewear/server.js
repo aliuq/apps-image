@@ -4,6 +4,7 @@ const { Buffer } = require('node:buffer')
 const fs = require('node:fs')
 const fsp = require('node:fs/promises')
 const http = require('node:http')
+const net = require('node:net')
 const path = require('node:path')
 const process = require('node:process')
 const { Readable } = require('node:stream')
@@ -291,24 +292,40 @@ function clientIp(req) {
   return String(req.headers['cf-connecting-ip'] || forwarded || req.headers['x-real-ip'] || req.socket.remoteAddress || '0')
 }
 
+/** 判断目标是否属于本机、局域网等非公网地址（不做 DNS 解析）。 */
 function isPrivateHost(hostname) {
-  const host = hostname.toLowerCase()
-  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local') || host.endsWith('.internal'))
+  let host = hostname.toLowerCase()
+  if (host.startsWith('[') && host.endsWith(']'))
+    host = host.slice(1, -1)
+  if (host === 'localhost' || host.endsWith('.localhost') || host.endsWith('.local')
+    || host.endsWith('.internal') || host.endsWith('.lan') || host.endsWith('.home.arpa')) {
     return true
-  if (host === '0.0.0.0' || host === '::1' || host.startsWith('['))
-    return true
-  const parts = host.split('.')
-  if (parts.length === 4 && parts.every(p => /^\d+$/.test(p))) {
-    const a = Number(parts[0])
-    const b = Number(parts[1])
-    if (a === 0 || a === 10 || a === 127)
+  }
+  const family = net.isIP(host)
+  if (family === 4) {
+    const [a, b] = host.split('.').map(Number)
+    return a === 0 || a === 10 || a === 127
+      || (a === 100 && b >= 64 && b <= 127)
+      || (a === 169 && b === 254)
+      || (a === 172 && b >= 16 && b <= 31)
+      || (a === 192 && b === 168)
+      || (a === 198 && (b === 18 || b === 19))
+      || a >= 224
+  }
+  if (family === 6) {
+    if (host === '::' || host === '::1')
       return true
-    if (a === 169 && b === 254)
+    if (/^f[cd][0-9a-f]{2}:/.test(host) || /^fe[89ab][0-9a-f]:/.test(host))
       return true
-    if (a === 172 && b >= 16 && b <= 31)
-      return true
-    if (a === 192 && b === 168)
-      return true
+    const mapped = host.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
+      || host.match(/^::ffff:([0-9a-f]{1,4}):([0-9a-f]{1,4})$/)
+    if (mapped) {
+      if (mapped[2] === undefined)
+        return isPrivateHost(mapped[1])
+      const hi = Number.parseInt(mapped[1], 16)
+      const lo = Number.parseInt(mapped[2], 16)
+      return isPrivateHost(`${hi >> 8}.${hi & 0xFF}.${lo >> 8}.${lo & 0xFF}`)
+    }
   }
   return false
 }
@@ -380,8 +397,15 @@ async function handleProxy(req, res) {
     sendJson(res, 400, '缺少或无效的 x-target-url')
     return
   }
-  if (target.protocol !== 'https:' || target.username || target.password || (target.port && target.port !== '443')) {
-    sendJson(res, 400, '目标地址必须是标准 https 地址')
+  if (target.username || target.password) {
+    sendJson(res, 400, '目标地址不能带账号密码')
+    return
+  }
+  // 公网目标只走 https；本机/局域网目标允许 http，方便接入内网中转。
+  const official = OFFICIAL_HOSTS.some(r => r.test(target.hostname))
+  const internal = isPrivateHost(target.hostname)
+  if (!(internal ? /^https?:$/.test(target.protocol) : target.protocol === 'https:')) {
+    sendJson(res, 400, internal ? '目标地址必须是 http/https 地址' : '公网目标地址必须是 https 地址')
     return
   }
 
@@ -432,19 +456,15 @@ async function handleProxy(req, res) {
     return
   }
 
-  const official = OFFICIAL_HOSTS.some(r => r.test(target.hostname))
+  // 内网地址直接放行；公网自定义中转仍需客户端标记（前端对非官方域名会自动附加）。
   const custom = req.headers['x-proxy-custom'] === '1'
-  if (!official && !custom) {
+  if (!official && !custom && !internal) {
     sendJson(res, 403, '该地址不是官方接口；自定义中转需在设置中选择「自定义」')
     return
   }
   const targetPath = target.pathname.replace(/\/+$/, '')
   if (official ? !API_PATH.test(targetPath) : !CUSTOM_PATH.test(targetPath)) {
     sendJson(res, 403, '该路径不允许通过代理转发')
-    return
-  }
-  if (custom && isPrivateHost(target.hostname)) {
-    sendJson(res, 403, '不能转发到内网地址')
     return
   }
   if (isRateLimited(ip, 'api')) {
