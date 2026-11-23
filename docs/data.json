@@ -40,8 +40,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "41f3dc3",
-          "sha": "41f3dc3a8d107fb3498f8d40443c615239fbf4de",
+          "version": "2976646",
+          "sha": "29766464e4e7147c3b211c067c6d874107c30daf",
           "checkver": {
             "type": "sha",
             "repo": "https://github.com/atuizz/posewear",
@@ -59,7 +59,7 @@
       "category": "app",
       "readmePath": "apps/posewear",
       "hasReadme": true,
-      "updatedAt": "2026-11-22T19:13:55.000Z"
+      "updatedAt": "2026-11-23T06:37:06.000Z"
     },
     {
       "name": "excalidraw",
