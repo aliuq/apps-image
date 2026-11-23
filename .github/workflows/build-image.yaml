@@ -64,8 +64,8 @@ jobs:
           TZ: Asia/Shanghai
           DOCKERHUB_USERNAME: aliuq
           GHCR_USERNAME: aliuq
-          # ALI_ACR_REGISTRY: registry.cn-hangzhou.aliyuncs.com
-          # ALI_ACR_USERNAME: aliuq
+          ALI_ACR_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+          ALI_ACR_USERNAME: aliuq
         with:
           context: ${{ inputs.context }}
           variants: ${{ inputs.variants }}
@@ -107,17 +107,17 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Login to Aliyun ACR
-      #   uses: docker/login-action@v4
-      #   if: ${{ matrix.pushAli && env.ACR_REGISTRY && env.ACR_USERNAME && env.ACR_PASSWORD }}
-      #   env:
-      #     ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
-      #     ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
-      #     ACR_PASSWORD: ${{ secrets.ALI_ACR_PASSWORD }}
-      #   with:
-      #     registry: ${{ secrets.ALI_ACR_REGISTRY }}
-      #     username: ${{ secrets.ALI_ACR_USERNAME }}
-      #     password: ${{ secrets.ALI_ACR_PASSWORD }}
+      - name: Login to Aliyun ACR
+        uses: docker/login-action@v4
+        if: ${{ matrix.pushAli && env.ACR_REGISTRY && env.ACR_USERNAME && env.ACR_PASSWORD }}
+        env:
+          ACR_REGISTRY: ${{ secrets.ALI_ACR_REGISTRY }}
+          ACR_USERNAME: ${{ secrets.ALI_ACR_USERNAME }}
+          ACR_PASSWORD: ${{ secrets.ALI_ACR_PASSWORD }}
+        with:
+          registry: ${{ secrets.ALI_ACR_REGISTRY }}
+          username: ${{ secrets.ALI_ACR_USERNAME }}
+          password: ${{ secrets.ALI_ACR_PASSWORD }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
