@@ -1,6 +1,6 @@
 FROM alpine/git AS source
 WORKDIR /app
-ARG VERSION=4b9de83
+ARG VERSION=c2830e2
 RUN git clone https://github.com/liyupi/yulegeyu . && git checkout ${VERSION}
 
 FROM node:24-alpine AS build
