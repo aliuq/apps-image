@@ -1,7 +1,36 @@
 {
-  "generated": "2026-11-22T19:13:55.000Z",
+  "generated": "2026-11-23T06:37:10.000Z",
   "total": 25,
   "apps": [
+    {
+      "name": "yulegeyu",
+      "type": "app",
+      "title": "鱼了个鱼",
+      "slogan": "羊了个羊纯前端实现版，休闲益智游戏",
+      "description": "羊了个羊纯前端实现版【鱼了个鱼】，自定义关卡+图案+无限道具",
+      "variants": {
+        "latest": {
+          "version": "c2830e2",
+          "sha": "c2830e25470b2c60fb835d2dfa8c9430f637a20a",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/liyupi/yulegeyu",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/yulegeyu",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/yulegeyu",
+      "hasReadme": true,
+      "updatedAt": "2026-11-23T06:37:10.000Z"
+    },
     {
       "name": "posewear",
       "type": "app",
@@ -1276,35 +1305,6 @@
       "skip": false,
       "category": "app",
       "readmePath": "apps/weektodo",
-      "hasReadme": true,
-      "updatedAt": "2025-08-19T18:38:11.000Z"
-    },
-    {
-      "name": "yulegeyu",
-      "type": "app",
-      "title": "鱼了个鱼",
-      "slogan": "羊了个羊纯前端实现版，休闲益智游戏",
-      "description": "羊了个羊纯前端实现版【鱼了个鱼】，自定义关卡+图案+无限道具",
-      "variants": {
-        "latest": {
-          "version": "4b9de83",
-          "sha": "4b9de839b62360b05835e5754ec7b7d3e55b2abf",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/liyupi/yulegeyu",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/yulegeyu",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/yulegeyu",
       "hasReadme": true,
       "updatedAt": "2025-08-19T18:38:11.000Z"
     }
