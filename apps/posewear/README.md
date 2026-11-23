@@ -105,15 +105,40 @@ POSEWEAR_RAW=/data/posewear-assets POSEWEAR_SITE=https://posewear.example.com ba
 
 ## 配置
 
+### 环境变量
+
+| 变量名 | 默认值 | 说明 |
+|--------|--------|------|
+| `PORT` | `80` | 容器内监听端口 |
+| `HOST` | `0.0.0.0` | 监听地址 |
+| `POSEWEAR_API_TIMEOUT` | `300000` | AI 接口转发超时（毫秒），含响应体下载，并同步覆盖浏览器端 3 分钟的生成等待；`0` 表示两侧都不超时 |
+| `POSEWEAR_IMAGE_TIMEOUT` | `120000` | 结果图片下载超时（毫秒）；`0` 表示永不超时 |
+| `POSEWEAR_PRIVATE_HOSTS` | 空 | 逗号分隔的额外内网域名/后缀（如 `relay.corp.example.com`）；命中的目标允许 HTTP |
+| `POSEWEAR_TRUST_PROXY` | 自动 | `1` 强制信任 `cf-connecting-ip`/`x-forwarded-for`/`x-real-ip`，`0` 从不信任；未设置时仅当直连对端是内网地址才信任 |
+
+超时设为空、负数或非整数时按默认值处理。`POSEWEAR_API_TIMEOUT` 未设置时，浏览器仍使用站点自带的 3 分钟上限；只要设置了该变量（包括空值），首页就会加载 `/__tmo.js` 并同步服务端的有效超时。客户端断开连接仍会中止上游请求。生成耗时较长时可调大或设为 `0`，例如：
+
+```yaml
+environment:
+  - POSEWEAR_API_TIMEOUT=0
+```
+
 ### AI 试穿代理
 
-镜像内置同源接口 `/api/proxy`，用于转发 AI API 请求和下载生成结果。代理允许 OpenAI、Google Gemini、火山方舟及 BytePlus 官方接口域名；自定义中转支持公网 HTTPS 与局域网地址（内网允许 HTTP、任意端口），路径需符合受支持的 API 格式；局域网地址即使不带自定义标记也可转发，公网非官方地址仍需在应用设置中选择「自定义」。图片下载仅允许来自指定服务域名，并按来源 IP 限流
+镜像内置同源接口 `/api/proxy`，用于转发 AI API 请求和下载生成结果。代理允许 OpenAI、Google Gemini、火山方舟及 BytePlus 官方接口域名；自定义中转支持公网 HTTPS 与局域网地址（内网允许 HTTP、任意端口），路径需符合受支持的 API 格式；局域网地址即使不带自定义标记也可转发，公网非官方地址仍需在应用设置中选择「自定义」。单标签主机名（Docker Compose/K8s 服务名，如 `relay`）以及 `*.local`、`*.internal`、`*.lan`、`*.home.arpa`、`*.localdomain`、`*.svc` 会自动识别为内网，其他内网域名通过 `POSEWEAR_PRIVATE_HOSTS` 声明。图片下载仅允许来自指定服务域名，并按真实客户端 IP 限流
 
-反向代理需要保留访问站点时的 `Host` 请求头，否则 `/api/proxy` 的同源校验会拒绝请求。Nginx 配置示例：
+> [!WARNING]
+> 允许内网目标会扩大 SSRF 面。不要把未加认证的实例直接暴露在公网；生产部署建议在反向代理层增加访问控制
+
+反向代理需要保留访问站点时的 `Host` 请求头，否则 `/api/proxy` 的同源校验会拒绝请求。对端是内网地址时默认信任转发头；如果代理在公网侧（例如 Cloudflare），需设置 `POSEWEAR_TRUST_PROXY=1`。Nginx 配置示例：
 
 ```nginx
 proxy_set_header Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Real-IP $remote_addr;
 ```
+
+> `POSEWEAR_TRUST_PROXY=1` 时，任何能直连服务的人都可以伪造客户端 IP 绕过限流；只应在服务确实位于可信反向代理之后时开启
 
 ## 素材与许可
 
