@@ -7,8 +7,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "2976646",
-      "sha": "29766464e4e7147c3b211c067c6d874107c30daf",
+      "version": "0c97ab4",
+      "sha": "0c97ab4b7e68e6212a5839d8320957f90627e629",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/atuizz/posewear"
