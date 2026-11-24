@@ -10,6 +10,7 @@ node_modules
 bak
 apps/**/app
 apps/**/assets-raw
+apps/**/private
 
 .*/skills
 
