@@ -3,12 +3,12 @@
   "type": "app",
   "title": "衣姿 PoseWear",
   "slogan": "姿势、服装、人像参考图库，附中英文提示词，可在浏览器里 AI 试穿",
-  "description": "PoseWear 是一个纯静态参考图站点：姿势、深度姿势、服装、动画服装与人像库，附中英文提示词，可在浏览器中用自备 API Key 进行 AI 试穿。镜像内置约 8GB 素材（深度姿势仍热链原站），AI 试穿需要联网。",
+  "description": "PoseWear 是一个纯静态参考图站点：姿势、深度姿势、服装、动画服装、人像、发型、表情、历代服饰、场景、光影、道具和家具图库，附中英文提示词，可在浏览器中用自备 API Key 进行 AI 试穿",
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "0c97ab4",
-      "sha": "0c97ab4b7e68e6212a5839d8320957f90627e629",
+      "version": "8a9bb37",
+      "sha": "8a9bb37d7aaf41c75a9ae2a40938eb4267820e55",
       "checkver": {
         "type": "sha",
         "repo": "https://github.com/atuizz/posewear"
