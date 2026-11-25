@@ -1,37 +1,7 @@
 {
-  "generated": "2026-11-24T17:21:49.000Z",
+  "generated": "2026-11-25T02:12:09.000Z",
   "total": 25,
   "apps": [
-    {
-      "name": "icones",
-      "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "60e0421",
-          "sha": "60e0421e1efe2d1c2ba4e156ae7498225243404a",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/icones",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/icones",
-      "hasReadme": true,
-      "updatedAt": "2026-11-24T17:21:49.000Z"
-    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -71,8 +41,8 @@
           "enabled": true
         },
         "dev": {
-          "version": "542ad76",
-          "sha": "542ad76fa6968b370a48de4ed2491a5b308cdbc0",
+          "version": "eaa7fa3",
+          "sha": "eaa7fa32a6645ae9da57eda548e838d0e2a024a1",
           "checkver": {
             "type": "sha",
             "repo": "excalidraw/excalidraw",
@@ -107,7 +77,37 @@
       "category": "app",
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
-      "updatedAt": "2026-11-24T17:21:43.000Z"
+      "updatedAt": "2026-11-25T02:12:09.000Z"
+    },
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "60e0421",
+          "sha": "60e0421e1efe2d1c2ba4e156ae7498225243404a",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-11-24T17:21:49.000Z"
     },
     {
       "name": "posewear",
