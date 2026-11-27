@@ -1,7 +1,37 @@
 {
-  "generated": "2026-11-26T23:03:25.000Z",
+  "generated": "2026-11-27T07:38:55.000Z",
   "total": 25,
   "apps": [
+    {
+      "name": "icones",
+      "type": "app",
+      "title": "Icones",
+      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
+      "description": "Icon Explorer with Instant searching, powered by Iconify",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "02fd287",
+          "sha": "02fd287a36d4d9a9afe32612a797cd2078cf8ba4",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/antfu-collective/icones",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/icones",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/icones",
+      "hasReadme": true,
+      "updatedAt": "2026-11-27T07:38:55.000Z"
+    },
     {
       "name": "readest",
       "type": "app",
@@ -274,36 +304,6 @@
       "readmePath": "apps/posewear",
       "hasReadme": true,
       "updatedAt": "2026-11-25T11:18:19.000Z"
-    },
-    {
-      "name": "icones",
-      "type": "app",
-      "title": "Icones",
-      "slogan": "开源图标浏览器，搜索浏览 150,000+ 图标",
-      "description": "Icon Explorer with Instant searching, powered by Iconify",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "60e0421",
-          "sha": "60e0421e1efe2d1c2ba4e156ae7498225243404a",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/antfu-collective/icones",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/icones",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/icones",
-      "hasReadme": true,
-      "updatedAt": "2026-11-24T17:21:49.000Z"
     },
     {
       "name": "rayso",
