@@ -1,7 +1,38 @@
 {
-  "generated": "2026-11-27T18:06:55.000Z",
+  "generated": "2026-11-27T18:07:00.000Z",
   "total": 26,
   "apps": [
+    {
+      "name": "orca",
+      "type": "app",
+      "title": "Orca",
+      "slogan": "Bots inside your agent IDE.",
+      "description": "Run a fleet of coding agents across desktop, mobile, and remote workspaces.",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "1.4.280",
+          "sha": "16dc39cfb7ba5b16c88eef510a6141e223ece0be",
+          "checkver": {
+            "type": "tag",
+            "repo": "stablyai/orca",
+            "tagPattern": "^v\\d+\\.\\d+\\.\\d+$",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/orca",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/orca",
+      "hasReadme": true,
+      "updatedAt": "2026-11-27T18:07:00.000Z"
+    },
     {
       "name": "excalidraw",
       "type": "app",
@@ -78,37 +109,6 @@
       "readmePath": "apps/excalidraw",
       "hasReadme": false,
       "updatedAt": "2026-11-27T18:06:55.000Z"
-    },
-    {
-      "name": "orca",
-      "type": "app",
-      "title": "Orca",
-      "slogan": "Bots inside your agent IDE.",
-      "description": "Run a fleet of coding agents across desktop, mobile, and remote workspaces.",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "1.4.279",
-          "sha": "e14481f4e55cc316357f19e4f605218b02110ef1",
-          "checkver": {
-            "type": "tag",
-            "repo": "stablyai/orca",
-            "tagPattern": "^v\\d+\\.\\d+\\.\\d+$",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/orca",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/orca",
-      "hasReadme": true,
-      "updatedAt": "2026-11-27T09:56:19.000Z"
     },
     {
       "name": "icones",
