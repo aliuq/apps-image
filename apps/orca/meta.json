@@ -7,8 +7,8 @@
   "license": "MIT",
   "variants": {
     "latest": {
-      "version": "1.4.280",
-      "sha": "16dc39cfb7ba5b16c88eef510a6141e223ece0be",
+      "version": "1.4.281",
+      "sha": "6d1c1d05c733b7ba27685e586c5b0e9927803654",
       "checkver": {
         "type": "tag",
         "repo": "stablyai/orca",

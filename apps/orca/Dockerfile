@@ -1,6 +1,6 @@
 FROM ghcr.io/aliuq/devcontainer:core
 
-ARG ORCA_VERSION="1.4.280"
+ARG ORCA_VERSION="1.4.281"
 
 ENV PATH="/opt/orca-server/bin:$MISE_DATA_DIR/shims:$PATH"
 
