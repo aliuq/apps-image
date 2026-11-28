@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-27T18:07:00.000Z",
+  "generated": "2026-11-28T10:05:42.000Z",
   "total": 26,
   "apps": [
     {
@@ -11,8 +11,8 @@
       "license": "MIT",
       "variants": {
         "latest": {
-          "version": "1.4.280",
-          "sha": "16dc39cfb7ba5b16c88eef510a6141e223ece0be",
+          "version": "1.4.281",
+          "sha": "6d1c1d05c733b7ba27685e586c5b0e9927803654",
           "checkver": {
             "type": "tag",
             "repo": "stablyai/orca",
@@ -31,7 +31,7 @@
       "category": "app",
       "readmePath": "apps/orca",
       "hasReadme": true,
-      "updatedAt": "2026-11-27T18:07:00.000Z"
+      "updatedAt": "2026-11-28T10:05:42.000Z"
     },
     {
       "name": "excalidraw",
