@@ -83,16 +83,15 @@ docker buildx build --progress=plain -f ./Dockerfile -t posewear:debug --load .
 
 | 变量名 | 默认值 | 说明 |
 |--------|--------|------|
-| `POSEWEAR_RAW` | `./assets-raw` | 原始素材缓存目录。设为自定义目录时构建完成后会保留缓存；目录必须位于临时 `app/` 目录之外 |
-| `POSEWEAR_KEEP_RAW` | `0` | 设为 `1` 可在构建完成后保留默认素材缓存 |
+| `POSEWEAR_RAW` | `./assets-raw` | 原始素材缓存目录，构建后保留以供下次构建复用；目录必须位于临时 `app/` 目录之外 |
 | `POSEWEAR_SITE` | 上游默认域名 | 设置站点域名，影响详情页、sitemap 和分享卡片；首页 canonical 仍由上游模板固定 |
 | `POSEWEAR_MODULES_BASE` | `https://posewear.pages.dev` | 六个扩展栏目与 CharaDB 元数据的数据来源，仅构建时使用 |
 | `POSEWEAR_MODULES_IMG` | `https://pwimg.0vo.pro` | 六个扩展栏目的缩略图来源，仅构建时使用 |
 
-保留默认缓存以供后续构建复用：
+默认会保留 `assets-raw` 缓存，下次运行 `bash pre.sh` 时可复用。需要清理时手动删除：
 
 ```bash
-POSEWEAR_KEEP_RAW=1 bash pre.sh
+rm -rf assets-raw
 ```
 
 设置自定义缓存目录或站点域名：

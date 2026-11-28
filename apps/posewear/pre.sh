@@ -56,10 +56,3 @@ POSEWEAR_RAW="$RAW_DIR" mise exec -- npm run build
 
 # Keep only the static site in app/; raw assets live outside the clone.
 find . -mindepth 1 -maxdepth 1 ! -name dist -exec rm -rf {} +
-
-# The default raw cache is temporary. An explicitly configured POSEWEAR_RAW is
-# preserved; POSEWEAR_KEEP_RAW=1 keeps the default assets-raw for incremental
-# builds. Delete only after build.py, because dist/o hardlinks the originals.
-if [ "${POSEWEAR_KEEP_RAW:-0}" != "1" ] && [ "$RAW_DIR" = "$DEFAULT_RAW_DIR" ]; then
-  rm -rf "$RAW_DIR"
-fi
