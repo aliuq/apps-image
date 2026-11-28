@@ -22,6 +22,7 @@ import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import urlsplit
 
 BASE = os.environ.get('POSEWEAR_MODULES_BASE', 'https://posewear.pages.dev')
 IMG = os.environ.get('POSEWEAR_MODULES_IMG', 'https://pwimg.0vo.pro')
@@ -60,7 +61,6 @@ def _conn(host: str):
 
 def get(url: str, binary: bool = False) -> bytes | None:
     """GET with keep-alive per thread; returns None on 404/failure."""
-    from urllib.parse import urlsplit
     u = urlsplit(url)
     for attempt in range(4):
         conn = None
@@ -158,7 +158,8 @@ def load_data(mod: dict, refresh: bool) -> list[dict]:
             key = VIEW_KEY[zh]
             if key in views:
                 raise SystemExit(f'fetch-modules: duplicate view {key} in {it["id"]}')
-            src = a.get('_3') or a.get('_9')
+            image_path = a.get('t') or a.get('i')
+            src = os.path.basename(urlsplit(image_path).path) if isinstance(image_path, str) else None
             if not src:
                 raise SystemExit(f'fetch-modules: missing source filename in {it["id"]}')
             views[key] = src
@@ -171,10 +172,12 @@ def load_data(mod: dict, refresh: bool) -> list[dict]:
     if len(out) != EXPECT[mod['sub']]:
         raise SystemExit(f'fetch-modules: {mod["sub"]} expected {EXPECT[mod["sub"]]} items, got {len(out)}')
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    json.dump(out, open(path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(out, f, ensure_ascii=False, indent=1)
     src_dir = os.path.join(RAW, mod['sub'], 'source')
     os.makedirs(src_dir, exist_ok=True)
-    open(os.path.join(src_dir, mod['key'] + '.json'), 'wb').write(raw)
+    with open(os.path.join(src_dir, mod['key'] + '.json'), 'wb') as f:
+        f.write(raw)
     print(f'fetch-modules: {mod["sub"]} data {len(out)} items <- {url}')
     return out
 
