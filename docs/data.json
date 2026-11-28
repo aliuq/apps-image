@@ -1,7 +1,37 @@
 {
-  "generated": "2026-11-28T10:05:42.000Z",
+  "generated": "2026-11-28T10:05:50.000Z",
   "total": 26,
   "apps": [
+    {
+      "name": "posewear",
+      "type": "app",
+      "title": "衣姿 PoseWear",
+      "slogan": "姿势、服装、人像参考图库，附中英文提示词，可在浏览器里 AI 试穿",
+      "description": "PoseWear 是一个纯静态参考图站点：姿势、深度姿势、服装、动画服装、人像、发型、表情、历代服饰、场景、光影、道具和家具图库，附中英文提示词，可在浏览器中用自备 API Key 进行 AI 试穿",
+      "license": "MIT",
+      "variants": {
+        "latest": {
+          "version": "2dbaabc",
+          "sha": "2dbaabc9cbf19521e0b4242af023884d9f8d1694",
+          "checkver": {
+            "type": "sha",
+            "repo": "https://github.com/atuizz/posewear",
+            "branch": "main",
+            "processFiles": [
+              "Dockerfile"
+            ]
+          },
+          "enabled": true
+        }
+      },
+      "context": "apps/posewear",
+      "readme": "README.md",
+      "skip": false,
+      "category": "app",
+      "readmePath": "apps/posewear",
+      "hasReadme": true,
+      "updatedAt": "2026-11-28T10:05:50.000Z"
+    },
     {
       "name": "orca",
       "type": "app",
@@ -198,36 +228,6 @@
       "readmePath": "apps/readest",
       "hasReadme": true,
       "updatedAt": "2026-11-26T23:03:25.000Z"
-    },
-    {
-      "name": "posewear",
-      "type": "app",
-      "title": "衣姿 PoseWear",
-      "slogan": "姿势、服装、人像参考图库，附中英文提示词，可在浏览器里 AI 试穿",
-      "description": "PoseWear 是一个纯静态参考图站点：姿势、深度姿势、服装、动画服装、人像、发型、表情、历代服饰、场景、光影、道具和家具图库，附中英文提示词，可在浏览器中用自备 API Key 进行 AI 试穿",
-      "license": "MIT",
-      "variants": {
-        "latest": {
-          "version": "f9f55db",
-          "sha": "f9f55db356464af87f97b39f5bb57930ed0cd6df",
-          "checkver": {
-            "type": "sha",
-            "repo": "https://github.com/atuizz/posewear",
-            "branch": "main",
-            "processFiles": [
-              "Dockerfile"
-            ]
-          },
-          "enabled": true
-        }
-      },
-      "context": "apps/posewear",
-      "readme": "README.md",
-      "skip": false,
-      "category": "app",
-      "readmePath": "apps/posewear",
-      "hasReadme": true,
-      "updatedAt": "2026-11-25T21:32:02.000Z"
     },
     {
       "name": "dashboard-icons",
